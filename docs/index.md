@@ -1,9 +1,18 @@
 # Wiki
 
+## Table of Contents
+
+[1. Description](dev.md)
+
+[2. Introduction](dev.md)
+
+[3. DNA Databases](dev.md)
+
+[4. Grouping Algorithms](grouping_algorithms/index.md)
+
+[5. GitHub Wiki](wiki.md)
+
 ### Section under development
 
 ### Github Wiki
 
-Hosting a wiki on GitHub is available for free only for public or organization
-repositories. Later, it is possible to migrate a documentation directly to
-GitHub.
