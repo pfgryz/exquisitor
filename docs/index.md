@@ -11,8 +11,3 @@
 [4. Grouping Algorithms](grouping_algorithms/index.md)
 
 [5. GitHub Wiki](wiki.md)
-
-### Section under development
-
-### Github Wiki
-
