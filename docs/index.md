@@ -6,7 +6,7 @@
 
 [2. Introduction](dev.md)
 
-[3. DNA Databases](dev.md)
+[3. DNA Databases](databases.md)
 
 [4. Grouping Algorithms](grouping_algorithms/index.md)
 
