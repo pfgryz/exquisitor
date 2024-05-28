@@ -1,3 +1,4 @@
+import gc
 import subprocess
 import time
 
@@ -11,11 +12,16 @@ def child():
     process = subprocess.Popen(["python3", "worker2.py"],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
+    process.wait()
+    gc.collect()
 
 
 def main():
     cpu_intensive()
-    # child()
+    child()
+    child()
+    child()
+    child()
     cpu_intensive()
 
 

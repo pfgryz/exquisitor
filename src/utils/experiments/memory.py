@@ -10,13 +10,14 @@ def measure_memory_usage(pid: int, interval: float = 0.1) -> Tuple[
     memory_usage = []
 
     def poll():
-        while True:
-            try:
-                process = psutil.Process(pid)
+        try:
+            process = psutil.Process(pid)
+
+            while process.is_running:
                 memory_usage.append(get_process_memory_usage(process))
                 time.sleep(interval)
-            except psutil.NoSuchProcess:
-                break
+        except psutil.NoSuchProcess:
+            return
 
     memory_thread = Thread(target=poll)
     memory_thread.start()
@@ -26,6 +27,5 @@ def measure_memory_usage(pid: int, interval: float = 0.1) -> Tuple[
 def get_process_memory_usage(process, recursive: bool = True):
     memory = process.memory_info().rss
     for child in process.children():
-        print(child)
         memory += get_process_memory_usage(child, recursive)
-    return memory / 1024 / 1024
+    return memory
