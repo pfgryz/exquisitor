@@ -19,9 +19,6 @@ def child():
 def main():
     cpu_intensive()
     child()
-    child()
-    child()
-    child()
     cpu_intensive()
 
 

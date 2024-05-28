@@ -3,6 +3,7 @@ import subprocess
 
 from matplotlib import pyplot as plt
 
+from src.utils.experiments.cpu import measure_cpu_usage
 from src.utils.experiments.memory import measure_memory_usage
 
 
@@ -28,6 +29,7 @@ class Runner:
 
         # Start the counters
         memory_usage, memory_thread = measure_memory_usage(pid, interval=0.1)
+        cpu_usage, cpu_thread = measure_cpu_usage(pid, interval=0.1)
 
         # Main loop
         while True:
@@ -36,7 +38,9 @@ class Runner:
 
         # Wait for counter
         memory_thread.join()
+        cpu_thread.join()
 
+        print('CPU', cpu_usage)
         plt.plot([mi / 1024 / 1024 for mi in memory_usage])
         plt.show()
 
