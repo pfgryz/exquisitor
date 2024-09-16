@@ -1,23 +1,33 @@
-import os
-import subprocess
+from exquisitor.experiments.experiment import Experiment
+from exquisitor.experiments.runner import Runner
 
-from psutil import Process
-
-from exquisitor.utils.monitor.resource_monitor import ResourceMonitor
+# if __name__ == "__main__":
+#     process = subprocess.Popen(["python3", "./exquisitor/misc/worker.py"],
+#                                stdout=subprocess.PIPE,
+#                                stderr=subprocess.PIPE,
+#                                close_fds=True)
+#     pr = Process(process.pid)
+#     monitor = ResourceMonitor(pr)
+#     monitor.start()
+#
+#     while True:
+#         if process.poll() is not None:
+#             break
+#
+#     monitor.wait()
+#     print("END")
+#     print(process.returncode)
 
 if __name__ == "__main__":
-    process = subprocess.Popen(["python3", "./exquisitor/misc/worker.py"],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE,
-                               close_fds=True)
-    pr = Process(process.pid)
-    monitor = ResourceMonitor(pr)
-    monitor.start()
+    runner = Runner()
 
-    while True:
-        if process.poll() is not None:
-            break
+    runner.add_experiment(
+        Experiment("Complex", ["python3", "./exquisitor/misc/worker.py"],
+                   "ex1")
+    )
+    runner.add_experiment(
+        Experiment("Simple", ["python3", "./exquisitor/misc/worker2.py"],
+                   "ex2")
+    )
 
-    monitor.wait()
-    print("END")
-    print(process.returncode)
+    runner.run()

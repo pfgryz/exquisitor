@@ -3,7 +3,9 @@ from typing import Optional
 
 from psutil import Process
 
-from exquisitor.utils.monitor import Monitor, CPUMonitor, MemoryMonitor
+from exquisitor.experiments.monitor.cpu_monitor import CPUMonitor
+from exquisitor.experiments.monitor.memory_monitor import MemoryMonitor
+from exquisitor.experiments.monitor.monitor import Monitor
 
 
 class ResourceMonitor(Monitor):
@@ -34,7 +36,6 @@ class ResourceMonitor(Monitor):
 
         while self._process.is_running():
             time.sleep(self._interval)
-            print('working')
 
         self._cpu_monitor.wait()
         self._memory_monitor.wait()

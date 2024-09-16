@@ -4,8 +4,8 @@ from typing import Callable, Optional
 
 from psutil import Process, NoSuchProcess
 
-from exquisitor.utils.event import Event
-from exquisitor.utils.monitor import Monitor
+from exquisitor.api import Event
+from exquisitor.experiments.monitor.monitor import Monitor
 
 OnMemoryUsageMeasureDelegate = Callable[[float], None]
 

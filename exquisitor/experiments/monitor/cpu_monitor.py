@@ -5,8 +5,8 @@ from typing import Callable, Optional
 from psutil import NoSuchProcess, Process
 from psutil._common import pcputimes as CPUUsage
 
-from exquisitor.utils.event import Event
-from exquisitor.utils.monitor import Monitor
+from exquisitor.api import Event
+from exquisitor.experiments.monitor.monitor import Monitor
 
 OnCPUUsageMeasureDelegate = Callable[[CPUUsage, float], None]
 
