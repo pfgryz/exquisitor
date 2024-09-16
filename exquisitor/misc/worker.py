@@ -9,7 +9,7 @@ def cpu_intensive():
 
 
 def child():
-    process = subprocess.Popen(["python3", "worker2.py"],
+    process = subprocess.Popen(["python3", "./exquisitor/misc/worker2.py"],
                                stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
     process.wait()
@@ -20,7 +20,10 @@ def main():
     cpu_intensive()
     child()
     cpu_intensive()
+    child()
+    cpu_intensive()
 
 
 if __name__ == "__main__":
     main()
+    print("BYE BYE")
