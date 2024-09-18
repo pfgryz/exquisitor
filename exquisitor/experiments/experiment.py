@@ -1,9 +1,17 @@
 import subprocess
-from typing import Optional
+from typing import Optional, Callable
 
 from psutil import Process
 
+from exquisitor.api import Event
 from exquisitor.experiments.monitor.resource_monitor import ResourceMonitor
+
+OnExperimentSuccessDelegate = Callable[['Experiment'], None]
+
+
+class OnExperimentSuccess(Event[OnExperimentSuccessDelegate]):
+    def broadcast(self, experiment: 'Experiment') -> None:
+        return super().broadcast(experiment)
 
 
 class Experiment:
@@ -27,6 +35,8 @@ class Experiment:
         self._name = name
         self._arguments = arguments
         self._record_filepath = record_filepath
+
+        self.on_success = OnExperimentSuccess()
 
     @property
     def name(self) -> str:
@@ -59,5 +69,8 @@ class Experiment:
         # Wait for program to end
         return_code = process.wait()
         resource_monitor.wait()
+
+        if return_code == 0:
+            self.on_success.broadcast(self)
 
         return return_code == 0
