@@ -2,6 +2,7 @@ import logging
 import os
 import subprocess
 import sys
+import json
 from pathlib import Path
 from typing import List, Optional
 from typing_extensions import Annotated
@@ -93,7 +94,9 @@ def run_blastn(filename: str) -> str:
     ], capture_output=True, text=True, env=os.environ.copy())
 
     if result.returncode != 0:
+        print(result.stderr)
         raise RuntimeError("BLASTn failed")
+        
 
     return result.stdout
 
@@ -163,7 +166,7 @@ def postprocessing(clusters):
 
 # region Reporting
 
-def report(results):
+def report(results, quality, quality_unweighted):
     logging.info("BEGIN Generating reports")
 
     count, not_matched, detected = results
@@ -173,6 +176,8 @@ def report(results):
         "--- QUERY RESULT ---",
         f"Count: {count}",
         f"Not matched: {not_matched}",
+        f"Quality (Jaccard): {quality}",
+        f"Quality (positive): {quality_unweighted}",
         f"",
         f"Detected:",
         "\n".join([
@@ -191,6 +196,31 @@ def display(rep: str):
 
 # endregion
 
+# region Calculate Quality
+
+def calculate_quality(base, reference):
+    print("B", base)
+
+    common = 0
+    everything = 0
+
+    unique = len(reference.keys())
+    unique_present = 0
+    for key in reference.keys():
+        common += min(reference.get(key, 0), base.get(key, 0))
+
+        if key in base:
+            unique_present += 1
+
+    for key in base.keys() | reference.keys():
+        everything += max(reference.get(key, 0), base.get(key, 0))
+
+    unweighted = unique_present / unique
+
+    return common, everything, common / everything, unweighted
+
+# endregion
+
 # region Main
 
 app = typer.Typer(no_args_is_help=True)
@@ -199,6 +229,11 @@ app = typer.Typer(no_args_is_help=True)
 def read_fasta(filename: str) -> Sequences:
     logging.info(f"Reading FASTA file {filename}")
     return list(SeqIO.parse(filename, "fasta"))
+
+
+def read_reference(filename: str):
+    with open(filename, "r") as file:
+        return json.load(file)
 
 
 @app.command(
@@ -213,7 +248,7 @@ def main(path: Annotated[
         exists=True,
         readable=True
     )
-] = "sequences/present.fasta"):
+] = "sequences/present.fasta", n: Annotated[Optional[int], typer.Option('--n', '-n')] = 2):
     root = logging.getLogger()
     root.setLevel(logging.DEBUG)
 
@@ -226,10 +261,16 @@ def main(path: Annotated[
 
     sequences = read_fasta(path)
     sequences = preprocess(sequences)
-    clusters = cluster(sequences)
+    clusters = cluster(sequences, nclusters=n)
     searches = search(clusters)
     postprocessed = postprocessing(searches)
-    human_info = report(postprocessed)
+
+    print(postprocessed[2])
+
+    reference = read_reference(f"{path}.ref")
+    _, _, jaccard, unweighted = calculate_quality(postprocessed[2], reference)
+
+    human_info = report(postprocessed, jaccard, unweighted)
     display(human_info)
 
 
