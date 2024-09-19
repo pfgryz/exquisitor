@@ -1,3 +1,7 @@
+use std::fmt;
+use std::fmt::Formatter;
+
+#[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub struct Sequence {
     sequence: String,
 }
@@ -89,6 +93,12 @@ impl Sequence {
     }
 }
 
+impl fmt::Display for Sequence {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.sequence())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -98,6 +108,14 @@ mod tests {
         let sequence = Sequence::new(String::from("ACTG"));
 
         assert_eq!(sequence.sequence(), "ACTG");
+    }
+
+    #[test]
+    fn test_display() {
+        let sequence = Sequence::new(String::from("ACTG"));
+        let formatted = format!("{}", sequence);
+
+        assert_eq!(formatted, "ACTG");
     }
 
     #[test]
