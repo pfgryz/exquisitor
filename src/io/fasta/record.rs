@@ -10,6 +10,14 @@ pub struct FastaRecord {
 }
 
 impl FastaRecord {
+    pub fn default() -> Self {
+        Self {
+            id: String::new(),
+            description: None,
+            sequence: Sequence::default()
+        }
+    }
+
     pub fn new(id: String, description: Option<String>, sequence: Sequence) -> Self {
         Self {
             id,
@@ -33,6 +41,10 @@ impl Record for FastaRecord {
 
     fn sequence(&self) -> &Sequence {
         &self.sequence
+    }
+
+    fn is_empty(&self) -> bool {
+        self.id.is_empty() && self.description.is_none() && self.sequence.length() == 0
     }
 }
 

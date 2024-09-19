@@ -14,6 +14,12 @@ pub enum Alignment {
 }
 
 impl Sequence {
+    pub fn default() -> Self {
+        Self {
+            sequence: String::new()
+        }
+    }
+
     pub fn new(sequence: String) -> Self {
         Self {
             sequence
