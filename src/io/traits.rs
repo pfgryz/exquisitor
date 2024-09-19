@@ -1,4 +1,4 @@
-use std::fmt;
+use std::{fmt, io};
 use crate::io::sequence::Sequence;
 
 pub trait Record: fmt::Display {
@@ -6,4 +6,13 @@ pub trait Record: fmt::Display {
     fn description(&self) -> Option<&str>;
     fn sequence(&self) -> &Sequence;
     fn is_empty(&self) -> bool;
+}
+
+pub trait Reader {
+    type Record;
+    type Iterator: Iterator;
+
+    fn read(&mut self) -> io::Result<Self::Record>;
+
+    fn iter(self) -> Self::Iterator;
 }

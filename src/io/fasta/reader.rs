@@ -1,15 +1,17 @@
 use std::io;
 use crate::io::fasta::record::FastaRecord;
-use crate::io::fasta::traits::FastaRead;
 use crate::io::sequence::Sequence;
+use crate::io::traits::{Reader, Record};
+
+// region FastaReader
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
-pub struct Reader<R> {
+pub struct FastaReader<R> {
     reader: R,
     line: String,
 }
 
-impl<R> Reader<io::BufReader<R>>
+impl<R> FastaReader<io::BufReader<R>>
 where
     R: io::Read,
 {
@@ -21,7 +23,7 @@ where
     }
 }
 
-impl<R> Reader<R>
+impl<R> FastaReader<R>
 where
     R: io::BufRead,
 {
@@ -33,11 +35,14 @@ where
     }
 }
 
-impl<R> FastaRead for Reader<R>
+impl<R> Reader for FastaReader<R>
 where
     R: io::BufRead,
 {
-    fn read(&mut self) -> io::Result<FastaRecord> {
+    type Record = FastaRecord;
+    type Iterator = FastaReaderIter<R>;
+
+    fn read(&mut self) -> io::Result<Self::Record> {
         if self.line.is_empty() {
             self.reader.read_line(&mut self.line)?;
 
@@ -58,7 +63,6 @@ where
         let mut header = self.line[1..].trim().splitn(2, char::is_whitespace);
         let id = header.next().map(|s| s.to_owned()).unwrap();
         let description = header.next().map(|s| s.to_owned());
-        let mut sequence = String::new();
 
         if id.is_empty() {
             return Err(
@@ -70,6 +74,8 @@ where
         }
 
         self.line.clear();
+        let mut sequence = String::new();
+
         while self.reader.read_line(&mut self.line)? > 0 {
             if self.line.is_empty() || self.line.starts_with(">") {
                 break;
@@ -90,7 +96,56 @@ where
 
         Ok(FastaRecord::new(id, description, Sequence::new(sequence)))
     }
+
+    fn iter(self) -> Self::Iterator {
+        Self::Iterator {
+            reader: self,
+            done: false,
+        }
+    }
 }
+
+// endregion
+
+// region FastaReaderIter
+
+pub struct FastaReaderIter<R> {
+    reader: FastaReader<R>,
+    done: bool,
+}
+
+impl<R> Iterator for FastaReaderIter<R>
+where
+    R: io::BufRead,
+{
+    type Item = io::Result<FastaRecord>;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        if self.done {
+            return None;
+        }
+
+        let record = self.reader.read();
+
+        match record {
+            Ok(r) => {
+                match r.is_empty() {
+                    true => {
+                        self.done = true;
+                        None
+                    }
+                    false => Some(Ok(r))
+                }
+            }
+            Err(err) => {
+                self.done = true;
+                Some(Err(err))
+            }
+        }
+    }
+}
+
+// endregion
 
 
 #[cfg(test)]
@@ -101,7 +156,8 @@ mod tests {
 
     #[test]
     fn test_reader_empty_sequence() {
-        let mut reader = Reader::new(io::Cursor::new(""));
+        let data = io::Cursor::new("");
+        let mut reader = FastaReader::new(data);
         let record = reader.read().unwrap();
 
         assert!(record.is_empty());
@@ -109,7 +165,8 @@ mod tests {
 
     #[test]
     fn test_reader_missing_start_character() {
-        let mut reader = Reader::new(io::Cursor::new("! S1 \n TG"));
+        let data = io::Cursor::new("! S1 \n TG");
+        let mut reader = FastaReader::new(data);
         assert!(
             reader.read().is_err(),
             "read() should fail if start character is missing"
@@ -118,7 +175,8 @@ mod tests {
 
     #[test]
     fn test_reader_missing_record_id() {
-        let mut reader = Reader::new(io::Cursor::new(">\n TG"));
+        let data = io::Cursor::new(">\n TG");
+        let mut reader = FastaReader::new(data);
         assert!(
             reader.read().is_err(),
             "read() should fail if header is empty"
@@ -127,7 +185,8 @@ mod tests {
 
     #[test]
     fn test_reader_no_description() {
-        let mut reader = Reader::new(io::Cursor::new("> S1 \nTGAC"));
+        let data = io::Cursor::new("> S1 \nTGAC");
+        let mut reader = FastaReader::new(data);
         let record = reader.read().unwrap();
 
         assert_eq!(record.id(), "S1");
@@ -137,7 +196,8 @@ mod tests {
 
     #[test]
     fn test_reader_missing_sequence() {
-        let mut reader = Reader::new(io::Cursor::new(">X1 Desc\n"));
+        let data = io::Cursor::new(">X1 Desc\n");
+        let mut reader = FastaReader::new(data);
         assert!(
             reader.read().is_err(),
             "read() should fail if sequence is empty"
@@ -146,7 +206,8 @@ mod tests {
 
     #[test]
     fn test_reader_not_trimmed_sequence() {
-        let mut reader = Reader::new(io::Cursor::new(">S1\n  TC  "));
+        let data = io::Cursor::new(">S1\n  TC  ");
+        let mut reader = FastaReader::new(data);
         let record = reader.read().unwrap();
 
         assert_eq!(record.id(), "S1");
@@ -155,7 +216,8 @@ mod tests {
 
     #[test]
     fn test_reader_single_line_sequence() {
-        let mut reader = Reader::new(io::Cursor::new(">X3 Desc\nACTG"));
+        let data = io::Cursor::new(">X3 Desc\nACTG");
+        let mut reader = FastaReader::new(data);
         let record = reader.read().unwrap();
 
         assert_eq!(record.id(), "X3");
@@ -165,8 +227,8 @@ mod tests {
 
     #[test]
     fn test_read_multi_line_sequence() {
-        let fasta = ">X3 D\nAA\nTT\nGG";
-        let mut reader = Reader::new(io::Cursor::new(fasta));
+        let data = io::Cursor::new(">X3 D\nAA\nTT\nGG");
+        let mut reader = FastaReader::new(data);
         let record = reader.read().unwrap();
 
         assert_eq!(record.sequence().sequence(), "AATTGG");
@@ -180,7 +242,8 @@ mod tests {
         TCG\n\
         >X3 D3\n\
         GTC";
-        let mut reader = Reader::new(io::Cursor::new(fasta));
+        let data = io::Cursor::new(fasta);
+        let mut reader = FastaReader::new(data);
 
         let ids = ["X1", "X2", "X3"];
         let descriptions = [Some("D1"), None, Some("D3")];
@@ -195,5 +258,36 @@ mod tests {
         }
 
         assert!(reader.read().unwrap().is_empty())
+    }
+
+    #[test]
+    fn test_reader_iter() {
+        let data = io::Cursor::new(">X1 D1\nACT\n>X2 D2\nTCG");
+        let reader = FastaReader::new(data);
+
+        assert_eq!(reader.iter().count(), 2);
+    }
+
+    #[test]
+    fn test_reader_iter_empty() {
+        let data = io::Cursor::new("");
+        let reader = FastaReader::new(data);
+        let mut iter = reader.iter();
+
+        assert!(iter.next().is_none(), "Iter should return None if all records are read");
+    }
+
+    #[test]
+    fn test_reader_iter_error() {
+        let data = io::Cursor::new(">\nTCG\n>X1 D2\nACT");
+        let reader = FastaReader::new(data);
+        let mut iter = reader.iter();
+
+        let first = iter.next();
+        let second = iter.next();
+
+        assert!(first.is_some());
+        assert!(first.unwrap().is_err());
+        assert!(second.is_none());
     }
 }
