@@ -191,7 +191,7 @@ mod tests {
 
         assert_eq!(record.id(), "S1");
         assert_eq!(record.description(), None);
-        assert_eq!(record.sequence().sequence(), "TGAC");
+        assert_eq!(record.sequence().content(), "TGAC");
     }
 
     #[test]
@@ -211,7 +211,7 @@ mod tests {
         let record = reader.read().unwrap();
 
         assert_eq!(record.id(), "S1");
-        assert_eq!(record.sequence().sequence(), "TC");
+        assert_eq!(record.sequence().content(), "TC");
     }
 
     #[test]
@@ -222,7 +222,7 @@ mod tests {
 
         assert_eq!(record.id(), "X3");
         assert_eq!(record.description(), Some("Desc"));
-        assert_eq!(record.sequence().sequence(), "ACTG");
+        assert_eq!(record.sequence().content(), "ACTG");
     }
 
     #[test]
@@ -231,7 +231,7 @@ mod tests {
         let mut reader = FastaReader::new(data);
         let record = reader.read().unwrap();
 
-        assert_eq!(record.sequence().sequence(), "AATTGG");
+        assert_eq!(record.sequence().content(), "AATTGG");
     }
 
     #[test]
@@ -254,7 +254,7 @@ mod tests {
 
             assert_eq!(record.id(), ids[i]);
             assert_eq!(record.description(), descriptions[i]);
-            assert_eq!(record.sequence().sequence(), sequences[i]);
+            assert_eq!(record.sequence().content(), sequences[i]);
         }
 
         assert!(reader.read().unwrap().is_empty())

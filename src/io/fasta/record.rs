@@ -70,7 +70,7 @@ mod tests {
         assert_eq!(record.id(), "X3");
         assert!(record.description().is_some());
         assert_eq!(record.description().unwrap(), "Desc");
-        assert_eq!(record.sequence().sequence(), "ACTG");
+        assert_eq!(record.sequence().content(), "ACTG");
     }
 
     #[test]

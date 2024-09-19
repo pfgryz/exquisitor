@@ -26,7 +26,7 @@ impl Sequence {
         }
     }
 
-    pub fn sequence(&self) -> &str {
+    pub fn content(&self) -> &str {
         &self.sequence
     }
 
@@ -34,17 +34,14 @@ impl Sequence {
         self.sequence.len()
     }
 
-    pub fn reverse(&self) -> Self {
-        Self {
-            sequence: self.sequence.chars().rev().collect()
-        }
+    pub fn reverse(&mut self) -> &mut Self {
+        self.sequence = self.sequence.chars().rev().collect();
+        self
     }
 
-    pub fn truncate(&self, size: usize, alignment: Alignment) -> Self {
+    pub fn truncate(&mut self, size: usize, alignment: Alignment) -> &mut Self {
         if size >= self.length() {
-            return Self {
-                sequence: self.sequence.to_string()
-            };
+            return self;
         }
 
         let (left, right) = match alignment {
@@ -64,16 +61,13 @@ impl Sequence {
             }
         };
 
-        Self {
-            sequence: self.sequence[left..right].to_string()
-        }
+        self.sequence = self.sequence[left..right].to_string();
+        self
     }
 
-    pub fn pad(&self, size: usize, character: char, alignment: Alignment) -> Self {
+    pub fn pad(&mut self, size: usize, character: char, alignment: Alignment) -> &mut Self {
         if size <= self.length() {
-            return Self {
-                sequence: self.sequence.chars().collect()
-            };
+            return self;
         }
 
         let (left, right) = match alignment {
@@ -93,15 +87,15 @@ impl Sequence {
             }
         };
 
-        Self {
-            sequence: format!("{}{}{}", character.to_string().repeat(left), self.sequence(), character.to_string().repeat(right))
-        }
+
+        self.sequence = format!("{}{}{}", character.to_string().repeat(left), self.content(), character.to_string().repeat(right));
+        self
     }
 }
 
 impl fmt::Display for Sequence {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", self.sequence())
+        write!(f, "{}", self.content())
     }
 }
 
@@ -113,7 +107,7 @@ mod tests {
     fn test_new() {
         let sequence = Sequence::new(String::from("ACTG"));
 
-        assert_eq!(sequence.sequence(), "ACTG");
+        assert_eq!(sequence.content(), "ACTG");
     }
 
     #[test]
@@ -134,69 +128,70 @@ mod tests {
     #[test]
     fn test_reversed() {
         let sequence = Sequence::new(String::from("TGGAA"));
-        let reversed = sequence.reverse();
+        let mut reversed = sequence.clone();
+        reversed.reverse();
 
-        assert_eq!(reversed.sequence(), "AAGGT");
+        assert_eq!(reversed.content(), "AAGGT");
         assert_eq!(reversed.length(), 5);
     }
 
     #[test]
     fn test_truncate_left() {
-        let sequence = Sequence::new(String::from("AAGTCC"));
-        assert_eq!(sequence.truncate(3, Alignment::Left).sequence(), "AAG")
+        let mut sequence = Sequence::new(String::from("AAGTCC"));
+        assert_eq!(sequence.truncate(3, Alignment::Left).content(), "AAG")
     }
 
     #[test]
     fn test_truncate_right() {
-        let sequence = Sequence::new(String::from("AAGTCC"));
-        assert_eq!(sequence.truncate(3, Alignment::Right).sequence(), "TCC")
+        let mut sequence = Sequence::new(String::from("AAGTCC"));
+        assert_eq!(sequence.truncate(3, Alignment::Right).content(), "TCC")
     }
 
     #[test]
     fn test_truncate_center() {
-        let sequence = Sequence::new(String::from("AAGTCC"));
-        assert_eq!(sequence.truncate(4, Alignment::Center).sequence(), "AGTC")
+        let mut sequence = Sequence::new(String::from("AAGTCC"));
+        assert_eq!(sequence.truncate(4, Alignment::Center).content(), "AGTC")
     }
 
     #[test]
     fn test_truncate_center_left() {
-        let sequence = Sequence::new(String::from("AAGTCC"));
-        assert_eq!(sequence.truncate(3, Alignment::Center).sequence(), "AGT")
+        let mut sequence = Sequence::new(String::from("AAGTCC"));
+        assert_eq!(sequence.truncate(3, Alignment::Center).content(), "AGT")
     }
 
     #[test]
     fn test_truncate_center_right() {
-        let sequence = Sequence::new(String::from("AAGTCC"));
-        assert_eq!(sequence.truncate(3, Alignment::CenterRight).sequence(), "GTC")
+        let mut sequence = Sequence::new(String::from("AAGTCC"));
+        assert_eq!(sequence.truncate(3, Alignment::CenterRight).content(), "GTC")
     }
 
     #[test]
     fn test_pad_left() {
-        let sequence = Sequence::new(String::from("AAA"));
-        assert_eq!(sequence.pad(6, 'G', Alignment::Left).sequence(), "AAAGGG");
+        let mut sequence = Sequence::new(String::from("AAA"));
+        assert_eq!(sequence.pad(6, 'G', Alignment::Left).content(), "AAAGGG");
     }
 
     #[test]
     fn test_pad_right() {
-        let sequence = Sequence::new(String::from("AAA"));
-        assert_eq!(sequence.pad(6, 'G', Alignment::Right).sequence(), "GGGAAA");
+        let mut sequence = Sequence::new(String::from("AAA"));
+        assert_eq!(sequence.pad(6, 'G', Alignment::Right).content(), "GGGAAA");
     }
 
     #[test]
     fn test_pad_center() {
-        let sequence = Sequence::new(String::from("AAA"));
-        assert_eq!(sequence.pad(5, 'G', Alignment::Center).sequence(), "GAAAG");
+        let mut sequence = Sequence::new(String::from("AAA"));
+        assert_eq!(sequence.pad(5, 'G', Alignment::Center).content(), "GAAAG");
     }
 
     #[test]
     fn test_pad_center_left() {
-        let sequence = Sequence::new(String::from("AAA"));
-        assert_eq!(sequence.pad(6, 'G', Alignment::Center).sequence(), "GAAAGG");
+        let mut sequence = Sequence::new(String::from("AAA"));
+        assert_eq!(sequence.pad(6, 'G', Alignment::Center).content(), "GAAAGG");
     }
 
     #[test]
     fn test_pad_center_right() {
-        let sequence = Sequence::new(String::from("AAA"));
-        assert_eq!(sequence.pad(6, 'G', Alignment::CenterRight).sequence(), "GGAAAG");
+        let mut sequence = Sequence::new(String::from("AAA"));
+        assert_eq!(sequence.pad(6, 'G', Alignment::CenterRight).content(), "GGAAAG");
     }
 }
