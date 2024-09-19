@@ -1,8 +1,9 @@
 use std::io;
 use exquisitor::io::fasta::reader::FastaReader;
 use exquisitor::io::fasta::record::FastaRecord;
+use exquisitor::io::fasta::writer::FastaWriter;
 use exquisitor::io::sequence::Alignment;
-use exquisitor::io::traits::{Reader, Record};
+use exquisitor::io::traits::{Reader, Record, Writer};
 
 #[test]
 fn empty() {
@@ -13,10 +14,17 @@ fn empty() {
 fn preprocess_sequences() {
     let fasta = ">X1 D1\n\
     ACTGACTG\n\
-    >X2 D2\n\
+    >X2  \n\
     ACTG\n\
     >X3 d3\n\
     ACTGAC";
+    let expected = ">X1 D1\n\
+    ACTGAC\n\
+    >X2\n\
+    ACTG--\n\
+    >X3 d3\n\
+    ACTGAC\n";
+
     let data = io::Cursor::new(fasta);
     let reader = FastaReader::new(data);
 
@@ -38,4 +46,17 @@ fn preprocess_sequences() {
         assert_eq!(record.sequence().length(), 6);
         assert_eq!(record.sequence().content(), sequences[index]);
     }
+
+    let mut buffer = Vec::new();
+
+    {
+        let mut writer = FastaWriter::new(&mut buffer);
+
+        for record in records.iter() {
+            writer.write(record).unwrap();
+        }
+    }
+
+    let result = String::from_utf8(buffer).unwrap();
+    assert_eq!(result, expected);
 }

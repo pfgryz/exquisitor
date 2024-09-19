@@ -17,3 +17,9 @@ pub trait Reader {
 
     fn iter(self) -> Self::Iterator;
 }
+
+pub trait Writer {
+    type Record;
+
+    fn write(&mut self, record: &Self::Record) -> io::Result<()>;
+}
