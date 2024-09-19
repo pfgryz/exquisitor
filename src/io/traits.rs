@@ -5,6 +5,7 @@ pub trait Record: fmt::Display {
     fn id(&self) -> &str;
     fn description(&self) -> Option<&str>;
     fn sequence(&self) -> &Sequence;
+    fn sequence_mut(&mut self) -> &mut Sequence;
     fn is_empty(&self) -> bool;
 }
 

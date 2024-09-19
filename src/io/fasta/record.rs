@@ -43,6 +43,10 @@ impl Record for FastaRecord {
         &self.sequence
     }
 
+    fn sequence_mut(&mut self) -> &mut Sequence {
+        &mut self.sequence
+    }
+
     fn is_empty(&self) -> bool {
         self.id.is_empty() && self.description.is_none() && self.sequence.length() == 0
     }
