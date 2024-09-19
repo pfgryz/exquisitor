@@ -3,14 +3,14 @@ use crate::io::sequence::Sequence;
 use crate::io::traits::Record;
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
-struct FastaRecord {
+pub struct FastaRecord {
     id: String,
     description: Option<String>,
     sequence: Sequence,
 }
 
 impl FastaRecord {
-    fn new(id: String, description: Option<String>, sequence: Sequence) -> Self {
+    pub fn new(id: String, description: Option<String>, sequence: Sequence) -> Self {
         Self {
             id,
             description,
