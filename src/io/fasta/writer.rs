@@ -31,6 +31,24 @@ where
     type Record = FastaRecord;
 
     fn write(&mut self, record: &FastaRecord) -> io::Result<()> {
+        if record.id().is_empty() {
+            return Err(
+                io::Error::new(
+                    io::ErrorKind::Other,
+                    "Record should have identifier"
+                )
+            )
+        }
+
+        if record.sequence().length() == 0 {
+            return Err(
+                io::Error::new(
+                    io::ErrorKind::Other,
+                    "Record should have non-empty sequence"
+                )
+            )
+        }
+
         write!(self.writer, ">{}", record.id())?;
 
         match record.description() {
@@ -65,6 +83,28 @@ where
 mod tests {
     use crate::io::sequence::Sequence;
     use super::*;
+
+    #[test]
+    fn test_writer_missing_record_id() {
+        let mut writer = FastaWriter::new(Vec::new());
+
+        let record = FastaRecord::new(String::from(""), None, Sequence::new(String::from("ACT")));
+        assert!(
+            writer.write(&record).is_err(),
+            "write() should fail if id is empty"
+        )
+    }
+
+    #[test]
+    fn test_writer_missing_record_sequence() {
+        let mut writer = FastaWriter::new(Vec::new());
+
+        let record = FastaRecord::new(String::from("Id"), None, Sequence::default());
+        assert!(
+            writer.write(&record).is_err(),
+            "write() should fail if sequence is empty"
+        )
+    }
 
     #[test]
     fn test_writer_to_string() {
