@@ -6,5 +6,5 @@ pub trait DistanceMetric<R: ?Sized> {
 }
 
 pub trait Clustering<T: Sized> {
-    fn cluster(&self, distances: Vec<Vec<T>>) -> Vec<Cluster>;
+    fn cluster(&self, distances: T) -> ClusterResult<Vec<Cluster>>;
 }
