@@ -1,7 +1,8 @@
 use std::fmt;
 use std::fmt::Formatter;
+use crate::clustering::distance::DistanceMatrix;
 use crate::clustering::errors::ClusterResult;
-use crate::clustering::traits::Clustering;
+use crate::clustering::traits::{Clustering, DistanceMetric};
 // region Cluster
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -56,9 +57,9 @@ impl NaiveClustering {
     }
 }
 
-impl Clustering<Vec<Vec<f64>>> for NaiveClustering {
+impl Clustering<DistanceMatrix> for NaiveClustering {
 
-    fn cluster(&self, distances: Vec<Vec<f64>>) -> ClusterResult<Vec<Cluster>> {
+    fn cluster(&self, distances: DistanceMatrix) -> ClusterResult<Vec<Cluster>> {
         let mut result = vec![];
         let mut used = vec![false; distances.len()];
 

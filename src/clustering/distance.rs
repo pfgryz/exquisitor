@@ -3,9 +3,11 @@ use crate::clustering::traits::DistanceMetric;
 use crate::io::fasta::record::FastaRecord;
 use crate::io::traits::Record;
 
+pub type DistanceMatrix = Vec<Vec<f64>>;
+
 // region distance_matrix()
 
-pub fn distance_matrix<Element, Metric>(elements: &Vec<Element>, metric: &Metric) -> Vec<Vec<f64>>
+pub fn distance_matrix<Element, Metric>(elements: &Vec<Element>, metric: &Metric) -> DistanceMatrix
 where
     Metric: DistanceMetric<Element>,
 {
