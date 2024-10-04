@@ -10,7 +10,7 @@ pub trait Record: fmt::Display {
 }
 
 pub trait Reader {
-    type Record;
+    type Record: Record;
     type Iterator: Iterator;
 
     fn read(&mut self) -> io::Result<Self::Record>;
@@ -19,7 +19,7 @@ pub trait Reader {
 }
 
 pub trait Writer {
-    type Record;
+    type Record: Record;
 
     fn write(&mut self, record: &Self::Record) -> io::Result<()>;
 }
