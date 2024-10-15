@@ -1,19 +1,19 @@
 use std::fs::File;
+use std::io;
+use std::io::{BufRead, ErrorKind, Seek, SeekFrom};
 use std::path::Path;
+use std::process::{Command, Stdio};
 use tempfile::{NamedTempFile};
 use crate::io::fasta::record::FastaRecord;
 use crate::io::fasta::writer::FastaWriter;
 use crate::io::sequence::Sequence;
 use crate::io::traits::Writer;
+use crate::searching::organism::OrganismMatch;
 use crate::searching::traits::Searching;
 
 pub struct Blast;
 
 impl Blast {
-    pub fn run(&self, path: &Path) -> std::io::Result<()> {
-        todo!()
-    }
-
     pub(crate) fn save_sequences_to_file(&self, sequences: &mut Vec<Sequence>, input_file: &File) -> std::io::Result<()> {
         let records = sequences
             .iter_mut()
@@ -28,22 +28,67 @@ impl Blast {
 
         Ok(())
     }
+
+    pub fn run(&self, input_filepath: &Path, output_filepath: &Path) -> std::io::Result<()> {
+        let mut child = Command::new("/blast/blastn")
+            .env("BLASTDB", "/blast/db")
+            .arg("-db")
+            .arg("nt")
+            .arg("-query")
+            .arg(input_filepath)
+            .arg("-out")
+            .arg(output_filepath)
+            .arg("-outfmt")
+            .arg("6 qseqid sscinames pident")
+            .stdout(Stdio::piped())
+            .spawn()?;
+
+        child.wait()?;
+
+        Ok(())
+    }
+
+    pub(crate) fn parse_results_file(&self, path: &Path) -> io::Result<Vec<OrganismMatch>> {
+        let file = File::open(path)?;
+        let reader = io::BufReader::new(file);
+        let mut organisms = vec![];
+
+        for line in reader.lines()
+        {
+            let line_content = line?;
+            let row = line_content.trim().split('\t').collect::<Vec<&str>>();
+
+            if row.len() != 3 {
+                return Err(io::Error::new(ErrorKind::InvalidData, "Result line should consist of cluster id, scientific name and quality index"));
+            }
+
+            let confidence_score = row[2]
+                .parse::<f32>()
+                .map_err(|err| io::Error::new(ErrorKind::InvalidData, err))?;
+
+            organisms.push(
+                OrganismMatch::new(row[0].into(), row[1].into(), confidence_score)
+            );
+        }
+
+        Ok(organisms)
+    }
 }
 
 impl Searching for Blast {
-    fn search(&self, mut sequences: Vec<Sequence>) -> std::io::Result<()> {
-        let input_file = NamedTempFile::new()?;
+    fn search(&self, mut sequences: Vec<Sequence>) -> std::io::Result<Vec<OrganismMatch>> {
+        let mut input_file = NamedTempFile::new()?; // @TODO: Check if deleted on error
+        let output_file = NamedTempFile::new()?;
 
         // Save sequences in temporary file
         self.save_sequences_to_file(&mut sequences, input_file.as_file())?;
 
         // Run Blast
-        self.run(input_file.path())?;
+        input_file.seek(SeekFrom::Start(0))?;
+        self.run(input_file.path(), output_file.path())?;
 
-        // Read results
-
-
-        todo!()
+        // Get results
+        Ok(self.parse_results_file(output_file.path())?)
     }
 }
 
@@ -51,6 +96,8 @@ impl Searching for Blast {
 mod tests {
     use std::io::{Read, Seek, SeekFrom};
     use super::*;
+
+    // region save_sequences_to_file()
 
     #[test]
     fn test_save_sequences_to_file() {
@@ -68,9 +115,28 @@ mod tests {
         file.seek(SeekFrom::Start(0)).unwrap();
 
         // Read and compare file
-        let mut result = &mut "".to_string();
+        let result = &mut "".to_string();
         file.read_to_string(result).unwrap();
 
         assert_eq!(result, ">0\nAACT\n>1\nTTGC\n");
     }
+
+    // endregion
+
+    // region search
+
+    #[test]
+    fn test_search() {
+        let sequences = vec![
+            Sequence::new(String::from("GGCTTTTTTTATGAAAAGTCTTGTGTGAGCCATGGCGACTTTTAAAGACGCTTGTTATCA
+CTATAAAAAGTTGAATAAGTTAAACAGCTTAGTACTCAAACTAGGAGCAAATGATGAATG"))
+        ];
+
+        let blast = Blast {};
+        let result = blast.search(sequences).unwrap();
+
+        assert!(result.len() > 0);
+    }
+
+    // endregion
 }
