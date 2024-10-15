@@ -9,11 +9,21 @@ use crate::io::fasta::writer::FastaWriter;
 use crate::io::sequence::Sequence;
 use crate::io::traits::Writer;
 use crate::searching::organism::OrganismMatch;
-use crate::searching::traits::Searching;
+use crate::searching::traits::DatabaseSearch;
 
-pub struct Blast;
+pub struct Blast {
+    program_path: String,
+    database_path: String
+}
 
 impl Blast {
+    pub fn new(program_path: String, database_path: String) -> Self {
+        Self {
+            program_path,
+            database_path
+        }
+    }
+
     pub(crate) fn save_sequences_to_file(&self, sequences: &mut Vec<Sequence>, input_file: &File) -> std::io::Result<()> {
         let records = sequences
             .iter_mut()
@@ -30,8 +40,8 @@ impl Blast {
     }
 
     pub fn run(&self, input_filepath: &Path, output_filepath: &Path) -> std::io::Result<()> {
-        let mut child = Command::new("/blast/blastn")
-            .env("BLASTDB", "/blast/db")
+        let mut child = Command::new(&self.program_path)
+            .env("BLASTDB", &self.database_path)
             .arg("-db")
             .arg("nt")
             .arg("-query")
@@ -62,12 +72,16 @@ impl Blast {
                 return Err(io::Error::new(ErrorKind::InvalidData, "Result line should consist of cluster id, scientific name and quality index"));
             }
 
+            let sequence_id = row[0]
+                .parse::<usize>()
+                .map_err(|err| io::Error::new(ErrorKind::InvalidData, err))?;
+
             let confidence_score = row[2]
                 .parse::<f32>()
                 .map_err(|err| io::Error::new(ErrorKind::InvalidData, err))?;
 
             organisms.push(
-                OrganismMatch::new(row[0].into(), row[1].into(), confidence_score)
+                OrganismMatch::new(sequence_id, row[1].into(), confidence_score)
             );
         }
 
@@ -75,7 +89,7 @@ impl Blast {
     }
 }
 
-impl Searching for Blast {
+impl DatabaseSearch for Blast {
     fn search(&self, mut sequences: Vec<Sequence>) -> std::io::Result<Vec<OrganismMatch>> {
         let mut input_file = NamedTempFile::new()?; // @TODO: Check if deleted on error
         let output_file = NamedTempFile::new()?;
@@ -108,7 +122,7 @@ mod tests {
         ];
 
         // Write sequences
-        let blast = Blast {};
+        let blast = Blast::new("/blast/blastn".into(), "/blast/db".into());
         blast.save_sequences_to_file(&mut sequences, file.as_file()).unwrap();
 
         // Seek file
@@ -132,7 +146,7 @@ mod tests {
 CTATAAAAAGTTGAATAAGTTAAACAGCTTAGTACTCAAACTAGGAGCAAATGATGAATG"))
         ];
 
-        let blast = Blast {};
+        let blast = Blast::new("/blast/blastn".into(), "/blast/db".into());
         let result = blast.search(sequences).unwrap();
 
         assert!(result.len() > 0);

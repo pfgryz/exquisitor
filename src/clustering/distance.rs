@@ -7,9 +7,7 @@ pub type DistanceMatrix = Vec<Vec<f64>>;
 
 // region distance_matrix()
 
-pub fn distance_matrix<Element, Metric>(elements: &Vec<Element>, metric: &Metric) -> DistanceMatrix
-where
-    Metric: DistanceMetric<Element>,
+pub fn distance_matrix<Element>(elements: &Vec<Element>, metric: &dyn DistanceMetric<Element>) -> DistanceMatrix
 {
     let size = elements.len();
     let mut matrix = vec![vec![0.0; size]; size];
