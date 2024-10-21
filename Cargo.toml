@@ -8,3 +8,8 @@ edition = "2021"
 [dependencies]
 float-cmp = "0.10.0"
 tempfile = "3"
+axum = "0.7.7"
+tokio = { version = "1.40", features = ["full"] }
+tracing-subscriber = "0.3.18"
+tracing = "0.1.40"
+askama = "0.12.1"
