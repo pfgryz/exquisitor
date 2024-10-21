@@ -1,0 +1,29 @@
+:root {
+    --color-primary: #8E8CD8;
+    --color-outline: #555;
+    --color-surface: #212121;
+    --color-surface-hover: #292929;
+    --color-background: #181818;
+    --color-text: rgba(255, 255, 255, 1);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
+}
+
+body {
+    min-height: 100vh;
+    color: var(--color-text);
+    line-height: 1.6;
+    font-size: 15px;
+    font-family: Roboto, sans-serif !important;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-background);
+    transition: color 500ms, background-color 500ms;
+}
