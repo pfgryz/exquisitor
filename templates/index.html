@@ -22,6 +22,9 @@
 
             <div class="last">
                 <h1>Last experiments</h1>
+                {% for experiment in experiments %}
+                    {{ experiment.name }}
+                {% endfor %}
             </div>
         </div>
     </body>

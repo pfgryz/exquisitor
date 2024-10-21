@@ -7,6 +7,7 @@ pub mod server;
 
 #[tokio::main]
 async fn main() {
+    dotenv::dotenv().ok();
     tracing_subscriber::registry();
 
     let pool = SqlitePool::connect("sqlite://exquisitor.db")
