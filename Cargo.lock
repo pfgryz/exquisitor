@@ -401,6 +401,8 @@ dependencies = [
  "axum",
  "dotenv",
  "float-cmp",
+ "serde",
+ "serde_json",
  "sqlx",
  "tempfile",
  "tokio",

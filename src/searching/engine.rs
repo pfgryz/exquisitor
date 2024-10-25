@@ -49,15 +49,15 @@ where
         let organism_matches = self.database.search(representatives)?;
 
         // Create final organism list
-        let mut found = HashMap::<String, f32>::new();
+        let mut found = HashMap::<String, f64>::new();
         for organism_match in organism_matches {
             println!("{} {}", organism_match.sequence_id(), organism_match.name());
             let cluster = clusters
                 .get(organism_match.sequence_id()).unwrap();
 
             let match_score = organism_match.confidence_score()
-                * cluster.sequence_ids().len() as f32
-                / records.len() as f32;
+                * cluster.sequence_ids().len() as f64
+                / records.len() as f64;
 
             match found.get_mut(organism_match.name()) {
                 Some(score) => {
@@ -70,7 +70,6 @@ where
         }
 
         Ok(found.iter().map(|(k, v)| OrganismFound::new(k.into(), *v)).collect::<Vec<_>>())
-        // println!("{}", organism_matches.unwrap()[0].name());
     }
 }
 

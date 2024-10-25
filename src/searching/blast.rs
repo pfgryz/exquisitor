@@ -77,7 +77,7 @@ impl Blast {
                 .map_err(|err| io::Error::new(ErrorKind::InvalidData, err))?;
 
             let confidence_score = row[2]
-                .parse::<f32>()
+                .parse::<f64>()
                 .map_err(|err| io::Error::new(ErrorKind::InvalidData, err))?;
 
             organisms.push(
