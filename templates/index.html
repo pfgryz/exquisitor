@@ -16,14 +16,27 @@
 
         <div class="content">
             <div class="search-bar">
-                <input type="text" class="search" placeholder="Experiment identifier"/>
-                <button>Search</button>
+                <form method="GET" action="/search">
+                    <input name="query" type="text" class="search" placeholder="Experiment identifier"/>
+                    <button type="submit" class="btn">Search</button>
+                </form>
             </div>
 
             <div class="last">
                 <h1>Last experiments</h1>
+
+                <div class="experiments-header">
+                    <div>Id</div>
+                    <div>Name</div>
+                    <div>Status</div>
+                </div>
+
                 {% for experiment in experiments %}
-                    {{ experiment.name }}
+                <a class="experiment" href="/experiment/{{experiment.experiment_id}}">
+                    <div>#{{ experiment.experiment_id }}</div>
+                    <div class="experiment-name">{{ experiment.name }}</div>
+                    <div>{{ experiment.status }}</div>
+                </a>
                 {% endfor %}
             </div>
         </div>
