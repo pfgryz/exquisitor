@@ -1,44 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <!-- Title -->
-        <title>Exquisitor</title>
+{% extends "base.html" %}
 
-        <!-- Meta -->
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title%}Exquisitor - Home{% endblock %}
 
-        <!-- Stylesheet -->
-        <link rel="stylesheet" href="/assets/main.css">
-    </head>
-    <body>
-        <div class="header">Exquisitor</div>
+{% block header %}
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/assets/index.css">
+{% endblock %}
 
-        <div class="content">
-            <div class="search-bar">
-                <form method="GET" action="/search">
-                    <input name="query" type="text" class="search" placeholder="Experiment identifier"/>
-                    <button type="submit" class="btn">Search</button>
-                </form>
-            </div>
+{% block content %}
+    <div class="search-bar">
+        <form method="GET" action="/search">
+            <input name="query" type="text" class="search" placeholder="Experiment identifier"/>
+            <button type="submit" class="btn btn-blue">Search</button>
+        </form>
+    </div>
 
-            <div class="last">
-                <h1>Last experiments</h1>
+    <div class="last">
+        <h1>Last experiments</h1>
 
-                <div class="experiments-header">
-                    <div>Id</div>
-                    <div>Name</div>
-                    <div>Status</div>
-                </div>
-
-                {% for experiment in experiments %}
-                <a class="experiment" href="/experiment/{{experiment.experiment_id}}">
-                    <div>#{{ experiment.experiment_id }}</div>
-                    <div class="experiment-name">{{ experiment.name }}</div>
-                    <div>{{ experiment.status }}</div>
-                </a>
-                {% endfor %}
-            </div>
+        <div class="experiments-header">
+            <div>Id</div>
+            <div>Name</div>
+            <div>Status</div>
         </div>
-    </body>
-</html>
+
+        {% for experiment in experiments %}
+        <a class="experiment" href="/experiment/{{experiment.experiment_id}}">
+            <div>#{{ experiment.experiment_id }}</div>
+            <div class="experiment-name">{{ experiment.name }}</div>
+            <div>{{ experiment.status }}</div>
+        </a>
+        {% endfor %}
+    </div>
+{% endblock %}
