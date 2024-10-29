@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title%}Experiment #{{ experiment.experiment_id }}{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+    {{ experiment.experiment_id }} - {{ experiment.name }}
+{% endblock %}

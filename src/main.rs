@@ -38,6 +38,7 @@ async fn main() {
     let app = Router::new()
         .route("/", get(routes::index::render))
         .route("/search", get(routes::search::render))
+        .route("/experiment/:id", get(routes::experiment::render))
         .nest_service("/assets", serve_dir_from_assets)
         .fallback(errors::handle_not_found)
         .layer(Extension(pool))
