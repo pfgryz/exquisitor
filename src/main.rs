@@ -7,7 +7,8 @@ use tower_http::services::ServeDir;
 use tracing::info;
 use tracing_subscriber::{fmt, Registry};
 use tracing_subscriber::layer::SubscriberExt;
-use crate::server::errors;
+use server::routes;
+use server::routes::errors;
 
 pub mod server;
 
@@ -35,7 +36,8 @@ async fn main() {
 
     // Main router
     let app = Router::new()
-        .route("/", get(server::index::render))
+        .route("/", get(routes::index::render))
+        .route("/search", get(routes::search::render))
         .nest_service("/assets", serve_dir_from_assets)
         .fallback(errors::handle_not_found)
         .layer(Extension(pool))

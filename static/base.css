@@ -30,7 +30,8 @@ body {
 }
 
 .header {
-    color: var(--color-text);
+    color: var(--color-primary);
+    height: 115px;
     padding: 32px;
     font-size: 32px;
     background: var(--color-surface);
@@ -45,6 +46,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: calc(100vh - 115px);
     padding: 32px;
 }
 

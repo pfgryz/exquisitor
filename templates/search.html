@@ -6,21 +6,15 @@
     <style>
         .result {
             text-align: center;
-        }
-        .error-code {
-            font-size: 100px;
-        }
-
-        .error-message {
             font-size: 20px;
-            opacity: 0.7;
+            line-height: 2em;
         }
     </style>
 {% endblock %}
 
 {% block content %}
-    <div class="error">
-        <div class="error-code">{{ code.as_u16() }}</div>
-        <div class="error-message">{{ message }}</div>
+    <div class="result">
+        Experiment not found
+        <a href="/" class="btn btn-blue>">Home</a>
     </div>
 {% endblock %}

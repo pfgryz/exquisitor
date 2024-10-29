@@ -1,4 +1,3 @@
-mod db;
-pub mod errors;
-pub mod index;
-mod templates;
+pub mod db;
+pub mod templates;
+pub mod routes;
