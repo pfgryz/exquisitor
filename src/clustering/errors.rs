@@ -8,13 +8,15 @@ pub type ClusterResult<T> = Result<T, ClusteringError>;
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub enum ClusteringErrorKind {
-    UnequalSequenceLengths
+    UnequalSequenceLengths,
+    EmptySequence
 }
 
 impl fmt::Display for ClusteringErrorKind {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "{}", match self {
-            ClusteringErrorKind::UnequalSequenceLengths => "UnequalSequenceLengths"
+            ClusteringErrorKind::UnequalSequenceLengths => "UnequalSequenceLengths",
+            ClusteringErrorKind::EmptySequence => "EmptySequence"
         })
     }
 }
