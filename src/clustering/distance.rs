@@ -1,4 +1,7 @@
 use std::collections::HashMap;
+use std::iter::Sum;
+use std::ops::{Mul, Sub};
+use num_traits::{pow, One};
 use crate::clustering::errors::{ClusterResult, ClusteringError, ClusteringErrorKind};
 use crate::clustering::traits::DistanceMetric;
 use crate::io::fasta::record::FastaRecord;
@@ -65,8 +68,13 @@ impl DistanceMetric<FastaRecord> for HammingDistance {
 
 struct EuclideanDistance;
 
-impl DistanceMetric<Vec<f64>> for EuclideanDistance {
-    fn distance(&self, a: &Vec<f64>, b: &Vec<f64>) -> ClusterResult<f64> {
+impl<T> DistanceMetric<Vec<T>> for EuclideanDistance
+where
+    T: Clone + One + Mul<T, Output=T>,
+    for<'a> &'a T: Sub<&'a T, Output=T>,
+    f64: Sum<T>
+{
+    fn distance(&self, a: &Vec<T>, b: &Vec<T>) -> ClusterResult<f64> {
         if a.len() != b.len() {
             return Err(ClusteringError::new(
                 ClusteringErrorKind::UnequalSequenceLengths,
@@ -77,7 +85,7 @@ impl DistanceMetric<Vec<f64>> for EuclideanDistance {
         Ok(
             a.iter()
                 .zip(b.iter())
-                .map(|(x, y)| (x - y).powi(2))
+                .map(|(x, y)| pow(x - y, 2))
                 .sum::<f64>()
                 .sqrt()
         )
