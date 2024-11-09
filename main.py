@@ -1,10 +1,10 @@
-from exquisitor.experiments.experiment import Experiment
-from exquisitor.experiments.quality.global_quality_evaluator import \
+from exquisitorpy.experiments.experiment import Experiment
+from exquisitorpy.experiments.quality.global_quality_evaluator import \
     GlobalQualityEvaluator
-from exquisitor.experiments.runner import Runner
+from exquisitorpy.experiments.runner import Runner
 
 # if __name__ == "__main__":
-#     process = subprocess.Popen(["python3", "./exquisitor/misc/worker.py"],
+#     process = subprocess.Popen(["python3", "./exquisitorpy/misc/worker.py"],
 #                                stdout=subprocess.PIPE,
 #                                stderr=subprocess.PIPE,
 #                                close_fds=True)
@@ -23,9 +23,9 @@ from exquisitor.experiments.runner import Runner
 if __name__ == "__main__":
     runner = Runner()
 
-    ex1 = Experiment("Complex", ["python3", "./exquisitor/misc/worker.py"],
+    ex1 = Experiment("Complex", ["python3", "./exquisitorpy/misc/worker.py"],
                      "ex1")
-    ex2 = Experiment("Simple", ["python3", "./exquisitor/misc/worker2.py"],
+    ex2 = Experiment("Simple", ["python3", "./exquisitorpy/misc/worker2.py"],
                      "ex2")
 
     ex1.on_success.add(GlobalQualityEvaluator("ex1.cpu.report", "ex1.memory.report", "ex1.quality.report"))
