@@ -2,10 +2,10 @@
 use std::fmt;
 use std::fmt::Formatter;
 
-/// Represents DNA sequence
+/// Represents DNA sequence.
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub struct Sequence {
-    /// Sequence content
+    /// Sequence content.
     sequence: String,
 }
 

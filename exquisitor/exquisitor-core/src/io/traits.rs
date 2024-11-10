@@ -19,6 +19,9 @@ pub trait Record: fmt::Display {
 
     /// Checks if the record contains an empty sequence.
     fn is_empty(&self) -> bool;
+
+    /// Checks if the record is valid.
+    fn is_valid(&self) -> bool;
 }
 
 /// Trait for Record reader.
