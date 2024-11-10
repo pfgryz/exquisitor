@@ -1,6 +1,6 @@
-use std::fmt::{Display, Formatter};
 use crate::io::sequence::Sequence;
 use crate::io::traits::Record;
+use std::fmt::{Display, Formatter};
 
 /// Represents FASTA format record.
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -43,7 +43,7 @@ impl Record for FastaRecord {
     fn description(&self) -> Option<&str> {
         match self.description.as_ref() {
             Some(d) => Some(d),
-            None => None
+            None => None,
         }
     }
 
@@ -93,11 +93,7 @@ mod tests {
 
     #[test]
     fn test_fasta_record_new() {
-        let record = FastaRecord::new(
-            "X3",
-            Some(String::from("Desc")),
-            Sequence::new("ACTG"),
-        );
+        let record = FastaRecord::new("X3", Some(String::from("Desc")), Sequence::new("ACTG"));
 
         assert_eq!(record.id(), "X3");
         assert!(record.description().is_some());
@@ -116,22 +112,14 @@ mod tests {
 
     #[test]
     fn test_fasta_record_invalid() {
-        let record = FastaRecord::new(
-            "Ą",
-            None,
-            Sequence::new("ACTG"),
-        );
+        let record = FastaRecord::new("Ą", None, Sequence::new("ACTG"));
 
         assert!(!record.is_valid());
     }
 
     #[test]
     fn test_fasta_record_display() {
-        let record = FastaRecord::new(
-            "X3",
-            Some(String::from("Desc")),
-            Sequence::new("ACTG"),
-        );
+        let record = FastaRecord::new("X3", Some(String::from("Desc")), Sequence::new("ACTG"));
         let formatted = format!("{}", record);
 
         assert_eq!(

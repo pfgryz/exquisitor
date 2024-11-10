@@ -1,6 +1,6 @@
-use std::fmt::{Display, Formatter};
 use crate::io::sequence::Sequence;
 use crate::io::traits::Record;
+use std::fmt::{Display, Formatter};
 
 /// Represents FASTQ format record.
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
@@ -30,7 +30,12 @@ impl FastqRecord {
     }
 
     /// Creates new FASTQ record.
-    pub fn new(id: &str, description: Option<String>, sequence: Sequence, quality: Sequence) -> Self {
+    pub fn new(
+        id: &str,
+        description: Option<String>,
+        sequence: Sequence,
+        quality: Sequence,
+    ) -> Self {
         Self {
             id: id.to_string(),
             description,
@@ -48,7 +53,7 @@ impl Record for FastqRecord {
     fn description(&self) -> Option<&str> {
         match self.description.as_ref() {
             Some(d) => Some(d),
-            None => None
+            None => None,
         }
     }
 
@@ -61,7 +66,10 @@ impl Record for FastqRecord {
     }
 
     fn is_empty(&self) -> bool {
-        self.id.is_empty() && self.description.is_none() && self.sequence.length() == 0 && self.quality.length() == 0
+        self.id.is_empty()
+            && self.description.is_none()
+            && self.sequence.length() == 0
+            && self.quality.length() == 0
     }
 
     fn is_valid(&self) -> bool {
@@ -74,7 +82,6 @@ impl Record for FastqRecord {
         !self.is_empty() && self.id.is_ascii() && self.sequence.length() == self.quality.length()
     }
 }
-
 
 impl Display for FastqRecord {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
@@ -117,12 +124,7 @@ mod tests {
 
     #[test]
     fn test_fastq_record_unequal_lengths() {
-        let record = FastqRecord::new(
-            "YZ",
-            None,
-            Sequence::new("ACTG"),
-            Sequence::new("!."),
-        );
+        let record = FastqRecord::new("YZ", None, Sequence::new("ACTG"), Sequence::new("!."));
 
         assert!(!record.is_valid());
     }
