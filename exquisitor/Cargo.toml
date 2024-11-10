@@ -1,7 +1,15 @@
 [package]
 name = "exquisitor"
 version = "0.1.0"
+authors = ["Patryk Filip Gryz"]
 edition = "2021"
+license = "MIT"
+
+[workspace]
+members = [
+    "exquisitor-app",
+    "exquisitor-core"
+]
 
 [dependencies]
 float-cmp = "0.10.0"

@@ -25,9 +25,7 @@ async fn main() {
     tracing::subscriber::set_global_default(subscriber).expect("Failed to set global subscriber");
 
     // SQLite database
-    let pool = SqlitePool::connect("sqlite://exquisitor.db")
-        .await
-        .unwrap();
+    let pool = SqlitePool::connect("sqlite://exquisitor.db").await.unwrap();
 
     // Static files
     let serve_dir_from_assets = ServeDir::new("static");
