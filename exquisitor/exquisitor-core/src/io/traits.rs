@@ -41,5 +41,5 @@ pub trait Writer {
     type Record: Record;
 
     /// Writes record.
-    fn write(&mut self, record: Self::Record) -> IoResult<()>;
+    fn write(&mut self, record: &Self::Record) -> IoResult<()>;
 }

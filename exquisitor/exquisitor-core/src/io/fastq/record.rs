@@ -43,6 +43,16 @@ impl FastqRecord {
             quality,
         }
     }
+
+    /// Returns an immutable reference to quality values of the record's sequence.
+    pub fn quality(&self) -> &Sequence {
+        &self.quality
+    }
+
+    /// Returns a mutable reference to quality values of the record's sequence.
+    pub fn quality_mut(&mut self) -> &mut Sequence {
+        &mut self.quality
+    }
 }
 
 impl Record for FastqRecord {
