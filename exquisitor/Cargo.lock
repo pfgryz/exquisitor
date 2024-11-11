@@ -425,6 +425,10 @@ version = "0.1.0"
 [[package]]
 name = "exquisitor-core"
 version = "0.1.0"
+dependencies = [
+ "float-cmp",
+ "num-traits",
+]
 
 [[package]]
 name = "fastrand"
