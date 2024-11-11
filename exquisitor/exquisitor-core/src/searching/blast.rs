@@ -99,7 +99,7 @@ impl Blast {
 
 impl DatabaseSearch for Blast {
     fn search(&self, mut sequences: Vec<Sequence>) -> std::io::Result<Vec<OrganismMatch>> {
-        let mut input_file = NamedTempFile::new()?; // @TODO: Check if deleted on error
+        let mut input_file = NamedTempFile::new()?;
         let output_file = NamedTempFile::new()?;
 
         // Save sequences in temporary file
@@ -124,10 +124,7 @@ mod tests {
     #[test]
     fn test_save_sequences_to_file() {
         let mut file = NamedTempFile::new().unwrap();
-        let mut sequences = vec![
-            Sequence::new("AACT"),
-            Sequence::new("TTGC"),
-        ];
+        let mut sequences = vec![Sequence::new("AACT"), Sequence::new("TTGC")];
 
         // Write sequences
         let blast = Blast::new("/blast/blastn".into(), "/blast/db".into());
