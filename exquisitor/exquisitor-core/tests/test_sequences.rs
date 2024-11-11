@@ -1,9 +1,9 @@
-use std::io;
 use exquisitor_core::io::fasta::reader::FastaReader;
 use exquisitor_core::io::fasta::record::FastaRecord;
 use exquisitor_core::io::fasta::writer::FastaWriter;
 use exquisitor_core::io::sequence::Alignment;
 use exquisitor_core::io::traits::{Reader, Record, Writer};
+use std::io;
 
 #[test]
 fn empty() {

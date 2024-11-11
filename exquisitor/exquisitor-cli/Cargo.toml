@@ -1,0 +1,12 @@
+[package]
+name = "exquisitor-cli"
+version = "0.1.0"
+authors = ["Patryk Filip Gryz"]
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+clap = { version = "4.5.20", features = ["derive"] }
+exquisitor-core = { path = "../exquisitor-core" }
+tracing = "0.1"
+tracing-subscriber = "0.3.18"

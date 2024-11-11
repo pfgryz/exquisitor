@@ -1,4 +1,6 @@
+use crate::clustering::cluster::Cluster;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::io::{Read, Write};
 
 #[derive(Clone, PartialEq, Serialize, Deserialize, Debug)]
@@ -71,6 +73,32 @@ pub fn load_found_organisms(buffer: &mut dyn Read) -> std::io::Result<Vec<Organi
     let vec: Vec<OrganismFound> = serde_json::from_str(&data).unwrap();
     println!("Vec");
     Ok(vec)
+}
+
+pub fn filter_matches(matches: &Vec<OrganismMatch>, clusters: &Vec<Cluster>, n_sequences: usize) -> Vec<OrganismFound> {
+    let mut found = HashMap::<String, f64>::new();
+
+    for organism_match in matches {
+        let cluster = clusters.get(organism_match.sequence_id()).unwrap();
+
+        let match_score = organism_match.confidence_score()
+            * cluster.sequence_ids().len() as f64
+            / n_sequences as f64;
+
+        match found.get_mut(organism_match.name()) {
+            Some(score) => {
+                *score *= match_score;
+            }
+            None => {
+                found.insert(organism_match.name().into(), match_score);
+            }
+        }
+    }
+
+    found
+        .iter()
+        .map(|(k, v)| OrganismFound::new(k.into(), *v))
+        .collect::<Vec<_>>()
 }
 
 #[cfg(test)]

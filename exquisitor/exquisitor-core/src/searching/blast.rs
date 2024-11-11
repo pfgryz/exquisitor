@@ -17,10 +17,10 @@ pub struct Blast {
 }
 
 impl Blast {
-    pub fn new(program_path: String, database_path: String) -> Self {
+    pub fn new(program_path: &str, database_path: &str) -> Self {
         Self {
-            program_path,
-            database_path,
+            program_path: program_path.into(),
+            database_path: database_path.into(),
         }
     }
 

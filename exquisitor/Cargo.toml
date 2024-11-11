@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "exquisitor-app",
+    "exquisitor-cli",
     "exquisitor-core"
 ]
 resolver = "2"
