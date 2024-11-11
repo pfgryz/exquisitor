@@ -1,8 +1,8 @@
-use crate::clustering::embedding::KMer;
 use crate::clustering::traits::DistanceMetric;
 use crate::io::sequence::Sequence;
 use crate::result::{ExquisitorError, ExquisitorErrorKind, ExquisitorResult};
 use num_traits::{pow, One};
+use std::cmp::min;
 use std::collections::{HashMap, HashSet};
 use std::iter::Sum;
 use std::ops::{Mul, Sub};
@@ -55,10 +55,10 @@ where
 }
 
 /// Similarity between nucleotides
-type SimilarityMatrix = HashMap<(char, char), f64>;
+pub type SimilarityMatrix = HashMap<(char, char), f64>;
 
 /// Needleman-Wunsch algorithm
-struct NeedlemanWunsch {
+pub struct NeedlemanWunsch {
     gap_penalty: f64,
     similarity_matrix: SimilarityMatrix,
 }
@@ -71,7 +71,7 @@ impl NeedlemanWunsch {
         }
     }
 
-    fn build_matrix(&self, a: &Sequence, b: &Sequence) -> DistanceMatrix {
+    pub fn build_matrix(&self, a: &Sequence, b: &Sequence) -> DistanceMatrix {
         let mut matrix = vec![vec![0f64; a.length() + 1]; b.length() + 1];
 
         for row in 1..b.length() + 1 {
@@ -114,6 +114,35 @@ impl DistanceMetric<Sequence> for NeedlemanWunsch {
     }
 }
 
+pub type KMerEmbedding = HashMap<String, usize>;
+
+pub struct KMer {
+    k: usize,
+}
+
+impl KMer {
+    pub fn new(k: usize) -> Self {
+        Self { k }
+    }
+
+    pub fn embed(&self, sequence: &Sequence) -> KMerEmbedding {
+        let mut embedding: KMerEmbedding = HashMap::new();
+        embedding.reserve(min(sequence.length() - self.k, pow(4usize, self.k)));
+
+        for i in 0..sequence.length() - self.k + 1 {
+            let mer = &sequence.content()[i..i + self.k];
+
+            if embedding.contains_key(mer) {
+                *embedding.get_mut(mer).unwrap() += 1;
+            } else {
+                embedding.insert(mer.into(), 1);
+            }
+        }
+
+        embedding
+    }
+}
+
 impl DistanceMetric<Sequence> for KMer {
     fn distance(&self, a: &Sequence, b: &Sequence) -> ExquisitorResult<f64> {
         let a_embedding = &self.embed(a);
@@ -139,10 +168,10 @@ impl DistanceMetric<Sequence> for KMer {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::clustering::alphabet::ALPHABET;
-    use crate::io::fasta::record::FastaRecord;
+    use crate::clustering::ALPHABET;
     use crate::io::sequence::Sequence;
     use float_cmp::{approx_eq, assert_approx_eq};
+    use std::collections::HashMap;
 
     // region distance_matrix()
 
@@ -254,6 +283,27 @@ mod tests {
     // endregion
 
     // region K-Mer Distance
+
+    #[test]
+    fn test_k_mer_embedding() {
+        let a = Sequence::new("ACTAC");
+        let expected_keys: HashSet<String> = ["AC", "CT", "TA"]
+            .iter()
+            .cloned()
+            .map(String::from)
+            .collect();
+
+        let kmer = KMer::new(2);
+        let embedding = kmer.embed(&a);
+
+        assert_eq!(embedding.len(), 3);
+        assert_eq!(
+            embedding.keys().cloned().collect::<HashSet<_>>(),
+            expected_keys
+        );
+        assert_eq!(embedding.get("AC"), Some(&2usize));
+        assert_eq!(embedding.get("CT"), Some(&1usize));
+    }
 
     #[test]
     fn test_k_mer_distance() {

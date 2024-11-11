@@ -1,4 +1,6 @@
-pub mod alphabet;
+pub mod cluster;
 pub mod distance;
-mod embedding;
 pub mod traits;
+
+/// Nucleotide alphabet
+pub const ALPHABET: &'static [char] = &['A', 'C', 'T', 'G'];
