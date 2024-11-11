@@ -1,5 +1,5 @@
-use crate::server::db::{query_experiments, Experiment};
-use crate::server::templates::HTMLTemplate;
+use crate::db::{query_experiments, Experiment};
+use crate::templates::HTMLTemplate;
 use askama::Template;
 use axum::response::IntoResponse;
 use axum::Extension;

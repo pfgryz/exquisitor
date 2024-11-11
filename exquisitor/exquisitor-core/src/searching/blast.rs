@@ -8,7 +8,7 @@ use std::fs::File;
 use std::io;
 use std::io::{BufRead, ErrorKind, Seek, SeekFrom};
 use std::path::Path;
-use std::process::{id, Command, Stdio};
+use std::process::{Command, Stdio};
 use tempfile::NamedTempFile;
 
 pub struct Blast {
@@ -32,7 +32,7 @@ impl Blast {
         let records = sequences
             .iter_mut()
             .enumerate()
-            .map(|(idx, s)| FastaRecord::new(id.to_string().as_str(), None, s.to_owned()));
+            .map(|(idx, s)| FastaRecord::new(idx.to_string().as_str(), None, s.to_owned()));
 
         let mut writer = FastaWriter::new(input_file, None);
 

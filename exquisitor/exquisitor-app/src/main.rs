@@ -1,31 +1,34 @@
+use crate::routes::errors;
 use axum::middleware::Next;
 use axum::response::IntoResponse;
 use axum::routing::get;
 use axum::{extract, middleware, Extension, Router};
-use server::routes;
-use server::routes::errors;
+use dotenv::dotenv;
 use sqlx::SqlitePool;
 use tower_http::services::ServeDir;
 use tracing::info;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{fmt, Registry};
 
-pub mod server;
+mod db;
+mod routes;
+mod templates;
 
 #[tokio::main]
 async fn main() {
     // Environment variables
-    dotenv::dotenv().ok();
+    dotenv().ok();
 
-    // Logging
+    // Tracing
     tracing_subscriber::registry();
 
     let subscriber = Registry::default().with(fmt::layer().with_level(true));
-
     tracing::subscriber::set_global_default(subscriber).expect("Failed to set global subscriber");
 
     // SQLite database
-    let pool = SqlitePool::connect("sqlite://exquisitor.db").await.unwrap();
+    let pool = SqlitePool::connect("sqlite://../exquisitor.db")
+        .await
+        .unwrap();
 
     // Static files
     let serve_dir_from_assets = ServeDir::new("static");

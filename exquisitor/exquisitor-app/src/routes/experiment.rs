@@ -1,7 +1,7 @@
-use crate::server::db;
-use crate::server::db::Experiment;
-use crate::server::routes::errors::{handle_not_found, InternalServerError};
-use crate::server::templates::HTMLTemplate;
+use crate::db;
+use crate::db::Experiment;
+use crate::routes::errors::{handle_not_found, InternalServerError};
+use crate::templates::HTMLTemplate;
 use askama::Template;
 use axum::extract::Path;
 use axum::http::StatusCode;

@@ -1,4 +1,4 @@
-use crate::server::templates::HTMLTemplate;
+use crate::templates::HTMLTemplate;
 use askama::Template;
 use axum::http::StatusCode;
 use axum::response::IntoResponse;

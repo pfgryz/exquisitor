@@ -1,9 +1,9 @@
-use exquisitor::io::fasta::reader::FastaReader;
-use exquisitor::io::fasta::record::FastaRecord;
-use exquisitor::io::fasta::writer::FastaWriter;
-use exquisitor::io::sequence::Alignment;
-use exquisitor::io::traits::{Reader, Record, Writer};
 use std::io;
+use exquisitor_core::io::fasta::reader::FastaReader;
+use exquisitor_core::io::fasta::record::FastaRecord;
+use exquisitor_core::io::fasta::writer::FastaWriter;
+use exquisitor_core::io::sequence::Alignment;
+use exquisitor_core::io::traits::{Reader, Record, Writer};
 
 #[test]
 fn empty() {
@@ -50,7 +50,7 @@ fn preprocess_sequences() {
     let mut buffer = Vec::new();
 
     {
-        let mut writer = FastaWriter::new(&mut buffer);
+        let mut writer = FastaWriter::new(&mut buffer, None);
 
         for record in records.iter() {
             writer.write(record).unwrap();

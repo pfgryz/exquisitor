@@ -1,6 +1,6 @@
-use crate::errors::InternalServerError;
-use crate::server::db;
-use crate::server::templates::HTMLTemplate;
+use crate::db;
+use crate::routes::errors::InternalServerError;
+use crate::templates::HTMLTemplate;
 use askama::Template;
 use axum::extract::Query;
 use axum::http::StatusCode;
