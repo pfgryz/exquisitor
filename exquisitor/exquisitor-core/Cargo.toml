@@ -7,6 +7,9 @@ license = "MIT"
 
 [dependencies]
 num-traits = "0.2.19"
+tempfile = "3"
+serde = { version = "1.0", features = ["derive"] }
 
 [dev-dependencies]
 float-cmp = "0.10.0"
+serde_json = "1.0"

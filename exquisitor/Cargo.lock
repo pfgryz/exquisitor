@@ -428,6 +428,9 @@ version = "0.1.0"
 dependencies = [
  "float-cmp",
  "num-traits",
+ "serde",
+ "serde_json",
+ "tempfile",
 ]
 
 [[package]]

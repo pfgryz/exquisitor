@@ -30,7 +30,7 @@ pub fn distance_matrix<Element>(
 }
 
 /// Calculates Euclidean distance between elements
-struct EuclideanDistance;
+pub struct EuclideanDistance;
 
 impl<T> DistanceMetric<Vec<T>> for EuclideanDistance
 where
