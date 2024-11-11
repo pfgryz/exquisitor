@@ -1,4 +1,6 @@
+/// Implementation of FASTQ format writer.
 use crate::io::fastq::record::FastqRecord;
+use crate::io::record::validate_record;
 use crate::io::sequence::Sequence;
 use crate::io::traits::{Record, Writer};
 use std::io;
@@ -30,30 +32,18 @@ where
     type Record = FastqRecord;
 
     fn write(&mut self, record: &Self::Record) -> IoResult<()> {
-        if record.id().is_empty() {
-            return Err(io::Error::new(
-                io::ErrorKind::InvalidInput,
-                "Record should have identifier",
-            ));
-        }
-
-        if record.sequence().length() == 0 {
-            return Err(io::Error::new(
-                io::ErrorKind::InvalidInput,
-                "Record should have non-empty sequence",
-            ));
-        }
+        validate_record(record)?;
 
         if record.quality().length() == 0 {
             return Err(io::Error::new(
-                io::ErrorKind::InvalidInput,
+                io::ErrorKind::Other,
                 "Record should have non-empty quality values",
             ));
         }
 
         if record.sequence().length() != record.quality().length() {
             return Err(io::Error::new(
-                io::ErrorKind::InvalidInput,
+                io::ErrorKind::Other,
                 "Record sequence length should match quality values length",
             ));
         }

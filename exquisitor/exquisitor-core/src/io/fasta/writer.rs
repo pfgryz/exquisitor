@@ -1,4 +1,6 @@
+/// Implementation of FASTA format writer.
 use crate::io::fasta::record::FastaRecord;
+use crate::io::record::validate_record;
 use crate::io::traits::{Record, Writer};
 use std::io;
 use std::io::Result as IoResult;
@@ -13,7 +15,7 @@ impl<R> FastaWriter<io::BufWriter<R>>
 where
     R: io::Write,
 {
-    /// Creates new FASTA writer
+    /// Creates new FASTA writer.
     pub fn new(writer: R, max_line_length: Option<usize>) -> Self {
         Self {
             writer: io::BufWriter::new(writer),
@@ -29,19 +31,7 @@ where
     type Record = FastaRecord;
 
     fn write(&mut self, record: &Self::Record) -> IoResult<()> {
-        if record.id().is_empty() {
-            return Err(io::Error::new(
-                io::ErrorKind::InvalidInput,
-                "Record should have identifier",
-            ));
-        }
-
-        if record.sequence().length() == 0 {
-            return Err(io::Error::new(
-                io::ErrorKind::InvalidInput,
-                "Record should have non-empty sequence",
-            ));
-        }
+        validate_record(record)?;
 
         write!(self.writer, ">{}", record.id())?;
 
