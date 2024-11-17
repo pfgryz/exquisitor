@@ -1,6 +1,8 @@
 /// Exquisitor errors
 use std::fmt;
 use std::fmt::Formatter;
+use std::io::{Error as IoError, ErrorKind};
+
 
 pub type ExquisitorResult<T> = Result<T, ExquisitorError>;
 
@@ -46,6 +48,12 @@ impl ExquisitorError {
 impl fmt::Display for ExquisitorError {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "{}: {}", self.kind, self.message)
+    }
+}
+
+impl From<ExquisitorError> for IoError {
+    fn from(value: ExquisitorError) -> Self {
+        IoError::new(ErrorKind::Other, value.to_string())
     }
 }
 
