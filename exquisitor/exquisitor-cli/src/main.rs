@@ -1,5 +1,5 @@
 use clap::{Parser, ValueEnum};
-use exquisitor_core::clustering::cluster::NaiveClustering;
+use exquisitor_core::clustering::cluster::{KMedoidClustering, NaiveClustering};
 use exquisitor_core::clustering::distance::{
     distance_matrix, DistanceMatrix, KMer, NeedlemanWunsch, SimilarityMatrix,
 };
@@ -69,7 +69,7 @@ struct ClusteringConfiguration {
     similarity_matrix_file: Option<PathBuf>,
 
     /// K parameter used in KMer algorithm
-    #[arg(long, required_if_eq("pipeline", "kmer"))]
+    #[arg(long, required_if_eq_any([("pipeline", "kmer"), ("clustering", "kmedoid")]))]
     k: Option<usize>,
 
     /// Max distance between clusters
@@ -199,9 +199,12 @@ fn cli() -> IoResult<()> {
                         "Missing max distance parameter",
                     ))?,
             )),
-            ClusteringMethod::KMedoid => {
-                todo!()
-            }
+            ClusteringMethod::KMedoid => Box::new(KMedoidClustering::new(
+                cli.clustering_configuration.k.ok_or(IoError::new(
+                    ErrorKind::Other,
+                    "Missing k parameter for KMedoids clustering",
+                ))?,
+            )),
         };
 
     let clusters = clustering_method.cluster(distance_matrix)?;

@@ -1,6 +1,7 @@
 use crate::clustering::distance::DistanceMatrix;
 use crate::clustering::traits::Clustering;
 use crate::result::ExquisitorResult;
+use kmedoids::ArrayAdapter;
 use std::fmt;
 use std::fmt::Formatter;
 
@@ -81,6 +82,47 @@ impl Clustering<DistanceMatrix> for NaiveClustering {
         }
 
         Ok(result)
+    }
+}
+
+pub struct KMedoidClustering {
+    k: usize,
+}
+
+impl KMedoidClustering {
+    pub fn new(k: usize) -> Self {
+        Self { k }
+    }
+}
+
+struct PackedDistanceMatrix(DistanceMatrix);
+
+impl ArrayAdapter<f64> for PackedDistanceMatrix {
+    fn len(&self) -> usize {
+        self.0.len()
+    }
+
+    fn is_square(&self) -> bool {
+        self.0.iter().all(|v| v.len() == self.0.len())
+    }
+
+    fn get(&self, x: usize, y: usize) -> f64 {
+        self.0[x][y]
+    }
+}
+
+impl Clustering<DistanceMatrix> for KMedoidClustering {
+    fn cluster(&self, distances: DistanceMatrix) -> ExquisitorResult<Vec<Cluster>> {
+        let distances = PackedDistanceMatrix(distances);
+        let mut meds =
+            kmedoids::random_initialization(distances.len(), self.k, &mut rand::thread_rng());
+        let (loss, assi, n_iter, n_swap): (f64, _, _, _) =
+            kmedoids::fasterpam(&distances, &mut meds, 100);
+
+        println!("Loss is: {}", loss);
+        println!("Meds {:?}", meds);
+
+        Ok(vec![])
     }
 }
 
