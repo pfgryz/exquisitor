@@ -268,7 +268,7 @@ fn create_similarity_matrix() -> SimilarityMatrix {
 
     for &x in ALPHABET {
         for &y in ALPHABET {
-            let value = if x == y { 1f64 } else { -1f64 };
+            let value = if x == y { 0f64 } else { 1f64 };
             similarity_matrix.insert((x, y), value);
         }
     }

@@ -1,51 +1,19 @@
-use std::fmt::Debug;
-use tch::{nn, Device, Kind, Tensor};
-use tch::nn::{Module, OptimizerConfig};
+use crate::neural::model::ModelConfig;
+use crate::neural::training::{train, TrainingConfig};
+use burn::backend::{Autodiff, Wgpu};
+use burn::optim::AdamConfig;
 
-#[derive(Debug)]
-struct Model {
-    fc1: nn::Linear,
-    fc2: nn::Linear,
-}
-
-impl Model {
-    fn new(vs: &nn::Path) -> Self {
-        let fc1 = nn::linear(vs / "fc1", 1, 32, Default::default());
-        let fc2 = nn::linear(vs / "fc2", 32, 1, Default::default());
-        Self { fc1, fc2 }
-    }
-}
-
-impl nn::Module for Model {
-    fn forward(&self, xs: &Tensor) -> Tensor {
-        xs.apply(&self.fc1).relu().apply(&self.fc2)
-    }
-}
+pub mod neural;
 
 fn main() {
-    let device = Device::cuda_if_available();
+    type LearnBackend = Wgpu<f32, i32>;
+    type LearnAutodiffBackend = Autodiff<LearnBackend>;
 
-    let vs = nn::VarStore::new(device);
-    let net = Model::new(&vs.root());
-
-    let inputs = Tensor::arange_start_step(1., 11., 1., (Kind::Float, device)).view([10, 1]);
-    let targets = (&inputs).to_kind(Kind::Float);
-
-
-    let mut opt = nn::Adam::default().build(&vs, 1e-3).unwrap();
-
-    for epoch in 1..20000 {
-        let predictions = net.forward(&inputs);
-        let loss = predictions.mse_loss(&targets, tch::Reduction::Mean);
-
-        opt.backward_step(&loss);
-
-        if epoch % 100 == 0 {
-            println!("Epoch: {}, Loss: {:.4}|", epoch, &loss);
-        }
-    }
-
-    let test_input = Tensor::from_slice(&[1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]).view([9, 1]).to(device).to_kind(Kind::Float);
-    let output = net.forward(&test_input);
-    println!("Test input: {}, Prediction: {}", test_input, output);
+    let device = burn::backend::wgpu::WgpuDevice::default();
+    let artifact_dir = "model0";
+    train::<LearnAutodiffBackend>(
+        artifact_dir,
+        TrainingConfig::new(ModelConfig::new(), AdamConfig::new(), 44),
+        device.clone(),
+    );
 }

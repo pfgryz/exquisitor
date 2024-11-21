@@ -1,9 +1,10 @@
 /// Module containing abstraction over DNA sequence.
 use std::fmt;
 use std::fmt::Formatter;
+use serde::{Deserialize, Serialize};
 
 /// Represents DNA sequence.
-#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[derive(Serialize, Deserialize, Clone, Eq, PartialEq, Hash, Debug)]
 pub struct Sequence {
     /// Sequence content.
     sequence: String,

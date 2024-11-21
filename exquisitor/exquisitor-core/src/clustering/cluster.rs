@@ -119,9 +119,6 @@ impl Clustering<DistanceMatrix> for KMedoidClustering {
         let (loss, assi, n_iter, n_swap): (f64, _, _, _) =
             kmedoids::fasterpam(&distances, &mut meds, 100);
 
-        println!("Loss is: {}", loss);
-        println!("Meds {:?}", meds);
-
         Ok(vec![])
     }
 }
