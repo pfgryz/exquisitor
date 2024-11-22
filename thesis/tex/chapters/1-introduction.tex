@@ -1,6 +1,139 @@
 \clearpage
 \section{Wprowadzenie}
 
+Odkrycie DNA zapoczątkowało nową erę w biologii oraz medycynie, umożliwiając badania
+nad mechanizmami dziedziczenia [1] i molekularnymi podstawami życia oraz precyzyjną 
+diagnostykę wielu chorób [2]. Pierwsze kroki na tej drodze uczynił w 1869 roku 
+Friedrich Miescher, który po raz pierwszy wyizolował z jądra komórkowego substancję 
+nazwaną przez niego "nukleiną" [3], później zidentyfikowaną jako kwas deoksyrybonukleinowy. 
+W latach 1895 - 1901 Albrecht Kossel wyizolował oraz nazwał cztery podstawowe zasady 
+azotowe budujące kwas deoksyrybonukleinowy - adeninę, tyminę, cytozynę oraz guaninę [4].
+Przełomowe znaczenie DNA w przenoszeniu informacji genetycznej wykazano jednak dopiero 
+w 1944 roku dzięki eksperymentowi Avery'ego-MacLeoda-McCarty'ego [5], w którym udowodnili, 
+że to DNA, a nie białka są nośnikiem informacji. 
+W 1951 roku Erwin Chargaff odkrył prawidłowość, że ilość adeniny w DNA jest porównywalna
+ilości tyminy, a ilość guaniny ilości cytozyny [6]. Prawidłowość ta, nazwana później zasadami
+Chargaffa, stała się jedną z kluczowych przesłanek do odkrycia struktury podwójnej helisy 
+DNA przez Watsona i Cricka w 1953 roku [7].
+
+W 1970 Francis Crick sformułował centralny dogmat biologii molekularnej [8], który głosi,
+że informacja genetyczna przepływa z DNA do RNA, a następnie do białek, tworząc 
+fundament współczesnej biologii molekularnej. Dalsze przełomowe odkrycia metod sekwencjonowania,
+opracowane w 1976 roku przez Allana Maxima oraz Waltera Gilberta [9], a także w 1977 roku 
+przez Fredericka Sangera [10], pozwoliły na odczytywanie sekwencji DNA dowolnych organizmów, 
+otwierając nowe możliwości badań nad DNA oraz przepływem informacji genetycznej. 
+W tym samym czasie zespołowi Fredericka Sangera za pomocą nowej metody udało się 
+po raz pierwszy zsekwencjonować w całości materiał genetyczny wirusa DNA - 
+bakteriofaga ΦX174 [11]. Odkrycie te uwypukliło ograniczenia tradycyjnych metod 
+analizy i wykazało konieczność zastosowania komputerów do przetwarzania sekwencji DNA. [12]
+
+W miarę postępu badań nad sekwencjami DNA, zespoły badawcze zaczęły gromadzić sekwencje 
+w celu dalszych analiz i porównań. Pod koniec lat 70. XX wieku pojawiła się potrzeba 
+stworzenia bazy danych, która umożliwiłaby gromadzenie sekwencji w celu ich późniejszego 
+wykorzystania oraz redukcji kosztów badań. Odpowiedzią na to zapotrzebowanie było 
+sfinansowanie bazy danych GenBank w 1982 w Stanach Zjednoczonych[13] oraz 
+europejskiej bazy danych EBML Data Library w 1980 roku [14]. W 1983 roku 
+Johnowi Wilburowi oraz Davidowi Lipmanowi udało się opracować algorytm wyszukiwania
+podobnych sekwencji w bazach danych [15], co pozwoliło na szybkie porównywanie sekwencji 
+genetycznych. W 1990 roku wprowadzono narzędzie BLAST [16], które przyśpieszyło ten 
+proces.
+
+Pierwszy pomysł na analizę materiału genetycznego organizmów obecnych w glebie bez 
+konieczności ich hodowli został zaproponowany w 1998 roku przez Jo Handlesmana i 
+jego zespół [17]. Wykorzystanie informacji o materiale genetycznym znalezionym w 
+środowisku, w połączeniu z bazami danych sekwencji, umożliwia identyfikację organizmów 
+obecnych w badanej próbce [??]. Proces analizy dużej liczby sekwencji DNA oraz ich 
+porównywania z bazami danych wymaga jednak znacznych zasobów obliczeniowych.
+
+Wraz z rozwojem metod sekwencjonowania nowej generacji [18], koszty sekwencjonowania 
+znacząco spadły, a liczba analizowanych sekwencji DNA znacznie wzrosła [19]. Dalsze 
+gromadzenie danych sekwencyjnych oraz wzrost przepustowości technologii sekwencjonowania 
+prowadzą do zwiększonego zapotrzebowania na zasoby obliczeniowe.
+
+
+---- REFERENCES 
+1. XYZ
+2. https://pmc.ncbi.nlm.nih.gov/articles/PMC80298/
+3. https://www.sciencedirect.com/science/article/pii/S0012160604008231?via%3Dihub
+4. Kossel, A. and Neumann, A.: Ueber das Thymin ein Spaltungsprodukt der Nucleinsaure. Ber. Deut. chem. Ges., 1893, 26, 2753.
+5. https://pubmed.ncbi.nlm.nih.gov/19871359/c
+6. https://www.sciencedirect.com/science/article/pii/S0021925819508845?via%3Dihub
+7. https://www.nature.com/articles/171737a0
+
+8. https://pubmed.ncbi.nlm.nih.gov/4913914/
+9. https://pubmed.ncbi.nlm.nih.gov/265521/
+10. https://pubmed.ncbi.nlm.nih.gov/271968/
+11. https://pubmed.ncbi.nlm.nih.gov/870828/
+12. https://pmc.ncbi.nlm.nih.gov/articles/PMC327874/
+
+13. https://doi.org/10.1093/nar/14.1.1
+14. https://pmc.ncbi.nlm.nih.gov/articles/PMC333983/
+15. https://pubmed.ncbi.nlm.nih.gov/6572363/
+16. https://pubmed.ncbi.nlm.nih.gov/2231712/
+
+17. https://www.sciencedirect.com/science/article/pii/S1074552198901089?via%3Dihub 
+18. https://pubmed.ncbi.nlm.nih.gov/15251069/
+19. https://pmc.ncbi.nlm.nih.gov/articles/PMC4806511/
+
+
+
+\subsection {
+    Cel pracy dyplomowej
+}
+
+Celem niniejszje pracy jest stworzenie projektu oraz implementacja aplikacji 
+umożliwiającej użytkownikowi zlecanie analiz materiału genetycznego DNA pobranego
+z środowiska. Aplikacja ma usprawnić proces przeprowadzania analiz oraz proces 
+agregacji końcowych wyników do postaci czytelnej przez człowieka.
+
+\subsection {
+    Zakres pracy
+}
+
+Zakres pracy obejmuje:
+\begin{itemize}
+    \item Projekt i implementację aplikacji do analizy materiału genetycznego.
+    \item Klienta przeglądarkowego pozwalającego na zlecanie nowych analiz.
+    \item {
+        Funkcjonalności pozwalające na wczytanie sekwencji DNA w formacie FASTA oraz FASTQ
+        oraz wyszukiwanie w bazie danych NCBI BLAST
+    }
+    \item Implementację własnej metody porównywania sekwencji 
+    \item Eksperymenty wydajnościowe oraz jakościowe klasycznych metod oraz metody własnej
+\end{itemize}
+
+Praca nie obejmuje:
+\begin{itemize}
+    \item Wdrożenia aplikacji w środowisku produkcyjnym
+    \item Wykorzystania innych baz sekwencji
+    \item Wersji mobilnej klienta przeglądarkowego
+\end{itemize}
+
+\subsection {
+    Układ pracy
+}
+
+Niniejsza praca składa się z następujących rozdziałów:
+
+\begin{itemize}
+    \item Rozdział X. - 
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+% ====================================================================================
+
+
 **TODO** [ok. 3 strony]
 
 \begin{enumerate}
@@ -9,3 +142,6 @@
     \item Zakres pracy (jak zamierzam zrobić) [1 akapit]
     \item Układ pracy (co w którym rozdziale) [1 akapit]
 \end{enumerate}
+
+
+
