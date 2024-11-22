@@ -16,14 +16,14 @@ pub struct TrainingConfig {
     pub model: ModelConfig,
 
     /// Number of epochs
-    #[config(defualt = 100)]
+    #[config(defualt = 1000)]
     pub num_epochs: usize,
 
     /// Optimizer
     pub optimizer: AdamConfig,
 
     /// Learning rate for optimizer,
-    #[config(default = 1e-4)]
+    #[config(default = 1e-5)]
     pub learning_rate: f64,
 
     /// Sequence length
