@@ -1,5 +1,5 @@
 use clap::{Parser, ValueEnum};
-use exquisitor_core::clustering::cluster::{KMedoidClustering, NaiveClustering};
+use exquisitor_core::clustering::cluster::{save_clustering_data, KMedoidClustering, NaiveClustering};
 use exquisitor_core::clustering::distance::{
     distance_matrix, DistanceMatrix, KMer, NeedlemanWunsch, SimilarityMatrix,
 };
@@ -10,7 +10,7 @@ use exquisitor_core::io::fastq::reader::FastqReader;
 use exquisitor_core::io::sequence::Sequence;
 use exquisitor_core::io::traits::{Reader, Record};
 use exquisitor_core::searching::blast::Blast;
-use exquisitor_core::searching::organism::filter_matches;
+use exquisitor_core::searching::organism::{filter_matches, save_found_organisms};
 use exquisitor_core::searching::traits::DatabaseSearch;
 use std::cmp::PartialEq;
 use std::collections::HashMap;
@@ -33,6 +33,10 @@ struct Cli {
     #[arg(short, long)]
     input: PathBuf,
 
+    /// Path to the output file
+    #[arg(short, long)]
+    output: Option<PathBuf>,
+
     /// File format of the input file
     #[arg(long, value_enum, default_value_t = FileFormat::Auto)]
     file_format: FileFormat,
@@ -44,6 +48,10 @@ struct Cli {
     /// Clustering configuration
     #[command(flatten)]
     clustering_configuration: ClusteringConfiguration,
+
+    /// Print only clustering results
+    #[arg(long, action)]
+    only_cluster: bool,
 
     /// Database configuration
     #[command(flatten)]
@@ -211,6 +219,17 @@ fn cli() -> IoResult<()> {
 
     debug!("Clustered into {}", clusters.len());
 
+    if cli.only_cluster {
+        if let Some(path) = cli.output {
+            let mut file = File::create(path.clone())?;
+            save_clustering_data(&mut file, &clusters)?;
+
+            debug!("Saved clusters to {}", path.to_string_lossy());
+        }
+
+        return Ok(());
+    }
+
     let representatives = clusters
         .iter()
         .filter_map(|c| sequences.get(c.representative()))
@@ -224,9 +243,16 @@ fn cli() -> IoResult<()> {
     let matches = database.search(representatives)?;
     let found = filter_matches(&matches, &clusters, sequences.len());
 
-    info!("Found {}", found.len());
-    for found in found {
-        info!("- {}", found.name());
+    if let Some(path) = cli.output {
+        let mut file = File::create(path.clone())?;
+        save_found_organisms(&mut file, &found)?;
+
+        debug!("Saved result to {}", path.to_string_lossy());
+    } else {
+        info!("Found {}", found.len());
+        for found in found {
+            info!("- {}", found.name());
+        }
     }
 
     Ok(())

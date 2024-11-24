@@ -2,10 +2,13 @@ use crate::clustering::distance::DistanceMatrix;
 use crate::clustering::traits::Clustering;
 use crate::result::ExquisitorResult;
 use kmedoids::ArrayAdapter;
+use serde::Deserialize;
+use serde::Serialize;
 use std::fmt;
 use std::fmt::Formatter;
+use std::io::{Read, Result as IoResult, Write};
 
-#[derive(Clone, Eq, PartialEq, Hash, Debug)]
+#[derive(Clone, Eq, PartialEq, Hash, Serialize, Deserialize, Debug)]
 pub struct Cluster {
     representative_id: usize,
     elements_ids: Vec<usize>,
@@ -121,6 +124,21 @@ impl Clustering<DistanceMatrix> for KMedoidClustering {
 
         Ok(vec![])
     }
+}
+
+// @TODO: Need tests
+pub fn save_clustering_data(buffer: &mut dyn Write, clusters: &Vec<Cluster>) -> IoResult<()> {
+    let json = serde_json::to_string(&clusters)?;
+    buffer.write_all(json.as_bytes())?;
+    Ok(())
+}
+
+// @TODO: Need tests
+pub fn load_clustering_data(buffer: &mut dyn Read) -> IoResult<Vec<Cluster>> {
+    let mut data = String::new();
+    buffer.read_to_string(&mut data)?;
+    let vec: Vec<Cluster> = serde_json::from_str(&data)?;
+    Ok(vec)
 }
 
 #[cfg(test)]
