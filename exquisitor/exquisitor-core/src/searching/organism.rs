@@ -67,11 +67,8 @@ pub fn save_found_organisms(
 
 pub fn load_found_organisms(buffer: &mut dyn Read) -> std::io::Result<Vec<OrganismFound>> {
     let mut data = String::new();
-    println!("Data");
     buffer.read_to_string(&mut data)?;
-    println!("Read");
     let vec: Vec<OrganismFound> = serde_json::from_str(&data).unwrap();
-    println!("Vec");
     Ok(vec)
 }
 
@@ -82,7 +79,7 @@ pub fn filter_matches(matches: &Vec<OrganismMatch>, clusters: &Vec<Cluster>, n_s
         let cluster = clusters.get(organism_match.sequence_id()).unwrap();
 
         let match_score = organism_match.confidence_score()
-            * cluster.sequence_ids().len() as f64
+            * (cluster.sequence_ids().len() as f64 + 1.0)
             / n_sequences as f64;
 
         match found.get_mut(organism_match.name()) {
