@@ -5,7 +5,7 @@ use burn::nn::{BatchNorm, BatchNormConfig, Gelu, Linear, LinearConfig};
 use burn::prelude::{Backend, Config, Module, Tensor};
 use burn::tensor::backend::AutodiffBackend;
 use burn::train::{RegressionOutput, TrainOutput, TrainStep, ValidStep};
-use exquisitor_core::clustering::ALPHABET;
+use crate::clustering::ALPHABET;
 
 #[derive(Module, Debug)]
 pub struct Model<B: Backend> {
@@ -79,7 +79,7 @@ impl ModelConfig {
             conv2: Conv1dBlock::new(4, 16, 1, 1, device),
             fc1: LinearConfig::new(input_size * ALPHABET.len() * 16, 128).init(device),
             fc2: LinearConfig::new(128, 64).init(device),
-            loss: ContrastiveLossConfig::new().init::<B>(device, 1.0, 0.0),
+            loss: ContrastiveLossConfig::new().init::<B>(1.0, 0.0),
             activation: Default::default(),
         }
     }

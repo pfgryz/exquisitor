@@ -165,6 +165,49 @@ impl DistanceMetric<Sequence> for KMer {
     }
 }
 
+pub struct CosineDistance;
+
+impl<T> DistanceMetric<Vec<T>> for CosineDistance
+where
+    T: Clone + One + Mul<T, Output = T> + Into<f64>,
+    for<'a> &'a T: Sub<&'a T, Output = T>,
+    for<'a> &'a T: Mul<&'a T, Output = T>,
+{
+    fn distance(&self, a: &Vec<T>, b: &Vec<T>) -> ExquisitorResult<f64> {
+        if a.len() != b.len() {
+            return Err(ExquisitorError::new(
+                ExquisitorErrorKind::UnequalSequenceLengths,
+                format!("{} vs {}", a.len(), b.len()),
+            ));
+        }
+
+        let magnitude = |x: &Vec<T>| {
+            x.iter()
+                .map(|x| x * x)
+                .map(|x| x.into())
+                .sum::<f64>()
+                .sqrt()
+        };
+
+        let dot = a
+            .iter()
+            .zip(b.iter())
+            .map(|(x, y)| x * y)
+            .map(|x| x.into())
+            .sum::<f64>();
+        let magnitude_a: f64 = magnitude(a);
+        let magnitude_b: f64 = magnitude(b);
+
+        if magnitude_a == 0.0 || magnitude_b == 0.0 {
+            return Ok(0.0f64);
+        }
+
+        let cosine_similarity = dot / magnitude_a / magnitude_b;
+
+        Ok(1.0 - cosine_similarity)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -315,6 +358,35 @@ mod tests {
 
         assert!(distance.is_ok());
         assert_approx_eq!(f64, distance.unwrap(), 2f64);
+    }
+
+    // endregion
+
+    // region Cosine Distance
+
+    #[test]
+    fn test_cosine_distance_unequal_lengths() {
+        let distance = CosineDistance.distance(&vec![0.0f64, 0.0f64], &vec![1.0f64]);
+
+        assert!(distance.is_err());
+        assert_eq!(
+            distance.unwrap_err().kind(),
+            &ExquisitorErrorKind::UnequalSequenceLengths
+        );
+    }
+
+    #[test]
+    fn test_cosine_distance_zero_magnitude() {
+        let distance = CosineDistance.distance(&vec![0.0f64, 0.0f64], &vec![1.0f64, 2.0f64]);
+
+        assert_eq!(distance, Ok(0.0f64));
+    }
+
+    #[test]
+    fn test_cosine_distance() {
+        let distance = CosineDistance.distance(&vec![0.0f64, 1.0f64], &vec![1.0f64, 0.0f64]);
+
+        assert_eq!(distance, Ok(1.0f64));
     }
 
     // endregion

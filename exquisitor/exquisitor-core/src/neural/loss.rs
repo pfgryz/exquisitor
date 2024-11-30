@@ -6,7 +6,6 @@ pub struct ContrastiveLossConfig;
 impl ContrastiveLossConfig {
     pub fn init<B: Backend>(
         &self,
-        device: &B::Device,
         margin_positive: f64,
         margin_negative: f64,
     ) -> ContrastiveLoss {
@@ -70,12 +69,13 @@ mod tests {
     use super::*;
     use burn::backend::Wgpu;
     use burn::prelude::TensorData;
+    use float_cmp::assert_approx_eq;
 
     #[test]
     fn test_contrastive_loss() {
         type TestBackend = Wgpu;
         let device = &Default::default();
-        let loss = ContrastiveLossConfig::new().init::<TestBackend>(device, 1.0, 0.0f64);
+        let loss = ContrastiveLossConfig::new().init::<TestBackend>( 1.0, 0.0f64);
 
         let anchor = Tensor::<TestBackend, 2>::from_data(
             TensorData::from([[1.0, 0.0], [0.0, 1.0]]),
@@ -91,7 +91,6 @@ mod tests {
         );
 
         let l = loss.forward(anchor, positive, negative);
-
-        assert!(false);
+        assert_approx_eq!(f32, l.into_data().to_vec::<f32>().unwrap()[0], 0.7928932f32);
     }
 }

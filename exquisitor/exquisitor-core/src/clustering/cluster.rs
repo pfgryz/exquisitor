@@ -117,12 +117,22 @@ impl ArrayAdapter<f64> for PackedDistanceMatrix {
 impl Clustering<DistanceMatrix> for KMedoidClustering {
     fn cluster(&self, distances: DistanceMatrix) -> ExquisitorResult<Vec<Cluster>> {
         let distances = PackedDistanceMatrix(distances);
-        let mut meds =
+        let mut medoids =
             kmedoids::random_initialization(distances.len(), self.k, &mut rand::thread_rng());
-        let (loss, assi, n_iter, n_swap): (f64, _, _, _) =
-            kmedoids::fasterpam(&distances, &mut meds, 100);
+        let (_, assignments, _, _): (f64, _, _, _) =
+            kmedoids::fasterpam(&distances, &mut medoids, 100);
 
-        Ok(vec![])
+        let mut clusters: Vec<Vec<usize>> = vec![Vec::new(); self.k];
+
+        for (idx, assign) in assignments.iter().enumerate() {
+            clusters[*assign].push(idx);
+        }
+
+        Ok(medoids
+            .iter()
+            .zip(clusters.iter())
+            .map(|(representative, members)| Cluster::new(*representative, members.to_owned()))
+            .collect::<Vec<_>>())
     }
 }
 

@@ -1,8 +1,8 @@
+use crate::clustering::ALPHABET;
 use burn::data::dataloader::batcher::Batcher;
 use burn::data::dataloader::Dataset;
 use burn::data::dataset::InMemDataset;
 use burn::prelude::{Backend, Tensor};
-use exquisitor_core::clustering::ALPHABET;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::io::Result as IoResult;
@@ -20,7 +20,7 @@ pub struct SequencesDataset {
 
 impl SequencesDataset {
     pub fn new(path: &str) -> IoResult<Self> {
-        let mut reader = csv::ReaderBuilder::new();
+        let reader = csv::ReaderBuilder::new();
         let dataset = InMemDataset::from_csv(path, &reader).unwrap();
 
         Ok(Self { dataset })
@@ -55,7 +55,7 @@ impl<B: Backend> SequencesBatcher<B> {
     }
 }
 
-fn one_hot_encode<B: Backend>(device: &B::Device, s: &str, alphabet: &[char]) -> Tensor<B, 1> {
+pub fn encode_sequence<B: Backend>(device: &B::Device, s: &str, alphabet: &[char]) -> Tensor<B, 1> {
     let mut char_index = HashMap::new();
 
     for (i, &ch) in alphabet.iter().enumerate() {
@@ -75,19 +75,19 @@ impl<B: Backend> Batcher<SequencesRecord, SequencesBatch<B>> for SequencesBatche
     fn batch(&self, items: Vec<SequencesRecord>) -> SequencesBatch<B> {
         let anchors = items
             .iter()
-            .map(|item| one_hot_encode::<B>(&self.device, &item.anchor, ALPHABET))
+            .map(|item| encode_sequence::<B>(&self.device, &item.anchor, ALPHABET))
             .map(|tensor| tensor.unsqueeze_dim::<2>(0))
             .collect();
 
         let positive = items
             .iter()
-            .map(|item| one_hot_encode::<B>(&self.device, &item.positive, ALPHABET))
+            .map(|item| encode_sequence::<B>(&self.device, &item.positive, ALPHABET))
             .map(|tensor| tensor.unsqueeze_dim::<2>(0))
             .collect();
 
         let negative = items
             .iter()
-            .map(|item| one_hot_encode::<B>(&self.device, &item.negative, ALPHABET))
+            .map(|item| encode_sequence::<B>(&self.device, &item.negative, ALPHABET))
             .map(|tensor| tensor.unsqueeze_dim::<2>(0))
             .collect();
 

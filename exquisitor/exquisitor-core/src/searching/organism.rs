@@ -79,7 +79,7 @@ pub fn filter_matches(matches: &Vec<OrganismMatch>, clusters: &Vec<Cluster>, n_s
         let cluster = clusters.get(organism_match.sequence_id()).unwrap();
 
         let match_score = organism_match.confidence_score()
-            * (cluster.sequence_ids().len() as f64 + 1.0)
+            * (cluster.sequence_ids().len() as f64)
             / n_sequences as f64;
 
         match found.get_mut(organism_match.name()) {

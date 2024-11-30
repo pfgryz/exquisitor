@@ -1,8 +1,10 @@
+use burn::backend::{Wgpu};
 use clap::{Parser, ValueEnum};
-use exquisitor_core::clustering::cluster::{save_clustering_data, KMedoidClustering, NaiveClustering};
-use exquisitor_core::clustering::distance::{
-    distance_matrix, DistanceMatrix, KMer, NeedlemanWunsch, SimilarityMatrix,
+use exquisitor_core::clustering::cluster::{
+    save_clustering_data, KMedoidClustering, NaiveClustering,
 };
+use exquisitor_core::clustering::distance::{distance_matrix, CosineDistance, DistanceMatrix, KMer, NeedlemanWunsch, SimilarityMatrix};
+use exquisitor_core::clustering::neural::NeuralEmbedder;
 use exquisitor_core::clustering::traits::Clustering;
 use exquisitor_core::clustering::ALPHABET;
 use exquisitor_core::io::fasta::reader::FastaReader;
@@ -19,6 +21,7 @@ use std::fs::File;
 use std::io::{Error as IoError, ErrorKind, Result as IoResult};
 use std::path::PathBuf;
 use std::{fmt, process};
+use burn::backend::wgpu::WgpuDevice;
 use tracing::{debug, info};
 
 #[derive(Parser, Debug)]
@@ -79,6 +82,10 @@ struct ClusteringConfiguration {
     /// K parameter used in KMer algorithm
     #[arg(long, required_if_eq_any([("pipeline", "kmer"), ("clustering", "kmedoid")]))]
     k: Option<usize>,
+
+    /// Path to neural model
+    #[arg(long, required_if_eq("pipeline", "neural"))]
+    model: Option<String>,
 
     /// Max distance between clusters
     #[arg(long, required_if_eq("clustering", "naive"))]
@@ -191,9 +198,35 @@ fn cli() -> IoResult<()> {
             distance_matrix(&sequences, &distance_metric)?
         }
         Pipeline::Neural => {
-            todo!()
+            let device: WgpuDevice = Default::default();
+            let embedder = NeuralEmbedder::<Wgpu<f32, i32>>::new(
+                &cli.clustering_configuration.model.ok_or(IoError::new(
+                    ErrorKind::Other,
+                    "Missing path to neural model",
+                ))?,
+                device.clone(),
+            )?;
+            debug!("Neural model loaded!");
+
+            let embeddings = embedder.embed(device.clone(), &sequences);
+            debug!("Embeddings ready!");
+
+            let embeddings = embeddings
+                .iter_dim(0)
+                .map(|t| t.to_data().to_vec::<f32>().unwrap())
+                .collect::<Vec<_>>();
+
+            for embed in &embeddings {
+                debug!("{:?}", embed);
+            }
+
+            distance_matrix(&embeddings, &CosineDistance)?
         }
     };
+    
+    for line in &distance_matrix {
+        println!("{:?}", line);
+    }
 
     debug!("Calculated distance matrix");
 

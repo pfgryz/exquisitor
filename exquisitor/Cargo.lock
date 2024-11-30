@@ -1651,6 +1651,7 @@ dependencies = [
 name = "exquisitor-cli"
 version = "0.1.0"
 dependencies = [
+ "burn",
  "clap",
  "exquisitor-core",
  "tracing",

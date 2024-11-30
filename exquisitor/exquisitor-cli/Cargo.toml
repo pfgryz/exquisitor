@@ -10,3 +10,4 @@ clap = { version = "4.5.20", features = ["derive"] }
 exquisitor-core = { path = "../exquisitor-core" }
 tracing = "0.1"
 tracing-subscriber = "0.3.18"
+burn = { version = "0.15.0", features = ["wgpu"] }

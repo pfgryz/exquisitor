@@ -1,5 +1,7 @@
 pub mod cluster;
 pub mod distance;
+pub mod neural;
+
 pub mod traits;
 
 /// Nucleotide alphabet

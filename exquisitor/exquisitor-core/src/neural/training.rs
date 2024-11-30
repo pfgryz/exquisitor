@@ -4,7 +4,7 @@ use burn::config::Config;
 use burn::data::dataloader::DataLoaderBuilder;
 use burn::module::Module;
 use burn::optim::AdamConfig;
-use burn::record::CompactRecorder;
+use burn::record::{BinGzFileRecorder, CompactRecorder, FullPrecisionSettings};
 use burn::tensor::backend::AutodiffBackend;
 use burn::train::metric::LossMetric;
 use burn::train::LearnerBuilder;
@@ -34,7 +34,7 @@ pub struct TrainingConfig {
     #[config(default = 128)]
     pub batch_size: usize,
 
-    #[config(default = 4)]
+    #[config(default = 8)]
     /// Number of workers
     pub num_workers: usize,
 
@@ -91,8 +91,10 @@ pub fn train<B: AutodiffBackend>(artifact_dir: &str, config: TrainingConfig, dev
     // Train
     let trained_model = learner.fit(dataloader_train, dataloader_validate);
 
-    // // Save
+    // Save
+    config.save(format!("{artifact_dir}/config.json"))
+        .expect("Training config should be saved!");
     trained_model
-        .save_file(format!("{artifact_dir}/model.bin"), &CompactRecorder::new())
+        .save_file(format!("{artifact_dir}/model.bin"), &BinGzFileRecorder::<FullPrecisionSettings>::new())
         .expect("Trained model should be saved!");
 }

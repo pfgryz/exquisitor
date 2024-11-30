@@ -1,16 +1,14 @@
-use crate::neural::model::ModelConfig;
-use crate::neural::training::{train, TrainingConfig};
 use burn::backend::{Autodiff, Wgpu};
 use burn::optim::AdamConfig;
-
-pub mod neural;
+use exquisitor_core::neural::model::ModelConfig;
+use exquisitor_core::neural::training::{train, TrainingConfig};
 
 fn main() {
     type LearnBackend = Wgpu<f32, i32>;
     type LearnAutodiffBackend = Autodiff<LearnBackend>;
 
     let device = burn::backend::wgpu::WgpuDevice::default();
-    let artifact_dir = "model0";
+    let artifact_dir = "model1";
     train::<LearnAutodiffBackend>(
         artifact_dir,
         TrainingConfig::new(ModelConfig::new(), AdamConfig::new(), 44).with_sequence_length(4),
