@@ -1663,11 +1663,13 @@ name = "exquisitor-core"
 version = "0.1.0"
 dependencies = [
  "burn",
+ "clap",
  "csv",
  "float-cmp",
  "kmedoids",
  "num-traits",
  "rand",
+ "rayon",
  "serde",
  "serde_json",
  "tempfile",

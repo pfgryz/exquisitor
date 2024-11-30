@@ -11,7 +11,7 @@ fn main() {
     let artifact_dir = "model1";
     train::<LearnAutodiffBackend>(
         artifact_dir,
-        TrainingConfig::new(ModelConfig::new(), AdamConfig::new(), 44).with_sequence_length(4),
+        TrainingConfig::new(ModelConfig::new(), AdamConfig::new(), 44).with_sequence_length(1000),
         device.clone(),
     );
 }
