@@ -34,7 +34,7 @@ pub struct TrainingConfig {
     #[config(default = 32)]
     pub batch_size: usize,
 
-    #[config(default = 2)]
+    #[config(default = 8)]
     /// Number of workers
     pub num_workers: usize,
 
@@ -53,8 +53,8 @@ pub fn train<B: AutodiffBackend>(artifact_dir: &str, config: TrainingConfig, dev
     B::seed(config.seed);
 
     // Batching
-    let batcher_train = SequencesBatcher::new();
-    let batcher_validate = SequencesBatcher::new();
+    let batcher_train = SequencesBatcher::<B>::new(device.clone());
+    let batcher_validate = SequencesBatcher::<B::InnerBackend>::new(device.clone());
 
     match env::current_dir() {
         Ok(path) => println!("Current working directory: {}", path.display()),
@@ -65,17 +65,14 @@ pub fn train<B: AutodiffBackend>(artifact_dir: &str, config: TrainingConfig, dev
     let dataloader_train = DataLoaderBuilder::new(batcher_train)
         .batch_size(config.batch_size)
         .shuffle(config.seed)
-        .num_workers(config.num_workers * 2)
-        .build(SequencesDataset::<B>::new(device.clone(), "data/training.csv").unwrap());
+        .num_workers(config.num_workers)
+        .build(SequencesDataset::new("data/training.csv").unwrap());
 
     let dataloader_validate = DataLoaderBuilder::new(batcher_validate)
         .batch_size(config.batch_size)
         .shuffle(config.seed)
         .num_workers(config.num_workers)
-        .build(
-            SequencesDataset::<B::InnerBackend>::new(device.clone(), "data/validation.csv")
-                .unwrap(),
-        );
+        .build(SequencesDataset::new("data/validation.csv").unwrap());
 
     // Learning
     let learner = LearnerBuilder::new(artifact_dir)

@@ -3,9 +3,6 @@ use burn::data::dataloader::batcher::Batcher;
 use burn::data::dataloader::Dataset;
 use burn::data::dataset::InMemDataset;
 use burn::prelude::{Backend, Tensor};
-use burn::tensor::TensorData;
-use rayon::iter::IntoParallelRefIterator;
-use rayon::iter::ParallelIterator;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::io::Result as IoResult;
@@ -24,8 +21,8 @@ pub struct SequencesEncodedRecord<B: Backend> {
     negative: Tensor<B, 2>,
 }
 
-pub struct SequencesDataset<B: Backend> {
-    items: Vec<SequencesEncodedRecord<B>>,
+pub struct SequencesDataset {
+    dataset: InMemDataset<SequencesRecord>,
 }
 
 fn one_hot(s: &str, alphabet: &[char]) -> Vec<f32> {
@@ -45,48 +42,31 @@ fn one_hot(s: &str, alphabet: &[char]) -> Vec<f32> {
 }
 
 pub fn encode_sequence<B: Backend>(device: &B::Device, s: &str, alphabet: &[char]) -> Tensor<B, 2> {
-    Tensor::from_data(TensorData::new(one_hot(s, alphabet), [1, s.len() * alphabet.len()]), device)
+    Tensor::<B, 1>::from_data(one_hot(s, alphabet).as_slice(), device).unsqueeze_dim::<2>(0)
 }
-
-fn encode_record<B: Backend>(
-    device: B::Device,
-    record: &SequencesRecord,
-) -> SequencesEncodedRecord<B> {
-    SequencesEncodedRecord {
-        anchor: encode_sequence(&device, &record.anchor, ALPHABET),
-        positive: encode_sequence(&device, &record.positive, ALPHABET),
-        negative: encode_sequence(&device, &record.negative, ALPHABET),
-    }
-}
-
-impl<B: Backend> SequencesDataset<B> {
-    pub fn new(device: B::Device, path: &str) -> IoResult<Self> {
+impl SequencesDataset {
+    pub fn new(path: &str) -> IoResult<Self> {
         let reader = csv::ReaderBuilder::new();
         let dataset = InMemDataset::from_csv(path, &reader).unwrap();
 
-        let items = dataset
-            .iter()
-            .collect::<Vec<_>>()
-            .par_iter()
-            .map(|record| encode_record(device.clone(), record))
-            .collect();
-
-        Ok(Self { items })
+        Ok(Self { dataset })
     }
 }
 
-impl<B: Backend> Dataset<SequencesEncodedRecord<B>> for SequencesDataset<B> {
-    fn get(&self, index: usize) -> Option<SequencesEncodedRecord<B>> {
-        self.items.get(index).cloned()
+impl Dataset<SequencesRecord> for SequencesDataset {
+    fn get(&self, index: usize) -> Option<SequencesRecord> {
+        self.dataset.get(index)
     }
 
     fn len(&self) -> usize {
-        self.items.len()
+        self.dataset.len()
     }
 }
 
 #[derive(Clone, Debug)]
-pub struct SequencesBatcher;
+pub struct SequencesBatcher<B: Backend> {
+    device: B::Device,
+}
 
 #[derive(Clone, Debug)]
 pub struct SequencesBatch<B: Backend> {
@@ -95,17 +75,26 @@ pub struct SequencesBatch<B: Backend> {
     pub(crate) negative: Tensor<B, 2>,
 }
 
-impl SequencesBatcher {
-    pub fn new() -> Self {
-        Self {}
+impl<B: Backend> SequencesBatcher<B> {
+    pub fn new(device: B::Device) -> Self {
+        Self { device }
     }
 }
 
-impl<B: Backend> Batcher<SequencesEncodedRecord<B>, SequencesBatch<B>> for SequencesBatcher {
-    fn batch(&self, items: Vec<SequencesEncodedRecord<B>>) -> SequencesBatch<B> {
-        let anchors = items.iter().map(|item| item.anchor.to_owned()).collect();
-        let positive = items.iter().map(|item| item.positive.to_owned()).collect();
-        let negative = items.iter().map(|item| item.negative.to_owned()).collect();
+impl<B: Backend> Batcher<SequencesRecord, SequencesBatch<B>> for SequencesBatcher<B> {
+    fn batch(&self, items: Vec<SequencesRecord>) -> SequencesBatch<B> {
+        let anchors = items
+            .iter()
+            .map(|item| encode_sequence(&self.device, &item.anchor, ALPHABET))
+            .collect();
+        let positive = items
+            .iter()
+            .map(|item| encode_sequence(&self.device, &item.positive, ALPHABET))
+            .collect();
+        let negative = items
+            .iter()
+            .map(|item| encode_sequence(&self.device, &item.negative, ALPHABET))
+            .collect();
 
         let anchors = Tensor::cat(anchors, 0);
         let positive = Tensor::cat(positive, 0);
