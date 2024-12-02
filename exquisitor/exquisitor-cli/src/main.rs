@@ -4,11 +4,7 @@ use crate::commands::clusters::{compare_clusters, CompareClustersCommand};
 use crate::commands::compare::{compare, CompareCommand};
 use crate::commands::experiment::{experiment, ExperimentCommand};
 use crate::commands::run::{run, RunCommand};
-use clap::{Parser, Subcommand, ValueEnum};
-use exquisitor_core::clustering::traits::Clustering;
-use exquisitor_core::io::traits::{Reader, Record};
-use exquisitor_core::searching::traits::DatabaseSearch;
-use std::cmp::PartialEq;
+use clap::{Parser, Subcommand};
 use std::process;
 
 #[derive(Parser, Debug)]
@@ -20,6 +16,10 @@ use std::process;
 struct Cli {
     #[command(subcommand)]
     cmd: Commands,
+
+    /// Logging
+    #[arg(long, default_value = "info")]
+    log_level: String,
 }
 
 #[derive(Subcommand, Debug, Clone)]
@@ -36,6 +36,13 @@ enum Commands {
 
 fn main() {
     let cli = Cli::parse();
+
+    // Initialize tracing
+    let severity = cli
+        .log_level
+        .parse::<tracing::Level>()
+        .unwrap_or(tracing::Level::INFO);
+    tracing_subscriber::fmt().with_max_level(severity).init();
 
     let result = match cli.cmd {
         Commands::Run(cmd) => run(cmd),

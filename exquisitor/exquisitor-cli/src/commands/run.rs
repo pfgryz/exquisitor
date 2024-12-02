@@ -56,10 +56,6 @@ pub(crate) struct RunCommand {
     /// Database configuration
     #[command(flatten)]
     database_configuration: DatabaseConfiguration,
-
-    /// Logging
-    #[arg(long, default_value = "info")]
-    log_level: String,
 }
 
 #[derive(Parser, Debug, Clone)]
@@ -136,13 +132,6 @@ enum ClusteringMethod {
 
 /// Handle run command
 pub(crate) fn run(args: RunCommand) -> IoResult<()> {
-    // Initialize tracing
-    let severity = args
-        .log_level
-        .parse::<tracing::Level>()
-        .unwrap_or(tracing::Level::INFO);
-    tracing_subscriber::fmt().with_max_level(severity).init();
-
     // Detect file format
     let format = match args.file_format {
         FileFormat::Auto => detect_file_format(&args.input)?,
