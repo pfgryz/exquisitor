@@ -95,7 +95,7 @@ impl NeedlemanWunsch {
                 let diagonal = matrix[row - 1][column - 1] + similarity;
                 let up = matrix[row - 1][column] + self.gap_penalty;
                 let left = matrix[row][column - 1] + self.gap_penalty;
-                matrix[row][column] = f64::max(diagonal, f64::max(up, left));
+                matrix[row][column] = f64::min(diagonal, f64::min(up, left));
             }
         }
 
