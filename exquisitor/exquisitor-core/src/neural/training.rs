@@ -9,6 +9,7 @@ use burn::tensor::backend::AutodiffBackend;
 use burn::train::metric::LossMetric;
 use burn::train::LearnerBuilder;
 use std::env;
+use crate::clustering::ALPHABET;
 
 #[derive(Config)]
 pub struct TrainingConfig {
@@ -30,11 +31,15 @@ pub struct TrainingConfig {
     #[config(default = 200)]
     pub sequence_length: usize,
 
+    /// Dropout
+    #[config(default = 0.2)]
+    pub dropout: f64,
+
     /// Size of the batch
     #[config(default = 32)]
     pub batch_size: usize,
 
-    #[config(default = 8)]
+    #[config(default = 4)]
     /// Number of workers
     pub num_workers: usize,
 
@@ -83,7 +88,7 @@ pub fn train<B: AutodiffBackend>(artifact_dir: &str, config: TrainingConfig, dev
         .with_file_checkpointer(CompactRecorder::new())
         .summary()
         .build(
-            config.model.init::<B>(&device, config.sequence_length),
+            config.model.init::<B>(&device, config.sequence_length * ALPHABET.len(), config.dropout),
             config.optimizer.init(),
             config.learning_rate,
         );

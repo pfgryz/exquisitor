@@ -1,11 +1,13 @@
+use crate::clustering::ALPHABET;
 use crate::neural::data::SequencesBatch;
 use crate::neural::loss::{ContrastiveLoss, ContrastiveLossConfig};
 use burn::nn::conv::{Conv1d, Conv1dConfig};
-use burn::nn::{BatchNorm, BatchNormConfig, Gelu, Linear, LinearConfig};
+use burn::nn::{
+    BatchNorm, BatchNormConfig, Dropout, DropoutConfig, Gelu, Linear, LinearConfig, PaddingConfig1d,
+};
 use burn::prelude::{Backend, Config, Module, Tensor};
 use burn::tensor::backend::AutodiffBackend;
 use burn::train::{RegressionOutput, TrainOutput, TrainStep, ValidStep};
-use crate::clustering::ALPHABET;
 
 #[derive(Module, Debug)]
 pub struct Model<B: Backend> {
@@ -73,11 +75,24 @@ impl<B: Backend> ValidStep<SequencesBatch<B>, RegressionOutput<B>> for Model<B> 
 pub struct ModelConfig {}
 
 impl ModelConfig {
-    pub fn init<B: Backend>(&self, device: &B::Device, input_size: usize) -> Model<B> {
+    pub fn init<B: Backend>(
+        &self,
+        device: &B::Device,
+        input_size: usize,
+        dropout: f64,
+    ) -> Model<B> {
+        let linear_input_size = Conv1dBlock::<B>::output_size(
+            Conv1dBlock::<B>::output_size(input_size, 16, 0, 1, 4),
+            4,
+            0,
+            1,
+            1,
+        );
+
         Model {
-            conv1: Conv1dBlock::new(1, 4, 1, 1, device),
-            conv2: Conv1dBlock::new(4, 16, 1, 1, device),
-            fc1: LinearConfig::new(input_size * ALPHABET.len() * 16, 128).init(device),
+            conv1: Conv1dBlock::new(1, 16, 16, 1, 4, dropout, device),
+            conv2: Conv1dBlock::new(4, 32, 4, 1, 1, dropout, device),
+            fc1: LinearConfig::new(linear_input_size * 32, 128).init(device),
             fc2: LinearConfig::new(128, 64).init(device),
             loss: ContrastiveLossConfig::new().init::<B>(1.0, 0.0),
             activation: Default::default(),
@@ -89,6 +104,7 @@ impl ModelConfig {
 pub struct Conv1dBlock<B: Backend> {
     conv: Conv1d<B>,
     norm: BatchNorm<B, 1>,
+    dropout: Dropout,
     activation: Gelu,
 }
 
@@ -98,21 +114,36 @@ impl<B: Backend> Conv1dBlock<B> {
         channels_out: usize,
         kernel_size: usize,
         dilation: usize,
+        stride: usize,
+        dropout: f64,
         device: &B::Device,
     ) -> Self {
         Self {
             conv: Conv1dConfig::new(channels_in, channels_out, kernel_size)
                 .with_dilation(dilation)
+                .with_stride(stride)
                 .init(device),
             norm: BatchNormConfig::new(channels_out).init(device),
+            dropout: DropoutConfig::new(dropout).init(),
             activation: Gelu::new(),
         }
+    }
+
+    pub fn output_size(
+        input_size: usize,
+        kernel_size: usize,
+        padding: usize,
+        dilation: usize,
+        stride: usize,
+    ) -> usize {
+        ((input_size + 2 * padding - dilation * (kernel_size - 1) - 1) / stride) + 1
     }
 
     pub fn forward(&self, input: Tensor<B, 3>) -> Tensor<B, 3> {
         let x = self.conv.forward(input);
         let x = self.norm.forward(x);
+        let x = self.activation.forward(x);
 
-        self.activation.forward(x)
+        self.dropout.forward(x)
     }
 }
