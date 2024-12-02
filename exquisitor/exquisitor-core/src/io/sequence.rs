@@ -1,7 +1,7 @@
+use serde::{Deserialize, Serialize};
 /// Module containing abstraction over DNA sequence.
 use std::fmt;
 use std::fmt::Formatter;
-use serde::{Deserialize, Serialize};
 
 /// Represents DNA sequence.
 #[derive(Serialize, Deserialize, Clone, Eq, PartialEq, Hash, Debug)]

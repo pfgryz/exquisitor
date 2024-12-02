@@ -1,3 +1,4 @@
+use crate::clustering::ALPHABET;
 use crate::neural::data::{SequencesBatcher, SequencesDataset};
 use crate::neural::model::ModelConfig;
 use burn::config::Config;
@@ -9,7 +10,6 @@ use burn::tensor::backend::AutodiffBackend;
 use burn::train::metric::LossMetric;
 use burn::train::LearnerBuilder;
 use std::env;
-use crate::clustering::ALPHABET;
 
 #[derive(Config)]
 pub struct TrainingConfig {
@@ -88,7 +88,11 @@ pub fn train<B: AutodiffBackend>(artifact_dir: &str, config: TrainingConfig, dev
         .with_file_checkpointer(CompactRecorder::new())
         .summary()
         .build(
-            config.model.init::<B>(&device, config.sequence_length * ALPHABET.len(), config.dropout),
+            config.model.init::<B>(
+                &device,
+                config.sequence_length * ALPHABET.len(),
+                config.dropout,
+            ),
             config.optimizer.init(),
             config.learning_rate,
         );

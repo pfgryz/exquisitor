@@ -1,5 +1,6 @@
 use burn::backend::wgpu::WgpuDevice;
 use burn::backend::Wgpu;
+use clap::{Parser, ValueEnum};
 use exquisitor_core::clustering::cluster::{
     save_clustering_data, KMedoidClustering, NaiveClustering,
 };
@@ -24,9 +25,7 @@ use std::io::Error as IoError;
 use std::io::ErrorKind;
 use std::io::Result as IoResult;
 use std::path::PathBuf;
-use clap::{Parser, ValueEnum};
 use tracing::{debug, info};
-
 
 #[derive(Parser, Debug, Clone)]
 pub(crate) struct RunCommand {
@@ -136,7 +135,7 @@ enum ClusteringMethod {
 }
 
 /// Handle run command
-pub (crate) fn run(args: RunCommand) -> IoResult<()> {
+pub(crate) fn run(args: RunCommand) -> IoResult<()> {
     // Initialize tracing
     let severity = args
         .log_level
@@ -176,10 +175,9 @@ pub (crate) fn run(args: RunCommand) -> IoResult<()> {
             )?
         }
         Pipeline::KMer => {
-            let distance_metric = KMer::new(args.clustering_configuration.k.ok_or(IoError::new(
-                ErrorKind::Other,
-                "Missing k parameter for KMer algorithm",
-            ))?);
+            let distance_metric = KMer::new(args.clustering_configuration.k.ok_or(
+                IoError::new(ErrorKind::Other, "Missing k parameter for KMer algorithm"),
+            )?);
 
             distance_matrix(&sequences, &distance_metric)?
         }

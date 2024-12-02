@@ -1,6 +1,8 @@
 mod commands;
 
+use crate::commands::clusters::{compare_clusters, CompareClustersCommand};
 use crate::commands::compare::{compare, CompareCommand};
+use crate::commands::experiment::{experiment, ExperimentCommand};
 use crate::commands::run::{run, RunCommand};
 use clap::{Parser, Subcommand, ValueEnum};
 use exquisitor_core::clustering::traits::Clustering;
@@ -24,8 +26,12 @@ struct Cli {
 enum Commands {
     /// Run the pipeline
     Run(RunCommand),
+    /// Run the experiment
+    Experiment(ExperimentCommand),
     /// Compare the results
     Compare(CompareCommand),
+    /// Compare the clusters
+    CompareClusters(CompareClustersCommand),
 }
 
 fn main() {
@@ -33,7 +39,9 @@ fn main() {
 
     let result = match cli.cmd {
         Commands::Run(cmd) => run(cmd),
+        Commands::Experiment(cmd) => experiment(cmd),
         Commands::Compare(cmd) => compare(cmd),
+        Commands::CompareClusters(cmd) => compare_clusters(cmd),
     };
 
     match result {

@@ -18,12 +18,18 @@ pub struct NeuralEmbedder<B: Backend> {
 
 impl<B: Backend> NeuralEmbedder<B> {
     pub fn new(artifact_dir: &str, device: B::Device) -> IoResult<Self> {
-        let config = TrainingConfig::load(format!("{artifact_dir}/config.json"))
-            .map_err(|e| IoError::new(std::io::ErrorKind::Other, format!("Cannot load config: {e}")))?;
+        let config = TrainingConfig::load(format!("{artifact_dir}/config.json")).map_err(|e| {
+            IoError::new(
+                std::io::ErrorKind::Other,
+                format!("Cannot load config: {e}"),
+            )
+        })?;
 
         let record = BinGzFileRecorder::<FullPrecisionSettings>::new()
             .load(format!("{artifact_dir}/model.bin").into(), &device)
-            .map_err(|e| IoError::new(std::io::ErrorKind::Other, format!("Cannot load model: {e}")))?;
+            .map_err(|e| {
+                IoError::new(std::io::ErrorKind::Other, format!("Cannot load model: {e}"))
+            })?;
 
         let model = config
             .model

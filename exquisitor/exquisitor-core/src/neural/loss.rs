@@ -4,11 +4,7 @@ use burn::prelude::{Backend, Config, Module, Tensor};
 pub struct ContrastiveLossConfig;
 
 impl ContrastiveLossConfig {
-    pub fn init<B: Backend>(
-        &self,
-        margin_positive: f64,
-        margin_negative: f64,
-    ) -> ContrastiveLoss {
+    pub fn init<B: Backend>(&self, margin_positive: f64, margin_negative: f64) -> ContrastiveLoss {
         ContrastiveLoss {
             margin_positive,
             margin_negative,
@@ -56,9 +52,9 @@ impl ContrastiveLoss {
         let pos: Tensor<B, 1> = cosine(anchors.clone(), positives);
         let neg: Tensor<B, 1> = cosine(anchors, negatives);
 
-        let loss =
-            (pos.ones_like() * self.margin_positive - pos.clone()).max_pair(pos.zeros_like()) +
-                (neg.clone() - neg.ones_like() * self.margin_negative).max_pair(neg.zeros_like());
+        let loss = (pos.ones_like() * self.margin_positive - pos.clone())
+            .max_pair(pos.zeros_like())
+            + (neg.clone() - neg.ones_like() * self.margin_negative).max_pair(neg.zeros_like());
 
         loss.mean()
     }
@@ -75,7 +71,7 @@ mod tests {
     fn test_contrastive_loss() {
         type TestBackend = Wgpu;
         let device = &Default::default();
-        let loss = ContrastiveLossConfig::new().init::<TestBackend>( 1.0, 0.0f64);
+        let loss = ContrastiveLossConfig::new().init::<TestBackend>(1.0, 0.0f64);
 
         let anchor = Tensor::<TestBackend, 2>::from_data(
             TensorData::from([[1.0, 0.0], [0.0, 1.0]]),

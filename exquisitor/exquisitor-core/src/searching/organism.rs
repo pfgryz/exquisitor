@@ -72,14 +72,17 @@ pub fn load_found_organisms(buffer: &mut dyn Read) -> std::io::Result<Vec<Organi
     Ok(vec)
 }
 
-pub fn filter_matches(matches: &Vec<OrganismMatch>, clusters: &Vec<Cluster>, n_sequences: usize) -> Vec<OrganismFound> {
+pub fn filter_matches(
+    matches: &Vec<OrganismMatch>,
+    clusters: &Vec<Cluster>,
+    n_sequences: usize,
+) -> Vec<OrganismFound> {
     let mut found = HashMap::<String, f64>::new();
 
     for organism_match in matches {
         let cluster = clusters.get(organism_match.sequence_id()).unwrap();
 
-        let match_score = organism_match.confidence_score()
-            * (cluster.sequence_ids().len() as f64)
+        let match_score = organism_match.confidence_score() * (cluster.sequence_ids().len() as f64)
             / n_sequences as f64;
 
         match found.get_mut(organism_match.name()) {

@@ -3,7 +3,6 @@ use std::fmt;
 use std::fmt::Formatter;
 use std::io::{Error as IoError, ErrorKind};
 
-
 pub type ExquisitorResult<T> = Result<T, ExquisitorError>;
 
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
