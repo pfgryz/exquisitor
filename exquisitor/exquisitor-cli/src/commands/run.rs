@@ -86,14 +86,14 @@ struct ClusteringConfiguration {
 }
 
 #[derive(Parser, Debug, Clone)]
-struct DatabaseConfiguration {
+pub(crate) struct DatabaseConfiguration {
     /// Path to BLAST database executable
     #[arg(long)]
-    blast: PathBuf,
+    pub(crate) blast: PathBuf,
 
     /// Path to BLAST database files
     #[arg(long)]
-    blast_db: PathBuf,
+    pub(crate) blast_db: PathBuf,
 }
 
 #[derive(ValueEnum, Eq, PartialEq, Clone, Debug)]

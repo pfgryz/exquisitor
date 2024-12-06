@@ -8,7 +8,7 @@ fn main() {
     type LearnAutodiffBackend = Autodiff<LearnBackend>;
 
     let device = burn::backend::wgpu::WgpuDevice::default();
-    let artifact_dir = "model1";
+    let artifact_dir = "model2";
     train::<LearnAutodiffBackend>(
         artifact_dir,
         TrainingConfig::new(ModelConfig::new(), AdamConfig::new(), 44).with_sequence_length(1000),

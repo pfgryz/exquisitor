@@ -1,4 +1,5 @@
 use clap::Parser;
+use csv::Writer;
 use std::io::Error as IoError;
 use std::io::{ErrorKind, Result as IoResult};
 use std::path::PathBuf;
@@ -6,7 +7,6 @@ use std::process::Command;
 use std::{thread, time};
 use sysinfo::{Pid, ProcessRefreshKind, ProcessesToUpdate, System};
 use tracing::info;
-use csv::Writer;
 
 #[derive(Parser, Debug, Clone)]
 pub(crate) struct ExperimentCommand {
@@ -48,7 +48,7 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
         system.refresh_processes_specifics(
             ProcessesToUpdate::All,
             true,
-            ProcessRefreshKind::new().with_cpu().with_memory()
+            ProcessRefreshKind::new().with_cpu().with_memory(),
         );
 
         if let Some(proc) = system.process(pid) {
@@ -56,10 +56,10 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
                 Ok(Some(status)) => {
                     info!("Experiment ended with status {}!", status);
                     break;
-                },
+                }
                 Err(_) => {
                     panic!("Error while waiting for children!");
-                },
+                }
                 _ => {}
             }
 
@@ -69,7 +69,11 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
             // let memory_usage = proc.virtual_memory() / 1024;
             let elapsed_time = start_time.elapsed().as_secs();
 
-            writer.write_record(&[elapsed_time.to_string(), cpu_usage.to_string(), memory_usage.to_string()])?;
+            writer.write_record(&[
+                elapsed_time.to_string(),
+                cpu_usage.to_string(),
+                memory_usage.to_string(),
+            ])?;
 
             thread::sleep(time::Duration::from_secs(args.resolution));
         } else {

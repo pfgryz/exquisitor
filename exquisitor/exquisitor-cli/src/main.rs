@@ -4,6 +4,7 @@ use crate::commands::clusters::{compare_clusters, CompareClustersCommand};
 use crate::commands::compare::{compare, CompareCommand};
 use crate::commands::experiment::{experiment, ExperimentCommand};
 use crate::commands::run::{run, RunCommand};
+use crate::commands::search::{search, SearchCommand};
 use clap::{Parser, Subcommand};
 use std::process;
 
@@ -32,6 +33,8 @@ enum Commands {
     Compare(CompareCommand),
     /// Compare the clusters
     CompareClusters(CompareClustersCommand),
+    /// Search sequences in database
+    Search(SearchCommand),
 }
 
 fn main() {
@@ -49,6 +52,7 @@ fn main() {
         Commands::Experiment(cmd) => experiment(cmd),
         Commands::Compare(cmd) => compare(cmd),
         Commands::CompareClusters(cmd) => compare_clusters(cmd),
+        Commands::Search(cmd) => search(cmd),
     };
 
     match result {

@@ -6,7 +6,7 @@ use crate::searching::organism::OrganismMatch;
 use crate::searching::traits::DatabaseSearch;
 use std::fs::File;
 use std::io;
-use std::io::{BufRead, ErrorKind, Seek, SeekFrom};
+use std::io::{BufRead, Error, ErrorKind, Seek, SeekFrom};
 use std::path::Path;
 use std::process::{Command, Stdio};
 use tempfile::NamedTempFile;
@@ -95,6 +95,17 @@ impl Blast {
 
         Ok(organisms)
     }
+
+    pub fn search_file(
+        &self,
+        input_file: &Path,
+        output_file: &Path,
+    ) -> io::Result<Vec<OrganismMatch>> {
+        self.run(input_file, output_file)?;
+
+        // Get results
+        Ok(self.parse_results_file(output_file)?)
+    }
 }
 
 impl DatabaseSearch for Blast {
@@ -107,10 +118,8 @@ impl DatabaseSearch for Blast {
 
         // Run Blast
         input_file.seek(SeekFrom::Start(0))?;
-        self.run(input_file.path(), output_file.path())?;
 
-        // Get results
-        Ok(self.parse_results_file(output_file.path())?)
+        self.search_file(input_file.path(), output_file.path())
     }
 }
 
