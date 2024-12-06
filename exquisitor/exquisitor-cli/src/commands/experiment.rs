@@ -51,22 +51,20 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
             ProcessRefreshKind::new().with_cpu().with_memory(),
         );
 
-        if let Some(proc) = system.process(pid) {
-            match child.try_wait() {
-                Ok(Some(status)) => {
-                    info!("Experiment ended with status {}!", status);
-                    break;
-                }
-                Err(_) => {
-                    panic!("Error while waiting for children!");
-                }
-                _ => {}
+        match child.try_wait() {
+            Ok(Some(status)) => {
+                info!("Experiment ended with status {}!", status);
+                break;
             }
+            Err(_) => {
+                panic!("Error while waiting for children!");
+            }
+            _ => {}
+        }
 
+        if let Some(proc) = system.process(pid) {
             let (cpu_usage, memory_usage) = calculate_cpu_and_memory_usage(&system, pid);
 
-            // let cpu_usage = proc.cpu_usage();
-            // let memory_usage = proc.virtual_memory() / 1024;
             let elapsed_time = start_time.elapsed().as_secs();
 
             writer.write_record(&[
