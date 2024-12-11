@@ -1,4 +1,5 @@
 use crate::clustering::traits::DistanceMetric;
+use crate::clustering::ALPHABET;
 use crate::io::sequence::Sequence;
 use crate::result::{ExquisitorError, ExquisitorErrorKind, ExquisitorResult};
 use num_traits::{pow, One};
@@ -100,6 +101,19 @@ impl NeedlemanWunsch {
         }
 
         matrix
+    }
+
+    pub fn create_default_similarity_matrix() -> SimilarityMatrix {
+        let mut similarity_matrix = HashMap::new();
+
+        for &x in ALPHABET {
+            for &y in ALPHABET {
+                let value = if x == y { 0f64 } else { 1f64 };
+                similarity_matrix.insert((x, y), value);
+            }
+        }
+
+        similarity_matrix
     }
 }
 

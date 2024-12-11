@@ -1,3 +1,4 @@
+use std::error::Error;
 /// Exquisitor errors
 use std::fmt;
 use std::fmt::Formatter;
@@ -47,6 +48,12 @@ impl ExquisitorError {
 impl fmt::Display for ExquisitorError {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         write!(f, "{}: {}", self.kind, self.message)
+    }
+}
+
+impl Error for ExquisitorError {
+    fn description(&self) -> &str {
+        &self.message
     }
 }
 

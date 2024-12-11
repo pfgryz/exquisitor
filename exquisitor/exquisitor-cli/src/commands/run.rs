@@ -156,7 +156,7 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
                     "Missing gap penalty modifier",
                 ))?;
 
-            let similarity_matrix = create_similarity_matrix();
+            let similarity_matrix = NeedlemanWunsch::create_default_similarity_matrix();
 
             distance_matrix(
                 &sequences,
@@ -292,18 +292,4 @@ fn load_sequences(path: &PathBuf, format: FileFormat) -> IoResult<Vec<Sequence>>
     };
 
     sequences
-}
-
-/// Similarity matrix
-fn create_similarity_matrix() -> SimilarityMatrix {
-    let mut similarity_matrix = HashMap::new();
-
-    for &x in ALPHABET {
-        for &y in ALPHABET {
-            let value = if x == y { 0f64 } else { 1f64 };
-            similarity_matrix.insert((x, y), value);
-        }
-    }
-
-    similarity_matrix
 }

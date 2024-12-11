@@ -1,22 +1,67 @@
-use clap::Parser;
-use csv::Writer;
+use clap::{Parser, Subcommand, ValueEnum};
+use csv::Writer as CsvWriter;
+use exquisitor_core::clustering::distance::NeedlemanWunsch;
+use exquisitor_core::clustering::traits::DistanceMetric;
 use exquisitor_core::clustering::ALPHABET;
+use exquisitor_core::io::fasta::reader::FastaReader;
+use exquisitor_core::io::fasta::record::FastaRecord;
+use exquisitor_core::io::fasta::writer::FastaWriter;
+use exquisitor_core::io::fastq::reader::FastqReader;
+use exquisitor_core::io::sequence::Sequence;
+use exquisitor_core::io::traits::{Reader, Record, Writer};
 use rand::prelude::{SliceRandom, StdRng};
 use rand::{Rng, SeedableRng};
-use std::io::Result as IoResult;
+use std::collections::HashSet;
+use std::fs::File;
+use std::io::{BufReader, BufWriter, Result as IoResult, Write};
+use std::io::{Error as IoError, ErrorKind};
+use std::path::{Path, PathBuf};
 
 #[derive(Parser, Debug)]
 #[command(
-    name = "generate",
     version = "0.1.0",
     author = "Patryk Filip Gryz",
-    about = "Generate training examples"
+    about = "Generate training and experiments datasets"
 )]
 struct Cli {
+    /// Command to execute
+    #[command(subcommand)]
+    cmd: Commands,
+}
+
+#[derive(Subcommand, Debug, Clone)]
+enum Commands {
+    /// Generate artificial samples for training / experiments
+    Artificial(ArtificialCommand),
+    /// Use dataset to obtain training / experiments dataset
+    Dataset(DatasetCommand),
+}
+
+#[derive(Parser, Clone, Debug)]
+struct Common {
     /// Seed for random generator
     #[arg(long, default_value_t = 152754665)]
     seed: u64,
 
+    /// Size of training set
+    #[arg(long, default_value_t = 0)]
+    training: usize,
+
+    /// Size of validation set
+    #[arg(long, default_value_t = 0)]
+    validation: usize,
+
+    /// Size of experiments set
+    #[arg(long, default_value_t = 0)]
+    experiments: usize,
+
+    /// Path to output directory
+    #[arg(long, default_value = "data")]
+    output: String,
+}
+
+#[derive(Parser, Clone, Debug)]
+struct ArtificialCommand {
     /// Length of the sequences
     #[arg(long, default_value_t = 1000)]
     length: usize,
@@ -37,21 +82,40 @@ struct Cli {
     #[arg(long, default_value_t = 0.4)]
     max_similarity_negative: f64,
 
-    /// Size of training set
-    #[arg(long, default_value_t = 10000)]
-    training: usize,
-
-    /// Size of validation set
-    #[arg(long, default_value_t = 1000)]
-    validation: usize,
-
-    /// Path to output directory
-    #[arg(long, default_value = "data")]
-    output: String,
+    /// Common parameters
+    #[command(flatten)]
+    common: Common,
 }
 
-fn mutate_sample(generator: &mut StdRng, sample: String, indexes: &[usize]) -> String {
-    let mut chars: Vec<char> = sample.chars().collect();
+#[derive(Parser, Clone, Debug)]
+struct DatasetCommand {
+    /// Path to the input file
+    #[arg(long)]
+    input: PathBuf,
+
+    /// Format of the input file
+    #[arg(long, value_enum)]
+    file_format: FileFormat,
+
+    /// Optional path to file with excluded indexes
+    #[arg(long)]
+    exclude: Option<PathBuf>,
+
+    /// Common parameters
+    #[command(flatten)]
+    common: Common,
+}
+
+#[derive(ValueEnum, Eq, PartialEq, Clone, Debug)]
+enum FileFormat {
+    Fasta,
+    Fastq,
+}
+
+// region Artificial
+
+fn mutate_raw_sequence(generator: &mut StdRng, sequence: String, indexes: &[usize]) -> String {
+    let mut chars: Vec<char> = sequence.chars().collect();
 
     for &index in indexes {
         if index < chars.len() {
@@ -67,7 +131,17 @@ fn mutate_sample(generator: &mut StdRng, sample: String, indexes: &[usize]) -> S
     chars.into_iter().collect()
 }
 
-fn create_samples(
+fn generate_raw_sequence(generator: &mut StdRng, state: &mut Vec<usize>, length: usize) -> String {
+    state.shuffle(generator);
+
+    let sequence: String = (0..length)
+        .map(|_| ALPHABET[generator.gen_range(0..ALPHABET.len())])
+        .collect();
+
+    sequence
+}
+
+fn create_artificial_neural_dataset(
     generator: &mut StdRng,
     path: String,
     length: usize,
@@ -76,22 +150,20 @@ fn create_samples(
     similarity_negative: (usize, usize),
 ) -> IoResult<()> {
     let mut state: Vec<usize> = (0..length).collect();
-    let mut writer = Writer::from_path(path)?;
+    let mut writer = CsvWriter::from_path(path)?;
 
     writer.write_record(&["anchor", "positive", "negative"])?;
 
     for _ in 0..amount {
-        let anchor: String = (0..length)
-            .map(|_| ALPHABET[generator.gen_range(0..ALPHABET.len())])
-            .collect();
+        let anchor = generate_raw_sequence(generator, &mut state, length);
 
         state.shuffle(generator);
         let threshold: usize = generator.gen_range(similarity_positive.0..similarity_positive.1);
-        let positive = mutate_sample(generator, anchor.clone(), &state[threshold..]);
+        let positive = mutate_raw_sequence(generator, anchor.clone(), &state[threshold..]);
 
         state.shuffle(generator);
         let threshold: usize = generator.gen_range(similarity_negative.0..similarity_negative.1);
-        let negative = mutate_sample(generator, anchor.clone(), &state[threshold..]);
+        let negative = mutate_raw_sequence(generator, anchor.clone(), &state[threshold..]);
 
         writer.write_record(&[anchor, positive, negative])?;
     }
@@ -99,36 +171,302 @@ fn create_samples(
     Ok(())
 }
 
+fn create_artificial_experiments_dataset(
+    generator: &mut StdRng,
+    path: String,
+    length: usize,
+    amount: usize,
+) -> IoResult<()> {
+    let mut state: Vec<usize> = (0..length).collect();
+
+    let file = File::create(path)?;
+    let mut writer = FastaWriter::new(file, None);
+
+    for id in 0..amount {
+        let raw_sequence = generate_raw_sequence(generator, &mut state, length);
+        let sequence = Sequence::new(&raw_sequence);
+        let record = FastaRecord::new(&id.to_string(), None, sequence);
+        writer.write(&record)?;
+    }
+
+    Ok(())
+}
+
+// endregion
+
+// region Dataset
+
+fn generate_unique_random(
+    generator: &mut StdRng,
+    exclude: &mut HashSet<usize>,
+    amount: usize,
+    min_value: usize,
+    max_value: usize,
+) -> HashSet<usize> {
+    let mut result = HashSet::new();
+
+    while result.len() != amount {
+        let x = generator.gen_range(min_value..max_value);
+
+        if !exclude.contains(&x) {
+            result.insert(x);
+            exclude.insert(x);
+        }
+    }
+
+    result
+}
+
+fn read_records(path: &Path, format: &FileFormat, ids: &HashSet<usize>) -> IoResult<Vec<Sequence>> {
+    let file = File::open(path)?;
+    let buffer = BufReader::with_capacity(4000000, file);
+
+    let mut result: Vec<Sequence> = Vec::new();
+
+    match format {
+        FileFormat::Fasta => {
+            for (idx, record) in FastaReader::new(buffer).iter().enumerate() {
+                if ids.contains(&idx) {
+                    result.push(record?.sequence().clone());
+                }
+            }
+        }
+        FileFormat::Fastq => {
+            for (idx, record) in FastqReader::new(buffer).iter().enumerate() {
+                if ids.contains(&idx) {
+                    result.push(record?.sequence().clone());
+                }
+            }
+        }
+    };
+
+    Ok(result)
+}
+
+fn create_real_neural_dataset(
+    generator: &mut StdRng,
+    input: &Path,
+    output: &Path,
+    file_format: &FileFormat,
+    ids: &HashSet<usize>,
+) -> IoResult<()> {
+    let mut sequences = read_records(input, file_format, &ids)?;
+    sequences.shuffle(generator);
+
+    let mut writer = CsvWriter::from_path(output)?;
+    writer.write_record(&["anchor", "positive", "negative"])?;
+
+    let comparator =
+        NeedlemanWunsch::new(1f64, NeedlemanWunsch::create_default_similarity_matrix());
+
+    for idx in (0..ids.len()).step_by(3) {
+        if idx % 1000 == 0 {
+            println!("{} / {}", idx / 3, ids.len() / 3)
+        }
+
+        let anchor = &sequences[idx];
+        let first = &sequences[idx + 1];
+        let second = &sequences[idx + 2];
+
+        let (positive, negative) = match comparator
+            .distance(anchor, first)
+            .map_err(|e| IoError::new(ErrorKind::Other, e))?
+            > comparator
+                .distance(anchor, second)
+                .map_err(|e| IoError::new(ErrorKind::Other, e))?
+        {
+            true => (second, first),
+            false => (first, anchor),
+        };
+
+        writer.write_record(&[anchor.content(), positive.content(), negative.content()])?;
+    }
+
+    Ok(())
+}
+
+fn create_real_experiments_dataset(
+    input: &PathBuf,
+    output: &PathBuf,
+    file_format: &FileFormat,
+    ids: &HashSet<usize>,
+) -> IoResult<()> {
+    let sequences = read_records(input, file_format, &ids)?;
+
+    let file = File::create(output)?;
+    let buffer = BufWriter::with_capacity(4000000, file);
+    let mut writer = FastaWriter::new(buffer, None);
+
+    for (idx, sequence) in sequences.iter().enumerate() {
+        writer.write(&FastaRecord::new(&idx.to_string(), None, sequence.clone()))?
+    }
+
+    Ok(())
+}
+
+fn save_ids(path: &Path, p1: &HashSet<usize>) -> IoResult<()> {
+    let file = File::create(path)?;
+    let mut buffer = BufWriter::with_capacity(4000000, file);
+    let json = serde_json::to_string(&p1)?;
+    buffer.write_all(json.as_bytes())?;
+
+    Ok(())
+}
+
+// endregion
+
 fn main() {
     let cli = Cli::parse();
 
-    let mut generator = StdRng::seed_from_u64(cli.seed);
+    match cli.cmd {
+        Commands::Artificial(cmd) => artificial_command(&cmd),
+        Commands::Dataset(cmd) => dataset_command(&cmd),
+    };
+}
+
+fn artificial_command(args: &ArtificialCommand) {
+    let mut generator = StdRng::seed_from_u64(args.common.seed);
 
     let similarity_positive = (
-        (cli.min_similarity_positive * cli.length as f64) as usize,
-        (cli.max_similarity_positive * cli.length as f64) as usize,
+        (args.min_similarity_positive * args.length as f64) as usize,
+        (args.max_similarity_positive * args.length as f64) as usize,
     );
     let similarity_negative = (
-        (cli.min_similarity_negative * cli.length as f64) as usize,
-        (cli.max_similarity_negative * cli.length as f64) as usize,
+        (args.min_similarity_negative * args.length as f64) as usize,
+        (args.max_similarity_negative * args.length as f64) as usize,
     );
 
-    create_samples(
-        &mut generator,
-        format!("{}/training.csv", cli.output),
-        cli.length,
-        cli.training,
-        similarity_positive,
-        similarity_negative,
+    if args.common.training != 0 {
+        create_artificial_neural_dataset(
+            &mut generator,
+            format!("{}/training.csv", args.common.output),
+            args.length,
+            args.common.training,
+            similarity_positive,
+            similarity_negative,
+        )
+        .expect("Cannot generate training set");
+    }
+
+    if args.common.validation != 0 {
+        create_artificial_neural_dataset(
+            &mut generator,
+            format!("{}/validation.csv", args.common.output),
+            args.length,
+            args.common.validation,
+            similarity_positive,
+            similarity_negative,
+        )
+        .expect("Cannot generate validation set");
+    }
+
+    if args.common.experiments != 0 {
+        create_artificial_experiments_dataset(
+            &mut generator,
+            format!("{}/experiments.fasta", args.common.output),
+            args.length,
+            args.common.experiments,
+        )
+        .expect("Cannot generate experiments set");
+    }
+}
+
+fn dataset_command(args: &DatasetCommand) {
+    let mut generator = StdRng::seed_from_u64(args.common.seed);
+
+    let file = File::open(&args.input).expect("Cannot open input dataset");
+    let count = FastqReader::new(BufReader::with_capacity(4000000, file))
+        .iter()
+        .count();
+
+    let mut exclude: HashSet<usize> = match &args.exclude {
+        None => HashSet::new(),
+        Some(path) => {
+            let list: Vec<usize> = serde_json::from_reader(BufReader::new(
+                File::open(path).expect("Cannot open exclude file"),
+            ))
+            .expect("Cannot parse exclude file");
+            list.iter().cloned().collect()
+        }
+    };
+
+    if args.common.training != 0 {
+        let ids = generate_unique_random(
+            &mut generator,
+            &mut exclude,
+            args.common.training * 3,
+            0,
+            count,
+        );
+
+        create_real_neural_dataset(
+            &mut generator,
+            &args.input,
+            &PathBuf::from(format!("{}/training.csv", args.common.output)),
+            &args.file_format,
+            &ids,
+        )
+        .expect("Cannot create training dataset");
+
+        save_ids(
+            &PathBuf::from(format!("{}/training.exclude", args.common.output)),
+            &ids,
+        )
+        .expect("Cannot save training dataset included ids");
+    }
+
+    if args.common.validation != 0 {
+        let ids = generate_unique_random(
+            &mut generator,
+            &mut exclude,
+            args.common.validation * 3,
+            0,
+            count,
+        );
+
+        create_real_neural_dataset(
+            &mut generator,
+            &args.input,
+            &PathBuf::from(format!("{}/validation.csv", args.common.output)),
+            &args.file_format,
+            &ids,
+        )
+        .expect("Cannot create validation dataset");
+
+        save_ids(
+            &PathBuf::from(format!("{}/validation.exclude", args.common.output)),
+            &ids,
+        )
+        .expect("Cannot save validation dataset included ids");
+    }
+
+    if args.common.experiments != 0 {
+        let ids = generate_unique_random(
+            &mut generator,
+            &mut exclude,
+            args.common.experiments,
+            0,
+            count,
+        );
+
+        create_real_experiments_dataset(
+            &args.input,
+            &PathBuf::from(format!("{}/experiments.fasta", args.common.output)),
+            &args.file_format,
+            &ids,
+        )
+        .expect("Cannot create experiments dataset");
+
+        save_ids(
+            &PathBuf::from(format!("{}/experiments.exclude", args.common.output)),
+            &ids,
+        )
+        .expect("Cannot save experiments dataset included ids");
+    }
+
+    save_ids(
+        &PathBuf::from(format!("{}/.exclude", args.common.output)),
+        &exclude,
     )
-    .expect("Cannot generate training set");
-    create_samples(
-        &mut generator,
-        format!("{}/validation.csv", cli.output),
-        cli.length,
-        cli.validation,
-        similarity_positive,
-        similarity_negative,
-    )
-    .expect("Cannot generate validation set");
+    .expect("Cannot save exclude ids");
 }
