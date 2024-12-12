@@ -14,13 +14,6 @@ pub struct SequencesRecord {
     negative: String,
 }
 
-#[derive(Clone, Debug)]
-pub struct SequencesEncodedRecord<B: Backend> {
-    anchor: Tensor<B, 2>,
-    positive: Tensor<B, 2>,
-    negative: Tensor<B, 2>,
-}
-
 pub struct SequencesDataset {
     dataset: InMemDataset<SequencesRecord>,
 }

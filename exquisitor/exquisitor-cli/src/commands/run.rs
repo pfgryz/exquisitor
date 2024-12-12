@@ -5,11 +5,10 @@ use exquisitor_core::clustering::cluster::{
     save_clustering_data, KMedoidClustering, NaiveClustering,
 };
 use exquisitor_core::clustering::distance::{
-    distance_matrix, CosineDistance, DistanceMatrix, KMer, NeedlemanWunsch, SimilarityMatrix,
+    distance_matrix, CosineDistance, DistanceMatrix, KMer, NeedlemanWunsch,
 };
 use exquisitor_core::clustering::neural::NeuralEmbedder;
 use exquisitor_core::clustering::traits::Clustering;
-use exquisitor_core::clustering::ALPHABET;
 use exquisitor_core::io::fasta::reader::FastaReader;
 use exquisitor_core::io::fastq::reader::FastqReader;
 use exquisitor_core::io::sequence::Sequence;
@@ -17,7 +16,6 @@ use exquisitor_core::io::traits::{Reader, Record};
 use exquisitor_core::searching::blast::Blast;
 use exquisitor_core::searching::organism::{filter_matches, save_found_organisms};
 use exquisitor_core::searching::traits::DatabaseSearch;
-use std::collections::HashMap;
 use std::fmt;
 use std::fmt::Formatter;
 use std::fs::File;

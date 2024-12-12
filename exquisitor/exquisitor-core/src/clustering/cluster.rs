@@ -1,9 +1,11 @@
 use crate::clustering::distance::DistanceMatrix;
 use crate::clustering::traits::Clustering;
 use crate::result::ExquisitorResult;
+use float_cmp::approx_eq;
 use kmedoids::ArrayAdapter;
 use serde::Deserialize;
 use serde::Serialize;
+use std::collections::HashSet;
 use std::fmt;
 use std::fmt::Formatter;
 use std::io::{Read, Result as IoResult, Write};
@@ -151,9 +153,83 @@ pub fn load_clustering_data(buffer: &mut dyn Read) -> IoResult<Vec<Cluster>> {
     Ok(vec)
 }
 
+pub fn clusters_fmi_score(reference: &Vec<Cluster>, other: &Vec<Cluster>) -> f64 {
+    let all = reference.len() as f64;
+
+    let reference: HashSet<usize> =
+        HashSet::from_iter(reference.iter().map(|cluster| cluster.representative_id));
+    let other: HashSet<usize> =
+        HashSet::from_iter(other.iter().map(|cluster| cluster.representative_id));
+
+    reference.intersection(&other).count() as f64 / all
+}
+
+fn clusters_entropy(clusters: &Vec<Cluster>) -> f64 {
+    let all = clusters
+        .iter()
+        .map(|c| c.elements_ids.len() as f64)
+        .sum::<f64>();
+
+    -clusters
+        .iter()
+        .map(|cluster| cluster.elements_ids.len() as f64 / all)
+        .map(|probability: f64| probability * probability.log(2f64))
+        .sum::<f64>()
+}
+
+fn clusters_mutual_information(u: &Vec<Cluster>, v: &Vec<Cluster>) -> f64 {
+    let count = |cluster: &Vec<Cluster>| -> f64 {
+        cluster
+            .iter()
+            .map(|cluster| cluster.elements_ids.len() as f64)
+            .sum()
+    };
+    let u_count = count(u);
+    let v_count = count(v);
+    let all = f64::max(u_count, v_count);
+
+    let probability_in_both = |a: &Cluster, b: &Cluster| -> f64 {
+        a.elements_ids
+            .iter()
+            .map(|x| b.elements_ids.iter().filter(|&n| n == x).count() as f64)
+            .sum::<f64>()
+            / all
+    };
+
+    u.iter()
+        .map(|a| {
+            v.iter()
+                .map(|b| {
+                    (
+                        probability_in_both(a, b),
+                        a.elements_ids.len() as f64 / u_count,
+                        b.elements_ids.len() as f64 / v_count,
+                    )
+                })
+                .map(|(p_uv, p_u, p_v)| {
+                    if approx_eq!(f64, p_uv, 0f64)
+                        || approx_eq!(f64, p_u, 0f64)
+                        || approx_eq!(f64, p_v, 0f64)
+                    {
+                        0f64
+                    } else {
+                        p_uv * (p_uv / (p_u * p_v)).log(2f64)
+                    }
+                })
+                .sum::<f64>()
+        })
+        .sum()
+}
+
+pub fn clusters_nmi_score(reference: &Vec<Cluster>, other: &Vec<Cluster>) -> f64 {
+    clusters_mutual_information(&reference, &other)
+        / (clusters_entropy(&reference) * clusters_entropy(&other)).sqrt()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use float_cmp::assert_approx_eq;
 
     #[test]
     fn test_cluster_new() {
@@ -207,4 +283,51 @@ mod tests {
             }
         }
     }
+
+    // region FMI & NMI
+
+    #[test]
+    fn test_clusters_fmi_score() {
+        let first = vec![Cluster::new(2, vec![2, 3, 4]), Cluster::new(1, vec![1, 5])];
+        let second = vec![Cluster::new(1, vec![1, 3]), Cluster::new(4, vec![2, 4, 5])];
+
+        let fmi_score = clusters_fmi_score(&first, &second);
+        assert_approx_eq!(f64, fmi_score, 0.5f64, epsilon = 1e-3f64);
+    }
+
+    #[test]
+    fn test_clusters_entropy() {
+        let clusters = vec![Cluster::new(0, vec![2, 3, 4]), Cluster::new(1, vec![1, 5])];
+
+        let entropy = clusters_entropy(&clusters);
+        assert_approx_eq!(f64, entropy, 0.970f64, epsilon = 1e-3f64);
+    }
+
+    #[test]
+    fn test_clusters_mutual_information() {
+        let first = vec![Cluster::new(0, vec![2, 3, 4]), Cluster::new(1, vec![1, 5])];
+        let second = vec![
+            Cluster::new(2, vec![1, 3]),
+            Cluster::new(3, vec![2, 4]),
+            Cluster::new(4, vec![5]),
+        ];
+
+        let mutual_information = clusters_mutual_information(&first, &second);
+        assert_approx_eq!(f64, mutual_information, 0.570f64, epsilon = 1e-3f64);
+    }
+
+    #[test]
+    fn test_clusters_nmi_score() {
+        let first = vec![Cluster::new(0, vec![2, 3, 4]), Cluster::new(1, vec![1, 5])];
+        let second = vec![
+            Cluster::new(2, vec![1, 3]),
+            Cluster::new(3, vec![2, 4]),
+            Cluster::new(4, vec![5]),
+        ];
+
+        let nmi_score = clusters_nmi_score(&first, &second);
+        assert_approx_eq!(f64, nmi_score, 0.469f64, epsilon = 1e-3f64);
+    }
+
+    // endregion
 }

@@ -6,7 +6,7 @@ use crate::searching::organism::OrganismMatch;
 use crate::searching::traits::DatabaseSearch;
 use std::fs::File;
 use std::io;
-use std::io::{BufRead, Error, ErrorKind, Seek, SeekFrom};
+use std::io::{BufRead, ErrorKind, Seek, SeekFrom};
 use std::path::Path;
 use std::process::{Command, Stdio};
 use tempfile::NamedTempFile;

@@ -6,7 +6,7 @@ use crate::neural::training::TrainingConfig;
 use burn::config::Config;
 use burn::module::Module;
 use burn::prelude::Backend;
-use burn::record::{BinGzFileRecorder, CompactRecorder, FullPrecisionSettings, Recorder};
+use burn::record::{BinGzFileRecorder, FullPrecisionSettings, Recorder};
 use burn::tensor::Tensor;
 use std::io::Error as IoError;
 use std::io::Result as IoResult;

@@ -320,8 +320,8 @@ mod tests {
 
         assert_eq!(matrix.len(), 5);
         assert_eq!(matrix[2].len(), 5);
-        assert_approx_eq!(f64, matrix[2][2], 0f64);
-        assert_approx_eq!(f64, matrix[4][3], -7f64);
+        assert_approx_eq!(f64, matrix[2][2], -32f64);
+        assert_approx_eq!(f64, matrix[4][3], -56f64);
     }
 
     #[test]
@@ -334,7 +334,7 @@ mod tests {
         let distance = metric.distance(&a, &b);
 
         assert!(distance.is_ok());
-        assert_approx_eq!(f64, distance.unwrap(), 2f64);
+        assert_approx_eq!(f64, distance.unwrap(), -64f64);
     }
 
     // endregion

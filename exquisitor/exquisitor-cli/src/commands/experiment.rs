@@ -62,7 +62,7 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
             _ => {}
         }
 
-        if let Some(proc) = system.process(pid) {
+        if let Some(_) = system.process(pid) {
             let (cpu_usage, memory_usage) = calculate_cpu_and_memory_usage(&system, pid);
 
             let elapsed_time = start_time.elapsed().as_secs();
