@@ -28,7 +28,12 @@ fn one_hot(s: &str, alphabet: &[char]) -> Vec<f32> {
     let mut encoded = vec![0.0; s.len() * alphabet.len()];
 
     for (idx, char) in s.chars().enumerate() {
-        encoded[idx * alphabet.len() + char_index.get(&char).unwrap()] = 1.0;
+        let position: usize = match char_index.get(&char) {
+            None => 0,
+            Some(p) => *p
+        };
+
+        encoded[idx * alphabet.len() + position] = 1.0;
     }
 
     encoded

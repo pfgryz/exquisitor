@@ -1,7 +1,7 @@
 use crate::neural::data::SequencesBatch;
 use crate::neural::loss::{ContrastiveLoss, ContrastiveLossConfig};
 use burn::nn::conv::{Conv1d, Conv1dConfig};
-use burn::nn::{BatchNorm, BatchNormConfig, Dropout, DropoutConfig, Gelu, Linear, LinearConfig};
+use burn::nn::{BatchNorm, BatchNormConfig, Dropout, DropoutConfig, Gelu, Linear, LinearConfig, Relu};
 use burn::prelude::{Backend, Config, Module, Tensor};
 use burn::tensor::backend::AutodiffBackend;
 use burn::tensor::ops::conv::calculate_conv_output_size;
@@ -92,8 +92,8 @@ impl ModelConfig {
             conv2: Conv1dBlock::new(16, 32, 4, 1, 1, dropout, device),
             fc1: LinearConfig::new(linear_input_size * 32, 128).init(device),
             fc2: LinearConfig::new(128, 64).init(device),
-            loss: ContrastiveLossConfig::new().init::<B>(1.0, 0.0),
-            activation: Default::default(),
+            loss: ContrastiveLossConfig::new().init::<B>(0.9, 0.0),
+            activation: Gelu::default(),
         }
     }
 }
@@ -103,7 +103,7 @@ pub struct Conv1dBlock<B: Backend> {
     conv: Conv1d<B>,
     norm: BatchNorm<B, 1>,
     dropout: Dropout,
-    activation: Gelu,
+    activation: Relu,
 }
 
 impl<B: Backend> Conv1dBlock<B> {
@@ -123,7 +123,7 @@ impl<B: Backend> Conv1dBlock<B> {
                 .init(device),
             norm: BatchNormConfig::new(channels_out).init(device),
             dropout: DropoutConfig::new(dropout).init(),
-            activation: Gelu::new(),
+            activation: Relu::new(),
         }
     }
 
