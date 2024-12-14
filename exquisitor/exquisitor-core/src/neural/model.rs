@@ -4,6 +4,7 @@ use burn::nn::conv::{Conv1d, Conv1dConfig};
 use burn::nn::{BatchNorm, BatchNormConfig, Dropout, DropoutConfig, Gelu, Linear, LinearConfig};
 use burn::prelude::{Backend, Config, Module, Tensor};
 use burn::tensor::backend::AutodiffBackend;
+use burn::tensor::ops::conv::calculate_conv_output_size;
 use burn::train::{RegressionOutput, TrainOutput, TrainStep, ValidStep};
 
 #[derive(Module, Debug)]
@@ -78,17 +79,17 @@ impl ModelConfig {
         input_size: usize,
         dropout: f64,
     ) -> Model<B> {
-        let linear_input_size = Conv1dBlock::<B>::output_size(
-            Conv1dBlock::<B>::output_size(input_size, 16, 0, 1, 4),
+        let linear_input_size = calculate_conv_output_size(
             4,
+            1,
             0,
             1,
-            1,
+            calculate_conv_output_size(16, 4, 0, 1, input_size),
         );
 
         Model {
             conv1: Conv1dBlock::new(1, 16, 16, 1, 4, dropout, device),
-            conv2: Conv1dBlock::new(4, 32, 4, 1, 1, dropout, device),
+            conv2: Conv1dBlock::new(16, 32, 4, 1, 1, dropout, device),
             fc1: LinearConfig::new(linear_input_size * 32, 128).init(device),
             fc2: LinearConfig::new(128, 64).init(device),
             loss: ContrastiveLossConfig::new().init::<B>(1.0, 0.0),
@@ -124,16 +125,6 @@ impl<B: Backend> Conv1dBlock<B> {
             dropout: DropoutConfig::new(dropout).init(),
             activation: Gelu::new(),
         }
-    }
-
-    pub fn output_size(
-        input_size: usize,
-        kernel_size: usize,
-        padding: usize,
-        dilation: usize,
-        stride: usize,
-    ) -> usize {
-        ((input_size + 2 * padding - dilation * (kernel_size - 1) - 1) / stride) + 1
     }
 
     pub fn forward(&self, input: Tensor<B, 3>) -> Tensor<B, 3> {
