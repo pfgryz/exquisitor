@@ -7,8 +7,9 @@ use burn::module::Module;
 use burn::optim::AdamConfig;
 use burn::record::{BinGzFileRecorder, CompactRecorder, FullPrecisionSettings};
 use burn::tensor::backend::AutodiffBackend;
-use burn::train::metric::LossMetric;
+use burn::train::metric::{CpuMemory, CpuUse, LearningRateMetric, LossMetric};
 use burn::train::LearnerBuilder;
+use cfg_if::cfg_if;
 use std::env;
 
 #[derive(Config)]
@@ -71,18 +72,23 @@ pub fn train<B: AutodiffBackend>(artifact_dir: &str, config: TrainingConfig, dev
         .batch_size(config.batch_size)
         .shuffle(config.seed)
         .num_workers(config.num_workers)
-        .build(SequencesDataset::new("data/training.csv").unwrap());
+        .build(SequencesDataset::new("data/training.db").unwrap());
 
     let dataloader_validate = DataLoaderBuilder::new(batcher_validate)
         .batch_size(config.batch_size)
         .shuffle(config.seed)
         .num_workers(config.num_workers)
-        .build(SequencesDataset::new("data/validation.csv").unwrap());
+        .build(SequencesDataset::new("data/validation.db").unwrap());
 
     // Learning
     let learner = LearnerBuilder::new(artifact_dir)
         .metric_train_numeric(LossMetric::new()) // add metric for
         .metric_valid_numeric(LossMetric::new())
+        .metric_train(CpuUse::new())
+        .metric_valid(CpuUse::new())
+        .metric_train(CpuMemory::new())
+        .metric_valid(CpuMemory::new())
+        .metric_train(LearningRateMetric::new())
         .num_epochs(config.num_epochs)
         .devices(vec![device.clone()])
         .with_file_checkpointer(CompactRecorder::new())
