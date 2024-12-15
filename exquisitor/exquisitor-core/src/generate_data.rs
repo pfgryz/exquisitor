@@ -58,30 +58,30 @@ struct Common {
     /// Path to output directory
     #[arg(long, default_value = "data")]
     output: String,
+
+    /// Length of the sequences
+    #[arg(long, default_value_t = 150)]
+    length: usize,
+
+    /// Minimum similarity between anchor and positive
+    #[arg(long, default_value_t = 0.9)]
+    min_similarity_positive: f64,
+
+    /// Maximum similarity between anchor and positive
+    #[arg(long, default_value_t = 1.0)]
+    max_similarity_positive: f64,
+
+    /// Minimum similarity between anchor and negative
+    #[arg(long, default_value_t = 0.0)]
+    min_similarity_negative: f64,
+
+    /// Maximum similarity between anchor and negative
+    #[arg(long, default_value_t = 0.5)]
+    max_similarity_negative: f64,
 }
 
 #[derive(Parser, Clone, Debug)]
 struct ArtificialCommand {
-    /// Length of the sequences
-    #[arg(long, default_value_t = 1000)]
-    length: usize,
-
-    /// Minimum similarity between anchor and positvie
-    #[arg(long, default_value_t = 0.6)]
-    min_similarity_positive: f64,
-
-    /// Maximum similarity between anchor and positive
-    #[arg(long, default_value_t = 0.9)]
-    max_similarity_positive: f64,
-
-    /// Minimum similarity between anchor and negative
-    #[arg(long, default_value_t = 0.1)]
-    min_similarity_negative: f64,
-
-    /// Maximum similarity between anchor and negative
-    #[arg(long, default_value_t = 0.4)]
-    max_similarity_negative: f64,
-
     /// Common parameters
     #[command(flatten)]
     common: Common,
@@ -249,37 +249,34 @@ fn create_real_neural_dataset(
     output: &Path,
     file_format: &FileFormat,
     ids: &HashSet<usize>,
+    length: usize,
+    similarity_positive: (usize, usize),
+    similarity_negative: (usize, usize),
 ) -> IoResult<()> {
+    let mut state: Vec<usize> = (0..length).collect();
+
     let mut sequences = read_records(input, file_format, &ids)?;
     sequences.shuffle(generator);
 
     let mut writer = CsvWriter::from_path(output)?;
     writer.write_record(&["anchor", "positive", "negative"])?;
 
-    let comparator =
-        NeedlemanWunsch::new(1f64, NeedlemanWunsch::create_default_similarity_matrix());
-
-    for idx in (0..ids.len()).step_by(3) {
+    for idx in (0..ids.len()) {
         if idx % 1000 == 0 {
-            println!("{} / {}", idx / 3, ids.len() / 3)
+            println!("{} / {}", idx, ids.len())
         }
 
         let anchor = &sequences[idx];
-        let first = &sequences[idx + 1];
-        let second = &sequences[idx + 2];
 
-        let (positive, negative) = match comparator
-            .distance(anchor, first)
-            .map_err(|e| IoError::new(ErrorKind::Other, e))?
-            > comparator
-                .distance(anchor, second)
-                .map_err(|e| IoError::new(ErrorKind::Other, e))?
-        {
-            true => (second, first),
-            false => (first, anchor),
-        };
+        state.shuffle(generator);
+        let threshold: usize = generator.gen_range(similarity_positive.0..similarity_positive.1);
+        let positive = mutate_raw_sequence(generator, anchor.content().to_string(), &state[threshold..]);
 
-        writer.write_record(&[anchor.content(), positive.content(), negative.content()])?;
+        state.shuffle(generator);
+        let threshold: usize = generator.gen_range(similarity_negative.0..similarity_negative.1);
+        let negative = mutate_raw_sequence(generator, anchor.content().to_string(), &state[threshold..]);
+
+        writer.write_record(&[anchor.content(), &positive, &negative])?;
     }
 
     Ok(())
@@ -328,19 +325,19 @@ fn artificial_command(args: &ArtificialCommand) {
     let mut generator = StdRng::seed_from_u64(args.common.seed);
 
     let similarity_positive = (
-        (args.min_similarity_positive * args.length as f64) as usize,
-        (args.max_similarity_positive * args.length as f64) as usize,
+        (args.common.min_similarity_positive * args.common.length as f64) as usize,
+        (args.common.max_similarity_positive * args.common.length as f64) as usize,
     );
     let similarity_negative = (
-        (args.min_similarity_negative * args.length as f64) as usize,
-        (args.max_similarity_negative * args.length as f64) as usize,
+        (args.common.min_similarity_negative * args.common.length as f64) as usize,
+        (args.common.max_similarity_negative * args.common.length as f64) as usize,
     );
 
     if args.common.training != 0 {
         create_artificial_neural_dataset(
             &mut generator,
             format!("{}/training.csv", args.common.output),
-            args.length,
+            args.common.length,
             args.common.training,
             similarity_positive,
             similarity_negative,
@@ -352,7 +349,7 @@ fn artificial_command(args: &ArtificialCommand) {
         create_artificial_neural_dataset(
             &mut generator,
             format!("{}/validation.csv", args.common.output),
-            args.length,
+            args.common.length,
             args.common.validation,
             similarity_positive,
             similarity_negative,
@@ -364,7 +361,7 @@ fn artificial_command(args: &ArtificialCommand) {
         create_artificial_experiments_dataset(
             &mut generator,
             format!("{}/experiments.fasta", args.common.output),
-            args.length,
+            args.common.length,
             args.common.experiments,
         )
         .expect("Cannot generate experiments set");
@@ -390,11 +387,20 @@ fn dataset_command(args: &DatasetCommand) {
         }
     };
 
+    let similarity_positive = (
+        (args.common.min_similarity_positive * args.common.length as f64) as usize,
+        (args.common.max_similarity_positive * args.common.length as f64) as usize,
+    );
+    let similarity_negative = (
+        (args.common.min_similarity_negative * args.common.length as f64) as usize,
+        (args.common.max_similarity_negative * args.common.length as f64) as usize,
+    );
+
     if args.common.training != 0 {
         let ids = generate_unique_random(
             &mut generator,
             &mut exclude,
-            args.common.training * 3,
+            args.common.training,
             0,
             count,
         );
@@ -405,6 +411,9 @@ fn dataset_command(args: &DatasetCommand) {
             &PathBuf::from(format!("{}/training.csv", args.common.output)),
             &args.file_format,
             &ids,
+            args.common.length,
+            similarity_positive,
+            similarity_negative,
         )
         .expect("Cannot create training dataset");
 
@@ -419,7 +428,7 @@ fn dataset_command(args: &DatasetCommand) {
         let ids = generate_unique_random(
             &mut generator,
             &mut exclude,
-            args.common.validation * 3,
+            args.common.validation,
             0,
             count,
         );
@@ -430,6 +439,9 @@ fn dataset_command(args: &DatasetCommand) {
             &PathBuf::from(format!("{}/validation.csv", args.common.output)),
             &args.file_format,
             &ids,
+            args.common.length,
+            similarity_positive,
+            similarity_negative,
         )
         .expect("Cannot create validation dataset");
 
