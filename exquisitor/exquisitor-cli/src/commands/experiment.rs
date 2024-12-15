@@ -72,6 +72,7 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
                 cpu_usage.to_string(),
                 memory_usage.to_string(),
             ])?;
+            writer.flush()?;
 
             thread::sleep(time::Duration::from_secs(args.resolution));
         } else {

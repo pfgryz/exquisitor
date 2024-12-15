@@ -1,6 +1,5 @@
 use clap::{Parser, Subcommand, ValueEnum};
 use csv::Writer as CsvWriter;
-use exquisitor_core::clustering::distance::NeedlemanWunsch;
 use exquisitor_core::clustering::traits::DistanceMetric;
 use exquisitor_core::clustering::ALPHABET;
 use exquisitor_core::io::fasta::reader::FastaReader;
@@ -14,7 +13,6 @@ use rand::{Rng, SeedableRng};
 use std::collections::HashSet;
 use std::fs::File;
 use std::io::{BufReader, BufWriter, Result as IoResult, Write};
-use std::io::{Error as IoError, ErrorKind};
 use std::path::{Path, PathBuf};
 
 #[derive(Parser, Debug)]
@@ -59,12 +57,16 @@ struct Common {
     #[arg(long, default_value = "data")]
     output: String,
 
+    /// Name of the experiments file
+    #[arg(long, default_value = None)]
+    experiments_file_name: Option<String>,
+
     /// Length of the sequences
     #[arg(long, default_value_t = 150)]
     length: usize,
 
     /// Minimum similarity between anchor and positive
-    #[arg(long, default_value_t = 0.9)]
+    #[arg(long, default_value_t = 0.8)]
     min_similarity_positive: f64,
 
     /// Maximum similarity between anchor and positive
@@ -76,7 +78,7 @@ struct Common {
     min_similarity_negative: f64,
 
     /// Maximum similarity between anchor and negative
-    #[arg(long, default_value_t = 0.5)]
+    #[arg(long, default_value_t = 0.8)]
     max_similarity_negative: f64,
 }
 
@@ -270,11 +272,13 @@ fn create_real_neural_dataset(
 
         state.shuffle(generator);
         let threshold: usize = generator.gen_range(similarity_positive.0..similarity_positive.1);
-        let positive = mutate_raw_sequence(generator, anchor.content().to_string(), &state[threshold..]);
+        let positive =
+            mutate_raw_sequence(generator, anchor.content().to_string(), &state[threshold..]);
 
         state.shuffle(generator);
         let threshold: usize = generator.gen_range(similarity_negative.0..similarity_negative.1);
-        let negative = mutate_raw_sequence(generator, anchor.content().to_string(), &state[threshold..]);
+        let negative =
+            mutate_raw_sequence(generator, anchor.content().to_string(), &state[threshold..]);
 
         writer.write_record(&[anchor.content(), &positive, &negative])?;
     }
@@ -360,7 +364,7 @@ fn artificial_command(args: &ArtificialCommand) {
     if args.common.experiments != 0 {
         create_artificial_experiments_dataset(
             &mut generator,
-            format!("{}/experiments.fasta", args.common.output),
+            format!("{}/{}.fasta", args.common.output, args.common.experiments_file_name.clone().unwrap_or("experiments".into())),
             args.common.length,
             args.common.experiments,
         )
@@ -397,13 +401,8 @@ fn dataset_command(args: &DatasetCommand) {
     );
 
     if args.common.training != 0 {
-        let ids = generate_unique_random(
-            &mut generator,
-            &mut exclude,
-            args.common.training,
-            0,
-            count,
-        );
+        let ids =
+            generate_unique_random(&mut generator, &mut exclude, args.common.training, 0, count);
 
         create_real_neural_dataset(
             &mut generator,
@@ -463,7 +462,7 @@ fn dataset_command(args: &DatasetCommand) {
 
         create_real_experiments_dataset(
             &args.input,
-            &PathBuf::from(format!("{}/experiments.fasta", args.common.output)),
+            &PathBuf::from(format!("{}/{}.fasta", args.common.output, args.common.experiments_file_name.clone().unwrap_or("experiments".into()))),
             &args.file_format,
             &ids,
         )
