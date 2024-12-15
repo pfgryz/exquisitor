@@ -13,6 +13,8 @@ pub struct Model<B: Backend> {
     conv2: Conv1dBlock<B>,
     fc1: Linear<B>,
     fc2: Linear<B>,
+    fc3: Linear<B>,
+    dropout: Dropout,
     activation: Gelu,
     loss: ContrastiveLoss,
 }
@@ -30,8 +32,13 @@ impl<B: Backend> Model<B> {
 
         let x = self.fc1.forward(x);
         let x = self.activation.forward(x);
+        let x = self.dropout.forward(x);
 
         let x = self.fc2.forward(x);
+        let x = self.activation.forward(x);
+        let x = self.dropout.forward(x);
+
+        let x = self.fc3.forward(x);
 
         x
     }
@@ -80,7 +87,7 @@ impl ModelConfig {
         dropout: f64,
     ) -> Model<B> {
         let linear_input_size = calculate_conv_output_size(
-            4,
+            8,
             1,
             0,
             1,
@@ -89,10 +96,12 @@ impl ModelConfig {
 
         Model {
             conv1: Conv1dBlock::new(1, 16, 16, 1, 4, dropout, device),
-            conv2: Conv1dBlock::new(16, 32, 4, 1, 1, dropout, device),
-            fc1: LinearConfig::new(linear_input_size * 32, 128).init(device),
-            fc2: LinearConfig::new(128, 64).init(device),
-            loss: ContrastiveLossConfig::new().init::<B>(0.9, 0.0),
+            conv2: Conv1dBlock::new(16, 32, 8, 1, 1, dropout, device),
+            fc1: LinearConfig::new(linear_input_size * 32, 4096).init(device),
+            fc2: LinearConfig::new(4096, 512).init(device),
+            fc3: LinearConfig::new(512, 64).init(device),
+            loss: ContrastiveLossConfig::new().init::<B>(1.0, 0.0),
+            dropout: DropoutConfig::new(dropout).init(),
             activation: Gelu::default(),
         }
     }
@@ -103,7 +112,7 @@ pub struct Conv1dBlock<B: Backend> {
     conv: Conv1d<B>,
     norm: BatchNorm<B, 1>,
     dropout: Dropout,
-    activation: Relu,
+    activation: Gelu,
 }
 
 impl<B: Backend> Conv1dBlock<B> {
@@ -123,14 +132,14 @@ impl<B: Backend> Conv1dBlock<B> {
                 .init(device),
             norm: BatchNormConfig::new(channels_out).init(device),
             dropout: DropoutConfig::new(dropout).init(),
-            activation: Relu::new(),
+            activation: Gelu::new(),
         }
     }
 
     pub fn forward(&self, input: Tensor<B, 3>) -> Tensor<B, 3> {
         let x = self.conv.forward(input);
         let x = self.norm.forward(x);
-        let x = self.activation.forward(x);
+        // let x = self.activation.forward(x);
 
         self.dropout.forward(x)
     }

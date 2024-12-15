@@ -10,7 +10,6 @@ use burn::record::{BinGzFileRecorder, CompactRecorder, FullPrecisionSettings};
 use burn::tensor::backend::AutodiffBackend;
 use burn::train::metric::{CpuMemory, CpuUse, LearningRateMetric, LossMetric};
 use burn::train::LearnerBuilder;
-use cfg_if::cfg_if;
 use std::env;
 
 #[derive(Config)]
@@ -30,7 +29,7 @@ pub struct TrainingConfig {
     pub learning_rate: f64,
 
     /// Gamma parameter for Exponential LR
-    #[config(default = 0.999)]
+    #[config(default = 0.9999)]
     pub gamma: f64,
 
     /// Sequence length
