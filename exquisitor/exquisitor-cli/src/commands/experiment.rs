@@ -21,6 +21,10 @@ pub(crate) struct ExperimentCommand {
     /// Path to the output file
     #[arg(long)]
     output: PathBuf,
+
+    /// Maximum execution duration in seconds (0 - no limit)
+    #[arg(long, default_value_t = 0)]
+    max_duration: u64,
 }
 
 pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
@@ -62,7 +66,7 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
             _ => {}
         }
 
-        if let Some(_) = system.process(pid) {
+        if let Some(proc) = system.process(pid) {
             let (cpu_usage, memory_usage) = calculate_cpu_and_memory_usage(&system, pid);
 
             let elapsed_time = start_time.elapsed().as_secs();
@@ -73,6 +77,14 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
                 memory_usage.to_string(),
             ])?;
             writer.flush()?;
+
+            if args.max_duration != 0 && elapsed_time >= args.max_duration {
+                writer.write_record(&["ABORTED_MAX_DURATION".into(), "0".into(), "0".into()])?;
+                writer.flush()?;
+                proc.kill();
+                info!("Experiment aborted. Maximum duration exceeded");
+                break;
+            }
 
             thread::sleep(time::Duration::from_secs(args.resolution));
         } else {
