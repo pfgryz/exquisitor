@@ -100,7 +100,7 @@ impl ModelConfig {
             fc1: LinearConfig::new(linear_input_size * 32, 4096).init(device),
             fc2: LinearConfig::new(4096, 512).init(device),
             fc3: LinearConfig::new(512, 64).init(device),
-            loss: ContrastiveLossConfig::new().init::<B>(1.0, 0.0),
+            loss: ContrastiveLossConfig::new().init::<B>(1.0, 0.25),
             dropout: DropoutConfig::new(dropout).init(),
             activation: Gelu::default(),
         }

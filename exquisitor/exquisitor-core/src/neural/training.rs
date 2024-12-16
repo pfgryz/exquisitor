@@ -5,7 +5,7 @@ use burn::config::Config;
 use burn::data::dataloader::DataLoaderBuilder;
 use burn::lr_scheduler::exponential::ExponentialLrSchedulerConfig;
 use burn::module::Module;
-use burn::optim::AdamConfig;
+use burn::optim::AdamWConfig;
 use burn::record::{BinGzFileRecorder, CompactRecorder, FullPrecisionSettings};
 use burn::tensor::backend::AutodiffBackend;
 use burn::train::metric::{CpuMemory, CpuUse, LearningRateMetric, LossMetric};
@@ -22,14 +22,14 @@ pub struct TrainingConfig {
     pub num_epochs: usize,
 
     /// Optimizer
-    pub optimizer: AdamConfig,
+    pub optimizer: AdamWConfig,
 
     /// Learning rate for optimizer,
     #[config(default = 1e-5)]
     pub learning_rate: f64,
 
     /// Gamma parameter for Exponential LR
-    #[config(default = 0.9999)]
+    #[config(default = 0.99999)]
     pub gamma: f64,
 
     /// Sequence length
