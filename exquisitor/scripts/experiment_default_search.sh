@@ -1,11 +1,11 @@
 #!/bin/bash
 
-BLASTN_PATH=/blast/execultables/bin/blastn
+BLASTN_PATH=/blast/executables/bin/blastn
 BLASTDB_PATH=/blast/db
 
 mkdir -p results
 
-for X in $(seq 0 10)
+for X in $(seq 0 15)
 do
     ./exquisitor-cli --log-level=DEBUG experiment \
         --resolution 5 \

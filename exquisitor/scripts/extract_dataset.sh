@@ -10,7 +10,7 @@ rm ./data/.exclude
 echo "[]" > ./data/.exclude
 mkdir -p ./data/experiments
 
-for X in $(seq 0 10);
+for X in $(seq 0 15);
 do
     Y=$((1 << X))
     ./generate-data dataset \
