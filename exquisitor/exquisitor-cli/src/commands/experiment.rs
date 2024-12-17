@@ -79,7 +79,7 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
             writer.flush()?;
 
             if args.max_duration != 0 && elapsed_time >= args.max_duration {
-                writer.write_record(&["ABORTED_MAX_DURATION".into(), "0".into(), "0".into()])?;
+                writer.write_record(&["ABORTED_MAX_DURATION".to_string(), "0".to_string(), "0".to_string()])?;
                 writer.flush()?;
                 proc.kill();
                 info!("Experiment aborted. Maximum duration exceeded");
