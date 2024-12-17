@@ -9,7 +9,11 @@ mkdir -p results/nw
 for X in $(seq 0 15)
 do
     Z=$(echo "sqrt(2^$X)" | bc -l)
-    echo $Z
+    Z=$(echo "$Z/1" | bc)
+    if (( Z < 1 )); then
+      Z=1
+    fi
+
     ./exquisitor-cli --log-level=DEBUG experiment \
         --resolution 5 \
         --max-duration 43200 \
