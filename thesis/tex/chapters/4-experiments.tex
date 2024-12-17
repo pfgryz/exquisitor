@@ -1,7 +1,56 @@
 \clearpage
-\section{Badania}
+    \section{Eksperymenty}
 
-**TODO** [ok. 15 stron]
+        Przeprowadzono eksperymenty jakościowe oraz wydajnościowe dla trzech metod oraz dodatkowo dla klasyfikacji taksonomicznej.
+
+        \subsection{Zbiory danych}
+            Do przeprowadzenia eksperymentów wykorzystano zbiór \textit{CAMI II Toy Human Microbiome Project}, z którego wylosowano zbiór 2047 sekwencji genetycznych, które nie były wykorzystane w procesie uczenia sieci neuronowej. Zbiór następnie został podzielony na podzbiory o wielkościach $n^k$ dla $k \in [0, 10]$.
+
+        \subsection{Miara jakości}
+            Do oceny jakości wyników pełnej klasyfikacji taksonomicznej został wykorzystany zmodyfikowany indeks Jaccarda, wyrażony wzorem:
+
+            \begin{equation}
+                \text{Miara jakosci} = \frac{1}{|| R \cup E||} \sum_{o \in (R \cup E)}{
+                    \frac{min(R_o, E_o)}{max(R_o, E_o)}
+                }
+            \end{equation}
+    
+            gdzie 
+            \begin{align*}
+                R, E &- \text{zbiory organizmów referencyjnych i otrzymanych}, \\
+                E_o, R_o &- \text{jakość organizmów w zbiorach } E \text{ i } R.
+            \end{align*}
+
+            Wykorzystano również dodatkowe miary jakości, które oceniają tworzone klastry w wyniku wykorzystania różnych metod określania niepodobieństwa. Pierwszą z nich jest znormalizowana informacja wzajemna (ang. \text{Normalized mutual information, NMI}) i służy do oceny klastrów, drugą jest czułość wykorzystywaną do oceny reprezentantów (ang. \textit{sensitivity}). Miary zdefiniowane są jako:
+
+            \begin{equation}
+                sensitivity = \frac{\text{liczba wyników prawdziwie dodatnych}}{
+                    \text{liczba wyników prawdziwie dodatnych} + \text{liczba wyników fałszywie ujemnych}
+                }
+            \end{equation}
+            
+            \begin{equation}
+                NMI = \frac{I(X; Y)}{\sqrt{H(X) \cdot H(Y)}}
+            \end{equation}
+
+            gdzie 
+            \begin{align*}
+                I(X; Y) &= \sum_{y \in Y}{ \sum_{x \in X}{p(x, y) \log_{2}{\frac{p(x, y)}{p(x) p(y)}}}}, \\
+                H(X) &= - \sum_{x \in X}{ p(x) \log_{2}{p(x)}}, \\
+                I(X; Y) &- \text{informacja wzajemna między zbiorami $X$ oraz $Y$}, \\
+                H(X) &- \text{entropia zbioru $X$}, \\
+                H(Y) &- \text{entropia zbioru $Y$}, \\
+                p(x) &- \text{prawdopobieństwo zajścia zdarzenia $x$}, \\
+                p(x, y) &- \text{wspólny rozkład prawdopodobieństwa $X$ oraz $Y$ }.
+            \end{align*}
+
+        \subsection{Procedura}
+
+            % \subsubsection{Wykorzystany sprzęt}
+            % Eksperymenty zostały przeprowadzone na serwerze wyposażonym w procesor Intel Core i7-6850KK (4 vCPU), 40GB pamięci RAM oraz kartę graficzną GTX 1080TI.
+
+            % \subsubsection{Uruchomienie}
+           Eksperymenty zostały przeprowadzone przy wykorzystaniu zbudowanego narzędzia, które monitorowało wykorzystanie procesora oraz pamięci przez eksperyment. Maksymalny czas eksperymentu ustawiono na 4 godziny. Liczbę grup ustawiono na $\sqrt{n}$, gdzie $n$ to liczba sekwencji w danym eksperymencie.
 
 \begin{enumerate}
     \item Badania jakościowe
