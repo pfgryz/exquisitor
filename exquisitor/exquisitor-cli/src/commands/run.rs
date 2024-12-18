@@ -51,6 +51,10 @@ pub(crate) struct RunCommand {
     #[arg(long, action)]
     only_cluster: bool,
 
+    /// Save clustering information
+    #[arg(long, action)]
+    save_clusters: bool,
+
     /// Database configuration
     #[command(flatten)]
     database_configuration: DatabaseConfiguration,
@@ -128,7 +132,7 @@ enum ClusteringMethod {
     KMedoid,
 }
 
-/// Handle run command
+/// Run full pipeline of taxonomic classification with clustering and preprocessing
 pub(crate) fn run(args: RunCommand) -> IoResult<()> {
     // Detect file format
     let format = match args.file_format {
@@ -195,10 +199,6 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
         }
     };
 
-    for line in &distance_matrix {
-        println!("{:?}", line);
-    }
-
     debug!("Calculated distance matrix");
 
     let clustering_method: Box<dyn Clustering<DistanceMatrix>> =
@@ -223,14 +223,18 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
 
     debug!("Clustered into {}", clusters.len());
 
-    if args.only_cluster {
-        if let Some(path) = args.output {
-            let mut file = File::create(path.clone())?;
+    if args.only_cluster || args.save_clusters {
+        if let Some(ref path) = args.output {
+            let mut clusters_path = path.clone();
+            clusters_path.set_extension("clusters".to_string());
+            let mut file = File::create(&clusters_path)?;
             save_clustering_data(&mut file, &clusters)?;
 
-            debug!("Saved clusters to {}", path.to_string_lossy());
+            debug!("Saved clusters to {}", clusters_path.to_string_lossy());
         }
+    }
 
+    if args.only_cluster {
         return Ok(());
     }
 

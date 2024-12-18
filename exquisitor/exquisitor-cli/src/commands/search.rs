@@ -18,6 +18,7 @@ pub(crate) struct SearchCommand {
     database_configuration: crate::commands::run::DatabaseConfiguration,
 }
 
+/// Search the input sequences in BLASTn database
 pub(crate) fn search(args: SearchCommand) -> IoResult<()> {
     let database = Blast::new(
         args.database_configuration.blast.to_str().unwrap(),

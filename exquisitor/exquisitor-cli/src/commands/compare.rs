@@ -13,6 +13,7 @@ pub(crate) struct CompareCommand {
     second: PathBuf,
 }
 
+/// Compare the results of taxonomic classification
 pub(crate) fn compare(args: CompareCommand) -> IoResult<()> {
     Ok(())
 }

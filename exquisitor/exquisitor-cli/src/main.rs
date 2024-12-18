@@ -19,7 +19,7 @@ struct Cli {
     cmd: Commands,
 
     /// Logging
-    #[arg(long, default_value = "info")]
+    #[arg(long, default_value = "debug")]
     log_level: String,
 }
 

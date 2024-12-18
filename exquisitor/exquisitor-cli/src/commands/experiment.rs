@@ -27,6 +27,7 @@ pub(crate) struct ExperimentCommand {
     max_duration: u64,
 }
 
+/// Run command as experiment with measuring performance
 pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
     let mut writer = Writer::from_path(args.output)?;
     writer.write_record(&["timestamp", "cpu", "memory"])?;

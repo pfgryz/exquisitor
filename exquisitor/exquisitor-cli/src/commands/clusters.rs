@@ -36,6 +36,7 @@ fn load_clusters(path: &Path) -> IoResult<Vec<Cluster>> {
     load_clustering_data(&mut file)
 }
 
+/// Compare two sets of clusters with FMI and NMI scores
 pub(crate) fn compare_clusters(args: CompareClustersCommand) -> IoResult<()> {
     let first = load_clusters(args.reference.as_path())?;
     let second = load_clusters(args.second.as_path())?;
