@@ -1,0 +1,245 @@
+%region TIKZ Configuration
+\definecolor{nnGreen}{HTML}{00b894}
+\definecolor{nnBlue}{HTML}{0984e3}
+\definecolor{nnYellow}{HTML}{fdcb6e}
+\definecolor{nnPurple}{HTML}{a29bfe}
+\definecolor{nnGrey}{HTML}{b2bec3}
+
+\tikzstyle{input} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnGreen!30]
+\tikzstyle{linear} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnBlue!30]
+\tikzstyle{conv} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnYellow!30]
+\tikzstyle{bn} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnPurple!30]
+\tikzstyle{dropout} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnGrey!30]
+\tikzstyle{output} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=red!20]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+%endregion
+
+\clearpage
+\section{Wstęp teoretyczny}
+
+    \subsection{Podstawowe definicje}
+
+        \subsubsection{Sekwencja DNA}
+
+            Sekwencja DNA stanowi zapis genetyczny, który w sposób symboliczny odwzorowuje strukturę cząsteczki DNA, stosując alfabet złożony z czterech symboli: $A, T, C, G$. Każdy z symboli odnosi się do jednej z zasad azotowych zawartych w nukleotydach tworzących cząsteczkę DNA odpowiednio: adeniny, tyminy, cytozyny oraz guaniny.
+
+            \subsection{KMer}
+        
+            $K$—mery są to podsłowa sekwencji genetycznej o długości $k$. Dla danego alfabetu $G$ składającego się z $n$ symboli istnieje $n^k$ różnych $k$-merów o długości $k$. Sekwencja genetyczna o długości $n$ zawiera dokładnie $n - k + 1$ $k$-merów o długości $k$.
+
+        \subsubsection{Dopasowanie sekwencji}
+        
+            Proces dopasowywania sekwencji polega na wyrównywaniu ich symboli w celu maksymalizacji ich wzajemnego podobieństwa, co realizowane jest poprzez wstawianie przerw (ang. \textit{gaps}).
+            
+        \subsubsection{Algorytm Needlema-Wunscha}
+        
+           Algorytm Needlemana-Wunscha stanowi metodę wykorzystywaną do ustalania globalnego dopasowania pomiędzy dwiema sekwencjami \cite{NeedlemanWunsch1970}. Metoda ta polega na skonstruowaniu macierzy podobieństwa pomiędzy sekwencjami zgodnie z ustalonymi regułami:
+
+           \begin{equation}
+                \begin{aligned}
+                    D_{i,0} &= i \cdot g, & \text{dla } & i \in [0, n] \\
+                    D_{0,j} &= j \cdot g, & \text{dla } & j \in [1, m] \\
+                    D_{i,j} &= \max
+                    \begin{cases}
+                    D_{i - 1, j} + g \\
+                    D_{i, j - 1} + g \\
+                    D_{i - 1, j - 1} + s(A_i, B_j)
+                    \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m]
+                \end{aligned}
+            \end{equation}
+
+            gdzie,
+            \begin{align*} 
+                & g, s(A_i, B_j) \in \mathbb{R} \\
+                A, B -& \text{porównywane sekwencje}, \\
+                n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
+                D -& \text{macierz podobieństwa o rozmiarach } n \text{ x } m, \\
+                g -& \text{kara za przerwę}, \\
+                s(A_i, B_j) -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\ 
+                & \text{a } j \text{-tym elementem w sekwencji B}. \\
+            \end{align*}
+
+            Wartość znajdująca się w $D_{n, m}$ określa liczbowo jakość globalnego dopasowania sekwencji.
+
+        \subsubsection{Uczenie kontrastowe}
+
+            Uczenie kontrastowe (ang. \textit{contrastive learning}) \cite{Bromley1993} jest metodą polegającą na nauce reprezentacji danych poprzez porównywanie i różnicowanie podobnych oraz różnych przykładów. Dzięki zastosowaniu tej techniki, reprezentacje danych zachowują właściwości podobieństwa i różnicy między danymi, które reprezentują.
+
+        \subsubsection{Podobieństwo i niepodobieństwo kosinusowe}
+
+            Podobieństwo i niepodobieństwo kosinusowe są miarami, które mogą być wykorzystywane do porównywania wektorów liczbowych, zdefiniowane one są wzorami:
+
+            \begin{equation}
+                similarity_{cosine} = \cos{\theta} = \frac{A \cdot B}{\|A\| \|B\|} = \frac{
+                        \sum^{n}_{i = 1}A_i B_i
+                    }{
+                        \sqrt{
+                            \sum^{n}_{i = 1}A_i^2
+                        }
+                        \cdot
+                        \sqrt{
+                            \sum^{n}_{i = 1}B_i^2
+                        }
+                    }
+            \end{equation}
+
+            \begin{equation}
+                dissimilarity_{cosine}(A, B) = 1 - similarity_{cosine}(A, B)
+            \end{equation}
+
+            gdzie,
+            \begin{align*} 
+                A, B -& \text{porównywane wektory}, \\
+                \theta -& \text{kąt między wektorami $A$ i $B$}, \\
+                A_j, B_j -& \text{$j$-ty element wektora odpowiednio $A$ oraz $B$}.
+            \end{align*}
+
+
+    \subsection{Metody}
+    
+            W pracy zaimplementowano trzy metody: nową metodę opartą na sieciach neuronowych oraz dwie klasyczne metody wykorzystywane do porównania. Nowa metoda oparta na sieciach neuronowych została opracowana w celu połączenia zalet obu klasycznych metod oraz eliminacji ich niedoskonałości. W szczególności skoncentrowano się na przyspieszeniu procesu określania niepodobieństwa w porównaniu do algorytmu Needlemana-Wunscha oraz na zwiększeniu jakości mierzonych niepodobieństw między sekwencjami DNA w porównaniu z metodą wykorzystującą $k$-mery, która nie bierze pod uwagę w pełni struktury porównywanych sekwencji.
+    
+            % Needleman-Wunsch
+            \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}
+            
+                Pierwszą metodą klasyczną, która została wykorzystana do określania niepodobieństwa między sekwencjami DNA jest zmodyfikowany algorytm Needlama-Wunscha. Algorytm pozwala na dokładne określanie niepodobieństwa z uwzględnieniem przerw oraz zmiany danych zasad. Modyfikacja algorytmu polega na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń w celu zapewnienia, że niepodobieństwo będzie mieściło się w przedziale: $[0, \infty)$:
+    
+                \begin{equation}
+                    \begin{aligned}
+                        D_{i,j} &= \min
+                        \begin{cases}
+                        D_{i - 1, j} + g \\
+                        D_{i, j - 1} + g \\
+                        D_{i - 1, j - 1} + s(A_i, B_j)
+                        \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m] \\
+                        & g, s(A_i, B_j) \in \mathbb{R}^{+}
+                    \end{aligned}
+                \end{equation}
+    
+                Wartość znajdująca się w $D_{n, m}$ jest miarą niepodobieństwa między sekwencjami.
+                
+            % KMer
+            \subsubsection{KMer}
+            
+                Druga zaimplementowana metoda wykorzystuje $k$-mery do określania niepodobieństwa między sekwencjami DNA, poprzez wyznaczenie odległości euklidesowej w przestrzeni $k$-merów, gdzie osie tej przestrzeni odpowiadają różnym $k$-merom występującym w sekwencjach, a wektory reprezentują ich częstości wystąpień. Niepodobieństwo wyliczone jest według wzoru:
+    
+                \begin{equation}
+                    dissimilarity_{kmer}(A, B, k) = \sqrt{\sum_{m \in M_{k}} (A_m - B_m)^{2}}
+                \end{equation}
+    
+                gdzie,
+                \begin{align*} 
+                    k -& \text{długość $k$-merów}, \\
+                    A, B -& \text{porównywane sekwencje}, \\
+                    M -& \text{zbiór wszystkich możliwych sekwencji genetycznych o długości $k$}, \\
+                    A_j, B_j -& \text{liczba wystąpień sekwencji } j \text{ odpowiednio w sekwencjach } A \text{ i } B. \\
+                \end{align*}
+            
+            % Sztuczna sieć neuronowa
+            \subsubsection{Sztuczna sieć neuronowa}
+            
+                Zaproponowana metoda wykorzystuje sztuczne sieci neuronowe wraz z uczeniem kontrastowym do stworzenia modelu, który będzie pozwalał na tworzenie reprezentacji sekwencji wejściowych, które zachowają właściwości niepodobieństwa między sekwencjami. Na podstawie stworzonych reprezentacji sekwencji będzie wyliczone niepodobieństwo z wykorzystaniem niepodobieństwa kosinusowego.
+    
+                \subsubsubsection{Architektura}
+    
+                    Architektura sieci neuronowej składa się z 2 bloków wykorzystujących warstwy splotowe, które odpowiadają za ekstrakcję niskopoziomowych cech sekwencji, warstwy spłaszczającej oraz trzech warstw perceptronów wielowarstwowych, które odpowiadają za stworzenie reprezentacji na podstawie wyekstrahowanych cech. Wyjściem jest wektor zanurzeń o rozmiarze $64$. Schematycznie architektura została przedstawiona na rysunku ~\ref{Architektura}).
+    
+                    \begin{figure}[H]
+                        \begin{center}
+                            \begin{tikzpicture}[node distance=2cm]
+                                % Layers
+                                \node (input) [input] { Wejście };
+                                \node[right of=input, yshift=-1cm, xshift=-1cm] {\footnotesize 1x600};
+    
+                                    % Block I
+                                \node (conv1) [conv, below of=input] { Splot1D (16@1x16, krok: 4) };
+                                \node[right of=conv1, yshift=-1cm, xshift=-1cm] {\footnotesize 16x147};
+                                \node (bn1) [bn, below of=conv1] { Normalizacja wsadowa };
+    
+                                    % Block II
+                                \node (conv2) [conv, below of=bn1] { Splot1D (32@1x8) };
+                                \node[right of=conv2, yshift=-1cm, xshift=-1cm] {\footnotesize 32x140};
+                                \node (bn2) [bn, below of=conv2] { Normalizacja wsadowa };
+    
+                                    % Flatten
+                                \node (flatten) [linear, below of=bn2] { Warstwa spłaszczająca };
+                                \node[right of=flatten, xshift=1cm] {\footnotesize 1x4480};
+    
+                                    % FCN
+                                \node (fc1) [linear, right of=input, xshift=4cm] { Warstwa gęsta };
+                                \node[right of=fc1, yshift=-1cm, xshift=-1cm] {\footnotesize 1x4096};
+                                \node (drop1) [dropout, below of=fc1] { Wyłączenie };
+                                
+                                \node (fc2) [linear, below of=drop1] { Warstwa gęsta };
+                                \node[right of=fc2, yshift=-1cm, xshift=-1cm] {\footnotesize 1x512};
+                                \node (drop2) [dropout, below of=fc2] { Wyłączenie };
+                                
+                                \node (fc3) [linear, below of=drop2] { Warstwa gęsta };
+                                \node[right of=fc3, yshift=-1cm, xshift=-1cm] {\footnotesize 1x64};
+                                
+                                \node (output) [output, below of=fc3] { Wyjście };
+                                
+                                % Draw arrows
+                                \draw [arrow] (input) -- (conv1);
+                                \draw [arrow] (conv1) -- (bn1);
+                                \draw [arrow] (bn1) -- (conv2);
+                                \draw [arrow] (conv2) -- (bn2);
+                                \draw [arrow] (bn2) -- (flatten);
+                                \draw [arrow] (flatten) to[out=0, in=180] (fc1);
+                                \draw [arrow] (fc1) -- (drop1);
+                                \draw [arrow] (drop1) -- (fc2);
+                                \draw [arrow] (fc2) -- (drop2);
+                                \draw [arrow] (drop2) -- (fc3);
+                                \draw [arrow] (fc3) -- (output);
+                            \end{tikzpicture}
+                        \end{center}
+                        \caption{
+                            Schemat architektury sieci neuronowej.
+                        } 
+                        \label{Architektura}
+                    \end{figure}
+    
+                \subsubsubsection{Przykłady uczące}
+                    Przykłady uczące składają się z kotwicy (ang. \textit{anchor}) oraz dwóch sekwencji: pierwsza sekwencja podobna do kotwicy, druga nie.
+    
+                \subsubsubsection{Zbiór danych}
+                    Do stworzenia zbioru danych: treningowego oraz walidacyjnego została wykorzystana pierwsza próbka sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project} \cite{Fritz2019}. Zbiory zostały uzyskane poprzez losowy wybór sekwencji genetycznych z próbki, które następnie zostały uznane za kotwice. Przykłady podobne oraz niepodobne uzyskano poprzez modyfikację kotwicy odpowiednio w zakresie $[0; 0.2]$, $[0.2; 0.8]$.
+    
+                \subsubsubsection{Proces uczenia}
+    
+                    Przeprowadzono proces uczenia na zbiorze $10^{6}$ przykładów treningowych oraz $10^{4}$ walidacyjnych.
+    
+                    \paragraph{Funkcja straty}
+    
+                        Wykorzystano funkcję straty zdefiniowaną jako:
+                        
+                        \begin{equation}
+                            \text{Strata kontrastowa} = [m_{pos} - s_{pos}]_{+} + [s_{neg} - m_{neg}]_{+}
+                        \end{equation}
+    
+                        gdzie,
+                        \begin{align*}
+                            m_{pos}, m_{neg} &- \text{margines podobieństwa między przykładami pozytywnymi a kotwicą,} \\
+                            &\text{oraz między przykładami negatywnymi a kotwicą}, \\
+                            s_{pos}, s_{neg} &- \text{podobieństwo kosinusowe przykładu pozytywnego do kotwicy,} \\
+                            &\text{oraz negatywnego do kotwicy.}
+                        \end{align*}
+    
+                    \paragraph{Optymalizator}
+                    
+                        W procesie uczenia wykorzystano optymalizator \textit{AdamW} \cite{Loshchilov2017DecoupledWD} z wykładniczym spadkiem współczynnika uczenia oraz zanikiem wag (ang. \textit{weight decay}).
+                
+                    \paragraph{Parametry}
+    
+                         Parametry optymalizatora: $\lambda = 10^{-7}$, $\gamma = 0.99999$, zanik wag $= 10^{-7}$.  Parametry funkcji straty: $m_{pos} = 1.0$, $m_{neg} = 0.25$. Parametr warstw wyłączenia (ang. \textit{dropout}) $= 0.5$ dla obu warstw. Liczbę epok ustawiono na $5$, ze względu na ryzyko przeuczenia.
+    
+    
+                    \paragraph{Miara jakości}
+                    
+                        Jako miarę jakości modelu wykorzystano stratę kontrastową modelu obliczoną na zbiorze walidacyjnym.
+
+    \subsection{Wykorzystane narzędzia}
+    - Python
+    - Rust
+    - HTML, JS 
+    - + biblioteki

@@ -1,6 +1,23 @@
 \clearpage
 \section{Projekt i Implementacja}
 
+    \subsection{Wykorzystane narzędzia}
+
+        \subsubsection{Języki programowania}
+
+            W pracy wykorzystano języki programowania Python [?] oraz Rust[?]. 
+            Język Python był wykorzystany w początkowych fazach rozwoju pracy jako narzędzie do prototypowania rozwiązania oraz w ostatecznej wersji do stworzenia skryptów automatyzyjących niektóre czynności związane z nauką sieci neuronowej. Został on wybrany ze względu na dobrą dokumentację, lekkie środowisko języka oraz dostępność na systemach operacyjnych Windows oraz Linux.
+            Większość pracy dyplomowej, w tym wszystkie aplikacje oraz programy powstały przy użyciu języka Rust, który został wybrany ze względu na prędkość działania, czytelne komunikaty kompilatora oraz dużą dostępność bibliotek programistycznych, które można instalować za pomocą menedżera pakietów \textit{cargo} dołączonego wraz z środowiskiej języka Rust.
+
+        \subsubsection{Biblioteki programistyczne}
+
+            W aplikacji przeglądarkowej zrealizowano z wykorzystaniem biblioteki \textit{axum} [?] wraz z bibliotekę \textit{tokio} [?], która zapewniła środowisko asynchroniczne. Wykorzystano również bibliotekę \textit{sqlx} do komunikacji z bazą danych oraz realizacji odwzorowania relacyjnego-obiektowego, bibliotekę \textit{askama} do "templateów" do generowania zawartości HTML.
+
+            Aplikacja konsolowa została oparta na bibliotece \textit{clap} [?], która pozwoliła na zdefiniowanie interfejsu użytkownika w postaci dostępnych komend oraz ich parametrów. 
+
+            Model sieci neuronowej został zbudowany przy użyciu biblioteki \textit{burn} [?] oraz backendu \textit{wgpu} [?]. 
+            Główna biblioteka wykorzystywała bibliotekę \textit{serde} [?] do serializacji danych oraz bibliotekę \textit{kmedoids} [?], która zawiera implementację algorytmu k-medoidów.
+
 **TODO** [ok. 25 stron]
 
 \begin{enumerate}
