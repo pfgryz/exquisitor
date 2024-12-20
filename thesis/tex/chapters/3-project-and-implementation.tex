@@ -1,29 +1,100 @@
+% ===== ===== ===== =====
+    % **TODO** [ok. 25 stron]
+
+    % \begin{enumerate}
+    %     \item Opis pipeline'u
+    %     \item Wymaganie implementacyjny
+    %     \item Model architektury np. C4
+    %     \item Opis testów jednostkowych, integracyjnych
+    %     \item Interfejs użytkownika, instrukcja użytkownika
+    % \end{enumerate}
+% ===== ===== ===== =====
+
 \clearpage
 \section{Projekt i Implementacja}
 
-    \subsection{Wykorzystane narzędzia}
+    % ===== ===== ===== =====
+    % WYMAGANIA FUNKCJONALNE I NIEFUNKCJONALNE
+    % ===== ===== ===== ===== 
+    \subsection{Wymagania funkcjonalne i niefunkcjonalne}
+
+        \subsubsection{Wymagania funkcjonalne}
+
+            \begin{itemize}
+                \item Aplikacja powinna umożliwiać przeprowadzanie klasyfikacji taksonomicznej dla wprowadzonych sekwencji
+                \item Aplikacja powinna umożliwiać wybór metody grupowania sekwencji genetycznych
+                \item Aplikacja powinna zawierać zaimplementowane trzy metody grupowania sekwencji genetycznych
+                \item Aplikacja powinna umożliwiać porównanie jakości klasyfikacji taksonomicznej wykonanej przy użyciu różnych metod grupowania 
+                \item Aplikacja powinna umożliwiać zapis wyników w formacie JSON
+            \end{itemize}
+
+        \subsubsection{Wymagania niefunkcjonalne}
+
+            \begin{itemize}
+                \item Aplikacja powinna być wykonana przy wykorzystaniu kompilowanego wysoko wydajnego języka programowania
+                \item Implementacja powinna zawierać testy jednostkowe poszczególnych modułów i funkcji
+            \end{itemize}
+
+    % ===== ===== ===== =====
+    % WYKORZYSTANE NARZĘDZIA
+    % ===== ===== ===== ===== 
+    \subsection{Wykorzystane technologie, narzędzia oraz biblioteki}
 
         \subsubsection{Języki programowania}
 
-            W pracy wykorzystano języki programowania Python [?] oraz Rust[?]. 
-            Język Python był wykorzystany w początkowych fazach rozwoju pracy jako narzędzie do prototypowania rozwiązania oraz w ostatecznej wersji do stworzenia skryptów automatyzyjących niektóre czynności związane z nauką sieci neuronowej. Został on wybrany ze względu na dobrą dokumentację, lekkie środowisko języka oraz dostępność na systemach operacyjnych Windows oraz Linux.
-            Większość pracy dyplomowej, w tym wszystkie aplikacje oraz programy powstały przy użyciu języka Rust, który został wybrany ze względu na prędkość działania, czytelne komunikaty kompilatora oraz dużą dostępność bibliotek programistycznych, które można instalować za pomocą menedżera pakietów \textit{cargo} dołączonego wraz z środowiskiej języka Rust.
+            W pracy wykorzystano języki programowania Rust\cite{Rust} oraz Python\cite{Python}.
+            
+            Język Python był wykorzystywany w początkowych fazach rozwoju pracy jako narzędzie do prototypowania rozwiązania oraz w ostatecznej wersji pracy do stworzenia skryptów automatyzyjących niektóre czynności związane z nauką sieci neuronowej oraz do generowania wykresów. Został on wybrany ze względu na bogatą bibliotekę standardową, dostępność wielu bibliotek zewnętrznych oraz wieloplatformowość.
+            
+            Język Rust został użyty do stworzenia wszystkich aplikacji oraz programów. Wybrany został ze względu na wysokość wydajność, bezpieczne zarządzanie pamięcią oraz dużą dostępność bibliotek programistycznych, które można zainstalować za pomocą menedżera pakietów \textit{cargo}\cite{Rust:cargo} dołączonego wraz ze środowiskiem języka Rust. Dodatkowymi atutami, które przyczyniły się do wyboru języka, jest bogaty system typów oraz kompilacja do kodu maszynowego. 
 
         \subsubsection{Biblioteki programistyczne}
 
-            W aplikacji przeglądarkowej zrealizowano z wykorzystaniem biblioteki \textit{axum} [?] wraz z bibliotekę \textit{tokio} [?], która zapewniła środowisko asynchroniczne. Wykorzystano również bibliotekę \textit{sqlx} do komunikacji z bazą danych oraz realizacji odwzorowania relacyjnego-obiektowego, bibliotekę \textit{askama} do "templateów" do generowania zawartości HTML.
+            Aplikację przeglądarkową zrealizowano z wykorzystaniem biblioteki \textit{axum}\cite{Rust:axum} opartej na asynchronicznym środowisku wykonawczym \textit{tokio}\cite{Rust:tokio} języka Rust.
+            Do generowania zawartości stron w formacie HTML wykorzystano silnik szablonów \textit{askama}\cite{Rust:askama}. Komunikację z bazą danych zapewniła biblioteka \textit{sqlx}\cite{Rust:sqlx}. Użyto dodatkowo biblioteki \textit{dotenv}\cite{Rust:dotenv} w celu załadowania zmiennych środowiskowych z pliku, które niezbędne są do prawidłowego działania aplikacji.
 
-            Aplikacja konsolowa została oparta na bibliotece \textit{clap} [?], która pozwoliła na zdefiniowanie interfejsu użytkownika w postaci dostępnych komend oraz ich parametrów. 
+            Aplikacja konsolowa została oparta na bibliotece \textit{clap}\cite{Rust:clap}, która pozwoliła na zdefiniowanie interfejsu użytkownika, w postaci dostępnych poleceń wraz z parametrami.
 
-            Model sieci neuronowej został zbudowany przy użyciu biblioteki \textit{burn} [?] oraz backendu \textit{wgpu} [?]. 
-            Główna biblioteka wykorzystywała bibliotekę \textit{serde} [?] do serializacji danych oraz bibliotekę \textit{kmedoids} [?], która zawiera implementację algorytmu k-medoidów.
+            Bibioteka \textit{exquisitor-core} korzysta z biblioteki \textit{kmedoids}\cite{Schubert:2022}, która implementuje grupowanie k-medoidów oraz bibliotek pomocniczych \textit{num-traits}, \textit{tempfiles} oraz \textit{float-cmp}, które wykorzystywane są w testach jednostkowych.
 
-**TODO** [ok. 25 stron]
+            Model sieci neuronowej został zbudowany przy użyciu biblioteki \textit{burn}\cite{Rust:burn} oraz silnika obliczeniowego \textit{wgpu}.
 
-\begin{enumerate}
-    \item Opis pipeline'u
-    \item Wymaganie implementacyjny
-    \item Model architektury np. C4
-    \item Opis testów jednostkowych, integracyjnych
-    \item Interfejs użytkownika, instrukcja użytkownika
-\end{enumerate}
+            Ponadto w obu aplikacjach oraz bibliotece wykorzystywana jest biblioteka \textit{serde}\cite{Rust:serde} umożliwiającą serializację i deserializację danych do różnych formatów oraz biblioteka \textit{rand}\cite{Rust:rand} zapewniająca generator liczb pseudolosowych.
+
+        \subsubsection{Narzędzia}
+
+            W pracy zostały wykorzystane następujące narzędzia:
+            \begin{itemize}
+                \item \textit{cargo} jako menedżer pakietów i system budowania w Rust,
+                \item \textit{rustup} do automatycznego zarządzania wersjami Rust,
+                \item \textit{clippy} do statycznej analizy kodu w Rust,
+                \item \textit{rustfmt} do automatycznego formatowania kodu źródłowego w Rust,
+                \item \textit{cargo test} do przeprowadzania testów jednostkowych,
+                \item \textit{git} jako system kontroli wersji, umożliwiający śledzenie zmian oraz zarządzanie historią kodu.
+            \end{itemize}
+
+    % ===== ===== ===== =====
+    % OPIS ROZWIĄZANIA
+    % ===== ===== ===== ===== 
+    \subsection{Opis rozwiązania}
+
+
+        \subsubsection{Potok analizy}
+    % ===== ===== ===== =====
+    % OPIS POTOKU
+    % ===== ===== ===== =====
+
+    % ===== ===== ===== =====
+    % MODEL ARCHITEKTURY C4
+    % ===== ===== ===== =====
+    \subsection{Model architektury rozwiązania}
+
+    % ===== ===== ===== =====
+    % OPIS TESTÓW JEDNOSTKOWYCH
+    % ===== ===== ===== =====
+    \subsection{Testy}
+
+    % ===== ===== ===== =====
+    % INTERFEJS UŻYTKOWNIKA + INSTRUKCJA UŻYTKOWNIKA
+    % ===== ===== ===== =====
+    \subsection{Interfejs użytkownika}

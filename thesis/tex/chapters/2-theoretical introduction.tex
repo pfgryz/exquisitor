@@ -1,3 +1,4 @@
+
 %region TIKZ Configuration
 \definecolor{nnGreen}{HTML}{00b894}
 \definecolor{nnBlue}{HTML}{0984e3}
@@ -163,10 +164,10 @@
     
                                     % Flatten
                                 \node (flatten) [linear, below of=bn2] { Warstwa spłaszczająca };
-                                \node[right of=flatten, xshift=1cm] {\footnotesize 1x4480};
+                                \node[right of=flatten, yshift=-0.5cm xshift=1cm] {\footnotesize 1x4480};
     
                                     % FCN
-                                \node (fc1) [linear, right of=input, xshift=4cm] { Warstwa gęsta };
+                                \node (fc1) [linear, right of=input, xshift=5cm] { Warstwa gęsta };
                                 \node[right of=fc1, yshift=-1cm, xshift=-1cm] {\footnotesize 1x4096};
                                 \node (drop1) [dropout, below of=fc1] { Wyłączenie };
                                 
