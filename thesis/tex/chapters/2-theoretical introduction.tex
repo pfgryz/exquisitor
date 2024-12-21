@@ -1,18 +1,8 @@
 
 %region TIKZ Configuration
-\definecolor{nnGreen}{HTML}{00b894}
-\definecolor{nnBlue}{HTML}{0984e3}
-\definecolor{nnYellow}{HTML}{fdcb6e}
-\definecolor{nnPurple}{HTML}{a29bfe}
-\definecolor{nnGrey}{HTML}{b2bec3}
 
-\tikzstyle{input} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnGreen!30]
-\tikzstyle{linear} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnBlue!30]
-\tikzstyle{conv} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnYellow!30]
-\tikzstyle{bn} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnPurple!30]
-\tikzstyle{dropout} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=nnGrey!30]
-\tikzstyle{output} = [rectangle, rounded corners, minimum width=2.5cm, minimum height=1cm, text centered, draw=black, fill=red!20]
-\tikzstyle{arrow} = [thick,->,>=stealth]
+
+
 %endregion
 
 \clearpage
@@ -47,6 +37,7 @@
                     D_{i - 1, j - 1} + s(A_i, B_j)
                     \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m]
                 \end{aligned}
+                \label{Equation:NeedlemanWunsch}
             \end{equation}
 
             gdzie,
@@ -147,52 +138,7 @@
     
                     \begin{figure}[H]
                         \begin{center}
-                            \begin{tikzpicture}[node distance=2cm]
-                                % Layers
-                                \node (input) [input] { Wejście };
-                                \node[right of=input, yshift=-1cm, xshift=-1cm] {\footnotesize 1x600};
-    
-                                    % Block I
-                                \node (conv1) [conv, below of=input] { Splot1D (16@1x16, krok: 4) };
-                                \node[right of=conv1, yshift=-1cm, xshift=-1cm] {\footnotesize 16x147};
-                                \node (bn1) [bn, below of=conv1] { Normalizacja wsadowa };
-    
-                                    % Block II
-                                \node (conv2) [conv, below of=bn1] { Splot1D (32@1x8) };
-                                \node[right of=conv2, yshift=-1cm, xshift=-1cm] {\footnotesize 32x140};
-                                \node (bn2) [bn, below of=conv2] { Normalizacja wsadowa };
-    
-                                    % Flatten
-                                \node (flatten) [linear, below of=bn2] { Warstwa spłaszczająca };
-                                \node[right of=flatten, yshift=-0.5cm xshift=1cm] {\footnotesize 1x4480};
-    
-                                    % FCN
-                                \node (fc1) [linear, right of=input, xshift=5cm] { Warstwa gęsta };
-                                \node[right of=fc1, yshift=-1cm, xshift=-1cm] {\footnotesize 1x4096};
-                                \node (drop1) [dropout, below of=fc1] { Wyłączenie };
-                                
-                                \node (fc2) [linear, below of=drop1] { Warstwa gęsta };
-                                \node[right of=fc2, yshift=-1cm, xshift=-1cm] {\footnotesize 1x512};
-                                \node (drop2) [dropout, below of=fc2] { Wyłączenie };
-                                
-                                \node (fc3) [linear, below of=drop2] { Warstwa gęsta };
-                                \node[right of=fc3, yshift=-1cm, xshift=-1cm] {\footnotesize 1x64};
-                                
-                                \node (output) [output, below of=fc3] { Wyjście };
-                                
-                                % Draw arrows
-                                \draw [arrow] (input) -- (conv1);
-                                \draw [arrow] (conv1) -- (bn1);
-                                \draw [arrow] (bn1) -- (conv2);
-                                \draw [arrow] (conv2) -- (bn2);
-                                \draw [arrow] (bn2) -- (flatten);
-                                \draw [arrow] (flatten) to[out=0, in=180] (fc1);
-                                \draw [arrow] (fc1) -- (drop1);
-                                \draw [arrow] (drop1) -- (fc2);
-                                \draw [arrow] (fc2) -- (drop2);
-                                \draw [arrow] (drop2) -- (fc3);
-                                \draw [arrow] (fc3) -- (output);
-                            \end{tikzpicture}
+                            \input{tex/pictures/neural.tex}
                         \end{center}
                         \caption{
                             Schemat architektury sieci neuronowej.

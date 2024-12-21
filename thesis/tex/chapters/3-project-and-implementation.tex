@@ -36,6 +36,340 @@
             \end{itemize}
 
     % ===== ===== ===== =====
+    % MODEL ARCHITEKTURY C4
+    % ===== ===== ===== =====
+    \subsection{Model architektury rozwiązania}
+
+        Architektura rozwiązania została przedstawiona w postaci modelu C4\cite{C4}. Model ten opisuje architekturę na czterech diagramach: kontekstowych, kontenerów, komponentów oraz kodu, przechodząc od najbardziej abstrakcyjnego spojrzenia na architekturę rozwiązania do kodu implementacji.
+            
+        \todo{
+            \begin{itemize}
+                \item {
+                    model architektury w postaci diagramów C4 + opis z wprowadzeniem do każdego
+                }
+            \end{itemize}
+        }
+
+    % ===== ===== ===== =====
+    % OPIS ROZWIĄZANIA
+    % ===== ===== ===== ===== 
+    \subsection{Opis rozwiązania}
+
+        Centralnym elementem rozwiązania jest potok przetwarzania, zaprojektowany z myślą o elastycznej konfiguracji oraz możliwości zastosowania różnych metod grupowania sekwencji DNA. Elementy potoku zostały zaimplementowane w bibliotece \textit{exquisitor-core}, w postaci funkcji oraz rekordów. Realizacja potoku została umieszczona w aplikacji konsolowej, która wykorzystuje tę bibliotekę. Aplikacja umożliwia uruchamianie i konfigurację potoku, oferując dostęp do dostępnych metod. Zawiera również polecenia pomocnicze, które zostały przygotowane w celu przeprowadzenia eksperymentów.
+
+        Dodatkowo stworzono aplikację przeglądarkową, oferującą prosty interfejs w postaci strony internetowej. Umożliwia ona użytkownikowi zlecanie klasyfikacji taksonomicznej dla przesłanych sekwencji DNA. Do realizacji zleconych zadań aplikacja przeglądarkowa korzysta z aplikacji konsolowej.
+
+        Ostatnim komponentem rozwiązania jest sieć neuronowa, której elementy zostały zawarte w bibliotece \textit{exquisitor-core}. 
+
+        Biblioteka, aplikacja konsolowa oraz aplikacja przeglądarkowa zostały umieszczone w oddzielnych skrzynkach (ang. \textit{crate}) w ramach jednego rozwiązania. Dzięki temu możliwe jest rozdzielenie odpowiedzialności między poszczególnymi elementami, niezależny rozwój kodu oraz umożliwienie wykorzystania biblioteki w innych aplikacjach.
+
+        % ----- ----- ----- ----- 
+        % OPIS POTOKU
+        % ----- ----- ----- -----
+
+        \subsubsection{Potok przetwarzania}
+
+            Potok przetwarzania składa się z szeregu kroków, które są realizowane kolejno, jeden po drugim, w celu przeprowadzenia pełnej klasyfikacji taksonomicznej DNA. Każdy krok potoku jest odpowiedzialny za określoną część procesu i może być niezależnie modyfikowany lub wymieniany, co umożliwia elastyczność w doborze metod. Do kluczowych kroków potoku należą:
+
+            \begin{enumerate}
+                \item {
+                    \textbf{Wstępne przetwarzanie sekwencji}
+
+                    Wejście: \textit{zbiór sekwencji DNA}
+
+                    Wyjście: \textit{zbiór sekwencji DNA}
+
+                    Krok ten odpowiada za weryfikację poprawności dostarczonych sekwencji DNA oraz ich wyrównanie do wymaganej długości, niezbędnej w kolejnych krokach przetwarzania. Może on zostać pominięty, jeśli zastosowana metoda w następnych krokach nie jest wrażliwa na długość sekwencji wejściowych.
+                }
+                \item {
+                    \textbf{Grupowanie sekwencji}
+
+                    Wejście: \textit{zbiór sekwencji DNA}.
+
+                    Wyjście: \textit{Grupy (reprezentant oraz elementy)}.
+
+                    Głównym celem tego kroku jest wybór najlepszych reprezentantów dla każdej grupy sekwencji, która składa się z elementów oraz reprezentanta. Dzięki temu możliwa jest redukcja liczby sekwencji do przetworzenia w kolejnych etapach. Krok ten może zostać zrealizowany przy użyciu jednej z trzech dostępnych metod.
+                }
+                \item {
+                    \textbf{Wyszukiwanie w bazie danych}
+
+                    Wejście: \textit{reprezentanci grup (sekwencje DNA)}.
+
+                    Wyjście: \textit{wykryte organizmy}.
+
+                    Wyszukiwanie w bazie danych sekwencji pozwala znaleźć sekwencje podobne do wyszukiwanych sekwencji DNA. Pozwala to na określenie do jakich organizmów mogą należeć wyszukiwane sekwencje. W tym kroku przetwarzani są wyłącznie reprezentanci grup. W wyniku wyszukiwania dla każdego reprezentanta uzyskuje się listę odpowiadających organizmów.
+                }
+                \item {
+                    \textbf{Przetwarzanie wyników wyszukiwania}
+
+                    Wejście: \textit{wykryte organizmy, grupy}.
+
+                    Wyjście: \textit{wykryte organizmy}.
+
+                    W tym kroku następuje połączenie informacji o grupach z listą wykrytych organizmów. Obliczane są jakość oraz pewność identyfikacji organizmów na podstawie wyników wyszukiwania uzyskanych w poprzednim kroku oraz liczby elementów w grupach.
+                }
+                \item {
+                    \textbf{Generowanie raportów dla użytkownika}
+
+                    Wyjście: \textit{wykryte organizmy}.
+
+                    Wyjście: \textit{wyniki}.
+
+                    Na podstawie danych z poprzedniego kroku filtrowane są istotne informacje, a następnie generowane są wyniki w formie przystępnej dla użytkownika.
+                }
+            \end{enumerate}
+
+            Schematyczne przedstawienie potoku zaprezentowano na rysunku~\ref{Picture:Pipeline}. W kółkach umieszczono wejście oraz wyjście z potoku przetwarzania, natomiast w prostokątach – kolejne kroki. Na strzałkach opisano rodzaj przekazywanych danych. Niebieskim kolorem obramowania oznaczono kroki, których wyjściem są sekwencje DNA, czerwonym – kroki, których wyjściem są wykryte organizmy, a zielonym – kroki generujące wyniki w formie czytelnej dla człowieka.
+
+            \begin{figure}
+                \begin{center}
+                    \input{tex/pictures/pipeline.tex}
+                \end{center}
+                \caption{
+                    Schemat potoku przetwarzania.
+                }\label{Picture:Pipeline}
+            \end{figure}
+
+        \subsubsection{Biblioteka \textit{exquisitor-core}}
+            Podstawę rozwiązania stanowi biblioteka \textit{exqusitor-core} zawarta w skrzynce (ang. \textit{crate}) \textit{exquisitor-core}, stworzona w języku Rust. Zawiera ona implementację wszystkich elementów potoku, które wymagane są przez aplikacje oraz dodatkowo opakowywuje implementację algorytmów k-medoidów. Biblioteka podzielona jest na kilka modułów ze względu na odpowiedzialność:
+
+            \begin{itemize}
+                \item {
+                    Moduł \textit{io} odpowiadający za operacje wejścia/wyjścia dla sekwencji DNA zapisanych w formatach FASTA oraz FASTQ. Zawiera on definicje struktur przechowujących sekwencje, metody do ich odczytu i zapisu oraz cechy umożliwiające opis funkcjonalności związanych z obsługą tych formatów.
+                }
+                \item {
+                    Moduł \textit{clustering} realizujący proces grupowania sekwencji DNA na podstawie ich niepodobieństwa. Zawiera metody do obliczania niepodobieństwa między sekwencjami DNA oraz wektorami liczbowymi, a także algorytmy grupowania obiektów. Dodatkowo, moduł zawiera strukturę reprezentującą grupę, składającą się z reprezentanta i elementów tej grupy. Zawiera także funkcję do budowy macierzy niepodobieństwa oraz cechy, które definiują interfejs, z którego korzystają inne elementy biblioteki, umożliwia to implementację własnych struktur i funkcji, pozwalając na elastyczne rozszerzanie systemu o nowe metody.
+                }
+                \item {
+                    Moduł \textit{neural}, który zawiera definicję modelu sieci neuronowej, implementację funkcji straty oraz funkcjonalności odpowiedzialnych za wczytanie oraz przygotowanie danych dla sieci neuronowej, w tym danych uczących. Ponadto zawiera on funkcję trenującą sieć.
+                }
+                \item {
+                    Moduł \textit{searching} zawierający implementację struktur opisujących wykryte organizmy oraz integrację z algorytmem \textit{blastn}.
+                }
+            \end{itemize}
+
+            W skrzynce \textit{exquisitor-core} znajdują się dwa dodatkowe programy – pierwszy służy do przygotowania danych uczących dla sieci neuronowej i eksperymentalnych poprzez losowanie próbek z większego zbioru danych, natomiast drugi odpowiada za uczenie sieci neuronowej.
+
+        \subsubsection{Aplikacja konsolowa \textit{exquisitor-cli}}
+            Główną aplikacją, która implementuje pełny potok przetwarzania i realizuje klasyfikację taksonomiczną, jest aplikacja konsolowa \textit{exquisitor-cli} zawarta w skrzynce o tej samej nazwie. Aplikacja oferuje standardowy interfejs użytkownika typowy dla aplikacji konsolowych i wykonuje komendy wywołane przez użytkownika. Interfejs tekstowy umożliwia uruchamianie aplikacji w środowiskach bez dostępu do środowiska graficznego.
+
+            Aplikacja implementuje nastepujące komendy:
+            \begin{itemize}
+                \item {
+                    \textit{experiment} --- umożliwia uruchomienie wskazanej komendy w ramach eksperymentu. Pozwala na monitorowanie wykorzystania pamięci RAM oraz procesora oraz określenie maksymalnego czasu trwania eksperymentu, po których zostanie przerwany. Wykorzystywana jest do przeprowadzania eksperymentów. W wyniku działania generuje plik w formacie CSV zawierający monitorowane dane z zadaną rozdzielczością.
+                }
+                \item {
+                    \textit{compare} --- pozwala na porównanie dwóch zestawów wyników klasyfikacji taksonomicznej wyliczając jakość względną jednego zestawu do drugiego. Wyniki są wyświetlane na ekranie lub, w przypadku podania ścieżki, zapisywane do pliku.
+                }
+                \item {
+                    \textit{compare-clusters} --- pozwala na porównanie jakości dwóch zestawów grup, które zostały otrzymane w wyniku zastosowania algorytmu grupowania.
+                }
+                \item {
+                    \textit{search} --- pozwala na wyszukanie sekwencji w bazie danych bez wykonywania całego potoku przetwarzania. Wyniki działania komendy zapisywane są w wskazanym pliku.
+                }
+                \item {
+                    \textit{run} --- jest główną komendą, która realizuje potok przetwarzania. Uruchamia potok przetwarzania dla sekwencji DNA zawartych w podanym pliku. Pozwala na konfigurację wykorzystywanej metody grupowania sekwencji, algorytmu grupowania sekwencji oraz ich parametrów. Dodatkowo umożliwia zapisanie grup otrzymanych w wyniku grupowania. Wymaga podania ścieżki do programu \textit{blastn} oraz ścieżki do jego bazy danych. Wyniki zapisuje do pliku, a w przypadku braku podania ścieżki na ekranie.
+                }
+            \end{itemize}
+
+        \subsubsection{Aplikacja przeglądarkowa \textit{exquisitor-app}}
+            Aplikacja przeglądarkowa została zaprojektowana z myślą o umożliwieniu użytkownikom końcowym zlecania zadań klasyfikacji taksonomicznej oraz przeglądania wyników po zakończeniu procesu. Wybór formy aplikacji przeglądarkowej wynika z jej dostępności na różnych urządzeniach posiadających dostęp do internetu i przeglądarki, co zapewnia łatwy, uniwersalny dostęp do systemu. Aplikacja składa się z serwera oraz stron internetowych generowanych za pomocą szablonów.
+
+            Serwer udostępnia stronę główną, na której użytkownik może zapoznać się z ostatnimi dziesięcioma zadaniami, zlecić wykonanie nowego zadania lub wyszukać zadanie po identyfikatorze lub nazwie. Do przechowywania informacji o zleconych zadaniach wykorzystywana jest baza danych \textit{SQLite}.
+            
+            Do głównych funkcji serwera należą:
+            \begin{itemize}
+                \item Generowanie stron internetowych na podstawie szablonów.
+                \item Serwowanie statycznych plików CSS oraz JavaScript.
+                \item Obsługa błędów i wyświetlanie stosownych komunikatów dla użytkownika.
+            \end{itemize}
+            
+            Schemat bazy danych znajduje się na rysunku~\ref{Picture:App:Database}.
+
+            \begin{figure}
+                \begin{center}
+                    \input{tex/pictures/app_database.tex}
+                \end{center}
+                \caption{
+                    Schemat bazy danych aplikacji przeglądarkowej.
+                }\label{Picture:App:Database}
+            \end{figure}
+
+    % ===== ===== ===== =====
+    % METODY
+    % ===== ===== ===== =====
+    \subsection{Metody grupowania sekwencji}
+
+        W pracy zaimplementowano trzy metody grupowania sekwencji DNA. Każda metoda składa się z wyznaczania niepodobieństwa między sekwencjami DNA, które służą do budowy macierzy niepodobieństwa, a następnie do przeprowadzenia grupowania sekwencji. Każda z metod obejmuje:
+
+        \begin{itemize}
+            \item {wyznaczenie niepodobieństwa między sekwencjami,}
+            \item {budowę macierzy niepodobieństwa,}
+            \item {zastosowanie algorytmu grupowania.}
+        \end{itemize}
+
+        Budowanie macierzy niepodobieństwa oraz zastosowanie algorytmu grupowania wygląda we wszystkich metodach jednakowo. W dalszych sekcjach opisany zostanie proces wyznaczania niepodobieństwa między sekwencjami w zaimplementowanych metodach.
+        
+        \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}
+
+            Pierwszą metodą zastosowaną do wyznaczenia niepodobieństwa między sekwencjami DNA jest  zmodyfikowany algorytm Needlamana-Wunscha. Algorytm ten pierwotnie służy do globalnego wyrównania sekwencji genetycznych. Korzystajac z własności algorytmu, że w komórce $D_{n, m}$ macierzy podobieństwa budowanej przez algorytm znajduje się jakość globalnego wyrównania, dokonano modyfikacji algorytmu oraz odpowiedniego ustawienia parametrów, aby wynik ten odpowiadał miarze niepodobieństwa między sekwencjami. Modyfikacje te polegały na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń, w celu zapewnienia, że wartość w $D_{n, m}$ będzie zawierała się w przedziale $[0, \infty)$. Szczegóły wprowadzonych zmian względem wyrażenia \eqref{Equation:NeedlemanWunsch} przedstawiono poniżej:
+
+            \begin{equation}
+                \begin{aligned}
+                    D_{i,j} &= \min
+                    \begin{cases}
+                    D_{i - 1, j} + g \\
+                    D_{i, j - 1} + g \\
+                    D_{i - 1, j - 1} + s(A_i, B_j)
+                    \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m] \\
+                    & g, s(A_i, B_j) \in \mathbb{R}^{+}
+                \end{aligned}
+            \end{equation}
+
+            gdzie,
+            \begin{align*} 
+                A, B -& \text{porównywane sekwencje}, \\
+                n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
+                D -& \text{macierz podobieństwa o rozmiarach } n \text{ x } m, \\
+                g -& \text{kara za przerwę}, \\
+                s(A_i, B_j) -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\ 
+                & \text{a } j \text{-tym elementem w sekwencji B}. \\
+            \end{align*}
+
+            Przyjęto wartości parametrów:
+            \begin{align*}
+                g &= 2, \\
+                s(a, b) &= \begin{cases}
+                    0, & \text{dla } a = b, \\
+                    1, & \text{dla } a \neq b.
+                \end{cases}
+            \end{align*}
+
+            Pełny przebieg metody przedstawiono na schemacie~\ref{Picture:Cluster:NeedlemanWunsch}. Czerwonym obramowaniem oznaczono krok, w którym wykorzystywany jest zmodyfikowany algorytm Needlemana-Wunscha.
+
+            \question{
+                Czy warto i stosowne jest pokazanie tutaj przykładu na przykładowych bardzo prostych danych?
+            }
+
+            \begin{figure}
+                \begin{center}
+                    \input{tex/pictures/cluster_needleman.tex}
+                \end{center}
+                \caption{
+                    Grupowanie sekwencji z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha do określenia niepodobieństwa między sekwencjami.
+                }\label{Picture:Cluster:NeedlemanWunsch}
+            \end{figure}
+
+        \subsubsection{Metoda zanurzeń \textit{k-merów}}
+            Metoda zanurzeń \textit{k-merów} jest drugą klasyczną metodą wyznaczania niepodobieństwa między sekwencjami genetycznymi, w tym sekwencjami DNA. Polega ona na wyznaczeniu wszystkich \textit{k-merów} dla sekwencji wejściowych, a następnie obliczeniu niepodobieństwa sekwencji poprzez porównanie liczby wystąpień danych \textit{k-merów} w porównywanych sekwencjach.
+
+            Z wyznaczonych \textit{k-merów} tworzy się wektor zanurzeń, w którym każda pozycja odpowiada określonemu \textit{k-merowi}. Przykładowo, dla \textit{k} = 2 (k-mery dwuznakowe) możemy przypisać odpowiednią pozycję w wektorze do każdego możliwego k-meru, np.:
+            
+            \[
+            \text{AA} \to 0, \quad \text{AC} \to 1, \quad \text{AT} \to 2, \quad \text{AG} \to 3, \quad \text{CA} \to 4, \quad \dots
+            \]
+            
+            Wektor zanurzeń dla danej sekwencji DNA zawiera liczbę wystąpień każdego \textit{k-meru} w odpowiednich pozycjach. Na przykład, dla sekwencji `AAACA' wektor zanurzeń dla $k=2$ może wyglądać następująco:
+            
+            \[
+            \text{AATC} \to [2, 1, 0, 0, 1, \dots]
+            \]
+            
+            gdzie liczba na pozycji 0 oznacza liczbę wystąpień \textit{AA} w sekwencji, liczba na pozycji 1 oznacza liczbę wystąpień \textit{AC}, itd. Następnie, na podstawie tych wektorów zanurzeń, oblicza się niepodobieństwo między sekwencjami, porównując ich wektory zanurzeń według wzoru:
+
+            \begin{equation}
+                dissimilarity_{kmer}(A, B, k) = \sqrt{\sum_{m \in M_{k}} (A_m - B_m)^{2}}
+            \end{equation}
+
+            gdzie,
+            \begin{align*} 
+                k -& \text{długość $k$-merów}, \\
+                A, B -& \text{porównywane sekwencje}, \\
+                M -& \text{zbiór wszystkich możliwych sekwencji genetycznych o długości $k$}, \\
+                A_j, B_j -& \text{liczba wystąpień sekwencji } j \text{ odpowiednio w sekwencjach } A \text{ i } B. \\
+            \end{align*}
+
+            Pełny przebieg wykorzystania metody zanurzeń \textit{k-merów} w grupowaniu sekwencji został pokazany na schemacie~\ref{Picture:Cluster:KMer}. Czerwonym obramowaniem oznaczono krok, w którym wykorzystana została metoda.
+
+            \question{
+                Czy warto i stosowne jest pokazanie tutaj przykładu na przykładowych bardzo prostych danych?
+            }
+
+            \begin{figure}
+                \begin{center}
+                    \input{tex/pictures/cluster_kmer.tex}
+                \end{center}
+                \caption{
+                    Grupowanie sekwencji z wykorzystaniem zanurzeń \textit{k-merów} do określenia niepodobieństwa między sekwencjami.
+                }\label{Picture:Cluster:KMer}
+            \end{figure}
+
+        \subsubsection{Sieć neuronowa}
+
+            Nową zaproponowaną metodą jest wykorzystanie sztucznej sieci neuronowej do redukcji wymiarowości wejściowych sekwencji DNA do postaci wektora cech o wymiarze $\mathbb{R}^{64}$. Sieć neuronowa wykorzystuje uczenie kontrastowe\cite{}, która umożliwia naukę reprezentacji danych wejściowych z zachowaniem właśności podobieństwa oraz niepodobieństwa między wejściowymi sekwencjami. Niepodobieństwo między sekwencjami zostanie obliczone poprzez obliczenie niepodobieństwa kosinusowego wyrażonego wzorem~\eqref{Equation:CosineDissimilarity} między wektorami cech sekwencji DNA.
+
+            \paragraph{Architektura}
+                Architektura modelu sieci neuronowej składa się z dwóch bloków splotowych zbudowanych z warstwy splotowej oraz normalizacji wsadowej, które odpowiadają za ekstrakcję niskopoziomowych cech sekwencji, warstwy spłaszczającej oraz trzech warstw perceptronów wielowarstwowych, które wykorzystują funkcję aktywacji GELU\cite{GELU} z wyłączeniem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$. 
+
+                Schematycznie architektura została przedstawiona na rysunku~\ref{Picture:NeuralModel}. 
+
+                \begin{figure}
+                    \begin{center}
+                        \input{tex/pictures/neural.tex}
+                    \end{center}
+                    \caption{
+                        NNe Model
+                    }\label{Picture:NeuralModel}
+                \end{figure}
+
+            \paragraph{Dane wejściowe}
+                Wejściem modelu są sekwencje DNA o długości $150$, które są kodowane do postaci wektora o wymiarach $1x600$ za pomocą kodu 1 z n\cite{Kod1zN}.
+
+            \paragraph{Przykłady uczące}
+                Przykłady uczące oraz walidacyjne składają się z kotwicy (ang. \textit{anchor}), sekwencji pozytywnej (ang. \textit{positive}) czyli podobnej do kotwicy oraz sekwencji negatywnej (ang. \textit{negative}) niepodobnej do kotwicy.
+            
+            \paragraph{Zbiór danych}
+                Zbiór danych uczących oraz walidacyjnych został stworzony na podstawie zbioru \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz2019}, dokładnie na podstawie pierwszej próbki sekwencji genetycznych, która zawiera symulowane dane metagenomiczne z mikrobiomu skóry człowieka. Przykłady uzyskano poprzez losowanie kotwic ze zbioru oraz modyfikację kotwic w celu uzyskania sekwencji pozytywnej oraz negatywnej w stopniu odpowiednio $[0; 0.2]$, $[0.2; 0.8]$. Modyfikacja polegała na zamianie punktowej danej zasady na inną.
+
+            \paragraph{Funkcja straty}
+                Wykorzystano funkcję straty zdefiniowaną jako:
+
+                \begin{equation}
+                    \text{Strata kontrastowa} = [m_{pos} - s_{pos}]_{+} + [s_{neg} - m_{neg}]_{+}
+                \end{equation}
+
+                gdzie,
+                \begin{align*}
+                    m_{pos}, m_{neg} &- \text{margines podobieństwa między przykładami pozytywnymi a kotwicą,} \\
+                    &\text{oraz między przykładami negatywnymi a kotwicą}, \\
+                    s_{pos}, s_{neg} &- \text{podobieństwo kosinusowe przykładu pozytywnego do kotwicy,} \\
+                    &\text{oraz negatywnego do kotwicy.}
+                \end{align*}
+
+            \paragraph{Proces uczenia}
+                Proces uczenia modelu sieci neuronowej został przeprowadzony na zbiorze $10^{6}$ przykładów uczących oraz $10^{4}$ przykładów walidacyjnych. 
+                W procesie wykorzystano optymalizator \textit{AdamW}\cite{Loshchilov2017DecoupledWD} z wykładniczym spadkiem współczynnika uczenia oraz zanikiem wag (ang. \textit{weight decay}).
+            
+            \paragraph{Miara jakości}
+                Jako miarę jakości wykorzystano stratę kontrastową modelu obliczoną na zbiorze walidacyjnym.
+
+            \paragraph{Parametry procesu uczenia}
+                Funkcja straty została wykorzystana z parametrami $m_{pos} = 1.0$, $m_{neg} = 0.25$.
+                Przeprowadzono eksperymenty w celu określenia optymalnych parametrów sieci neuronowej. Sprawdzano parametry współczynnika uczenia $\lambda$, zaniku wag $w$, współczynnika $\gamma$ stosowanego w wykładniczym spadku współczynnika uczenia, parametr wyłączania neuronów oraz stosowność trzech warstw perceptronów wielowarstwowych. 
+                W wyniku eksperymentów wybrano najlepsze parametry: $\lambda = 10^{-6}$, $w = $, $\gamma=0.99999$, współczynnik wyłączenia neuronów na poziomie $0.5$ oraz stwierdzono pozytywny wpływ zastosowania trzech warstw perceptronów. 
+
+            Pełne wykorzystanie sztucznej sieci neuronowej w grupowaniu sekwencji zostało przedstawione na rysunku~\ref{Picture:Cluster:Neural}. Czerwonym obramowaniem oznaczono element wykorzystujący sztuczną sieć neuronową.
+
+            \begin{figure}
+                \begin{center}
+                    \input{tex/pictures/cluster_neural.tex}
+                \end{center}
+                \caption{
+                    Schemat architektury sztucznej sieci neuronowej.
+                }\label{Picture:Cluster:Neural}
+            \end{figure}
+
+    % ===== ===== ===== =====
     % WYKORZYSTANE NARZĘDZIA
     % ===== ===== ===== ===== 
     \subsection{Wykorzystane technologie, narzędzia oraz biblioteki}
@@ -62,7 +396,7 @@
             Ponadto w obu aplikacjach oraz bibliotece wykorzystywana jest biblioteka \textit{serde}\cite{Rust:serde} umożliwiającą serializację i deserializację danych do różnych formatów oraz biblioteka \textit{rand}\cite{Rust:rand} zapewniająca generator liczb pseudolosowych.
 
         \subsubsection{Narzędzia}
-
+            
             W pracy zostały wykorzystane następujące narzędzia:
             \begin{itemize}
                 \item \textit{cargo} jako menedżer pakietów i system budowania w Rust,
@@ -74,27 +408,36 @@
             \end{itemize}
 
     % ===== ===== ===== =====
-    % OPIS ROZWIĄZANIA
-    % ===== ===== ===== ===== 
-    \subsection{Opis rozwiązania}
+    % INTERFEJS UŻYTKOWNIKA + INSTRUKCJA UŻYTKOWNIKA
+    % ===== ===== ===== =====
+    \subsection{Interfejs użytkownika}
 
+        \subsubsection{Opis interfejsu użytkownika}
+            \todo{
+                \begin{itemize}
+                    \item opisać interfejs aplikacji konsolowej - dostępne komendy, ich składnie i typowy
+                    \item opisać interfejs aplikacji przeglądarkowej - gdzie co jest dostępne itd.
+                \end{itemize}
+            }
 
-        \subsubsection{Potok analizy}
-    % ===== ===== ===== =====
-    % OPIS POTOKU
-    % ===== ===== ===== =====
-
-    % ===== ===== ===== =====
-    % MODEL ARCHITEKTURY C4
-    % ===== ===== ===== =====
-    \subsection{Model architektury rozwiązania}
+        \subsubsection{Instrukcja użytkownika}
+            \todo{
+                \begin{itemize}
+                    \item - opisać jak zbudować całe rozwiązanie ? oraz przygotować resztę środowiska?
+                    \item opisać przykładowe zastosowanie aplikacji konsolowej oraz aplikacycjnej oraz jak to wykorystać 
+                \end{itemize}
+            }
 
     % ===== ===== ===== =====
     % OPIS TESTÓW JEDNOSTKOWYCH
     % ===== ===== ===== =====
     \subsection{Testy}
-
-    % ===== ===== ===== =====
-    % INTERFEJS UŻYTKOWNIKA + INSTRUKCJA UŻYTKOWNIKA
-    % ===== ===== ===== =====
-    \subsection{Interfejs użytkownika}
+            
+        \subsubsection{Testy jednostkowe}
+            \todo{
+                \begin{itemize}
+                    \item {
+                        opisać jakie testy były robione, za pomocą jakiego narzędzia, jakie jest pokrycie kodu testami itd.
+                    }
+                \end{itemize}
+            }
