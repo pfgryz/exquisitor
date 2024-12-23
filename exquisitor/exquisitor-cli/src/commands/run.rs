@@ -74,9 +74,13 @@ struct ClusteringConfiguration {
     #[arg(long)]
     similarity_matrix_file: Option<PathBuf>,
 
-    /// K parameter used in KMer algorithm
-    #[arg(long, required_if_eq_any([("pipeline", "kmer"), ("clustering", "kmedoid")]))]
+    /// Number of clusters
+    #[arg(long, required_if_eq_any([("clustering", "kmedoid")]))]
     k: Option<usize>,
+
+    /// K parameter used in KMer algorithm
+    #[arg(long, required_if_eq_any([("pipeline", "kmer")]))]
+    kmer: Option<usize>,
 
     /// Path to neural model
     #[arg(long, required_if_eq("pipeline", "neural"))]
@@ -166,7 +170,7 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
             )?
         }
         Pipeline::KMer => {
-            let distance_metric = KMer::new(args.clustering_configuration.k.ok_or(
+            let distance_metric = KMer::new(args.clustering_configuration.kmer.ok_or(
                 IoError::new(ErrorKind::Other, "Missing k parameter for KMer algorithm"),
             )?);
 
