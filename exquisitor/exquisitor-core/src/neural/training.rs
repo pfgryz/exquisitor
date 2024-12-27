@@ -29,7 +29,7 @@ pub struct TrainingConfig {
     pub learning_rate: f64,
 
     /// Gamma parameter for Exponential LR
-    #[config(default = 0.99999)]
+    #[config(default = 0.9999)]
     pub gamma: f64,
 
     /// Sequence length
