@@ -221,7 +221,7 @@
                     D_{i - 1, j} + g \\
                     D_{i, j - 1} + g \\
                     D_{i - 1, j - 1} + s(A_i, B_j)
-                    \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m] \\
+                    \end{cases}, & \text{dla } & i \in \interval({0, n}] \text{ oraz } j \in \interval({0, m}] \\
                     & g, s(A_i, B_j) \in \mathbb{R}^{+}
                 \end{aligned}
             \end{equation}
@@ -421,6 +421,154 @@
             }
 
         \subsubsection{Instrukcja użytkownika}
+
+            Niniejsza instrukcja użytkownika zawiera szczegółowy opis procesu instalacji, uruchamiania oraz użytkowania aplikacji konsolowej i przeglądarkowej. W pierwszej części omówiono proces instalacji wymaganego środowiska, a w kolejnych sekcjach przedstawiono szczegółowe instrukcje użytkownika dla obu rodzajów aplikacji.
+
+            \paragraph{Wymagania techniczne}
+                \begin{itemize}
+                    \item {
+                        \textbf{System operacyjny:} Ubuntu 20.0 lub nowszy,
+                    }
+                    \item {
+                        \textbf{Pamięć RAM:} minimum 4 GB, zalecane 8 GB,
+                    }
+                    \item {
+                        \textbf{Karta graficzna:} Nvidia GeForce GTX 1060 6GB lub lepsza,
+                    }
+                    \item {
+                        \textbf{Miejsce na dysku:} minimum 1 TB dostępnej przestrzeni
+                    }
+                \end{itemize}
+
+            \paragraph{Instalacja \textit{blastn} oraz bazy danych \textit{nt}}
+
+                \begin{enumerate}
+                    \item {
+                        Skopiuj skrypt instalacyjny o nazwie \texttt{download\_database.sh} do środowiska, w którym będzie przeprowadzana instalacja.
+                    }
+                    \item {
+                        Nadaj skryptowi odpowiednie uprawnienia do wykonania, używając polecenia: \texttt{sudo chmod +x download\_database.sh}.
+                    }
+                    \item {
+                        Uruchom skrypt, aby rozpocząć pobieranie i instalację \texttt{blastn} oraz bazy danych nukleotydów: \texttt{sudo ./download\_database.sh}.
+                    }
+                    \item {
+                        Skrypt automatycznie pobierze, zainstaluje oraz rozpakuje aplikację \texttt{blastn} oraz bazę danych nukleotydów \texttt{nt}.
+                    }
+                \end{enumerate}
+
+            \paragraph{Instalacja wymaganych programów:}
+
+                \begin{enumerate}
+                    \item {
+                        Zainstaluj pakiet \texttt{git} za pomocą polecenia: \texttt{sudo apt install git}.
+                    }
+                    \item {
+                        Przygotuj środowisko języka Rust\footnote{Instrukcje instalacji języka Rust dostępne są pod adresem: \texttt{https://www.rust-lang.org/tools/install}.}.
+                    }
+                \end{enumerate}
+
+            \paragraph{Instalacja aplikacji} \\
+                
+                \begin{enumerate}
+                    \item {
+                        Pobierz repozytorium rozwiązania za pomocą polecenia \texttt{git clone <url>}.
+                    }
+                    \item {
+                        Przejdź do folderu \texttt{exquisitor} oraz uruchom polecenie \texttt{cargo build -\phantom{}-release -\phantom{}-bins}.
+                    }
+                    \item {
+                        Aplikacja konsolowa oraz przeglądarkowa powinny być skompilowane i znajdują się w folderze \texttt{target/release}. 
+                        Skopiuj pliki wykonywalne aplikacji do docelowej lokacji.
+                    }
+                \end{enumerate}
+            
+            \paragraph{Uruchomienie aplikacji konsolowej}
+
+                \begin{enumerate}
+                    \item {
+                        Przejdź do folderu, w którym znajduje się plik wykonywalny aplikacji konsolowej.
+                    }
+                    \item {
+                        Ustaw zmienne środowiskowe \texttt{BLASTDB} oraz \texttt{BLASTN}, aby wskazywały odpowiednio na folder z bazą danych nukleotydów oraz na program \texttt{blastn}. 
+                        W przypadku standardowej instalacji środowiska za pomocą skryptu \texttt{download\_database.sh} zmienne należy ustawić odpowiednio na \texttt{/blast/db} oraz \texttt{/blast/executables/bin/blastn}.
+                    }
+                    \item {
+                        Aplikacja konsolowa jest gotowa do użycia. Możliwe jest uruchomienie dowolnego polecenia z tabeli~\ref{Table:ConsoleCommands}. Szczegóły dotyczące składni poleceń oraz argumentów znajdują się w tabeli~\ref{Table:ConsoleCommandsSyntax}.
+                    }
+                \end{enumerate}
+
+                \begin{table}[!h] \centering
+                    \caption{Polecenia aplikacji konsolowej.}\label{Table:ConsoleCommands}
+
+                    \begin{tabular}{| p{0.25\linewidth} | p{0.75\linewidth} |} 
+                        \hline
+                        \textbf{Polecenie}              & \textbf{Opis polecenia} \\ \hline\hline
+                        \texttt{experiment} 	        & uruchamia wskazane polecenie jako eksperyment. Pozwala na monitorowanie wykorzystania procesora oraz pamięci RAM oraz ograniczenie czasu trwania eksperymenty. \\ \hline
+                        \texttt{compare}		        & porównuje dwa zestawy wyników klasyfikacji taksonomicznej. Zwraca jakość względną między nimi. \\ \hline
+                        \texttt{compare-clusters} 	    & porównuje dwa zestawy grup. Zwraca jakość grupowania. \\ \hline
+                        \texttt{search}                 & Wyszukuje sekwencje DNA w bazie danych bez uruchamiania pełnego potoku przetwarzania \\ \hline
+                        \texttt{run}		            & uruchamia pełną klasyfikację taksonomiczną z zadanymi parametrami. \\ \hline
+                    \end{tabular}
+                
+                \end{table}
+
+                \begin{table}[!h] \centering
+                    \caption{Składnia poleceń aplikacji konsolowej.}\label{Table:ConsoleCommandsSyntax}
+
+                    \begin{tabular}{| p{0.25\linewidth} | >{\footnotesize}p{0.25\linewidth} | >{\footnotesize}p{0.5\linewidth} | } 
+                        \hline
+                        \textbf{Polecenie}     & \textbf{\normalsize Argument}    & \textbf{\normalsize Opis argumentu} \\ \hline\hline
+
+                        \multirow{4}{*}{\texttt{experiment}}  & \texttt{-\phantom{}-resolution <liczba>}   & rozdzielczość monitorowania eksperymentu w sekundach, \\
+                                                              & \texttt{-\phantom{}-command <polecenie>}   & polecenie do wykonania jako eksperyment, \\
+                                                              & \texttt{-\phantom{}-output <ścieżka>}      & ścieżka do pliku, w którym zostaną zapisane wyniki monitorowania eksperymentu, \\
+                                                              & \texttt{-\phantom{}-max-duration <liczba>} & maksymalny czas trwania eksperymentu w sekundach. \\ \hline
+
+                        % % compare             & \texttt{
+                            
+                        % % } \\ \hline % @TODO
+
+                        \multirow{3}{*}{\texttt{compare-clusters}}  & \texttt{-\phantom{}-reference <ścieżka>} & ścieżka do pliku z wynikami referencyjnymi, \\
+                                                                    & \texttt{-\phantom{}-second <ścieżka>}    & ścieżka do pliku, z wynikami do porównania względem referencji, \\
+                                                                    & \texttt{[-\phantom{}-output <ścieżka>]}  & ścieżka do pliku, w którym zostaną zapisane wyniki porównania. \\ \hline
+
+                        \multirow{4}{*}{\texttt{search}}    & \texttt{-\phantom{}-input <ścieżka>}    & ścieżka do pliku z sekwencjami DNA, \\
+                                                            & \texttt{-\phantom{}-output <ścieżka>}   & ścieżka do pliku, w którym zostaną zapisane wyniki wyszukiwania, \\
+                                                            & \texttt{-\phantom{}-blast <ścieżka>}    & ścieżka do pliku wykonywalnego \texttt{blastn}, \\
+                                                            & \texttt{-\phantom{}-blast-db <ścieżka>} & ścieżka do folderu z bazą danych nukleotydów \texttt{nt}. \\ \hline
+
+                        \multirow{4}{*}{\texttt{run}}       & \texttt{-\phantom{}-input <ścieżka>}           & ścieżka do pliku z sekwencjami DNA, \\
+                                                            & \texttt{-\phantom{}-output <ścieżka>}          & ścieżka do pliku, w którym zostaną zapisane wyniki klasyfikacji taksonomicznej, \\
+                                                            & \texttt{-\phantom{}-file-format <file-format>} & format pliku z sekwencjami DNA, dostępne wartości: \texttt{fasta, fastq, auto}, \\
+                                                            & \texttt{-\phantom{}-pipeline <pipeline>}       & wykorzystana metoda do określania niepodobieństwa, dostępne: \texttt{basic, k-mer, neural}, \\
+                                                            & \texttt{-\phantom{}-cluster <cluster>}         & algorytm klastrowania, dostępne: \texttt{k-medoid}, \\
+                                                            & \texttt{-\phantom{}-k <liczba>}                & liczba grup tworzonych w algorytmie grupowania, \\
+                                                            & \texttt{-\phantom{}-blast <ścieżka>}           & ścieżka do pliku wykonywalnego \texttt{blastn}, \\
+                                                            & \texttt{-\phantom{}-blast-db <ścieżka>}        & ścieżka do folderu z bazą danych nukleotydów \texttt{nt}, \\
+                                                            & \texttt{[-\phantom{}-gap-penalty <liczba>]}    & kara za przerwę w metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha, \\
+                                                            & \texttt{[-\phantom{}-kmer <ścieżka>]}          & długość wykorzystanych k-merów w metodzie zanurzeń k-merów, \\
+                                                            & \texttt{[-\phantom{}-model <ścieżka>]}         & model sieci neuronowej wykorzystany w metodzie sztucznej sieci neuronowej, \\
+                                                            & \texttt{[-\phantom{}-only-cluster]}            & flaga, która przerywa potok przetwarzania do przeprowadzeniu grupowania \\
+                                                            & \texttt{[-\phantom{}-save-clusters <ścieżka>]} & flaga, która pozwala na zapisanie informacji o grupach do pliku. \\ \hline 
+                    \end{tabular}
+                
+                \end{table}
+
+            \paragraph{Uruchomienie aplikacji przeglądarkowej}
+
+                \begin{enumerate}
+                    \item {
+                        Przejdź do folderu, w którym znajduje się plik wykonywalny.
+                    }
+                    \item {
+                        Uruchom plik wykonywalny za pomocą polecenia: \texttt{./exquisitor-app}.
+                    }
+                    \item {
+                        Aplikacja powinna się uruchomić. 
+                    }
+                \end{enumerate}
+            
             \todo{
                 \begin{itemize}
                     \item - opisać jak zbudować całe rozwiązanie ? oraz przygotować resztę środowiska?
