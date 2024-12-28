@@ -132,7 +132,7 @@
             
                 Zaproponowana metoda wykorzystuje sztuczne sieci neuronowe wraz z uczeniem kontrastowym do stworzenia modelu, który będzie pozwalał na tworzenie reprezentacji sekwencji wejściowych, które zachowają właściwości niepodobieństwa między sekwencjami. Na podstawie stworzonych reprezentacji sekwencji będzie wyliczone niepodobieństwo z wykorzystaniem niepodobieństwa kosinusowego.
     
-                \subsubsubsection{Architektura}
+                \subsubsection{Architektura}
     
                     Architektura sieci neuronowej składa się z 2 bloków wykorzystujących warstwy splotowe, które odpowiadają za ekstrakcję niskopoziomowych cech sekwencji, warstwy spłaszczającej oraz trzech warstw perceptronów wielowarstwowych, które odpowiadają za stworzenie reprezentacji na podstawie wyekstrahowanych cech. Wyjściem jest wektor zanurzeń o rozmiarze $64$. Schematycznie architektura została przedstawiona na rysunku ~\ref{Architektura}).
     
@@ -146,13 +146,13 @@
                         \label{Architektura}
                     \end{figure}
     
-                \subsubsubsection{Przykłady uczące}
+                \subsubsection{Przykłady uczące}
                     Przykłady uczące składają się z kotwicy (ang. \textit{anchor}) oraz dwóch sekwencji: pierwsza sekwencja podobna do kotwicy, druga nie.
     
-                \subsubsubsection{Zbiór danych}
+                \subsubsection{Zbiór danych}
                     Do stworzenia zbioru danych: treningowego oraz walidacyjnego została wykorzystana pierwsza próbka sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project} \cite{Fritz2019}. Zbiory zostały uzyskane poprzez losowy wybór sekwencji genetycznych z próbki, które następnie zostały uznane za kotwice. Przykłady podobne oraz niepodobne uzyskano poprzez modyfikację kotwicy odpowiednio w zakresie $[0; 0.2]$, $[0.2; 0.8]$.
     
-                \subsubsubsection{Proces uczenia}
+                \subsubsection{Proces uczenia}
     
                     Przeprowadzono proces uczenia na zbiorze $10^{6}$ przykładów treningowych oraz $10^{4}$ walidacyjnych.
     

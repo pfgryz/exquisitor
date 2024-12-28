@@ -56,9 +56,9 @@
 % ---- ---- ---- ----
 % Thesis template configuration
 % ---- ---- ---- ----
-\facultyeiti
-\EngineerThesis 
-\langpol
+\facultyeiti{}
+\EngineerThesis{} 
+\langpol{}
 
 \begin{document}
 
@@ -84,7 +84,7 @@
 
 \author{Patryk Filip Gryz}
 \album{318657}
-\promotor{dr hab. inż. Robert Nowak}
+\promotor{dr hab.\ inż. Robert Nowak}
 \date{\the\year}
 \maketitle
 
@@ -104,13 +104,13 @@
 % ---- ---- ---- ----
 % Table of contents
 % ---- ---- ---- ----
-\cleardoublepage
+\cleardoublepage{}
 \tableofcontents
 
 % ---- ---- ---- ----
 % Chapters
 % ---- ---- ---- ----
-\cleardoublepage
+\cleardoublepage{}
 \pagestyle{headings}
 
 \input{tex/chapters/1-introduction.tex}
@@ -135,5 +135,31 @@
 % Bibliography
 % ---- ---- ---- ----
 \input{tex/bibliography.tex}
+
+% ---- ---- ---- ----
+% Wykaz symboli i skrótów
+% ---- ---- ---- ----
+
+% ---- ---- ---- ----
+% Spis rysunków
+% ---- ---- ---- ----
+\pagestyle{plain}
+\listoffigurestoc{}
+\vspace{1cm}
+
+% ---- ---- ---- ----
+% Spis tabel
+% ---- ---- ---- ----
+\listoftablestoc{}
+
+% ---- ---- ---- ----
+% Spis załączników
+% ---- ---- ---- ----
+    % Empty
+
+% ---- ---- ---- ----
+% Załączniki
+% ---- ---- ---- ----
+    % Empty
 
 \end{document}

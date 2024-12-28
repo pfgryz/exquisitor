@@ -1,157 +1,156 @@
-\clearpage
-\section{Analiza literatury}
+% \clearpage
+% \section{Analiza literatury}
 
-KONIECZNIE DODAĆ:
-https://cami-challenge.org/
-https://cami-challenge.org/datasets/Toy%20Human%20Microbiome%20Project/
-cami-challenge.org/datasets/Toy%20Human%20Microbiome%20Project/
-- sample 1 - skin sample
+% KONIECZNIE DODAĆ:
+% https://cami-challenge.org/
+% https://cami-challenge.org/datasets/Toy%20Human%20Microbiome%20Project/
+% cami-challenge.org/datasets/Toy%20Human%20Microbiome%20Project/
+% - sample 1 - skin sample
 
-**TODO** [ok. 15 stron]
+% **TODO** [ok. 15 stron]
 
-\begin{enumerate}
-    \item Opis problemu
-    \item Opis rozwiązań problemu
-    \item Opis algorytmów rozwiązujących problem
-    \item Opis narzędzi (tutaj: Rust, Python itd.) + używane biblioteki
-\end{enumerate}
+% \begin{enumerate}
+%     \item Opis problemu
+%     \item Opis rozwiązań problemu
+%     \item Opis algorytmów rozwiązujących problem
+%     \item Opis narzędzi (tutaj: Rust, Python itd.) + używane biblioteki
+% \end{enumerate}
 
-Wprowadzenie do zagadnienia
-\begin{itemize}
-    \item Duża liczba organizmów
-    \item Nowe metody "masowego" sekwencjowania
-\end{itemize}
+% Wprowadzenie do zagadnienia
+% \begin{itemize}
+%     \item Duża liczba organizmów
+%     \item Nowe metody "masowego" sekwencjowania
+% \end{itemize}
 
-Opis problemu, przeglądówki
-\begin{itemize}
-    \item https://arxiv.org/pdf/1510.06621 - Przeglądówka różnych narzędzi stosowanych do np. klasyfikacji czy klastrowania
-    \item https://arxiv.org/pdf/1808.01038 - Wyszukiwanie sekwencji - przeglądówka po historii
-    \item https://arxiv.org/html/2408.12751v1 - Storage clustering
-    \item https://arxiv.org/pdf/1006.4114 - DNA search engine
-\end{itemize}
+% Opis problemu, przeglądówki
+% \begin{itemize}
+%     \item https://arxiv.org/pdf/1510.06621 - Przeglądówka różnych narzędzi stosowanych do np. klasyfikacji czy klastrowania
+%     \item https://arxiv.org/pdf/1808.01038 - Wyszukiwanie sekwencji - przeglądówka po historii
+%     \item https://arxiv.org/html/2408.12751v1 - Storage clustering
+%     \item https://arxiv.org/pdf/1006.4114 - DNA search engine
+% \end{itemize}
 
-Rozwiazania:
-\begin{itemize}
-    \item https://arxiv.org/abs/1306.1569 - znajdowanie kilku representatów na podstawie losowo wybranych odczytów. Porównanie pozostałych sekwencji z wybranymi reprezentatami
-    \item https://arxiv.org/abs/2407.02538 - zamiana DNA w mapę 2D, wykonanie algorytmów DL na mapach 2D w celu obliczania odległości bez alignmentu oraz klastrowania
-    \item https://arxiv.org/abs/2111.09656 - Contrastive learning binning
-\end{itemize}
+% Rozwiazania:
+% \begin{itemize}
+%     \item https://arxiv.org/abs/1306.1569 - znajdowanie kilku representatów na podstawie losowo wybranych odczytów. Porównanie pozostałych sekwencji z wybranymi reprezentatami
+%     \item https://arxiv.org/abs/2407.02538 - zamiana DNA w mapę 2D, wykonanie algorytmów DL na mapach 2D w celu obliczania odległości bez alignmentu oraz klastrowania
+%     \item https://arxiv.org/abs/2111.09656 - Contrastive learning binning
+% \end{itemize}
 
-Opis algorytmów
-\begin{itemize}
-    \item k-mer clustering      -> k-medoids clustering
-    \item jeden z algorytmów do alignmentu
-    \item Contrastive learning
-    \item Indeks Jaccarda
-    \item Baza danych Blast
-    \item Needleman-Wunsch Algorithm - https://pubmed.ncbi.nlm.nih.gov/5420325/
-\end{itemize}
-
-
-Opis narzędzi
-
-# Python
-- {{ krótki opis pythona }}
-
-## Biblioteki
-- psutil - do monitorowania zużycia procesora oraz pamięci przez eksperymenty
-- typing (wbudowana) - {{ opis }}
-- subprocess (wbudowana) - do uruchamiania eksperymentów w nowych procesach - w celu możliwości monitorowania zużycie przez nie zasobów
-
-# Rust
-
-## Biblioteki
-
-Frontend
-- askama - (Jinja template engine) - wykorzystywana do eegenerowania zawartości (SSR - Server side rendering) stron internetowych
-- tower -
-- sqlx - wykorzystywana do łączenia się z bazą danych
-- dotenv - wczytywanie zmiennych środowiskowych z pliku
-- tracing - śledzenie i instrumentowanie aplikacji - wyświetlanie informacji na temat stanu aplikacji (np. requestów czy błędów)
-- tokio - biblioteka implementująca operacje asynchroniczne na plikach oraz pozwalająca na współbieżność realizacji zadań
-- axum - framework tworzenia aplikacji webowych
-
-Backend
-- serde - wykorzystywane do serializacji oraz deserializacji danych w celu zapisania do pliku
-- serde_json - serializacja do JSON
-- tempfile - tworzenie plików tymczasowych, wykorzystywane do testowania aplikacji
-- float_cmp - wykorzystywane do testów, pozwala na porównywanie liczb zmiennoprzecinkowych
-- num_traits - wykorzystanie w celu opisania generycznych funkcji do obliczania np. dystansu euklidesowego
-
-# HTML, CSS, JS
-- realizacja strony internetowej
-- (brak bibliotek zewnętrznych)
+% Opis algorytmów
+% \begin{itemize}
+%     \item k-mer clustering      -> k-medoids clustering
+%     \item jeden z algorytmów do alignmentu
+%     \item Contrastive learning
+%     \item Indeks Jaccarda
+%     \item Baza danych Blast
+%     \item Needleman-Wunsch Algorithm - https://pubmed.ncbi.nlm.nih.gov/5420325/
+% \end{itemize}
 
 
+% % Opis narzędzi
 
+% %  Python
+% % - {{ krótki opis pythona }}
 
-% ----------------------------
-%     1   OPIS PROBLEMU
-% ----------------------------
+% %  Biblioteki
+% % - psutil - do monitorowania zużycia procesora oraz pamięci przez eksperymenty
+% % - typing (wbudowana) - {{ opis }}
+% % - subprocess (wbudowana) - do uruchamiania eksperymentów w nowych procesach - w celu możliwości monitorowania zużycie przez nie zasobów
+
+% %  Rust
+
+% %  Biblioteki
+
+% % Frontend
+% % - askama - (Jinja template engine) - wykorzystywana do eegenerowania zawartości (SSR - Server side rendering) stron internetowych
+% % - tower -
+% % - sqlx - wykorzystywana do łączenia się z bazą danych
+% % - dotenv - wczytywanie zmiennych środowiskowych z pliku
+% % - tracing - śledzenie i instrumentowanie aplikacji - wyświetlanie informacji na temat stanu aplikacji (np. requestów czy błędów)
+% % - tokio - biblioteka implementująca operacje asynchroniczne na plikach oraz pozwalająca na współbieżność realizacji zadań
+% % - axum - framework tworzenia aplikacji webowych
+
+% % Backend
+% % - serde - wykorzystywane do serializacji oraz deserializacji danych w celu zapisania do pliku
+% % - serde\_json - serializacja do JSON
+% % - tempfile - tworzenie plików tymczasowych, wykorzystywane do testowania aplikacji
+% % - float_cmp - wykorzystywane do testów, pozwala na porównywanie liczb zmiennoprzecinkowych
+% % - num_traits - wykorzystanie w celu opisania generycznych funkcji do obliczania np. dystansu euklidesowego
+% %  HTML, CSS, JS
+% % - realizacja strony internetowej
+% % - (brak bibliotek zewnętrznych)
 
 
 
 
-Historia
-
-    Needleman and Wunsch (1970):
-
-
-% ----------------------------
-%     2   OBECNE ROZWIĄZANIA
-% ----------------------------
-
-- Klastrowanie sekwencji z wykorzystaniem alignmentu
-    https://pmc.ncbi.nlm.nih.gov/articles/PMC338945/
-- Klastrowanie sekwencji z wykorzystaniem k-merów
-
-
-- CD-HIT
-- Mothur
-
-
-% ----------------------------
-%     3   OPIS ALGORYTMÓW
-% ----------------------------
-
-1. Algorytm Needleman-Wunscha
-2. Odległość k-mer
+% % ----------------------------
+% %     1   OPIS PROBLEMU
+% % ----------------------------
 
 
 
-- definicja problemu
+
+% Historia
+
+%     Needleman and Wunsch (1970):
 
 
-RZECZYWISTY PRZEGLĄD LITERATURY
+% % ----------------------------
+% %     2   OBECNE ROZWIĄZANIA
+% % ----------------------------
 
---------------------------------------
-- powiększanie się baz danych sekwencji
-- zwiększenie się ilości i przepustowośc sekwencjowania sekwencji
-
-
-- metagenomika - wprowadzenie
-    - intensowne wyszukiwanie w bazach danych
-    - wzrost czasochłonności wyszukiwania
-
-- definicja problemu
-
------------------------------------------
-
-- metody
-- wady i zalety tych metody
-- poszukiwania rozwiązania
-
-------------------------------------------
-
-Opisać moje rozwiązanie i pokazac różnice
+% - Klastrowanie sekwencji z wykorzystaniem alignmentu
+%     https://pmc.ncbi.nlm.nih.gov/articles/PMC338945/
+% - Klastrowanie sekwencji z wykorzystaniem k-merów
 
 
-WSTEP TEORETYCZNY
-    - wprowadzenie podstawowych pojęc
-    - wprowadzenie algorytmów
-    - narzędzia np. Python, Rust
-        - biblioteki
-    - wykorzystane algorytmy w potoku - (wspomnieć i z grubsza opisać działanie)
+% - CD-HIT
+% - Mothur
+
+
+% % ----------------------------
+% %     3   OPIS ALGORYTMÓW
+% % ----------------------------
+
+% 1. Algorytm Needleman-Wunscha
+% 2. Odległość k-mer
+
+
+
+% - definicja problemu
+
+
+% RZECZYWISTY PRZEGLĄD LITERATURY
+
+% --------------------------------------
+% - powiększanie się baz danych sekwencji
+% - zwiększenie się ilości i przepustowośc sekwencjowania sekwencji
+
+
+% - metagenomika - wprowadzenie
+%     - intensowne wyszukiwanie w bazach danych
+%     - wzrost czasochłonności wyszukiwania
+
+% - definicja problemu
+
+% -----------------------------------------
+
+% - metody
+% - wady i zalety tych metody
+% - poszukiwania rozwiązania
+
+% ------------------------------------------
+
+% Opisać moje rozwiązanie i pokazac różnice
+
+
+% WSTEP TEORETYCZNY
+%     - wprowadzenie podstawowych pojęc
+%     - wprowadzenie algorytmów
+%     - narzędzia np. Python, Rust
+%         - biblioteki
+%     - wykorzystane algorytmy w potoku - (wspomnieć i z grubsza opisać działanie)
 
 
 
