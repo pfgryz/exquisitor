@@ -29,15 +29,25 @@
     % ===== ===== ===== =====
     \subsection{Model architektury rozwiązania}
 
-        Architektura rozwiązania została przedstawiona w postaci modelu C4\cite{C4}. Model ten opisuje architekturę na czterech diagramach: kontekstowych, kontenerów, komponentów oraz kodu, przechodząc od najbardziej abstrakcyjnego spojrzenia na architekturę rozwiązania do kodu implementacji.
-            
-        \todo{
-            \begin{itemize}
-                \item {
-                    Model architektury w postaci diagramów C4 + opis z wprowadzeniem do każdego
-                }
-            \end{itemize}
-        }
+        Architektura rozwiązania została przedstawiona w postaci modelu C4\cite{C4}. Model ten opisuje architekturę na czterech poziomach: kontekstowym (ang. \textit{System context}), kontenerów (ang. \textit{Container}), komponentów (ang. \textit{Component}) oraz kodu, przechodząc od najbardziej abstrakcyjnego spojrzenia na architekturę rozwiązania do kodu implementacji. Na rysunku~\ref{Picture:App:C4:Context} przedstawiono diagram kontekstowy modelu architektury, przedstawia on relacje między użytkownikami systemu a systemem oraz relacje między systemem a systemami zewnętrznymi. Na rysunku~\ref{Picture:App:C4:Container} przedstawiono natomiast diagram kontenerów modelu architektury, który przedstawia relacje między użytkownikami a poszczególnymi aplikacjami, biblioteka oraz systemami zewnętrznymi.
+
+        \begin{figure}
+            \begin{center}
+                \input{tex/pictures/app/c4_system_context.tex}
+            \end{center}
+            \caption{
+                Diagram kontekstowy modelu architektury.
+            }\label{Picture:App:C4:Context}
+        \end{figure}
+
+        \begin{figure}
+            \begin{center}
+                \input{tex/pictures/app/c4_container.tex}
+            \end{center}
+            \caption{
+                Diagram komponentów modelu architektury.
+            }\label{Picture:App:C4:Container}
+        \end{figure}
 
     % ===== ===== ===== =====
     % OPIS ROZWIĄZANIA
@@ -177,7 +187,7 @@
 
             \begin{figure}
                 \begin{center}
-                    \input{tex/pictures/app_database.tex}
+                    \input{tex/pictures/app/database.tex}
                 \end{center}
                 \caption{
                     Schemat bazy danych aplikacji przeglądarkowej.
@@ -402,12 +412,115 @@
     \subsection{Interfejs użytkownika}
 
         \subsubsection{Opis interfejsu użytkownika}
-            \todo{
+
+            \paragraph{Aplikacja konsolowa}
+                
+                Aplikacja konsolowa działa w środowisku terminalowym i wykonuje polecenia wprowadzone przez użytkownika, generując komunikaty o różnych poziomach ważności.
+                
                 \begin{itemize}
-                    \item opisać interfejs aplikacji konsolowej - dostępne komendy, ich składnie i typowy
-                    \item opisać interfejs aplikacji przeglądarkowej - gdzie co jest dostępne itd.
+                
+                    \item{
+                        \textbf{Polecenia aplikacji konsolowej:}
+                        Polecenia w aplikacji konsolowej składają się z głównego polecenia oraz opcjonalnych argumentów. Główne polecenie jest zawsze wymaganym elementem, a argumenty mogą być opcjonalne lub obowiązkowe w zależności od głównego polecenia.
+                        Przykładowe polecenie wygląda następująco:
+                        \[
+                            \texttt{./exquisitor-cli -\phantom{}-log-level INFO search -\phantom{}-input tmp.fasta}
+                        \]
+                        gdzie,
+                        \begin{itemize}
+                            \item {
+                                \texttt{search} - główne polecenie aplikacji,
+                            }
+                            \item {
+                                \texttt{-\phantom{}-log-level INFO} - argument ustawiający poziom ważności komunikatów na informacyjny,
+                            }
+                            \item {
+                                \texttt{-\phantom{}-input tmp.fasta} - argument wskazujący plik wejściowy.
+                            }
+                        \end{itemize}
+                        Ustawienie poziomu ważności komunikatów musi nastąpić przed podaniem głównego polecenia aplikacji. Domyślnie poziom ważności komunikatów jest ustawiony na informacyjny.
+                    }
+                    \item {
+                        \textbf{Wykonanie polecenia:}
+                        W wyniku wykonania polecenia przez aplikację użytkownik otrzymuje komunikat o błędzie lub sukcesie wykonania. W przypadku sukcesu komunikat wygląda następująco:
+                        \texttt{Command executed successfully!}.
+                    }
+                    \item {
+                        \textbf{Błędy i komunikaty systemowe:}
+                        Aplikacja wyświetla komunikaty o błędach w przypadku nieprawidłowego użycia polecenia oraz wprowadzenia nieobsługiwanych argumentów. Typowe komunikaty o błędach mogą obejmować:
+                        \begin{itemize}
+                            \item {
+                                \texttt{error: the following required arguments were not provided} – gdy użytkownik nie wprowadzi wszystkich wymaganych argumentów,
+                            }
+                            \item {
+                                \texttt{error: unexpected argument <argument> found} – gdy użytkownik wprowadzi argument, który nie jest obsługiwany,
+                            }
+                            \item {
+                                \texttt{Error: No such file or directory (os error 2)} – gdy użytkownik podał ścieżkę do pliku lub programu, który nie istnieje.
+                            }
+                        \end{itemize}
+                    }
+                    \item {
+                        \textbf{Pomoc i instrukcje:}
+                        Aplikacja posiada wbudowane polecenie \texttt{-\phantom{}-help}, które pozwala na wyświetlenie informacji o dostępnych poleceniach, ich opisach oraz wymaganych argumentach.
+                        Aby uzyskać informacje o poleceniu \texttt{search}, użytkownik może wykorzystać następujące polecenie: 
+                        \[
+                            \texttt{./exquisitor-cli search --help}
+                        \]
+                        W wyniku wykonania tego polecenia, użytkownik otrzyma opis polecenia, przykładowe użycie oraz listę wszystkich argumentów wraz z ich opisami.
+                    }
+
                 \end{itemize}
-            }
+
+            \paragraph{Aplikacja przeglądarkowa}
+                Aplikacja przeglądarkowa działa w środowisku przeglądarki internetowej. Umożliwia zlecanie zadań klasyfikacji taksonomicznej oraz wyszukiwanie i przeglądanie wyników tych zleceń.
+
+                \begin{itemize}
+                    \item {
+                        \textbf{Układ i elementy interfejsu:}
+                        Aplikacja składa się z 4 ekranów użytkownika:
+                        \begin{itemize}
+                            \item {
+                                \textbf{Strona główna} - na tym ekranie znajduje się lista dziesięciu ostatnio przeprowadzonych zleceń, formularz do wyszukiwania zleceń po nazwie lub identyfikatorze oraz przycisk do dodawania nowych zleceń. Jest to główny ekran aplikacji.
+                                }
+                            \item {
+                                \textbf{Strona zlecenia} - ekran wyświetlający szczegóły konkretnego zlecenia, w tym identyfikator, opis, status, daty rozpoczęcia i zakończenia oraz wyniki.
+                            }
+                            \item {
+                                \textbf{Strona dodania zlecenia} - ekran, na którym użytkownik może wprowadzić nowe zlecenie. 
+                            }
+                            \item {
+                                \textbf{Ekran błędu} - ekran odpowiedzialny za wyświetlanie komunikatów o błędach
+                            }
+                        \end{itemize}
+                        Na rysunku~\ref{Picture:App:WebScreen} znajduje się zrzut ekranu z głównego ekranu aplikacji przeglądarkowej.
+                    }
+                    \item {
+                        \textbf{Formularze i przyciski:}
+                        Aplikacja zawiera dwa formularze:
+                        \begin{itemize}
+                            \item {
+                                \textbf{Formularz wyszukiwania eksperymentu} - pozwala na znalezienie eksperymentu przez podanie jego nazwy lub identyfikatora.
+                            }
+                            \item {
+                                \textbf{Formularz dodania zlecenia} - pozwala na dodanie nowego zlecenia klasyfikacji taksonomicznej poprzez podanie nazwy, opisu oraz pliku z danymi wejściowymi.
+                            }
+                        \end{itemize}
+                    }
+                    \item {
+                        \textbf{Komunikaty:}
+                        Aplikacja wyświetla komunikaty o błędach, w przypadku ich wystąpienia. Działania zakończone sukcesem nie generują komunikatów.
+                    }
+                \end{itemize}
+
+                \begin{figure}
+                    \begin{center}
+                        \input{tex/pictures/app/web_screen.tex}
+                    \end{center}
+                    \caption{
+                        Ekran główny aplikacji przeglądarkowej.
+                    }\label{Picture:App:WebScreen}
+                \end{figure}
 
         \subsubsection{Instrukcja użytkownika}
 
@@ -464,11 +577,21 @@
                         Pobierz repozytorium rozwiązania za pomocą polecenia \texttt{git clone <url>}, gdzie \texttt{<url>} jest adresem repozytorium z kodem.
                     }
                     \item {
-                        Przejdź do folderu \texttt{exquisitor} oraz uruchom polecenie \texttt{cargo build -\phantom{}-release -\phantom{}-bins}.
+                        Przejdź do folderu \texttt{exquisitor/exquisitor-app} oraz uruchom następujące polecenia:
+                        \[
+                            \texttt{sqlx database create -\phantom{}-database-url sqlite://exquisitor.db} \\
+                            \texttt{sqlx migrate run -\phantom{}-database-url sqlite://exquisitor.db}
+                        \]
                     }
                     \item {
-                        Aplikacja konsolowa oraz przeglądarkowa powinny być skompilowane i znajdują się w folderze \texttt{target/release}. 
+                        Przejdź do folderu \texttt{exquisitor}, oraz uruchom polecenie \texttt{cargo build -\phantom{}-release -\phantom{}-bins}.
+                    }
+                    \item {
+                        Aplikacja konsolowa oraz przeglądarkowa powinny być skompilowane i znajdują się w folderze \texttt{exquisitor/target/release}. 
                         Skopiuj pliki wykonywalne aplikacji do docelowej lokacji.
+                    }
+                    \item{
+                        Skopiuj plik \texttt{exquisitor.db} z folderu \texttt{exquisitor/exquisitor-app} do tej samej lokacji co aplikacja przeglądarkowa.
                     }
                 \end{enumerate}
             
@@ -502,6 +625,12 @@
                 
                 \end{table}
 
+            \paragraph{Przykładowe wykorzystanie aplikacji konsolowej}
+
+                \todo{
+                    uruchomienie wyszukiwania oraz przykład wyniku
+                }
+
             \paragraph{Uruchomienie aplikacji przeglądarkowej}
 
                 \begin{enumerate}
@@ -512,17 +641,15 @@
                         Uruchom plik wykonywalny za pomocą polecenia: \texttt{./exquisitor-app}.
                     }
                     \item {
-                        Aplikacja powinna się uruchomić. 
+                        Aplikacja powinna się uruchomić. Interfejs użytkownika dostępny jest pod adresem: 
+                        \texttt{localhost:3000}.
                     }
                 \end{enumerate}
 
+            \paragraph{Przykładowe wykorzystanie aplikacji przeglądarkowej}
+
                 \todo{
-                    \begin{itemize}
-                        \item poprawny opis uruchomienia aplikacji przeglądarkowej;
-                        \item przykładowe wykorzystanie komendy aplikacji konsolowej;
-                        \item przykładowe wykorzystanie (dodanie eksperymentu) w aplikacji przeglądarkowej;
-                        \item przykładowy wynik w aplikacji przeglądarkowej.
-                    \end{itemize}
+                    dodanie eksperymentu / wyświetlenie wyniku
                 }
 
                 \begin{longtblr}[
@@ -573,12 +700,30 @@
     % OPIS TESTÓW JEDNOSTKOWYCH
     % ===== ===== ===== =====
     \subsection{Testy}
-            
+
         \subsubsection{Testy jednostkowe}
-            \todo{
-                \begin{itemize}
-                    \item {
-                        opisać jakie testy były robione, za pomocą jakiego narzędzia, jakie jest pokrycie kodu testami itd.
-                    }
-                \end{itemize}
-            }
+
+            Testy jednostkowe zostały przeprowadzone w celu weryfikacji poprawności działania poszczególnych funkcji i metod w izolacji. Testy obejmowały zarówno typowe scenariusze wykorzystania funkcjonalności, jak i potencjalne sytuacje błędne.
+            
+            \paragraph{Zakres}  
+            Testy jednostkowe objęły większość funkcji oraz metod w bibliotece \texttt{exquisitor-core}. Szczególną uwagę poświęcono poprawności działania funkcji związanych z wczytywaniem sekwencji oraz obliczaniem miar.
+            
+            \paragraph{Narzędzia}  
+            Wykorzystano wbudowane narzędzie \texttt{cargo test} języka Rust, do uruchamiania testów jednostkowych. Narzędzie to automatycznie uruchamia testy zawarte w plikach implementacyjnych, traktując je jako testy jednostkowe.
+
+            \paragraph{Pokrycie testami}
+            Do sprawdzenia stopnia pokrycia kodu testami wykorzystano narzędzie \texttt{tarpaulin}\cite{Rust:tarpaulin}. 
+            Osiągnięto \textbf{65\%} pokrycia linii kodu za pomocą testów jednostkowych.
+
+        \subsubsection{Testy manualne}
+        
+            \paragraph{Zakres}
+            Testy manualne objęły działanie interfejsu użytkownika aplikacji konsolowej oraz aplikacji przeglądarkowej. W przypadku aplikacji konsolowej sprawdzono działanie wszystkich poleceń z uwzględnieniem klasycznych sytuacji błędnych. W aplikacji przeglądarkowej testowano funkcjonalności: dodawania, wyszukiwania i przeglądania zleceń.
+
+            \paragraph{Metoda}
+            Ręczne wykonywanie scenariuszy testowych, takich jak:
+            \begin{itemize}
+                \item {Dodanie nowego zlecenia i weryfikacja czy wyświetla się na stronie głównej aplikacji przeglądarkowej.}
+                \item {Wyszukanie dodanego zlecenia po identyfikatorze na stronie głównej.}
+                \item {Uruchomienie polecenia aplikacji konsolowej wyszukiwania w bazie danych i sprawdzenie, czy powstał odpowiedni plik z wynikami.}
+            \end{itemize}
