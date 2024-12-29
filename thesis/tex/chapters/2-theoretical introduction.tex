@@ -1,192 +1,245 @@
-
-%region TIKZ Configuration
-
-
-
-%endregion
-
 \clearpage
 \section{Wstęp teoretyczny}
 
-    \subsection{Podstawowe definicje}
+    % ===== ===== ===== =====
+    % PRZEGLĄD LITERATURY
+    % ===== ===== ===== ===== 
+    \subsection{Przegląd literatury}
 
-        \subsubsection{Sekwencja DNA}
+        \todo{
+            \begin{enumerate}
+                \item {podsumowanie dotychczasowych badań, publikacji i prac naukowych,}
+                \item {krótkie przedstawienie osiągnięć w analizowanych obszarze,}
+                \item {wskazanie luki badawczej}
+            \end{enumerate}
+        }
 
-            Sekwencja DNA stanowi zapis genetyczny, który w sposób symboliczny odwzorowuje strukturę cząsteczki DNA, stosując alfabet złożony z czterech symboli: $A, T, C, G$. Każdy z symboli odnosi się do jednej z zasad azotowych zawartych w nukleotydach tworzących cząsteczkę DNA odpowiednio: adeniny, tyminy, cytozyny oraz guaniny.
+    % ===== ===== ===== =====
+    % KLUCZOWE POJĘCIA I DEFINICJE
+    % ===== ===== ===== ===== 
+    \subsection{Kluczowe pojęcia i definicje}
 
-            \subsection{KMer}
+        \todo{
+            \begin{enumerate}
+                \item {wyjaśnienie podstawowych pojęć,}
+                \item {omówienie istotnych teorii, które stanowią fundament rozwiązań lub badań w pracy.,}
+            \end{enumerate}
+        }
+
+    % ===== ===== ===== =====
+    % METODY I PODEJŚCIA
+    % ===== ===== ===== ===== 
+    \subsection{Metody i podejścia}
+
+        \todo{
+            \begin{enumerate}
+                \item {Przedstawienie najpopularniejszych metod, podejść lub algorytmów wykorzystywanych w literaturze przedmiotu w kontekście tematu pracy.,}
+                \item {Opis sposobów, w jaki te metody zostały zaadoptowane lub zmodyfikowane w pracy.}
+                \item {Wskazanie zalet i wad poszczególnych metod.}
+            \end{enumerate}
+        }
+
+    % ===== ===== ===== =====
+    % TEORETYCZNE PODSTAWY PROBLEMU
+    % ===== ===== ===== ===== 
+    \subsection{Teoretyczne podstawy problemu}
+
+        \todo{
+            \begin{enumerate}
+                \item {Szczegółowe przedstawienie teoretycznych podstaw, które stanowią tło dla rozwiązania danego problemu w pracy,}
+                \item {Omówienie teorii, które są bezpośrednio związane z problemem badawczym (np. modele matematyczne, algorytmy, teorie z dziedziny nauk komputerowych, inżynierii, matematyki).}
+            \end{enumerate}
+        }
+
+
+% %region TIKZ Configuration
+
+
+
+% %endregion
+
+% \clearpage
+% \section{Wstęp teoretyczny}
+
+%     \subsection{Podstawowe definicje}
+
+%         \subsubsection{Sekwencja DNA}
+
+%             Sekwencja DNA stanowi zapis genetyczny, który w sposób symboliczny odwzorowuje strukturę cząsteczki DNA, stosując alfabet złożony z czterech symboli: $A, T, C, G$. Każdy z symboli odnosi się do jednej z zasad azotowych zawartych w nukleotydach tworzących cząsteczkę DNA odpowiednio: adeniny, tyminy, cytozyny oraz guaniny.
+
+%             \subsection{KMer}
         
-            $K$—mery są to podsłowa sekwencji genetycznej o długości $k$. Dla danego alfabetu $G$ składającego się z $n$ symboli istnieje $n^k$ różnych $k$-merów o długości $k$. Sekwencja genetyczna o długości $n$ zawiera dokładnie $n - k + 1$ $k$-merów o długości $k$.
+%             $K$—mery są to podsłowa sekwencji genetycznej o długości $k$. Dla danego alfabetu $G$ składającego się z $n$ symboli istnieje $n^k$ różnych $k$-merów o długości $k$. Sekwencja genetyczna o długości $n$ zawiera dokładnie $n - k + 1$ $k$-merów o długości $k$.
 
-        \subsubsection{Dopasowanie sekwencji}
+%         \subsubsection{Dopasowanie sekwencji}
         
-            Proces dopasowywania sekwencji polega na wyrównywaniu ich symboli w celu maksymalizacji ich wzajemnego podobieństwa, co realizowane jest poprzez wstawianie przerw (ang. \textit{gaps}).
+%             Proces dopasowywania sekwencji polega na wyrównywaniu ich symboli w celu maksymalizacji ich wzajemnego podobieństwa, co realizowane jest poprzez wstawianie przerw (ang. \textit{gaps}).
             
-        \subsubsection{Algorytm Needlema-Wunscha}
+%         \subsubsection{Algorytm Needlema-Wunscha}
         
-           Algorytm Needlemana-Wunscha stanowi metodę wykorzystywaną do ustalania globalnego dopasowania pomiędzy dwiema sekwencjami \cite{NeedlemanWunsch1970}. Metoda ta polega na skonstruowaniu macierzy podobieństwa pomiędzy sekwencjami zgodnie z ustalonymi regułami:
+%            Algorytm Needlemana-Wunscha stanowi metodę wykorzystywaną do ustalania globalnego dopasowania pomiędzy dwiema sekwencjami \cite{NeedlemanWunsch1970}. Metoda ta polega na skonstruowaniu macierzy podobieństwa pomiędzy sekwencjami zgodnie z ustalonymi regułami:
 
-           \begin{equation}
-                \begin{aligned}
-                    D_{i,0} &= i \cdot g, & \text{dla } & i \in [0, n] \\
-                    D_{0,j} &= j \cdot g, & \text{dla } & j \in [1, m] \\
-                    D_{i,j} &= \max
-                    \begin{cases}
-                    D_{i - 1, j} + g \\
-                    D_{i, j - 1} + g \\
-                    D_{i - 1, j - 1} + s(A_i, B_j)
-                    \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m]
-                \end{aligned}
-                \label{Equation:NeedlemanWunsch}
-            \end{equation}
+%            \begin{equation}
+%                 \begin{aligned}
+%                     D_{i,0} &= i \cdot g, & \text{dla } & i \in [0, n] \\
+%                     D_{0,j} &= j \cdot g, & \text{dla } & j \in [1, m] \\
+%                     D_{i,j} &= \max
+%                     \begin{cases}
+%                     D_{i - 1, j} + g \\
+%                     D_{i, j - 1} + g \\
+%                     D_{i - 1, j - 1} + s(A_i, B_j)
+%                     \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m]
+%                 \end{aligned}
+%                 \label{Equation:NeedlemanWunsch}
+%             \end{equation}
 
-            gdzie,
-            \begin{align*} 
-                & g, s(A_i, B_j) \in \mathbb{R} \\
-                A, B -& \text{porównywane sekwencje}, \\
-                n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
-                D -& \text{macierz podobieństwa o rozmiarach } n \text{ x } m, \\
-                g -& \text{kara za przerwę}, \\
-                s(A_i, B_j) -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\ 
-                & \text{a } j \text{-tym elementem w sekwencji B}. \\
-            \end{align*}
+%             gdzie,
+%             \begin{align*} 
+%                 & g, s(A_i, B_j) \in \mathbb{R} \\
+%                 A, B -& \text{porównywane sekwencje}, \\
+%                 n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
+%                 D -& \text{macierz podobieństwa o rozmiarach } n \text{ x } m, \\
+%                 g -& \text{kara za przerwę}, \\
+%                 s(A_i, B_j) -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\ 
+%                 & \text{a } j \text{-tym elementem w sekwencji B}. \\
+%             \end{align*}
 
-            Wartość znajdująca się w $D_{n, m}$ określa liczbowo jakość globalnego dopasowania sekwencji.
+%             Wartość znajdująca się w $D_{n, m}$ określa liczbowo jakość globalnego dopasowania sekwencji.
 
-        \subsubsection{Uczenie kontrastowe}
+%         \subsubsection{Uczenie kontrastowe}
 
-            Uczenie kontrastowe (ang. \textit{contrastive learning}) \cite{Bromley1993} jest metodą polegającą na nauce reprezentacji danych poprzez porównywanie i różnicowanie podobnych oraz różnych przykładów. Dzięki zastosowaniu tej techniki, reprezentacje danych zachowują właściwości podobieństwa i różnicy między danymi, które reprezentują.
+%             Uczenie kontrastowe (ang. \textit{contrastive learning}) \cite{Bromley1993} jest metodą polegającą na nauce reprezentacji danych poprzez porównywanie i różnicowanie podobnych oraz różnych przykładów. Dzięki zastosowaniu tej techniki, reprezentacje danych zachowują właściwości podobieństwa i różnicy między danymi, które reprezentują.
 
-        \subsubsection{Podobieństwo i niepodobieństwo kosinusowe}
+%         \subsubsection{Podobieństwo i niepodobieństwo kosinusowe}
 
-            Podobieństwo i niepodobieństwo kosinusowe są miarami, które mogą być wykorzystywane do porównywania wektorów liczbowych, zdefiniowane one są wzorami:
+%             Podobieństwo i niepodobieństwo kosinusowe są miarami, które mogą być wykorzystywane do porównywania wektorów liczbowych, zdefiniowane one są wzorami:
 
-            \begin{equation}
-                similarity_{cosine} = \cos{\theta} = \frac{A \cdot B}{\|A\| \|B\|} = \frac{
-                        \sum^{n}_{i = 1}A_i B_i
-                    }{
-                        \sqrt{
-                            \sum^{n}_{i = 1}A_i^2
-                        }
-                        \cdot
-                        \sqrt{
-                            \sum^{n}_{i = 1}B_i^2
-                        }
-                    }
-            \end{equation}
+%             \begin{equation}
+%                 similarity_{cosine} = \cos{\theta} = \frac{A \cdot B}{\|A\| \|B\|} = \frac{
+%                         \sum^{n}_{i = 1}A_i B_i
+%                     }{
+%                         \sqrt{
+%                             \sum^{n}_{i = 1}A_i^2
+%                         }
+%                         \cdot
+%                         \sqrt{
+%                             \sum^{n}_{i = 1}B_i^2
+%                         }
+%                     }
+%             \end{equation}
 
-            \begin{equation}
-                dissimilarity_{cosine}(A, B) = 1 - similarity_{cosine}(A, B)
-            \end{equation}
+%             \begin{equation}
+%                 dissimilarity_{cosine}(A, B) = 1 - similarity_{cosine}(A, B)
+%             \end{equation}
 
-            gdzie,
-            \begin{align*} 
-                A, B -& \text{porównywane wektory}, \\
-                \theta -& \text{kąt między wektorami $A$ i $B$}, \\
-                A_j, B_j -& \text{$j$-ty element wektora odpowiednio $A$ oraz $B$}.
-            \end{align*}
+%             gdzie,
+%             \begin{align*} 
+%                 A, B -& \text{porównywane wektory}, \\
+%                 \theta -& \text{kąt między wektorami $A$ i $B$}, \\
+%                 A_j, B_j -& \text{$j$-ty element wektora odpowiednio $A$ oraz $B$}.
+%             \end{align*}
 
 
-    \subsection{Metody}
+%     \subsection{Metody}
     
-            W pracy zaimplementowano trzy metody: nową metodę opartą na sieciach neuronowych oraz dwie klasyczne metody wykorzystywane do porównania. Nowa metoda oparta na sieciach neuronowych została opracowana w celu połączenia zalet obu klasycznych metod oraz eliminacji ich niedoskonałości. W szczególności skoncentrowano się na przyspieszeniu procesu określania niepodobieństwa w porównaniu do algorytmu Needlemana-Wunscha oraz na zwiększeniu jakości mierzonych niepodobieństw między sekwencjami DNA w porównaniu z metodą wykorzystującą $k$-mery, która nie bierze pod uwagę w pełni struktury porównywanych sekwencji.
+%             W pracy zaimplementowano trzy metody: nową metodę opartą na sieciach neuronowych oraz dwie klasyczne metody wykorzystywane do porównania. Nowa metoda oparta na sieciach neuronowych została opracowana w celu połączenia zalet obu klasycznych metod oraz eliminacji ich niedoskonałości. W szczególności skoncentrowano się na przyspieszeniu procesu określania niepodobieństwa w porównaniu do algorytmu Needlemana-Wunscha oraz na zwiększeniu jakości mierzonych niepodobieństw między sekwencjami DNA w porównaniu z metodą wykorzystującą $k$-mery, która nie bierze pod uwagę w pełni struktury porównywanych sekwencji.
     
-            % Needleman-Wunsch
-            \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}
+%             % Needleman-Wunsch
+%             \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}
             
-                Pierwszą metodą klasyczną, która została wykorzystana do określania niepodobieństwa między sekwencjami DNA jest zmodyfikowany algorytm Needlama-Wunscha. Algorytm pozwala na dokładne określanie niepodobieństwa z uwzględnieniem przerw oraz zmiany danych zasad. Modyfikacja algorytmu polega na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń w celu zapewnienia, że niepodobieństwo będzie mieściło się w przedziale: $[0, \infty)$:
+%                 Pierwszą metodą klasyczną, która została wykorzystana do określania niepodobieństwa między sekwencjami DNA jest zmodyfikowany algorytm Needlama-Wunscha. Algorytm pozwala na dokładne określanie niepodobieństwa z uwzględnieniem przerw oraz zmiany danych zasad. Modyfikacja algorytmu polega na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń w celu zapewnienia, że niepodobieństwo będzie mieściło się w przedziale: $[0, \infty)$:
     
-                \begin{equation}
-                    \begin{aligned}
-                        D_{i,j} &= \min
-                        \begin{cases}
-                        D_{i - 1, j} + g \\
-                        D_{i, j - 1} + g \\
-                        D_{i - 1, j - 1} + s(A_i, B_j)
-                        \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m] \\
-                        & g, s(A_i, B_j) \in \mathbb{R}^{+}
-                    \end{aligned}
-                \end{equation}
+%                 \begin{equation}
+%                     \begin{aligned}
+%                         D_{i,j} &= \min
+%                         \begin{cases}
+%                         D_{i - 1, j} + g \\
+%                         D_{i, j - 1} + g \\
+%                         D_{i - 1, j - 1} + s(A_i, B_j)
+%                         \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m] \\
+%                         & g, s(A_i, B_j) \in \mathbb{R}^{+}
+%                     \end{aligned}
+%                 \end{equation}
     
-                Wartość znajdująca się w $D_{n, m}$ jest miarą niepodobieństwa między sekwencjami.
+%                 Wartość znajdująca się w $D_{n, m}$ jest miarą niepodobieństwa między sekwencjami.
                 
-            % KMer
-            \subsubsection{KMer}
+%             % KMer
+%             \subsubsection{KMer}
             
-                Druga zaimplementowana metoda wykorzystuje $k$-mery do określania niepodobieństwa między sekwencjami DNA, poprzez wyznaczenie odległości euklidesowej w przestrzeni $k$-merów, gdzie osie tej przestrzeni odpowiadają różnym $k$-merom występującym w sekwencjach, a wektory reprezentują ich częstości wystąpień. Niepodobieństwo wyliczone jest według wzoru:
+%                 Druga zaimplementowana metoda wykorzystuje $k$-mery do określania niepodobieństwa między sekwencjami DNA, poprzez wyznaczenie odległości euklidesowej w przestrzeni $k$-merów, gdzie osie tej przestrzeni odpowiadają różnym $k$-merom występującym w sekwencjach, a wektory reprezentują ich częstości wystąpień. Niepodobieństwo wyliczone jest według wzoru:
     
-                \begin{equation}
-                    dissimilarity_{kmer}(A, B, k) = \sqrt{\sum_{m \in M_{k}} (A_m - B_m)^{2}}
-                \end{equation}
+%                 \begin{equation}
+%                     dissimilarity_{kmer}(A, B, k) = \sqrt{\sum_{m \in M_{k}} (A_m - B_m)^{2}}
+%                 \end{equation}
     
-                gdzie,
-                \begin{align*} 
-                    k -& \text{długość $k$-merów}, \\
-                    A, B -& \text{porównywane sekwencje}, \\
-                    M -& \text{zbiór wszystkich możliwych sekwencji genetycznych o długości $k$}, \\
-                    A_j, B_j -& \text{liczba wystąpień sekwencji } j \text{ odpowiednio w sekwencjach } A \text{ i } B. \\
-                \end{align*}
+%                 gdzie,
+%                 \begin{align*} 
+%                     k -& \text{długość $k$-merów}, \\
+%                     A, B -& \text{porównywane sekwencje}, \\
+%                     M -& \text{zbiór wszystkich możliwych sekwencji genetycznych o długości $k$}, \\
+%                     A_j, B_j -& \text{liczba wystąpień sekwencji } j \text{ odpowiednio w sekwencjach } A \text{ i } B. \\
+%                 \end{align*}
             
-            % Sztuczna sieć neuronowa
-            \subsubsection{Sztuczna sieć neuronowa}
+%             % Sztuczna sieć neuronowa
+%             \subsubsection{Sztuczna sieć neuronowa}
             
-                Zaproponowana metoda wykorzystuje sztuczne sieci neuronowe wraz z uczeniem kontrastowym do stworzenia modelu, który będzie pozwalał na tworzenie reprezentacji sekwencji wejściowych, które zachowają właściwości niepodobieństwa między sekwencjami. Na podstawie stworzonych reprezentacji sekwencji będzie wyliczone niepodobieństwo z wykorzystaniem niepodobieństwa kosinusowego.
+%                 Zaproponowana metoda wykorzystuje sztuczne sieci neuronowe wraz z uczeniem kontrastowym do stworzenia modelu, który będzie pozwalał na tworzenie reprezentacji sekwencji wejściowych, które zachowają właściwości niepodobieństwa między sekwencjami. Na podstawie stworzonych reprezentacji sekwencji będzie wyliczone niepodobieństwo z wykorzystaniem niepodobieństwa kosinusowego.
     
-                \subsubsection{Architektura}
+%                 \subsubsection{Architektura}
     
-                    Architektura sieci neuronowej składa się z 2 bloków wykorzystujących warstwy splotowe, które odpowiadają za ekstrakcję niskopoziomowych cech sekwencji, warstwy spłaszczającej oraz trzech warstw perceptronów wielowarstwowych, które odpowiadają za stworzenie reprezentacji na podstawie wyekstrahowanych cech. Wyjściem jest wektor zanurzeń o rozmiarze $64$. Schematycznie architektura została przedstawiona na rysunku ~\ref{Architektura}).
+%                     Architektura sieci neuronowej składa się z 2 bloków wykorzystujących warstwy splotowe, które odpowiadają za ekstrakcję niskopoziomowych cech sekwencji, warstwy spłaszczającej oraz trzech warstw perceptronów wielowarstwowych, które odpowiadają za stworzenie reprezentacji na podstawie wyekstrahowanych cech. Wyjściem jest wektor zanurzeń o rozmiarze $64$. Schematycznie architektura została przedstawiona na rysunku ~\ref{Architektura}).
     
-                    \begin{figure}[H]
-                        \begin{center}
-                            \input{tex/pictures/neural.tex}
-                        \end{center}
-                        \caption{
-                            Schemat architektury sieci neuronowej.
-                        } 
-                        \label{Architektura}
-                    \end{figure}
+%                     \begin{figure}[H]
+%                         \begin{center}
+%                             \input{tex/pictures/neural.tex}
+%                         \end{center}
+%                         \caption{
+%                             Schemat architektury sieci neuronowej.
+%                         } 
+%                         \label{Architektura}
+%                     \end{figure}
     
-                \subsubsection{Przykłady uczące}
-                    Przykłady uczące składają się z kotwicy (ang. \textit{anchor}) oraz dwóch sekwencji: pierwsza sekwencja podobna do kotwicy, druga nie.
+%                 \subsubsection{Przykłady uczące}
+%                     Przykłady uczące składają się z kotwicy (ang. \textit{anchor}) oraz dwóch sekwencji: pierwsza sekwencja podobna do kotwicy, druga nie.
     
-                \subsubsection{Zbiór danych}
-                    Do stworzenia zbioru danych: treningowego oraz walidacyjnego została wykorzystana pierwsza próbka sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project} \cite{Fritz2019}. Zbiory zostały uzyskane poprzez losowy wybór sekwencji genetycznych z próbki, które następnie zostały uznane za kotwice. Przykłady podobne oraz niepodobne uzyskano poprzez modyfikację kotwicy odpowiednio w zakresie $[0; 0.2]$, $[0.2; 0.8]$.
+%                 \subsubsection{Zbiór danych}
+%                     Do stworzenia zbioru danych: treningowego oraz walidacyjnego została wykorzystana pierwsza próbka sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project} \cite{Fritz2019}. Zbiory zostały uzyskane poprzez losowy wybór sekwencji genetycznych z próbki, które następnie zostały uznane za kotwice. Przykłady podobne oraz niepodobne uzyskano poprzez modyfikację kotwicy odpowiednio w zakresie $[0; 0.2]$, $[0.2; 0.8]$.
     
-                \subsubsection{Proces uczenia}
+%                 \subsubsection{Proces uczenia}
     
-                    Przeprowadzono proces uczenia na zbiorze $10^{6}$ przykładów treningowych oraz $10^{4}$ walidacyjnych.
+%                     Przeprowadzono proces uczenia na zbiorze $10^{6}$ przykładów treningowych oraz $10^{4}$ walidacyjnych.
     
-                    \paragraph{Funkcja straty}
+%                     \paragraph{Funkcja straty}
     
-                        Wykorzystano funkcję straty zdefiniowaną jako:
+%                         Wykorzystano funkcję straty zdefiniowaną jako:
                         
-                        \begin{equation}
-                            \text{Strata kontrastowa} = [m_{pos} - s_{pos}]_{+} + [s_{neg} - m_{neg}]_{+}
-                        \end{equation}
+%                         \begin{equation}
+%                             \text{Strata kontrastowa} = [m_{pos} - s_{pos}]_{+} + [s_{neg} - m_{neg}]_{+}
+%                         \end{equation}
     
-                        gdzie,
-                        \begin{align*}
-                            m_{pos}, m_{neg} &- \text{margines podobieństwa między przykładami pozytywnymi a kotwicą,} \\
-                            &\text{oraz między przykładami negatywnymi a kotwicą}, \\
-                            s_{pos}, s_{neg} &- \text{podobieństwo kosinusowe przykładu pozytywnego do kotwicy,} \\
-                            &\text{oraz negatywnego do kotwicy.}
-                        \end{align*}
+%                         gdzie,
+%                         \begin{align*}
+%                             m_{pos}, m_{neg} &- \text{margines podobieństwa między przykładami pozytywnymi a kotwicą,} \\
+%                             &\text{oraz między przykładami negatywnymi a kotwicą}, \\
+%                             s_{pos}, s_{neg} &- \text{podobieństwo kosinusowe przykładu pozytywnego do kotwicy,} \\
+%                             &\text{oraz negatywnego do kotwicy.}
+%                         \end{align*}
     
-                    \paragraph{Optymalizator}
+%                     \paragraph{Optymalizator}
                     
-                        W procesie uczenia wykorzystano optymalizator \textit{AdamW} \cite{Loshchilov2017DecoupledWD} z wykładniczym spadkiem współczynnika uczenia oraz zanikiem wag (ang. \textit{weight decay}).
+%                         W procesie uczenia wykorzystano optymalizator \textit{AdamW} \cite{Loshchilov2017DecoupledWD} z wykładniczym spadkiem współczynnika uczenia oraz zanikiem wag (ang. \textit{weight decay}).
                 
-                    \paragraph{Parametry}
+%                     \paragraph{Parametry}
     
-                         Parametry optymalizatora: $\lambda = 10^{-7}$, $\gamma = 0.99999$, zanik wag $= 10^{-7}$.  Parametry funkcji straty: $m_{pos} = 1.0$, $m_{neg} = 0.25$. Parametr warstw wyłączenia (ang. \textit{dropout}) $= 0.5$ dla obu warstw. Liczbę epok ustawiono na $5$, ze względu na ryzyko przeuczenia.
+%                          Parametry optymalizatora: $\lambda = 10^{-7}$, $\gamma = 0.99999$, zanik wag $= 10^{-7}$.  Parametry funkcji straty: $m_{pos} = 1.0$, $m_{neg} = 0.25$. Parametr warstw wyłączenia (ang. \textit{dropout}) $= 0.5$ dla obu warstw. Liczbę epok ustawiono na $5$, ze względu na ryzyko przeuczenia.
     
     
-                    \paragraph{Miara jakości}
+%                     \paragraph{Miara jakości}
                     
-                        Jako miarę jakości modelu wykorzystano stratę kontrastową modelu obliczoną na zbiorze walidacyjnym.
+%                         Jako miarę jakości modelu wykorzystano stratę kontrastową modelu obliczoną na zbiorze walidacyjnym.
 
-    \subsection{Wykorzystane narzędzia}
-    - Python
-    - Rust
-    - HTML, JS 
-    - + biblioteki
+%     \subsection{Wykorzystane narzędzia}
+%     - Python
+%     - Rust
+%     - HTML, JS 
+%     - + biblioteki
