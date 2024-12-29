@@ -1,16 +1,4 @@
 % chktex-file 44
-% ===== ===== ===== =====
-    % **TODO** [ok. 25 stron]
-
-    % \begin{enumerate}
-    %     \item Opis pipeline'u
-    %     \item Wymaganie implementacyjny
-    %     \item Model architektury np. C4
-    %     \item Opis testów jednostkowych, integracyjnych
-    %     \item Interfejs użytkownika, instrukcja użytkownika
-    % \end{enumerate}
-% ===== ===== ===== =====
-
 \clearpage
 \section{Projekt i Implementacja}
 
@@ -173,7 +161,7 @@
                 }
             \end{itemize}
 
-        \subsubsection{Aplikacja przeglądarkowa \textit{exquisitor-app}}
+        \subsubsection{Aplikacja przeglądarkowa \texttt{exquisitor-app}}
             Aplikacja przeglądarkowa została zaprojektowana z myślą o umożliwieniu użytkownikom końcowym zlecania zadań klasyfikacji taksonomicznej oraz przeglądania wyników po zakończeniu procesu. Wybór formy aplikacji przeglądarkowej wynika z jej dostępności na różnych urządzeniach posiadających dostęp do internetu i przeglądarki, co zapewnia łatwy, uniwersalny dostęp do systemu. Aplikacja składa się z serwera oraz stron internetowych generowanych za pomocą szablonów.
 
             Serwer udostępnia stronę główną, na której użytkownik może zapoznać się z ostatnimi dziesięcioma zadaniami, zlecić wykonanie nowego zadania lub wyszukać zadanie po identyfikatorze lub nazwie. Do przechowywania informacji o zleconych zadaniach wykorzystywana jest baza danych \textit{SQLite}.
@@ -425,23 +413,23 @@
 
             Niniejsza instrukcja użytkownika zawiera szczegółowy opis procesu instalacji, uruchamiania oraz użytkowania aplikacji konsolowej i przeglądarkowej. W pierwszej części omówiono proces instalacji wymaganego środowiska, a w kolejnych sekcjach przedstawiono szczegółowe instrukcje użytkownika dla obu rodzajów aplikacji.
 
-            \paragraph{Wymagania techniczne}
+            \paragraph{Wymagania techniczne:}
                 \begin{itemize}
                     \item {
-                        \textbf{System operacyjny:} Ubuntu 20.0 lub nowszy,
+                        \textbf{System operacyjny:} Ubuntu 20.0 lub nowszy.
                     }
                     \item {
-                        \textbf{Pamięć RAM:} minimum 4 GB, zalecane 8 GB,
+                        \textbf{Pamięć RAM:} minimum 4 GB, zalecane 8 GB.
                     }
                     \item {
-                        \textbf{Karta graficzna:} Nvidia GeForce GTX 1060 6GB lub lepsza,
+                        \textbf{Karta graficzna:} Nvidia GeForce GTX 1060 6 GB lub lepsza.
                     }
                     \item {
-                        \textbf{Miejsce na dysku:} minimum 1 TB dostępnej przestrzeni
+                        \textbf{Miejsce na dysku:} minimum 1 TB dostępnej przestrzeni.
                     }
                 \end{itemize}
 
-            \paragraph{Instalacja \textit{blastn} oraz bazy danych \textit{nt}}
+            \paragraph{Instalacja \texttt{blastn} oraz bazy danych nukleotydów \texttt{nt}}
 
                 \begin{enumerate}
                     \item {
@@ -451,7 +439,7 @@
                         Nadaj skryptowi odpowiednie uprawnienia do wykonania, używając polecenia: \texttt{sudo chmod +x download\_database.sh}.
                     }
                     \item {
-                        Uruchom skrypt, aby rozpocząć pobieranie i instalację \texttt{blastn} oraz bazy danych nukleotydów: \texttt{sudo ./download\_database.sh}.
+                        Uruchom skrypt, aby rozpocząć pobieranie i instalację \texttt{blastn} oraz bazy danych nukleotydów \texttt{nt}: \texttt{sudo ./download\_database.sh}.
                     }
                     \item {
                         Skrypt automatycznie pobierze, zainstaluje oraz rozpakuje aplikację \texttt{blastn} oraz bazę danych nukleotydów \texttt{nt}.
@@ -465,15 +453,15 @@
                         Zainstaluj pakiet \texttt{git} za pomocą polecenia: \texttt{sudo apt install git}.
                     }
                     \item {
-                        Przygotuj środowisko języka Rust\footnote{Instrukcje instalacji języka Rust dostępne są pod adresem: \texttt{https://www.rust-lang.org/tools/install}.}.
+                        Zainstaluj środowisko języka Rust\footnote{Instrukcje instalacji języka Rust dostępne są pod adresem: \texttt{https://www.rust-lang.org/tools/install}.}.
                     }
                 \end{enumerate}
 
-            \paragraph{Instalacja aplikacji}
+            \paragraph{Kompilacja aplikacji}
                 
                 \begin{enumerate}
                     \item {
-                        Pobierz repozytorium rozwiązania za pomocą polecenia \texttt{git clone <url>}.
+                        Pobierz repozytorium rozwiązania za pomocą polecenia \texttt{git clone <url>}, gdzie \texttt{<url>} jest adresem repozytorium z kodem.
                     }
                     \item {
                         Przejdź do folderu \texttt{exquisitor} oraz uruchom polecenie \texttt{cargo build -\phantom{}-release -\phantom{}-bins}.
@@ -502,65 +490,67 @@
                 \begin{table}[!ht] \centering
                     \caption{Polecenia aplikacji konsolowej.}\label{Table:ConsoleCommands}
 
-                    \begin{tabular}{| p{0.25\linewidth} | p{0.75\linewidth} |} 
+                    \begin{tabularx}{\textwidth}{| >{\footnotesize}m{0.25\textwidth} |  >{\footnotesize}X |} 
                         \hline
-                        \textbf{Polecenie}              & \textbf{Opis polecenia} \\ \hline\hline
-                        \texttt{experiment} 	        & uruchamia wskazane polecenie jako eksperyment. Pozwala na monitorowanie wykorzystania procesora oraz pamięci RAM oraz ograniczenie czasu trwania eksperymenty. \\ \hline
-                        \texttt{compare}		        & porównuje dwa zestawy wyników klasyfikacji taksonomicznej. Zwraca jakość względną między nimi. \\ \hline
-                        \texttt{compare-clusters} 	    & porównuje dwa zestawy grup. Zwraca jakość grupowania. \\ \hline
-                        \texttt{search}                 & Wyszukuje sekwencje DNA w bazie danych bez uruchamiania pełnego potoku przetwarzania \\ \hline
-                        \texttt{run}		            & uruchamia pełną klasyfikację taksonomiczną z zadanymi parametrami. \\ \hline
-                    \end{tabular}
+                        \textbf{\normalsize Polecenie}  & \textbf{\normalsize Opis polecenia} \\ \hline \hline
+                        \texttt{experiment} 	        & Uruchamia wskazane polecenie jako eksperyment. Pozwala na monitorowanie wykorzystania procesora oraz pamięci RAM oraz ograniczenie trwania eksperymentu. \\ \hline
+                        \texttt{compare}		        & Porównuje dwa zestawy wyników klasyfikacji taksonomicznej, jako wynik zwraca jakość względną między nimi. \\ \hline
+                        \texttt{compare-clusters} 	    & Porównuje dwa zestawy grup otrzymanych za pomocą algorytmu grupowania, jako wynik zwraca jakość grupowania. \\ \hline
+                        \texttt{search}                 & Wyszukuje sekwencje DNA w bazie danych bez uruchamiania pełnego potoku przetwarzania. \\ \hline
+                        \texttt{run}		            & Uruchamia pełną klasyfikację taksonomiczną z wykorzystaniem potoku przetwarzania. \\ \hline
+                    \end{tabularx}
                 
                 \end{table}
 
-                \begin{table}[!ht] \centering
-                    \caption{Składnia poleceń aplikacji konsolowej.}\label{Table:ConsoleCommandsSyntax}
+                \begin{longtblr}[
+                    caption = {Składnia poleceń aplikacji konsolowej.},
+                    label = {Table:ConsoleCommandsSyntax}
+                ]{
+                    colspec = {| >{\footnotesize}m{0.2\textwidth} | >{\footnotesize}m{0.2\textwidth} | >{\footnotesize}X |},
+                    rowhead = 1,
+                }
+                    \hline
+                    \textbf{\normalsize Polecenie}     & \textbf{\normalsize Argument}    & \textbf{\normalsize Opis argumentu} \\*
+                    \hline \hline
 
-                    \begin{tabular}{| p{0.25\linewidth} | >{\footnotesize}p{0.25\linewidth} | >{\footnotesize}p{0.5\linewidth} | } 
-                        \hline
-                        \textbf{Polecenie}     & \textbf{\normalsize Argument}    & \textbf{\normalsize Opis argumentu} \\ \hline\hline
+                    \multirow{4}{*}{\texttt{experiment}}  & \texttt{-\phantom{}-resolution <liczba>}   & Rozdzielczość monitorowania eksperymentu w sekundach. Określa jak często będzie sprawdzane wykorzystanie zasobów przez eksperyment oraz przekroczenie czasu trwania eksperymentu. \\*
+                                                          & \texttt{-\phantom{}-command <polecenie>}   & Polecenie, które zostanie wykonane jako eksperyment. Powinno to był poprawne polecenie aplikacji konsolowej. \\*
+                                                          & \texttt{-\phantom{}-output <ścieżka>}      & Ścieżka do pliku, w którym zostaną zapisane wyniki monitorowania eksperumentu. Wyniki zapisywane są jako tabela w formacie CSV. \\*
+                                                          & \texttt{-\phantom{}-max-duration <liczba>} & Maksymalny czas trwania eksperymentu w sekundach. Po przekroczeniu czasu trwania eksperymentu nastąpi jego przerwanie. \\ \hline
 
-                        \multirow{4}{*}{\texttt{experiment}}  & \texttt{-\phantom{}-resolution <liczba>}   & rozdzielczość monitorowania eksperymentu w sekundach, \\
-                                                              & \texttt{-\phantom{}-command <polecenie>}   & polecenie do wykonania jako eksperyment, \\
-                                                              & \texttt{-\phantom{}-output <ścieżka>}      & ścieżka do pliku, w którym zostaną zapisane wyniki monitorowania eksperymentu, \\
-                                                              & \texttt{-\phantom{}-max-duration <liczba>} & maksymalny czas trwania eksperymentu w sekundach. \\ \hline
-
-                        % % compare             & \texttt{
+                    % % compare             & \texttt{
                             
-                        % % } \\ \hline % @TODO
+                    % % } \\ \hline % @TODO
 
-                        \multirow{3}{*}{\texttt{compare-clusters}}  & \texttt{-\phantom{}-reference <ścieżka>} & ścieżka do pliku z wynikami referencyjnymi, \\
-                                                                    & \texttt{-\phantom{}-second <ścieżka>}    & ścieżka do pliku, z wynikami do porównania względem referencji, \\
-                                                                    & \texttt{[-\phantom{}-output <ścieżka>]}  & ścieżka do pliku, w którym zostaną zapisane wyniki porównania. \\ \hline
+                    \multirow{3}{*}{\texttt{compare-clusters}}  & \texttt{-\phantom{}-reference <ścieżka>} & Ścieżka do pliku z wynikami klasyfikacji taksonomicznej, które stanowią punkt odniesienia w porównaniu. \\*
+                                                                & \texttt{-\phantom{}-second <ścieżka>}    & Ścieżka do pliku z wynikami klasyfikacji taksonomicznej, które zostaną porównane względem wskazanych wyników referencyjnych. \\*
+                                                                & \texttt{[-\phantom{}-output <ścieżka>]}  & Ścieżka do pliku, w którym zostaną zapisane wyniki dokonanego porównania. \\ \hline
 
-                        \multirow{4}{*}{\texttt{search}}    & \texttt{-\phantom{}-input <ścieżka>}    & ścieżka do pliku z sekwencjami DNA, \\
-                                                            & \texttt{-\phantom{}-output <ścieżka>}   & ścieżka do pliku, w którym zostaną zapisane wyniki wyszukiwania, \\
-                                                            & \texttt{-\phantom{}-blast <ścieżka>}    & ścieżka do pliku wykonywalnego \texttt{blastn}, \\
-                                                            & \texttt{-\phantom{}-blast-db <ścieżka>} & ścieżka do folderu z bazą danych nukleotydów \texttt{nt}. \\ \hline
+                    \multirow{4}{*}{\texttt{search}}    & \texttt{-\phantom{}-input <ścieżka>}    & Ścieżka do pliku, który zawiera sekwencje DNA. \\*
+                                                        & \texttt{-\phantom{}-output <ścieżka>}   & Ścieżka do pliku, w którym zostaną zapisane wyniki wyszukiwania. \\*
+                                                        & \texttt{-\phantom{}-blast <ścieżka>}    & Ścieżka do pliku wykonywalnego \texttt{blastn}. \\*
+                                                        & \texttt{-\phantom{}-blast-db <ścieżka>} & Ścieżka do folderu z bazą danych nukleotydów \texttt{nt}. \\ \hline
 
-                        \multirow{4}{*}{\texttt{run}}       & \texttt{-\phantom{}-input <ścieżka>}           & ścieżka do pliku z sekwencjami DNA, \\
-                                                            & \texttt{-\phantom{}-output <ścieżka>}          & ścieżka do pliku, w którym zostaną zapisane wyniki klasyfikacji taksonomicznej, \\
-                                                            & \texttt{-\phantom{}-file-format <file-format>} & format pliku z sekwencjami DNA, dostępne wartości: \texttt{fasta, fastq, auto}, \\
-                                                            & \texttt{-\phantom{}-pipeline <pipeline>}       & wykorzystana metoda do określania niepodobieństwa, dostępne: \texttt{basic, k-mer, neural}, \\
-                                                            & \texttt{-\phantom{}-cluster <cluster>}         & algorytm klastrowania, dostępne: \texttt{k-medoid}, \\
-                                                            & \texttt{-\phantom{}-k <liczba>}                & liczba grup tworzonych w algorytmie grupowania, \\
-                                                            & \texttt{-\phantom{}-blast <ścieżka>}           & ścieżka do pliku wykonywalnego \texttt{blastn}, \\
-                                                            & \texttt{-\phantom{}-blast-db <ścieżka>}        & ścieżka do folderu z bazą danych nukleotydów \texttt{nt}, \\
-                                                            & \texttt{[-\phantom{}-gap-penalty <liczba>]}    & kara za przerwę w metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha, \\
-                                                            & \texttt{[-\phantom{}-kmer <ścieżka>]}          & długość wykorzystanych k-merów w metodzie zanurzeń k-merów, \\
-                                                            & \texttt{[-\phantom{}-model <ścieżka>]}         & model sieci neuronowej wykorzystany w metodzie sztucznej sieci neuronowej, \\
-                                                            & \texttt{[-\phantom{}-only-cluster]}            & flaga, która przerywa potok przetwarzania do przeprowadzeniu grupowania \\
-                                                            & \texttt{[-\phantom{}-save-clusters <ścieżka>]} & flaga, która pozwala na zapisanie informacji o grupach do pliku. \\ \hline 
-                    \end{tabular}
-                
-                \end{table}
+                    \multirow{13}{*}{\texttt{run}}      & \texttt{-\phantom{}-input <ścieżka>}           & Ścieżka do pliku, który zawiera sekwencje DNA. \\*
+                                                        & \texttt{-\phantom{}-output <ścieżka>}          & Ścieżka do pliku, w którym zostaną zapisane wyniki klasyfikacji taksonomicznej. \\*
+                                                        & \texttt{-\phantom{}-file-format <file-format>} & Format pliku z sekwencjami DNA. Dostępne formaty: \texttt{fasta}, \texttt{fastq} oraz \texttt{auto} (automatyczne wykrywanie formatu na podstawie rozszerzenia pliku). \\*
+                                                        & \texttt{-\phantom{}-pipeline <pipeline>}       & Metoda wykorzystana do określania niepodobieństwa między sekwencjami DNA. Dostępne metody: \texttt{basic} (zmodyfikowany algorytm Needlemana-Wunscha), \texttt{k-mer} (zanurzenia k-merów), \texttt{neural} (sieć neuronowa). \\*
+                                                        & \texttt{-\phantom{}-cluster <cluster>}         & Algorytm grupowania. Dostępne algorytmy: \texttt{k-medoid}. \\*
+                                                        & \texttt{-\phantom{}-k <liczba>}                & Liczba grup tworzonych przez algorytm grupowania. \\*
+                                                        & \texttt{-\phantom{}-blast <ścieżka>}           & Ścieżka do pliku wykonywalnego \texttt{blastn}. \\*
+                                                        & \texttt{-\phantom{}-blast-db <ścieżka>}        & Ścieżka do folderu z bazą danych nukleotydów \texttt{nt}. \\*
+                                                        & \texttt{[-\phantom{}-gap-penalty <liczba>]}    & Parametr kary za przerwę w metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha. Argument obowiązkowy przy podaniu \texttt{basic} jako wartości argumentu \texttt{-{}-pipeline}. \\*
+                                                        & \texttt{[-\phantom{}-kmer <ścieżka>]}          & Długość wykorzystanych k-merów w metodzie zanurzeń k-merów. Argument obowiązkowy przy podaniu \texttt{k-mer} jako wartości argumentu \texttt{-{}-pipeline}. \\*
+                                                        & \texttt{[-\phantom{}-model <ścieżka>]}         & Ścieżka do pliku, który zawiera zapisane wagi modelu sieci neuronowej. Argument obowiązkowy przy podaniu \texttt{neural} jako wartości argumentu \texttt{-{}-pipeline} .\\*
+                                                        & \texttt{[-\phantom{}-only-cluster]}            & Flaga, której użycie powoduje przerwanie potoku przetwarzania po przeprowadzeniu grupowania sekwencji.  \\*
+                                                        & \texttt{[-\phantom{}-save-clusters}            & Flaga, której użycie powoduje zapisanie wyników grupowania do pliku. \\ \hline
+                \end{longtblr}
 
             \paragraph{Uruchomienie aplikacji przeglądarkowej}
 
                 \begin{enumerate}
                     \item {
-                        Przejdź do folderu, w którym znajduje się plik wykonywalny.
+                        Przejdź do folderu, w którym znajduje się plik wykonywalny aplikacji przeglądarkowej.
                     }
                     \item {
                         Uruchom plik wykonywalny za pomocą polecenia: \texttt{./exquisitor-app}.
@@ -569,13 +559,15 @@
                         Aplikacja powinna się uruchomić. 
                     }
                 \end{enumerate}
-            
-            \todo{
-                \begin{itemize}
-                    \item - opisać jak zbudować całe rozwiązanie ? oraz przygotować resztę środowiska?
-                    \item opisać przykładowe zastosowanie aplikacji konsolowej oraz aplikacycjnej oraz jak to wykorystać 
-                \end{itemize}
-            }
+
+                \todo{
+                    \begin{itemize}
+                        \item poprawny opis uruchomienia aplikacji przeglądarkowej;
+                        \item przykładowe wykorzystanie komendy aplikacji konsolowej;
+                        \item przykładowe wykorzystanie (dodanie eksperymentu) w aplikacji przeglądarkowej;
+                        \item przykładowy wynik w aplikacji przeglądarkowej.
+                    \end{itemize}
+                }
 
     % ===== ===== ===== =====
     % OPIS TESTÓW JEDNOSTKOWYCH

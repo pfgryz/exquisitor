@@ -15,11 +15,22 @@
 % ---- ---- ---- ----
 \usepackage{tikz}
 \usepackage{float}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{xltabular}
+\usepackage{booktabs}
+\usepackage{tabularray}
 
 % ---- ---- ---- ----
 % Packages Configuration
 % ---- ---- ---- ----
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning}
+\DefTblrTemplate{caption-tag}{default}{\small \textbf{Tabela\hspace{0.25em}\thetable}}
+\DefTblrTemplate{caption-sep}{default}{.\enskip}
+\DefTblrTemplate{caption-text}{default}{\small \InsertTblrText{caption}}
+\DefTblrTemplate{contfoot-text}{default}{Kontynuacja na następnej stronie.}
+\DefTblrTemplate{conthead-text }{default}{}
+
 
 % ---- ---- ---- ----
 % Writing utilities
