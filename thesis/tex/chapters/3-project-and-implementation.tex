@@ -29,7 +29,7 @@
     % ===== ===== ===== =====
     \subsection{Model architektury rozwiązania}
 
-        Architektura rozwiązania została przedstawiona w postaci modelu C4\cite{C4}. Model ten opisuje architekturę na czterech poziomach: kontekstowym (ang. \textit{System context}), kontenerów (ang. \textit{Container}), komponentów (ang. \textit{Component}) oraz kodu, przechodząc od najbardziej abstrakcyjnego spojrzenia na architekturę rozwiązania do kodu implementacji. Na rysunku~\ref{Picture:App:C4:Context} przedstawiono diagram kontekstowy modelu architektury, przedstawia on relacje między użytkownikami systemu a systemem oraz relacje między systemem a systemami zewnętrznymi. Na rysunku~\ref{Picture:App:C4:Container} przedstawiono natomiast diagram kontenerów modelu architektury, który przedstawia relacje między użytkownikami a poszczególnymi aplikacjami, biblioteka oraz systemami zewnętrznymi.
+        Architektura rozwiązania została przedstawiona w postaci modelu C4\cite{C4}. Model ten opisuje architekturę na czterech poziomach: kontekstowym (ang. \textit{System context}), kontenerów (ang. \textit{Container}), komponentów (ang. \textit{Component}) oraz kodu, przechodząc od najbardziej abstrakcyjnego spojrzenia na architekturę rozwiązania do kodu implementacji. Na rysunku~\ref{Picture:App:C4:Context} przedstawiono diagram kontekstowy modelu architektury, przedstawia on relacje między użytkownikami systemu a systemem oraz relacje między systemem a systemami zewnętrznymi. Na rysunku~\ref{Picture:App:C4:Container} przedstawiono natomiast diagram kontenerów modelu architektury, który przedstawia relacje między użytkownikami a poszczególnymi aplikacjami, biblioteką oraz systemami zewnętrznymi.
 
         \begin{figure}
             \begin{center}
@@ -578,10 +578,15 @@
                     }
                     \item {
                         Przejdź do folderu \texttt{exquisitor/exquisitor-app} oraz uruchom następujące polecenia:
-                        \[
-                            \texttt{sqlx database create -\phantom{}-database-url sqlite://exquisitor.db} \\
-                            \texttt{sqlx migrate run -\phantom{}-database-url sqlite://exquisitor.db}
-                        \]
+
+                        \begin{itemize}
+                            \item {
+                                \texttt{sqlx database create -\phantom{}-database-url sqlite://exquisitor.db}
+                            }
+                            \item {
+                                \texttt{sqlx migrate run -\phantom{}-database-url sqlite://exquisitor.db}
+                            }
+                        \end{itemize}
                     }
                     \item {
                         Przejdź do folderu \texttt{exquisitor}, oraz uruchom polecenie \texttt{cargo build -\phantom{}-release -\phantom{}-bins}.

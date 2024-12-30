@@ -19,12 +19,61 @@
     % ===== ===== ===== ===== 
     \subsection{Kluczowe pojęcia i definicje}
 
-        \todo{
-            \begin{enumerate}
-                \item {wyjaśnienie podstawowych pojęć,}
-                \item {omówienie istotnych teorii, które stanowią fundament rozwiązań lub badań w pracy.,}
-            \end{enumerate}
-        }
+        \subsubsection{Sekwencja DNA}
+
+            Sekwencja DNA stanowi zapis informacji genetyczny, który w sposób symboliczny odwzorowuje strukturę cząstki DNA, stosując alfabet złożony z czterech symboli: \texttt{A, T, C, G}. Każdy z symboli odnosi się do jednej z zasad azotowych zawartych w nukleotydach tworzących cząsteczkę DNA, odpowiednio: adeniny, tyminy, cytozyny oraz guaniny.
+
+        \subsubsection{$k$-mer}
+
+            $k$-mer to podsłowo sekwencji genetycznej o długości $k$. Dla danego alfabetu $G$ składające się z $n$ symboli istnieje dokładnie $n^k$ różnych $k$-merów o długości $k$. Sekwencja genetyczna o długości $m$ zawiera dokładnie $m - k + 1$ $k$-merów o długości $k$.
+
+
+        \subsubsection{Dopasowanie sekwencji}
+
+            Proces dopasowania sekwencji polega na wyrównaniu ich symboli w celu maksymalizacji ich wzajemnego podobieństwa, co realizowane może być poprzez wstawianie przerw (ang. \textit{gaps}) między symbolami sekwencji wejściowych. Dopasowanie sekwencji może być realizowane na dwa sposoby: lokalnie, gdzie maksymalizowane jest podobieństwo fragmentów sekwencji niezależnie od ich położenia oraz globalnie, gdzie maksymalizowane jest podobieństwo całych sekwencji. Wynikiem dopasowania są sekwencje z opcjonalnie wstawionymi przerwami oraz miara jakości dopasowania lub miara podobieństwa między sekwencjami.
+
+        \subsubsection{Uczenie kontrastowe}
+            
+            Uczenie kontrastowe (ang. \textit{contrastive learning})\cite{Bromley1993} jest metodą uczenia maszynowego polegającą na maksymalizacji podobieństwa między podobnymi próbkami oraz minimalizacji podobieństwa między niepodobnymi próbkami. Wykorzystuje on miary niepodobieństwa między reprezentacjami do nauki odróżniania kluczowych cech próbek. Zastosowanie tej metody pozwala na redukcję wymiarowości danych przy jednoczesnym zachowaniu właściwości podobieństwa i niepodobieństwa między danymi wejściowymi.
+
+        \subsubsection{Podobieństwo kosinusowe}
+
+            Podobieństwo kosinusowe to miara, która określa jak bardzo zbliżone, są wektory pod względem kierunku w przestrzeni wielowymiarowej. Miara wyrażona jest za pomocą kosinusa kąta między wektorami i przyjmuje wartości z zakresu $[-1; 1]$, gdzie $1$ określa pełne podobieństwo, a $-1$ całkowity brak podobieństwa. Podobieństwo kosinusowe wyrażone jest wzorem:
+
+            \begin{equation}
+                similarity_{cosine}(A, B) = \cos{\theta} = \frac{A \cdot B}{\|A\| \|B\|} = \frac{
+                    \sum^{n}_{i = 1}A_i B_i
+                }{
+                    \sqrt{
+                        \sum^{n}_{i = 1}A_i^2
+                    }
+                    \cdot
+                    \sqrt{
+                        \sum^{n}_{i = 1}B_i^2
+                    }
+                }
+            \end{equation}
+
+            gdzie,
+            \begin{align*}
+                A, B -& \text{porównywane wektory,} \\
+                \theta -& \text{kąt między wektorami $A$ i $B$,} \\
+                A_j, B_j -& \text{$j$-ty element wektora odpowiednio $A$ oraz $B$.}
+            \end{align*}
+
+        \subsubsection{Niepodobieństwo kosinusowe}
+
+            Niepodobieństwo kosinusowe to miara, która określa jak bardzo wektory różnią się pod względem kierunku. Wyrażone jest wzorem:
+
+            \begin{equation}
+                dissimilarity_{cosine}(A, B) = 1 - similarity_{cosine}(A, B)
+            \end{equation}
+
+            gdzie,
+            \begin{align*}
+                A, B -& \text{porównywane wektory,} \\
+                similarity_{cosine}(A, B) -& \text{podobieństwo kosinusowe między wektorami $A$ i $B$.}
+            \end{align*}
 
     % ===== ===== ===== =====
     % METODY I PODEJŚCIA
@@ -50,30 +99,6 @@
                 \item {Omówienie teorii, które są bezpośrednio związane z problemem badawczym (np. modele matematyczne, algorytmy, teorie z dziedziny nauk komputerowych, inżynierii, matematyki).}
             \end{enumerate}
         }
-
-
-% %region TIKZ Configuration
-
-
-
-% %endregion
-
-% \clearpage
-% \section{Wstęp teoretyczny}
-
-%     \subsection{Podstawowe definicje}
-
-%         \subsubsection{Sekwencja DNA}
-
-%             Sekwencja DNA stanowi zapis genetyczny, który w sposób symboliczny odwzorowuje strukturę cząsteczki DNA, stosując alfabet złożony z czterech symboli: $A, T, C, G$. Każdy z symboli odnosi się do jednej z zasad azotowych zawartych w nukleotydach tworzących cząsteczkę DNA odpowiednio: adeniny, tyminy, cytozyny oraz guaniny.
-
-%             \subsection{KMer}
-        
-%             $K$—mery są to podsłowa sekwencji genetycznej o długości $k$. Dla danego alfabetu $G$ składającego się z $n$ symboli istnieje $n^k$ różnych $k$-merów o długości $k$. Sekwencja genetyczna o długości $n$ zawiera dokładnie $n - k + 1$ $k$-merów o długości $k$.
-
-%         \subsubsection{Dopasowanie sekwencji}
-        
-%             Proces dopasowywania sekwencji polega na wyrównywaniu ich symboli w celu maksymalizacji ich wzajemnego podobieństwa, co realizowane jest poprzez wstawianie przerw (ang. \textit{gaps}).
             
 %         \subsubsection{Algorytm Needlema-Wunscha}
         
@@ -105,141 +130,3 @@
 %             \end{align*}
 
 %             Wartość znajdująca się w $D_{n, m}$ określa liczbowo jakość globalnego dopasowania sekwencji.
-
-%         \subsubsection{Uczenie kontrastowe}
-
-%             Uczenie kontrastowe (ang. \textit{contrastive learning}) \cite{Bromley1993} jest metodą polegającą na nauce reprezentacji danych poprzez porównywanie i różnicowanie podobnych oraz różnych przykładów. Dzięki zastosowaniu tej techniki, reprezentacje danych zachowują właściwości podobieństwa i różnicy między danymi, które reprezentują.
-
-%         \subsubsection{Podobieństwo i niepodobieństwo kosinusowe}
-
-%             Podobieństwo i niepodobieństwo kosinusowe są miarami, które mogą być wykorzystywane do porównywania wektorów liczbowych, zdefiniowane one są wzorami:
-
-%             \begin{equation}
-%                 similarity_{cosine} = \cos{\theta} = \frac{A \cdot B}{\|A\| \|B\|} = \frac{
-%                         \sum^{n}_{i = 1}A_i B_i
-%                     }{
-%                         \sqrt{
-%                             \sum^{n}_{i = 1}A_i^2
-%                         }
-%                         \cdot
-%                         \sqrt{
-%                             \sum^{n}_{i = 1}B_i^2
-%                         }
-%                     }
-%             \end{equation}
-
-%             \begin{equation}
-%                 dissimilarity_{cosine}(A, B) = 1 - similarity_{cosine}(A, B)
-%             \end{equation}
-
-%             gdzie,
-%             \begin{align*} 
-%                 A, B -& \text{porównywane wektory}, \\
-%                 \theta -& \text{kąt między wektorami $A$ i $B$}, \\
-%                 A_j, B_j -& \text{$j$-ty element wektora odpowiednio $A$ oraz $B$}.
-%             \end{align*}
-
-
-%     \subsection{Metody}
-    
-%             W pracy zaimplementowano trzy metody: nową metodę opartą na sieciach neuronowych oraz dwie klasyczne metody wykorzystywane do porównania. Nowa metoda oparta na sieciach neuronowych została opracowana w celu połączenia zalet obu klasycznych metod oraz eliminacji ich niedoskonałości. W szczególności skoncentrowano się na przyspieszeniu procesu określania niepodobieństwa w porównaniu do algorytmu Needlemana-Wunscha oraz na zwiększeniu jakości mierzonych niepodobieństw między sekwencjami DNA w porównaniu z metodą wykorzystującą $k$-mery, która nie bierze pod uwagę w pełni struktury porównywanych sekwencji.
-    
-%             % Needleman-Wunsch
-%             \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}
-            
-%                 Pierwszą metodą klasyczną, która została wykorzystana do określania niepodobieństwa między sekwencjami DNA jest zmodyfikowany algorytm Needlama-Wunscha. Algorytm pozwala na dokładne określanie niepodobieństwa z uwzględnieniem przerw oraz zmiany danych zasad. Modyfikacja algorytmu polega na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń w celu zapewnienia, że niepodobieństwo będzie mieściło się w przedziale: $[0, \infty)$:
-    
-%                 \begin{equation}
-%                     \begin{aligned}
-%                         D_{i,j} &= \min
-%                         \begin{cases}
-%                         D_{i - 1, j} + g \\
-%                         D_{i, j - 1} + g \\
-%                         D_{i - 1, j - 1} + s(A_i, B_j)
-%                         \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m] \\
-%                         & g, s(A_i, B_j) \in \mathbb{R}^{+}
-%                     \end{aligned}
-%                 \end{equation}
-    
-%                 Wartość znajdująca się w $D_{n, m}$ jest miarą niepodobieństwa między sekwencjami.
-                
-%             % KMer
-%             \subsubsection{KMer}
-            
-%                 Druga zaimplementowana metoda wykorzystuje $k$-mery do określania niepodobieństwa między sekwencjami DNA, poprzez wyznaczenie odległości euklidesowej w przestrzeni $k$-merów, gdzie osie tej przestrzeni odpowiadają różnym $k$-merom występującym w sekwencjach, a wektory reprezentują ich częstości wystąpień. Niepodobieństwo wyliczone jest według wzoru:
-    
-%                 \begin{equation}
-%                     dissimilarity_{kmer}(A, B, k) = \sqrt{\sum_{m \in M_{k}} (A_m - B_m)^{2}}
-%                 \end{equation}
-    
-%                 gdzie,
-%                 \begin{align*} 
-%                     k -& \text{długość $k$-merów}, \\
-%                     A, B -& \text{porównywane sekwencje}, \\
-%                     M -& \text{zbiór wszystkich możliwych sekwencji genetycznych o długości $k$}, \\
-%                     A_j, B_j -& \text{liczba wystąpień sekwencji } j \text{ odpowiednio w sekwencjach } A \text{ i } B. \\
-%                 \end{align*}
-            
-%             % Sztuczna sieć neuronowa
-%             \subsubsection{Sztuczna sieć neuronowa}
-            
-%                 Zaproponowana metoda wykorzystuje sztuczne sieci neuronowe wraz z uczeniem kontrastowym do stworzenia modelu, który będzie pozwalał na tworzenie reprezentacji sekwencji wejściowych, które zachowają właściwości niepodobieństwa między sekwencjami. Na podstawie stworzonych reprezentacji sekwencji będzie wyliczone niepodobieństwo z wykorzystaniem niepodobieństwa kosinusowego.
-    
-%                 \subsubsection{Architektura}
-    
-%                     Architektura sieci neuronowej składa się z 2 bloków wykorzystujących warstwy splotowe, które odpowiadają za ekstrakcję niskopoziomowych cech sekwencji, warstwy spłaszczającej oraz trzech warstw perceptronów wielowarstwowych, które odpowiadają za stworzenie reprezentacji na podstawie wyekstrahowanych cech. Wyjściem jest wektor zanurzeń o rozmiarze $64$. Schematycznie architektura została przedstawiona na rysunku ~\ref{Architektura}).
-    
-%                     \begin{figure}[H]
-%                         \begin{center}
-%                             \input{tex/pictures/neural.tex}
-%                         \end{center}
-%                         \caption{
-%                             Schemat architektury sieci neuronowej.
-%                         } 
-%                         \label{Architektura}
-%                     \end{figure}
-    
-%                 \subsubsection{Przykłady uczące}
-%                     Przykłady uczące składają się z kotwicy (ang. \textit{anchor}) oraz dwóch sekwencji: pierwsza sekwencja podobna do kotwicy, druga nie.
-    
-%                 \subsubsection{Zbiór danych}
-%                     Do stworzenia zbioru danych: treningowego oraz walidacyjnego została wykorzystana pierwsza próbka sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project} \cite{Fritz2019}. Zbiory zostały uzyskane poprzez losowy wybór sekwencji genetycznych z próbki, które następnie zostały uznane za kotwice. Przykłady podobne oraz niepodobne uzyskano poprzez modyfikację kotwicy odpowiednio w zakresie $[0; 0.2]$, $[0.2; 0.8]$.
-    
-%                 \subsubsection{Proces uczenia}
-    
-%                     Przeprowadzono proces uczenia na zbiorze $10^{6}$ przykładów treningowych oraz $10^{4}$ walidacyjnych.
-    
-%                     \paragraph{Funkcja straty}
-    
-%                         Wykorzystano funkcję straty zdefiniowaną jako:
-                        
-%                         \begin{equation}
-%                             \text{Strata kontrastowa} = [m_{pos} - s_{pos}]_{+} + [s_{neg} - m_{neg}]_{+}
-%                         \end{equation}
-    
-%                         gdzie,
-%                         \begin{align*}
-%                             m_{pos}, m_{neg} &- \text{margines podobieństwa między przykładami pozytywnymi a kotwicą,} \\
-%                             &\text{oraz między przykładami negatywnymi a kotwicą}, \\
-%                             s_{pos}, s_{neg} &- \text{podobieństwo kosinusowe przykładu pozytywnego do kotwicy,} \\
-%                             &\text{oraz negatywnego do kotwicy.}
-%                         \end{align*}
-    
-%                     \paragraph{Optymalizator}
-                    
-%                         W procesie uczenia wykorzystano optymalizator \textit{AdamW} \cite{Loshchilov2017DecoupledWD} z wykładniczym spadkiem współczynnika uczenia oraz zanikiem wag (ang. \textit{weight decay}).
-                
-%                     \paragraph{Parametry}
-    
-%                          Parametry optymalizatora: $\lambda = 10^{-7}$, $\gamma = 0.99999$, zanik wag $= 10^{-7}$.  Parametry funkcji straty: $m_{pos} = 1.0$, $m_{neg} = 0.25$. Parametr warstw wyłączenia (ang. \textit{dropout}) $= 0.5$ dla obu warstw. Liczbę epok ustawiono na $5$, ze względu na ryzyko przeuczenia.
-    
-    
-%                     \paragraph{Miara jakości}
-                    
-%                         Jako miarę jakości modelu wykorzystano stratę kontrastową modelu obliczoną na zbiorze walidacyjnym.
-
-%     \subsection{Wykorzystane narzędzia}
-%     - Python
-%     - Rust
-%     - HTML, JS 
-%     - + biblioteki
