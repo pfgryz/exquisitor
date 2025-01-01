@@ -195,10 +195,6 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
                 .map(|t| t.to_data().to_vec::<f32>().unwrap())
                 .collect::<Vec<_>>();
 
-            for embed in &embeddings {
-                debug!("{:?}", embed);
-            }
-
             distance_matrix(&embeddings, &CosineDistance)?
         }
     };

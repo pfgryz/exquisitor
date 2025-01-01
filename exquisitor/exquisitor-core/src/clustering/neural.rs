@@ -49,7 +49,7 @@ impl<B: Backend> NeuralEmbedder<B> {
             .map(|s| s.pad(self.sequence_length, 'A'.into(), Alignment::Center))
             .map(|s| s.truncate(self.sequence_length, Alignment::Center))
             .map(|s| encode_sequence::<B>(&device, s.content().as_ref(), ALPHABET))
-            .map(|tensor| tensor.unsqueeze_dim::<2>(0))
+            // .map(|tensor| tensor.unsqueeze_dim::<2>(0))
             .collect::<Vec<_>>();
 
         let batch = Tensor::cat(encoded, 0);
