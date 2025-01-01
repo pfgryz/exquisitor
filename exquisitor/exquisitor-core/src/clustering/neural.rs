@@ -33,7 +33,7 @@ impl<B: Backend> NeuralEmbedder<B> {
 
         let model = config
             .model
-            .init::<B>(&device, config.sequence_length, config.dropout)
+            .init::<B>(&device, config.sequence_length * ALPHABET.len(), config.dropout)
             .load_record(record);
 
         Ok(Self {

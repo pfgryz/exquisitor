@@ -7,6 +7,7 @@ use crate::commands::run::{run, RunCommand};
 use crate::commands::search::{search, SearchCommand};
 use clap::{Parser, Subcommand};
 use std::process;
+use tracing::info;
 
 #[derive(Parser, Debug)]
 #[command(
@@ -60,6 +61,8 @@ fn main() {
             eprintln!("Error: {}", e);
             process::exit(1);
         }
-        _ => {}
+        _ => {
+            info!("Command executed successfully!");
+        }
     }
 }
