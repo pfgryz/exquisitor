@@ -30,7 +30,7 @@ fn one_hot(s: &str, alphabet: &[char]) -> Vec<f32> {
     for (idx, char) in s.chars().enumerate() {
         let position: usize = match char_index.get(&char) {
             None => 0,
-            Some(p) => *p
+            Some(p) => *p,
         };
 
         encoded[idx * alphabet.len() + position] = 1.0;

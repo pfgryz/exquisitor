@@ -14,7 +14,7 @@ use exquisitor_core::io::fastq::reader::FastqReader;
 use exquisitor_core::io::sequence::Sequence;
 use exquisitor_core::io::traits::{Reader, Record};
 use exquisitor_core::searching::blast::Blast;
-use exquisitor_core::searching::organism::{filter_matches, save_found_organisms};
+use exquisitor_core::searching::organism::{filter_matches, save_found_organisms, save_matches};
 use exquisitor_core::searching::traits::DatabaseSearch;
 use std::fmt;
 use std::fmt::Formatter;
@@ -249,6 +249,13 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
         args.database_configuration.blast_db.to_str().unwrap(),
     );
     let matches = database.search(representatives)?;
+
+    if let Some(ref path) = args.output {
+        let mut matches_path = path.clone();
+        matches_path.set_extension("matches".to_string());
+        let mut file = File::create(&matches_path);
+        save_matches(&mut file, &matches)?;
+    }
     let found = filter_matches(&matches, &clusters, sequences.len());
 
     if let Some(path) = args.output {

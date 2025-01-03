@@ -56,6 +56,12 @@ impl OrganismFound {
     }
 }
 
+pub fn save_matches(buffer: &mut dyn Write, matches: &Vec<OrganismMatch>) -> std::io::Result<()> {
+    let json = serde_json::to_string(&matches)?;
+    buffer.write_all(json.as_bytes())?;
+    Ok(())
+}
+
 pub fn save_found_organisms(
     buffer: &mut dyn Write,
     organisms: &Vec<OrganismFound>,
@@ -87,7 +93,7 @@ pub fn filter_matches(
 
         match found.get_mut(organism_match.name()) {
             Some(score) => {
-                *score *= match_score;
+                *score += match_score;
             }
             None => {
                 found.insert(organism_match.name().into(), match_score);

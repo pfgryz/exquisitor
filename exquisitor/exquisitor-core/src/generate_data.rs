@@ -364,7 +364,14 @@ fn artificial_command(args: &ArtificialCommand) {
     if args.common.experiments != 0 {
         create_artificial_experiments_dataset(
             &mut generator,
-            format!("{}/{}.fasta", args.common.output, args.common.experiments_file_name.clone().unwrap_or("experiments".into())),
+            format!(
+                "{}/{}.fasta",
+                args.common.output,
+                args.common
+                    .experiments_file_name
+                    .clone()
+                    .unwrap_or("experiments".into())
+            ),
             args.common.length,
             args.common.experiments,
         )
@@ -462,7 +469,14 @@ fn dataset_command(args: &DatasetCommand) {
 
         create_real_experiments_dataset(
             &args.input,
-            &PathBuf::from(format!("{}/{}.fasta", args.common.output, args.common.experiments_file_name.clone().unwrap_or("experiments".into()))),
+            &PathBuf::from(format!(
+                "{}/{}.fasta",
+                args.common.output,
+                args.common
+                    .experiments_file_name
+                    .clone()
+                    .unwrap_or("experiments".into())
+            )),
             &args.file_format,
             &ids,
         )

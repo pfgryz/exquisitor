@@ -16,17 +16,13 @@ fn main() {
     let device = get_device();
     train::<LearnAutodiffBackend>(
         format!("models/model_final").as_str(),
-        TrainingConfig::new(
-            ModelConfig::new(),
-            AdamWConfig::new(),
-            44,
-        )
-        .with_sequence_length(150)
-        .with_num_workers(1)
-        .with_batch_size(256)
-        .with_learning_rate(1e-6)
-        .with_dropout(0.4)
-        .with_num_epochs(3),
+        TrainingConfig::new(ModelConfig::new(), AdamWConfig::new(), 44)
+            .with_sequence_length(150)
+            .with_num_workers(1)
+            .with_batch_size(256)
+            .with_learning_rate(1e-6)
+            .with_dropout(0.4)
+            .with_num_epochs(3),
         device.clone(),
     );
 }
