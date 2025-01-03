@@ -253,7 +253,7 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
     if let Some(ref path) = args.output {
         let mut matches_path = path.clone();
         matches_path.set_extension("matches".to_string());
-        let mut file = File::create(&matches_path);
+        let mut file = File::create(&matches_path)?;
         save_matches(&mut file, &matches)?;
     }
     let found = filter_matches(&matches, &clusters, sequences.len());
