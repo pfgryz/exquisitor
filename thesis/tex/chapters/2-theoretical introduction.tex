@@ -21,7 +21,7 @@
 
         \subsubsection{Sekwencja DNA}
 
-            Sekwencja DNA stanowi zapis informacji genetyczny, który w sposób symboliczny odwzorowuje strukturę cząstki DNA, stosując alfabet złożony z czterech symboli: \texttt{A, T, C, G}. Każdy z symboli odnosi się do jednej z zasad azotowych zawartych w nukleotydach tworzących cząsteczkę DNA, odpowiednio: adeniny, tyminy, cytozyny oraz guaniny.
+            Sekwencja DNA to sekwencja genetyczna stanowiąca zapis informacji genetycznej, który w sposób symboliczny odwzorowuje strukturę cząstki DNA, stosując alfabet złożony z czterech symboli: \texttt{A, T, C, G}. Każdy z symboli odnosi się do jednej z zasad azotowych zawartych w nukleotydach tworzących cząsteczkę DNA, odpowiednio: adeniny, tyminy, cytozyny oraz guaniny.
 
         \subsubsection{$k$-mer}
 
@@ -34,7 +34,7 @@
 
         \subsubsection{Uczenie kontrastowe}
             
-            Uczenie kontrastowe (ang. \textit{contrastive learning})\cite{Bromley1993} jest metodą uczenia maszynowego polegającą na maksymalizacji podobieństwa między podobnymi próbkami oraz minimalizacji podobieństwa między niepodobnymi próbkami. Wykorzystuje on miary niepodobieństwa między reprezentacjami do nauki odróżniania kluczowych cech próbek. Zastosowanie tej metody pozwala na redukcję wymiarowości danych przy jednoczesnym zachowaniu właściwości podobieństwa i niepodobieństwa między danymi wejściowymi.
+            Uczenie kontrastowe (ang. \textit{contrastive learning})\cite{Bromley1993} jest metodą uczenia maszynowego polegającą na maksymalizacji podobieństwa między podobnymi próbkami oraz minimalizacji podobieństwa między niepodobnymi próbkami. Wykorzystuje ona miary niepodobieństwa między reprezentacjami do nauki odróżniania kluczowych cech próbek. Zastosowanie tej metody pozwala na redukcję wymiarowości danych przy jednoczesnym zachowaniu właściwości podobieństwa i niepodobieństwa między danymi wejściowymi.
 
         \subsubsection{Podobieństwo kosinusowe}
 
@@ -67,6 +67,7 @@
 
             \begin{equation}
                 dissimilarity_{cosine}(A, B) = 1 - similarity_{cosine}(A, B)
+                \label{Equation:CosineDissimilarity}
             \end{equation}
 
             gdzie,
@@ -74,6 +75,40 @@
                 A, B -& \text{porównywane wektory,} \\
                 similarity_{cosine}(A, B) -& \text{podobieństwo kosinusowe między wektorami $A$ i $B$.}
             \end{align*}
+
+        \subsubsection{Format FASTA}
+
+            Format FASTA jest to tekstowy format zapisu sekwencji nukleotydów. Nukleotydy reprezentowane są przez znaki \texttt{A, C, T, G}. Format składa się z jednej linii rozpoczynającej się znakiem \texttt{>} zawierającej identyfikator i opcjonalny opis oraz kolejnych linii zawierających sekwencję nukleotydów. Możliwy jest zapis wielu sekwencji w formacie FASTA w jednym pliku poprzez połączenie wielu sekwencji zapisanych w tym formacie.
+
+        \subsubsection{Format FASTQ} 
+
+            Format FASTQ jest to tekstowy format zapisu sekwencji nukleotydów, który zawiera dodatkowo informacje o jakości sekwencjonowania. Format umożliwia zapis wielu sekwencji w jednym pliku. Zapis każdej sekwencji składa się z czterech części: 
+            \begin{enumerate}
+                \item {
+                    Pierwsza część to linia rozpoczynająca się od znaku \texttt{@} i zawierająca identyfikator oraz opcjonalny opis sekwencji.
+                }
+                \item {
+                    Druga część to linie zawierające sekwencję nukleotydów, reprezentowanych przez znaki \texttt{A, C, T, G}.
+                }
+                \item {
+                    Trzecia część to znak \texttt{+}, który oddziela sekwencję od informacji o jakości.
+                }
+                \item {
+                    Czwarta część to linie zawierające zapis informacji o jakości sekwencjonowania. Informacja ta jest zakodowana za pomocą pojedynczych znaków ASCII, które odpowiadają jakości poszczególnych nukleotydów w sekwencji.
+                }
+            \end{enumerate}
+
+        \subsubsection{\texttt{BLASTn}}
+
+            \texttt{BLASTn} (ang. \textit{Basic Local Alignment Search Tool for Nucleotides}) to wariant narzędzia bioinformatycznego \texttt{BLAST}, zaprojektowany do porównywania sekwencji nukleotydów. Umożliwia wyszukiwanie podobieństw między analizowanymi sekwencjami nukleotydów a sekwencjami znajdującymi się w wybranej bazie sekwencji nukleotydów. Może być wykorzystywany do przeprowadzania klasyfikacji taksonomicznej.
+
+        \todo {
+            Algorytm k-medoidów
+        }
+
+        \todo {
+            Klasyfikacja taksonomiczna
+        }
 
     % ===== ===== ===== =====
     % METODY I PODEJŚCIA
@@ -86,6 +121,24 @@
                 \item {Opis sposobów, w jaki te metody zostały zaadoptowane lub zmodyfikowane w pracy.}
                 \item {Wskazanie zalet i wad poszczególnych metod.}
             \end{enumerate}
+        }
+
+        \todo {
+            Kraken2 itd.
+        }
+
+        \todo {
+            Needleman-Wunsch
+        
+            Wady: wolne określanie podobieństwa 
+            Zalety: uwzględnia strukturę
+        }   
+
+        \todo {
+            KMer
+
+            Wady: nie uwzględnia struktury
+            Zalety: szybkie, łatwe w wykorzystaniu, SOTA
         }
 
     % ===== ===== ===== =====

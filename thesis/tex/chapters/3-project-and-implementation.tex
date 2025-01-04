@@ -56,11 +56,11 @@
 
         Centralnym elementem rozwiązania jest potok przetwarzania, zaprojektowany z myślą o elastycznej konfiguracji oraz możliwości zastosowania różnych metod grupowania sekwencji DNA. Elementy potoku zostały zaimplementowane w bibliotece \textit{exquisitor-core}, w postaci funkcji oraz rekordów. Realizacja potoku została umieszczona w aplikacji konsolowej, która wykorzystuje tę bibliotekę. Aplikacja umożliwia uruchamianie i konfigurację potoku, oferując dostęp do dostępnych metod. Zawiera również polecenia pomocnicze, które zostały przygotowane w celu przeprowadzenia eksperymentów.
 
-        Dodatkowo stworzono aplikację przeglądarkową, oferującą prosty interfejs w postaci strony internetowej. Umożliwia ona użytkownikowi zlecanie klasyfikacji taksonomicznej dla przesłanych sekwencji DNA.\@Do realizacji zleconych zadań aplikacja przeglądarkowa korzysta z aplikacji konsolowej.
+        Dodatkowo stworzono aplikację internetową, oferującą prosty interfejs w postaci strony internetowej. Umożliwia ona użytkownikowi zlecanie klasyfikacji taksonomicznej dla przesłanych sekwencji DNA.\@Do realizacji zleconych zadań aplikacja internetowa korzysta z aplikacji konsolowej.
 
         Ostatnim komponentem rozwiązania jest sieć neuronowa, której elementy zostały zawarte w bibliotece \textit{exquisitor-core}. 
 
-        Biblioteka, aplikacja konsolowa oraz aplikacja przeglądarkowa zostały umieszczone w oddzielnych skrzynkach (ang. \textit{crate}) w ramach jednego rozwiązania. Dzięki temu możliwe jest rozdzielenie odpowiedzialności między poszczególnymi elementami, niezależny rozwój kodu oraz umożliwienie wykorzystania biblioteki w innych aplikacjach.
+        Biblioteka, aplikacja konsolowa oraz aplikacja internetowa zostały umieszczone w oddzielnych skrzynkach (ang. \textit{crate}) w ramach jednego rozwiązania. Dzięki temu możliwe jest rozdzielenie odpowiedzialności między poszczególnymi elementami, niezależny rozwój kodu oraz umożliwienie wykorzystania biblioteki w innych aplikacjach.
 
         % ----- ----- ----- ----- 
         % OPIS POTOKU
@@ -171,8 +171,8 @@
                 }
             \end{itemize}
 
-        \subsubsection{Aplikacja przeglądarkowa \texttt{exquisitor-app}}
-            Aplikacja przeglądarkowa została zaprojektowana z myślą o umożliwieniu użytkownikom końcowym zlecania zadań klasyfikacji taksonomicznej oraz przeglądania wyników po zakończeniu procesu. Wybór formy aplikacji przeglądarkowej wynika z jej dostępności na różnych urządzeniach posiadających dostęp do internetu i przeglądarki, co zapewnia łatwy, uniwersalny dostęp do systemu. Aplikacja składa się z serwera oraz stron internetowych generowanych za pomocą szablonów.
+        \subsubsection{Aplikacja internetowa \texttt{exquisitor-app}}
+            Aplikacja internetowa została zaprojektowana z myślą o umożliwieniu użytkownikom końcowym zlecania zadań klasyfikacji taksonomicznej oraz przeglądania wyników po zakończeniu procesu. Wybór formy aplikacji internetowej wynika z jej dostępności na różnych urządzeniach posiadających dostęp do internetu i przeglądarki, co zapewnia łatwy, uniwersalny dostęp do systemu. Aplikacja składa się z serwera oraz stron internetowych generowanych za pomocą szablonów.
 
             Serwer udostępnia stronę główną, na której użytkownik może zapoznać się z ostatnimi dziesięcioma zadaniami, zlecić wykonanie nowego zadania lub wyszukać zadanie po identyfikatorze lub nazwie. Do przechowywania informacji o zleconych zadaniach wykorzystywana jest baza danych \textit{SQLite}.
             
@@ -190,7 +190,7 @@
                     \input{tex/pictures/app/database.tex}
                 \end{center}
                 \caption{
-                    Schemat bazy danych aplikacji przeglądarkowej.
+                    Diagram ER modelu bazy danych aplikacji internetowej.
                 }\label{Picture:App:Database}
             \end{figure}
 
@@ -210,8 +210,9 @@
         Budowanie macierzy niepodobieństwa oraz zastosowanie algorytmu grupowania wygląda we wszystkich metodach jednakowo. W dalszych sekcjach opisany zostanie proces wyznaczania niepodobieństwa między sekwencjami w zaimplementowanych metodach.
         
         \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}
+            \label{Method:NeedlemaWunsch}
 
-            Pierwszą metodą zastosowaną do wyznaczenia niepodobieństwa między sekwencjami DNA jest  zmodyfikowany algorytm Needlamana-Wunscha. Algorytm ten pierwotnie służy do globalnego wyrównania sekwencji genetycznych. Korzystajac z własności algorytmu, że w komórce $D_{n, m}$ macierzy podobieństwa budowanej przez algorytm znajduje się jakość globalnego wyrównania, dokonano modyfikacji algorytmu oraz odpowiedniego ustawienia parametrów, aby wynik ten odpowiadał mierze niepodobieństwa między sekwencjami. Modyfikacje te polegały na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń, w celu zapewnienia, że wartość w $D_{n, m}$ będzie zawierała się w przedziale $[0, \infty)$. Szczegóły wprowadzonych zmian względem wyrażenia \eqref{Equation:NeedlemanWunsch} przedstawiono poniżej:
+            Pierwszą metodą zastosowaną do wyznaczenia niepodobieństwa między sekwencjami DNA jest  zmodyfikowany algorytm Needlamana-Wunscha. Algorytm ten pierwotnie służy do globalnego wyrównania sekwencji genetycznych. Korzystajac z własności algorytmu, że w komórce $D_{n+1, m+1}$ macierzy podobieństwa budowanej przez algorytm znajduje się jakość globalnego wyrównania, dokonano modyfikacji algorytmu oraz odpowiedniego ustawienia parametrów, aby wynik ten odpowiadał mierze niepodobieństwa między sekwencjami. Modyfikacje te polegały na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń, w celu zapewnienia, że wartość w $D_{n+1, m+1}$ będzie zawierała się w przedziale $[0, \infty)$. Szczegóły wprowadzonych zmian względem wyrażenia \eqref{Equation:NeedlemanWunsch} przedstawiono poniżej:
 
             \begin{equation}
                 \begin{aligned}
@@ -219,8 +220,8 @@
                     \begin{cases}
                     D_{i - 1, j} + g \\
                     D_{i, j - 1} + g \\
-                    D_{i - 1, j - 1} + s(A_i, B_j)
-                    \end{cases}, & \text{dla } & i \in \left(0, n\right] \text{ oraz } j \in \left(0, m\right] \\
+                    D_{i - 1, j - 1} + s(A_{i - 1}, B_{j - 1})
+                    \end{cases}, & \text{dla } & i \in \left(1, n + 1\right] \text{ oraz } j \in \left(1, m + 1\right] \\
                     & g, s(A_i, B_j) \in \mathbb{R}^{+}
                 \end{aligned}
             \end{equation}
@@ -229,13 +230,13 @@
             \begin{align*} 
                 A, B -& \text{porównywane sekwencje}, \\
                 n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
-                D -& \text{macierz podobieństwa o rozmiarach } n \text{ x } m, \\
+                D -& \text{macierz podobieństwa o rozmiarach } (n + 1) \text{ x } (m + 1), \\
                 g -& \text{kara za przerwę}, \\
                 s(A_i, B_j) -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\ 
                 & \text{a } j \text{-tym elementem w sekwencji B}. \\
             \end{align*}
 
-            Przyjęto wartości parametrów:
+            W rozwiązaniu przyjęto wartości parametrów:
             \begin{align*}
                 g &= 2, \\
                 s(a, b) &= \begin{cases}
@@ -246,9 +247,19 @@
 
             Pełny przebieg metody przedstawiono na schemacie~\ref{Picture:Cluster:NeedlemanWunsch}. Czerwonym obramowaniem oznaczono krok, w którym wykorzystywany jest zmodyfikowany algorytm Needlemana-Wunscha.
 
-            \question{
-                Czy warto i stosowne jest pokazanie tutaj przykładu na przykładowych bardzo prostych danych?
-            }
+            \paragraph{Przykład.} Macierz podobieństwa zbudowana dla sekwencji \texttt{ACT} oraz \texttt{GCA} przy użyciu zmodyfikowanego algorytmu Needlemana-Wunscha, z uwzględnieniem przyjętych parametrów będzie wyglądać następująco:
+
+            \[
+                \begin{matrix}
+                            &        & A      & C      & T      \\
+                            &      0 &      2 &      4 &      6 \\
+                     G      &      2 &      1 &      3 &      5 \\
+                     C      &      4 &      3 &      1 &      3 \\
+                     A      &      6 &      4 &      3 &      2 \\
+                \end{matrix}
+            \]
+
+            Niepodobieństwo między tymi sekwencjami, zawarte w komórce $D_{n + 1, m + 1}$ wynosi zatem $2$.
 
             \begin{figure}
                 \begin{center}
@@ -271,7 +282,7 @@
             Wektor zanurzeń dla danej sekwencji DNA zawiera liczbę wystąpień każdego \textit{k-meru} w odpowiednich pozycjach. Na przykład, dla sekwencji `AAACA' wektor zanurzeń dla $k=2$ może wyglądać następująco:
             
             \[
-            \text{AATC} \to [2, 1, 0, 0, 1, \dots]
+            \text{AAACA} \to [2, 1, 0, 0, 1, \dots]
             \]
             
             gdzie liczba na pozycji 0 oznacza liczbę wystąpień \textit{AA} w sekwencji, liczba na pozycji 1 oznacza liczbę wystąpień \textit{AC}, itd. Następnie, na podstawie tych wektorów zanurzeń, oblicza się niepodobieństwo między sekwencjami, porównując ich wektory zanurzeń według wzoru:
@@ -303,12 +314,12 @@
                 }\label{Picture:Cluster:KMer}
             \end{figure}
 
-        \subsubsection{Sieć neuronowa}
+        \subsubsection{Sztuczna sieć neuronowa}
 
-            Nową zaproponowaną metodą jest wykorzystanie sztucznej sieci neuronowej do redukcji wymiarowości wejściowych sekwencji DNA do postaci wektora cech o wymiarze $\mathbb{R}^{64}$. Sieć neuronowa wykorzystuje uczenie kontrastowe\cite{}, która umożliwia naukę reprezentacji danych wejściowych z zachowaniem właśności podobieństwa oraz niepodobieństwa między wejściowymi sekwencjami. Niepodobieństwo między sekwencjami zostanie obliczone poprzez obliczenie niepodobieństwa kosinusowego wyrażonego wzorem~\eqref{Equation:CosineDissimilarity} między wektorami cech sekwencji DNA.
+            Nową zaproponowaną metodą jest wykorzystanie sztucznej sieci neuronowej do redukcji wymiarowości wejściowych sekwencji DNA do postaci wektora cech o wymiarze $\mathbb{R}^{64}$. Sztuczna sieć neuronowa wykorzystuje uczenie kontrastowe\cite{}, które umożliwia naukę reprezentacji danych wejściowych z zachowaniem właśności podobieństwa oraz niepodobieństwa między wejściowymi sekwencjami. Niepodobieństwo między sekwencjami zostanie obliczone poprzez obliczenie niepodobieństwa kosinusowego wyrażonego wzorem~\eqref{Equation:CosineDissimilarity} między wektorami cech sekwencji DNA.
 
             \paragraph{Architektura}
-                Architektura modelu sieci neuronowej składa się z dwóch bloków splotowych zbudowanych z warstwy splotowej oraz normalizacji wsadowej, które odpowiadają za ekstrakcję niskopoziomowych cech sekwencji, warstwy spłaszczającej oraz trzech warstw perceptronów wielowarstwowych, które wykorzystują funkcję aktywacji GELU\cite{GELU} z wyłączeniem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$. 
+                Architektura modelu sztucznej sieci neuronowej składa się z dwóch bloków splotowych oraz bloku perceptronów wielowarstwowych. Każdy z bloków splotowych zawiera warstwę splotową oraz warstwę normalizacji wsadowej i jest opdowiedzialny za ekstrakcję niskopoziomowych cech sekwencji. Ostatni blok splotowy jest połaczony z blokiem perceptronów wielowarstwowych za pomocą warstwy spłaszczającej. Blok perceptronów wielowarstwowych odpowiada za tworzenie reprezentacji sekwencji, składa się z trzech warstw, które wykorzystują funkcję aktywacji GELU\cite{GELU}, z wyjątkiem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$.
 
                 Schematycznie architektura została przedstawiona na rysunku~\ref{Picture:NeuralModel}. 
 
@@ -322,13 +333,13 @@
                 \end{figure}
 
             \paragraph{Dane wejściowe}
-                Wejściem modelu są sekwencje DNA o długości $150$, które są kodowane do postaci wektora o wymiarach $1x600$ za pomocą kodu 1 z n\cite{Kod1zN}.
-
+                Wejściem modelu są sekwencje DNA o długości $150$, które są zakodowane do postaci wektora o wymiarach $1x600$ za pomocą kodu 1 z n\cite{Kod1zN}.
+            
             \paragraph{Przykłady uczące}
                 Przykłady uczące oraz walidacyjne składają się z kotwicy (ang. \textit{anchor}), sekwencji pozytywnej (ang. \textit{positive}) czyli podobnej do kotwicy oraz sekwencji negatywnej (ang. \textit{negative}) niepodobnej do kotwicy.
             
             \paragraph{Zbiór danych}
-                Zbiór danych uczących oraz walidacyjnych został stworzony na podstawie zbioru \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz2019}, dokładnie na podstawie pierwszej próbki sekwencji genetycznych, która zawiera symulowane dane metagenomiczne z mikrobiomu skóry człowieka. Przykłady uzyskano poprzez losowanie kotwic ze zbioru oraz modyfikację kotwic w celu uzyskania sekwencji pozytywnej oraz negatywnej w stopniu odpowiednio $[0; 0.2]$, $[0.2; 0.8]$. Modyfikacja polegała na zamianie punktowej danej zasady na inną.
+                Zbiór danych uczących oraz walidacyjnych został stworzony na podstawie pierwszej próbki sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz2019}. Próbka zawiera symulowane dane metagenomiczne z mikrobiomu skóry człowieka. Przykłady zostały uzyskane poprzez losowanie kotwic ze zbioru oraz modyfikację tych kotwic w celu stworzenia sekwencji pozytywnej i negatywnej. Modyfikacja polegała na zamianie punktowej danego nukleotydu na inny. W przypadku sekwencji pozytywnej zmiana obejmowała od $0\%$ do $20\%$ długości kotwicy, natomiast w przypadku sekwencji negatywnej od $20\%$ do $80\%$ długości kotwicy.
 
             \paragraph{Funkcja straty}
                 Wykorzystano funkcję straty zdefiniowaną jako:
@@ -339,10 +350,10 @@
 
                 gdzie,
                 \begin{align*}
-                    m_{pos}, m_{neg} &- \text{margines podobieństwa między przykładami pozytywnymi a kotwicą,} \\
-                    &\text{oraz między przykładami negatywnymi a kotwicą}, \\
-                    s_{pos}, s_{neg} &- \text{podobieństwo kosinusowe przykładu pozytywnego do kotwicy,} \\
-                    &\text{oraz negatywnego do kotwicy.}
+                    m_{pos} &- \text{margines podobieństwa między sekwencją pozytywną a kotwicą,} \\
+                    m_{neg} &- \text{margines podobieństwa między sekwencją negatywną a kotwicą,} \\
+                    s_{pos} &- \text{podobieństwo kosinusowe sekwencji pozytywnej do kotwic,} \\
+                    s_{pos} &- \text{podobieństwo kosinusowe sekwencji negatywnej do kotwic.} \\
                 \end{align*}
 
             \paragraph{Proces uczenia}
@@ -350,12 +361,16 @@
                 W procesie wykorzystano optymalizator \textit{AdamW}\cite{Loshchilov2017DecoupledWD} z wykładniczym spadkiem współczynnika uczenia oraz zanikiem wag (ang. \textit{weight decay}).
             
             \paragraph{Miara jakości}
-                Jako miarę jakości wykorzystano stratę kontrastową modelu obliczoną na zbiorze walidacyjnym.
+                Jako miarę jakości modelu wykorzystano stratę kontrastową modelu obliczoną na zbiorze walidacyjnym.
 
             \paragraph{Parametry procesu uczenia}
-                Funkcja straty została wykorzystana z parametrami $m_{pos} = 1.0$, $m_{neg} = 0.25$.
-                Przeprowadzono eksperymenty w celu określenia optymalnych parametrów sieci neuronowej. Sprawdzano parametry współczynnika uczenia $\lambda$, zaniku wag $w$, współczynnika $\gamma$ stosowanego w wykładniczym spadku współczynnika uczenia, parametr wyłączania neuronów oraz stosowność trzech warstw perceptronów wielowarstwowych. 
-                W wyniku eksperymentów wybrano najlepsze parametry: $\lambda = 10^{-6}$, $w = $, $\gamma=0.99999$, współczynnik wyłączenia neuronów na poziomie $0.5$ oraz stwierdzono pozytywny wpływ zastosowania trzech warstw perceptronów. 
+                Przeprowadzono eksperymenty w celu określenia optymalnych parametrów uczenia modelu sztucznej sieci neuronowej. Sprawdzono parametry współczynnika uczenia $\lambda$, zaniku wag $w$, współczynnika $\gamma$ stosowanego w wykładniczym spadku współczynnika uczenia, parametr wyłączania neuronów oraz stosowność trzech warstw perceptronów. W wyniku eksperymentów wybrano najlepsze parametry: $\lambda = 10^{-6}$, $w = $, $\gamma=0.99999$, współczynnik wyłączenia neuronów na poziomie $0.5$ oraz stwierdzono pozytywny wpływ zastosowania trzech warstw perceptronów. 
+                Wykorzystano również funkcję straty z parametrami: $m_{pos} = 1.0$, $m_{neg} = 0.25$.
+
+            \paragraph{Wyniki procesu uczenia}
+                
+                W wyniku procesu uczenia modelu sztucznej sieci neuronowej, po 3 epokach uzyskano model, który osiągnął stratę równą $0.117$ na zbiorze walidacyjnym. Liczba epok została wybrana na podstawie analizy procesu uczenia, w którym po tej liczbie epok zaobserwowano nadmierne dopasowywanie się modelu (ang. \textit{overfitting}).
+
 
             Pełne wykorzystanie sztucznej sieci neuronowej w grupowaniu sekwencji zostało przedstawione na rysunku~\ref{Picture:Cluster:Neural}. Czerwonym obramowaniem oznaczono element wykorzystujący sztuczną sieć neuronową.
 
@@ -383,7 +398,7 @@
 
         \subsubsection{Biblioteki programistyczne}
 
-            Aplikację przeglądarkową zrealizowano z wykorzystaniem biblioteki \textit{axum}\cite{Rust:axum} opartej na asynchronicznym środowisku wykonawczym \textit{tokio}\cite{Rust:tokio} języka Rust.
+            Aplikację internetową zrealizowano z wykorzystaniem biblioteki \textit{axum}\cite{Rust:axum} opartej na asynchronicznym środowisku wykonawczym \textit{tokio}\cite{Rust:tokio} języka Rust.
             Do generowania zawartości stron w formacie HTML wykorzystano silnik szablonów \textit{askama}\cite{Rust:askama}. Komunikację z bazą danych zapewniła biblioteka \textit{sqlx}\cite{Rust:sqlx}. Użyto dodatkowo biblioteki \textit{dotenv}\cite{Rust:dotenv} w celu załadowania zmiennych środowiskowych z pliku, które niezbędne są do prawidłowego działania aplikacji.
 
             Aplikacja konsolowa została oparta na bibliotece \textit{clap}\cite{Rust:clap}, która pozwoliła na zdefiniowanie interfejsu użytkownika, w postaci dostępnych poleceń wraz z parametrami.
@@ -472,8 +487,8 @@
 
                 \end{itemize}
 
-            \paragraph{Aplikacja przeglądarkowa}
-                Aplikacja przeglądarkowa działa w środowisku przeglądarki internetowej. Umożliwia zlecanie zadań klasyfikacji taksonomicznej oraz wyszukiwanie i przeglądanie wyników tych zleceń.
+            \paragraph{Aplikacja internetowa}
+                Aplikacja internetowa działa w środowisku przeglądarki internetowej. Umożliwia zlecanie zadań klasyfikacji taksonomicznej oraz wyszukiwanie i przeglądanie wyników tych zleceń.
 
                 \begin{itemize}
                     \item {
@@ -493,7 +508,7 @@
                                 \textbf{Ekran błędu} - ekran odpowiedzialny za wyświetlanie komunikatów o błędach
                             }
                         \end{itemize}
-                        Na rysunku~\ref{Picture:App:WebScreen} znajduje się zrzut ekranu z głównego ekranu aplikacji przeglądarkowej.
+                        Na rysunku~\ref{Picture:App:WebScreen} znajduje się zrzut ekranu z głównego ekranu aplikacji internetowej.
                     }
                     \item {
                         \textbf{Formularze i przyciski:}
@@ -518,13 +533,13 @@
                         \input{tex/pictures/app/web_screen.tex}
                     \end{center}
                     \caption{
-                        Ekran główny aplikacji przeglądarkowej.
+                        Ekran główny aplikacji internetowej.
                     }\label{Picture:App:WebScreen}
                 \end{figure}
 
         \subsubsection{Instrukcja użytkownika}
 
-            Niniejsza instrukcja użytkownika zawiera szczegółowy opis procesu instalacji, uruchamiania oraz użytkowania aplikacji konsolowej i przeglądarkowej. W pierwszej części omówiono proces instalacji wymaganego środowiska, a w kolejnych sekcjach przedstawiono szczegółowe instrukcje użytkownika dla obu rodzajów aplikacji.
+            Niniejsza instrukcja użytkownika zawiera szczegółowy opis procesu instalacji, uruchamiania oraz użytkowania aplikacji konsolowej i internetowej. W pierwszej części omówiono proces instalacji wymaganego środowiska, a w kolejnych sekcjach przedstawiono szczegółowe instrukcje użytkownika dla obu rodzajów aplikacji.
 
             \paragraph{Wymagania techniczne:}
                 \begin{itemize}
@@ -539,6 +554,9 @@
                     }
                     \item {
                         \textbf{Miejsce na dysku:} minimum 1 TB dostępnej przestrzeni.
+                    }
+                    \item {
+                        \textbf{Oprogramowanie:} zainstalowane i skonfigurowane sterowniki karty graficznej.
                     }
                 \end{itemize}
 
@@ -592,11 +610,11 @@
                         Przejdź do folderu \texttt{exquisitor}, oraz uruchom polecenie \texttt{cargo build -\phantom{}-release -\phantom{}-bins}.
                     }
                     \item {
-                        Aplikacja konsolowa oraz przeglądarkowa powinny być skompilowane i znajdują się w folderze \texttt{exquisitor/target/release}. 
+                        Aplikacja konsolowa oraz internetowana powinny być skompilowane i znajdują się w folderze \texttt{exquisitor/target/release}. 
                         Skopiuj pliki wykonywalne aplikacji do docelowej lokacji.
                     }
                     \item{
-                        Skopiuj plik \texttt{exquisitor.db} z folderu \texttt{exquisitor/exquisitor-app} do tej samej lokacji co aplikacja przeglądarkowa.
+                        Skopiuj plik \texttt{exquisitor.db} z folderu \texttt{exquisitor/exquisitor-app} do tej samej lokacji co aplikacja internetowa.
                     }
                 \end{enumerate}
             
@@ -632,15 +650,30 @@
 
             \paragraph{Przykładowe wykorzystanie aplikacji konsolowej}
 
-                \todo{
-                    uruchomienie wyszukiwania oraz przykład wyniku
-                }
+                Aplikacja konsolowa umożliwia wyszukiwanie podobnych sekwencji DNA w bazie danych sekwencji z pominięciem potoku przetwarzania. Aby uruchomić wyszukiwanie należy użyc poniższego polecenia:
+                
+                \texttt{./exquisitor-cli search -\phantom{}-input sequences.fasta -\phantom{}-output search\_results -\phantom{}-blast-db /blast/db -\phantom{}-blast /blast/executables/bin/blastn}
 
-            \paragraph{Uruchomienie aplikacji przeglądarkowej}
+                gdzie,
+                \begin{itemize}
+                    \item {
+                        \texttt{-\phantom{}-input sequences.fasta} - plik zawierający sekwencję do wyszukania,
+                    }
+                    \item {
+                        \texttt{-\phantom{}-output search_results} - plik wyjściowy, do którego zapisane zostaną wyniki,
+                    }\item {
+                        \texttt{-\phantom{}-blast-db /blast/db} - ścieżka do bazy danych sekwencji nukleotydów,
+                    }
+                    \item {
+                        \texttt{-\phantom{}-blast /blast/executables/bin/blastn} - ścieżka do pliku wykonywalnego programu \texttt{BLASTn}.
+                    }
+                \end{itemize}
+
+            \paragraph{Uruchomienie aplikacji internetowej}
 
                 \begin{enumerate}
                     \item {
-                        Przejdź do folderu, w którym znajduje się plik wykonywalny aplikacji przeglądarkowej.
+                        Przejdź do folderu, w którym znajduje się plik wykonywalny aplikacji internetowej.
                     }
                     \item {
                         Uruchom plik wykonywalny za pomocą polecenia: \texttt{./exquisitor-app}.
@@ -651,11 +684,42 @@
                     }
                 \end{enumerate}
 
-            \paragraph{Przykładowe wykorzystanie aplikacji przeglądarkowej}
+            \paragraph{Przykładowe wykorzystanie aplikacji internetowej}
 
-                \todo{
-                    dodanie eksperymentu / wyświetlenie wyniku
-                }
+                Aplikacja internetowa może być wykorzystana do przeglądania zleconych zadań klasyfikacji taksonomicznej. Aby znaleźć wyniki zleconego zadania, można skorzystać z wyszukiwarki dostępnej na stronie głównej aplikacji. Proces wygląda następująco:
+
+                \begin{enumerate}
+                    \item {
+                        Przejdź na stronę główną aplikacji.
+                    }
+                    \item {
+                        Wprowadź identyfikator lub nazwę zleconego zadania w polu wyszukiwania.
+                    }
+                    \item {
+                        Kliknij przycisk z napisem \texttt{SEARCH}.
+                    }
+                    \item {
+                        W wyniku wyszukiwania wyświetli się strona zlecenia, tak jak pokazano na rysunku~\ref{Picture:App:WebSearchSuccess}. W przypadku błędnie wprowadzonych danych lub braku takiego zlecenia w systemie zostanie wyświetlona strona z komunikatem o błędzie, jak pokazano na rysunku~\ref{Picture:App:WebSearchFailure}.
+                    }
+                \end{enumerate}
+
+                \begin{figure}
+                    \begin{center}
+                        \input{tex/pictures/app/web_search_success.tex}
+                    \end{center}
+                    \caption{
+                        Strona zlecenia.
+                    }\label{Picture:App:WebSearchSuccess}
+                \end{figure}
+
+                \begin{figure}
+                    \begin{center}
+                        \input{tex/pictures/app/web_search_failure.tex}
+                    \end{center}
+                    \caption{
+                        Strona z komunikatem o błędzie wyszukiwania zlecenia.
+                    }\label{Picture:App:WebSearchFailure}
+                \end{figure}
 
                 \begin{longtblr}[
                     caption = {Składnia poleceń aplikacji konsolowej.},
@@ -723,12 +787,12 @@
         \subsubsection{Testy manualne}
         
             \paragraph{Zakres}
-            Testy manualne objęły działanie interfejsu użytkownika aplikacji konsolowej oraz aplikacji przeglądarkowej. W przypadku aplikacji konsolowej sprawdzono działanie wszystkich poleceń z uwzględnieniem klasycznych sytuacji błędnych. W aplikacji przeglądarkowej testowano funkcjonalności: dodawania, wyszukiwania i przeglądania zleceń.
+            Testy manualne objęły działanie interfejsu użytkownika aplikacji konsolowej oraz aplikacji internetowej W przypadku aplikacji konsolowej sprawdzono działanie wszystkich poleceń z uwzględnieniem klasycznych sytuacji błędnych. W aplikacji intenretowej testowano funkcjonalności: dodawania, wyszukiwania i przeglądania zleceń.
 
             \paragraph{Metoda}
             Ręczne wykonywanie scenariuszy testowych, takich jak:
             \begin{itemize}
-                \item {Dodanie nowego zlecenia i weryfikacja czy wyświetla się na stronie głównej aplikacji przeglądarkowej.}
+                \item {Dodanie nowego zlecenia i weryfikacja czy wyświetla się na stronie głównej aplikacji internetowej.}
                 \item {Wyszukanie dodanego zlecenia po identyfikatorze na stronie głównej.}
                 \item {Uruchomienie polecenia aplikacji konsolowej wyszukiwania w bazie danych i sprawdzenie, czy powstał odpowiedni plik z wynikami.}
             \end{itemize}

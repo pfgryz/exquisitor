@@ -1,32 +1,87 @@
 \clearpage 
 \section{Eksperymenty}
 
-    Wstęp
-    
+    W ramach pracy przeprowadzono eksperymenty polegające na porównaniu wydajności oraz jakości zaimplementowanych metod do grupowania sekwencji genetycznych w kontekście pełnej klasyfikacji taksonomicznej. W eksperymentach jako punkt odniesienia wybrano klasyfikację taksonomiczną wszystkich sekwencji wejściowych z pominięciem etapów grupowania sekwencji genetycznych.
+
     % ===== ===== ===== =====
     % OPIS ŚRODOWISKA EKSPERYMENTALNEGO
     % ===== ===== ===== ===== 
     \subsection{Opis środowiska eksperymentalnego}
 
-        \subsubsection{Specyfikacja techniczna}
+        Eksperymenty zostały przeprowadzone na maszynie wirtualnej wykorzystującej technologię KVM o specyfikacji podanej poniżej:
 
-            \todo{
-                Specyfikacja techniczna środowiska np. procesor, RAM itd.
-            }
+        \subsubsection{Specyfikacja techniczna}\
+
+            \begin{itemize}
+                \item {
+                    \textbf{System operacyjny:} Ubuntu 22.04 LTS.
+                }
+                \item {
+                    \textbf{Procesor:} 4 rdzenie wirtualne Intel Core i7-6850K.
+                }
+                \item {
+                    \textbf{Pamięć RAM:} 40GB.
+                }
+                \item {
+                    \textbf{Karta graficzna:} Nvidia GeForce GTX 1080 TI.
+                }
+                \item {
+                    \textbf{Dysk:} dysk sieciowy 1 TB z prędkością odczytu 1 Gbps.
+                }
+                \item {
+                    \textbf{Oprogramowanie:} pakiet \texttt{BLAST} w wersji 2.16.0 oraz sterowniki karty graficznej.
+                }
+            \end{itemize}
 
     % ===== ===== ===== =====
     % MIARA JAKOŚCI
     % ===== ===== ===== =====
     \subsection{Miara jakości}
 
-        \todo{
-            \begin{enumerate}
-                \item { wprowadzenie miary jakości, }
-                \item { opisanie miary jakości do czego bedzie wykorzystana, }
-                \item { opisanie dodatkowych miar jakości, }
-                \item { opisanie wykorzystania dodatkowych miar jakości, }
-            \end{enumerate}
-        }
+        Jako miarę jakości klasyfikacji taksonomicznej wykorzystano indeks Jaccarda, wyrażony wzorem:
+
+        \begin{equation}
+            \text{Miara jakości} = \frac{\| R \cap E \|}{\| E \cup E \|}
+        \end{equation}
+
+        gdzie 
+        \begin{align*}
+            R &- \text{referencyjny zbiór organizmów,} \\
+            E &- \text{zbiór organizmów otrzymanych.}
+        \end{align*}
+
+        Miara została wykorzystana do porównania jakości klasyfikacji taksonomicznej przeprowadzanej z wykorzystaniem zaimplementowanych metod względem klasyfikacji taksonomicznej bez użycia potoku przetwarzania.
+
+        Wykorzystano również dodatkowe miary jakości, które zostały zastosowane do oceny jakości utworzonych grup przez potok przetwarzania. Pierwszą wykorzystaną miarą jest znormalizowana informacja wzajemna (ang. \textit{Normalized mutual information, NMI}) i służy do oceny jakości grup, drugą jest czułość (ang. \textit{sensitivity}), która wykorzystana jest do oceny reprezentantów grup. Miary zostały zdefiniowane odpowiednio wzorami:
+
+        \begin{equation}
+            NMI(X, Y) = \frac{I(X; Y)}{\sqrt{H(X) \cdot H(Y)}}
+        \end{equation}
+
+        gdzie,
+        \begin{align*}
+            I(X; Y) &= \sum_{y \in Y}{ \sum_{x \in X}{p(x, y) \log_{2}{\frac{p(x, y)}{p(x) p(y)}}}}, \\
+            H(X) &= - \sum_{x \in X}{ p(x) \log_{2}{p(x)}}, \\
+            I(X; Y) &- \text{informacja wzajemna między zbiorami $X$ oraz $Y$}, \\
+            H(X) &- \text{entropia zbioru $X$}, \\
+            H(Y) &- \text{entropia zbioru $Y$}, \\
+            p(x) &- \text{prawdopobieństwo zajścia zdarzenia $x$}, \\
+            p(x, y) &- \text{wspólny rozkład prawdopodobieństwa $X$ oraz $Y$ }.
+        \end{align*}
+
+        \begin{equation}
+            sensitivity = \frac{\text{TP}}{
+                \text{TP} + \text{TN}
+            }
+        \end{equation}
+
+        gdzie,
+        \begin{align*}
+            TP &- \text{liczba wyników prawdziwie dodatnych,} \\
+            TN &- \text{liczba wyników fałszywie ujemnych.}
+        \end{align*}
+
+        Dodatkowe miary jakości zostały wykorzystane do oceny jakości grup względem grupowania z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha.
 
     % ===== ===== ===== =====
     % ZBIÓR DANYCH
@@ -34,46 +89,42 @@
     \subsection{Zbiór danych}
 
         \subsubsection{Opis zbioru danych}
-
-            \todo{
-                \begin{enumerate}
-                    \item { opis źródłowego zbioru danych (skąd jest, co się w nim znajduje), }
-                    \item { opis docelowego zbioru danych (jak będzie podzielony, co się będzie w nim znajdowało, rozmiar), }
-                \end{enumerate}
-            }
+        
+            W eksperymentach wykorzystano ten sam zbiór sekwencji genetycznych, co w uczeniu modelu sztucznej sieci neuronowej. Zbiór \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz2019} został wybrany, ponieważ został stworzony w celu oceny wydajności algorytmów bioinformatycznych oraz zawiera znaczną liczbę sekwencji genetycznych, co umożliwiło jego wykorzystanie go zarówno w eksperymentach, jak i w uczeniu modelu sztucznej sieci neuronowej.
+            
+            Na podstawie zbioru stworzono podzbiory sekwencji o rozmiarach wyrażonych wzorem $2^k$ dla $k \in [0, 15]$. Zbiory są rozłączne, a do ich budowy wykorzystano wyłącznie te sekwencje, które nie zostały użyte do uczenia modelu sztucznej sieci neuronowej.
 
         \subsubsection{Przygotowanie zbioru danych}
 
-            \todo{
-                \begin{enumerate}
-                    \item { sposób budowy docelowego zbioru danych, }
-                    \item { podział na zbiór eksperymentalny, testowy i walidacyjny }
-                \end{enumerate}
-            }
+            Podzbiory powstały poprzez losowanie bez zwracania indeksów sekwencji genetycznych ze zbioru referencyjnego, które powinny trafić do podzbioru. W losowaniu wykorzystano informację o indeksach sekwencji wykorzystanych w zbiorze uczącym oraz walidacyjnym sztucznej sieci neuronowej. W celu umożliwienia dalszego wykorzystania zbioru danych zapisano do pliku indeksy sekwencji wykorzystanych w procesie budowy zbioru eksperymentalnego.
 
     % ===== ===== ===== =====
     % PROCEDURA PRZEPROWADZANIA EKSPERYMENTÓW
     % ===== ===== ===== =====
     \subsection{Procedura przeprowadzania eksperymentów}
 
-        \todo{
-            \begin{enumerate}
-                \item { opis procedury przeprowadzania eksperymentów }
-            \end{enumerate}
-        }
+        Eksperymenty zostały przeprowadzone za pomocą zaimplementowane polecenia aplikacji konsolowej, które pozwala na nadzorowanie wykorzystania procesora oraz pamięci RAM przez eksperyment, oraz kontrolowanie maksymalnego czasu trwania eksperymentu.
+
+        Dane do obu eksperymentów zostały zgromadzone w wyniku przeprowadzenia klasyfikacji taksonomicznej z wykorzystaniem zaimplementowanych metod oraz klasyfikacji taksonomicznej bez wykorzystania potoku przetwarzania dla każdego podzbioru osobno.
 
         \subsubsection{Parametry}
-            \todo{
-                \begin{enumerate}
-                    \item { opis parametrów, które zostały wykorzystane wraz z uzasadnieniem }
-                \end{enumerate}
-            }
+
+            Maksymalny czas trwania jednej klasyfikacji taksonomicznej został ograniczony do 12 godzin. Dla wszystkich metod wybrano algorytm grupowania k-medoidów oraz określono liczbę tworzonych grup przez algorytm grupowania za pomocą wzoru $\sqrt{n}$, gdzie $n$ to liczba sekwencji wejściowych. W metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha wykorzystano parametry określone w sekcji~\ref{Method:NeedlemaWunsch}. W przypadku metody wykorzystującej zanurzenia $k$-merów parametr $k$ został ustawiony na $4$. W metodzie z wykorzystaniem sztucznej sieci neuronowej wykorzystano wcześniej stworzony model.
 
         \subsubsection{Skrypty}
+
+            Do przeprowadzenia eksperymentów zostały wykorzystane opracowane skrypty w języku \texttt{bash}. Każdy skrypt uruchamia klasyfikację taksonomiczną dla podzbiorów z wykorzystaniem jednej metody. Uruchomienie wszystkich skryptów pozwala na zebranie danych dla obu eksperymentów.
+
             \todo{
-                \begin{enumerate}
-                    \item { opis skryptów, które przeprowadzają eksperymenty i zapisują wyniki } 
-                \end{enumerate}
+                Uruchomienie skryptów?
+                Przykład skryptu?
+            }
+            
+            Do przetworzenia wyników oraz wygenerowania wykresów wykorzystano skrypty stworzone w języku \texttt{Python}.
+
+            \todo{
+                Uruchomienie skryptu?
+                Przykład skryptu?
             }
 
     % ===== ===== ===== =====
