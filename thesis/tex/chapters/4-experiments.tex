@@ -38,31 +38,52 @@
     % ===== ===== ===== =====
     \subsection{Miara jakości}
 
-        Jako miarę jakości klasyfikacji taksonomicznej wykorzystano indeks Jaccarda, wyrażony wzorem:
+        Jako miarę jakości klasyfikacji taksonomicznej wykorzystano zmodyfikowany indeks Jaccarda, wyrażony wzorem:
 
         \begin{equation}
-            \text{Miara jakości} = \frac{\| R \cap E \|}{\| E \cup E \|}
-        \end{equation}
-
-        gdzie 
-        \begin{align*}
-            R &- \text{referencyjny zbiór organizmów,} \\
-            E &- \text{zbiór organizmów otrzymanych.}
-        \end{align*}
-
-        Miara została wykorzystana do porównania jakości klasyfikacji taksonomicznej przeprowadzanej z wykorzystaniem zaimplementowanych metod względem klasyfikacji taksonomicznej bez użycia potoku przetwarzania.
-
-        Wykorzystano również dodatkowe miary jakości, które zostały zastosowane do oceny jakości utworzonych grup przez potok przetwarzania. Pierwszą wykorzystaną miarą jest znormalizowana informacja wzajemna (ang. \textit{Normalized mutual information, NMI}) i służy do oceny jakości grup, drugą jest czułość (ang. \textit{sensitivity}), która wykorzystana jest do oceny reprezentantów grup. Miary zostały zdefiniowane odpowiednio wzorami:
-
-        \begin{equation}
-            NMI(X, Y) = \frac{I(X; Y)}{\sqrt{H(X) \cdot H(Y)}}
+            \text{Miara jakości} = \frac{
+                \sum_{r \in (R \cap E)} R_{r}
+            }{
+                \sum_{r \in (R \cup E)} R_{r}
+            }
+            \label{Equation:Quality}
         \end{equation}
 
         gdzie,
         \begin{align*}
-            I(X; Y) &= \sum_{y \in Y}{ \sum_{x \in X}{p(x, y) \log_{2}{\frac{p(x, y)}{p(x) p(y)}}}}, \\
+            R &- \text{zbiór wyników referencyjnych,} \\
+            E &- \text{zbiór wyników porównywanych,} \\
+            R_{r} &- \text{liczba wyników w zbiorze referencyjnych przypisanych do organizmu $r$. }
+        \end{align*}
+
+        Miara została wykorzystana do porównania jakości klasyfikacji taksonomicznej przeprowadzanej z wykorzystaniem zaimplementowanych metod względem klasyfikacji taksonomicznej bez użycia potoku przetwarzania.
+
+        Do porównywania jakości wielu przebiegów klasyfikacji taksonomicznej wykorzystano średnią jakość ważoną zdefiniową za pomocą wzoru:
+
+        \begin{equation}
+            \text{Średnia jakość ważona} = \sum_{c \in C} \frac{n_c}{\sum_{d \in C} n_d} Q_c
+            \label{Equation:WeightedAverageQuality}
+        \end{equation}
+
+        gdzie,
+        \begin{align*}
+            C &- \text{zbiór wszystkich przebiegów klasyfikacji taksonomicznych,} \\
+            Q_c &- \text{jakość klasyfikacji taksonomicznej $c$,} \\
+            n_c &- \text{liczba sekwencji wejściowych do klasyfikacji taksonomicznej $c$.}
+        \end{align*}
+
+        Wykorzystano również dodatkowe miary jakości, które zostały zastosowane do oceny jakości utworzonych grup przez potok przetwarzania. Pierwszą wykorzystaną miarą jest znormalizowana informacja wzajemna (ang. \textit{Normalized mutual information, NMI}) i służy do oceny jakości grup, drugą jest czułość (ang. \textit{sensitivity}), która wykorzystana jest do oceny reprezentantów grup. Miary zostały zdefiniowane odpowiednio wzorami:
+
+        \begin{equation}
+            NMI(X, Y) = \frac{I(X, Y)}{\sqrt{H(X) \cdot H(Y)}}
+            \label{Equation:NMI}
+        \end{equation}
+
+        gdzie,
+        \begin{align*}
+            I(X, Y) &= \sum_{y \in Y}{ \sum_{x \in X}{p(x, y) \log_{2}{\frac{p(x, y)}{p(x) p(y)}}}}, \\
             H(X) &= - \sum_{x \in X}{ p(x) \log_{2}{p(x)}}, \\
-            I(X; Y) &- \text{informacja wzajemna między zbiorami $X$ oraz $Y$}, \\
+            I(X, Y) &- \text{informacja wzajemna między zbiorami $X$ oraz $Y$}, \\
             H(X) &- \text{entropia zbioru $X$}, \\
             H(Y) &- \text{entropia zbioru $Y$}, \\
             p(x) &- \text{prawdopobieństwo zajścia zdarzenia $x$}, \\
@@ -73,6 +94,7 @@
             sensitivity = \frac{\text{TP}}{
                 \text{TP} + \text{TN}
             }
+            \label{Equation:Sensitivity}
         \end{equation}
 
         gdzie,
@@ -81,7 +103,7 @@
             TN &- \text{liczba wyników fałszywie ujemnych.}
         \end{align*}
 
-        Dodatkowe miary jakości zostały wykorzystane do oceny jakości grup względem grupowania z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha.
+        Dodatkowe miary jakości zostały wykorzystane do oceny jakości względnej między zaimplementowanymi metodami.
 
     % ===== ===== ===== =====
     % ZBIÓR DANYCH
@@ -92,151 +114,245 @@
         
             W eksperymentach wykorzystano ten sam zbiór sekwencji genetycznych, co w uczeniu modelu sztucznej sieci neuronowej. Zbiór \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz2019} został wybrany, ponieważ został stworzony w celu oceny wydajności algorytmów bioinformatycznych oraz zawiera znaczną liczbę sekwencji genetycznych, co umożliwiło jego wykorzystanie go zarówno w eksperymentach, jak i w uczeniu modelu sztucznej sieci neuronowej.
             
-            Na podstawie zbioru stworzono podzbiory sekwencji o rozmiarach wyrażonych wzorem $2^k$ dla $k \in [0, 15]$. Zbiory są rozłączne, a do ich budowy wykorzystano wyłącznie te sekwencje, które nie zostały użyte do uczenia modelu sztucznej sieci neuronowej.
+            Na podstawie zbioru stworzono podzbiory sekwencji o rozmiarach wyrażonych wzorem $2^k$ dla $k \in [0, 12]$. Zbiory są rozłączne, a do ich budowy wykorzystano wyłącznie te sekwencje, które nie zostały użyte do uczenia modelu sztucznej sieci neuronowej.
 
         \subsubsection{Przygotowanie zbioru danych}
 
-            Podzbiory powstały poprzez losowanie bez zwracania indeksów sekwencji genetycznych ze zbioru referencyjnego, które powinny trafić do podzbioru. W losowaniu wykorzystano informację o indeksach sekwencji wykorzystanych w zbiorze uczącym oraz walidacyjnym sztucznej sieci neuronowej. W celu umożliwienia dalszego wykorzystania zbioru danych zapisano do pliku indeksy sekwencji wykorzystanych w procesie budowy zbioru eksperymentalnego.
+            Podzbiory powstały poprzez losowanie bez zwracania indeksów sekwencji genetycznych ze zbioru referencyjnego, które powinny trafić do podzbioru. W losowaniu wykorzystano informację o indeksach sekwencji wykorzystanych w zbiorze uczącym oraz walidacyjnym sztucznej sieci neuronowej. W celu umożliwienia dalszego wykorzystania zbioru danych zapisano do pliku indeksy sekwencji wykorzystanych w procesie budowy zbioru eksperymentalnego. Podzbiory sekwencji zostały zapisane do plików w formacie FASTA.
 
     % ===== ===== ===== =====
     % PROCEDURA PRZEPROWADZANIA EKSPERYMENTÓW
     % ===== ===== ===== =====
     \subsection{Procedura przeprowadzania eksperymentów}
 
-        Eksperymenty zostały przeprowadzone za pomocą zaimplementowane polecenia aplikacji konsolowej, które pozwala na nadzorowanie wykorzystania procesora oraz pamięci RAM przez eksperyment, oraz kontrolowanie maksymalnego czasu trwania eksperymentu.
+        Eksperymenty zostały przeprowadzone za pomocą zaimplementowane polecenia aplikacji konsolowej, które pozwala na nadzorowanie wykorzystania procesora oraz pamięci RAM przez polecenie, oraz kontrolowanie maksymalnego czasu trwania eksperymentu.
 
         Dane do obu eksperymentów zostały zgromadzone w wyniku przeprowadzenia klasyfikacji taksonomicznej z wykorzystaniem zaimplementowanych metod oraz klasyfikacji taksonomicznej bez wykorzystania potoku przetwarzania dla każdego podzbioru osobno.
 
+        W wyniku przeprowadzonych klasyfikacji taksonomicznych otrzymano informację o przebiegu procesu w formie plików z rozszerzeniem \texttt{.experiment}, zawierających dane dotyczące wykorzystania zasobów podczas przebiegu klasyfikacji oraz czasu jej trwania. W przypadku sukcesu procesu grupowania otrzymano plik z rozszerzeniem \texttt{.clusters}, który zawiera informację o stworzonych grupach. Natomiast w przypadku pomyślnej klasyfikacji taksonomicznej końcowe wyniki całego procesu zapisano do pliku z rozszerzeniem \texttt{.search}.
+
         \subsubsection{Parametry}
 
-            Maksymalny czas trwania jednej klasyfikacji taksonomicznej został ograniczony do 12 godzin. Dla wszystkich metod wybrano algorytm grupowania k-medoidów oraz określono liczbę tworzonych grup przez algorytm grupowania za pomocą wzoru $\sqrt{n}$, gdzie $n$ to liczba sekwencji wejściowych. W metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha wykorzystano parametry określone w sekcji~\ref{Method:NeedlemaWunsch}. W przypadku metody wykorzystującej zanurzenia $k$-merów parametr $k$ został ustawiony na $4$. W metodzie z wykorzystaniem sztucznej sieci neuronowej wykorzystano wcześniej stworzony model.
+            Maksymalny czas trwania jednej klasyfikacji taksonomicznej został ograniczony do 12 godzin. Dla wszystkich metod wybrano algorytm grupowania k-medoidów oraz określono liczbę tworzonych grup przez algorytm grupowania za pomocą wzoru $\sqrt{n}$, gdzie $n$ to liczba sekwencji wejściowych. W metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha wykorzystano parametry określone w sekcji~\ref{Method:NeedlemanWunsch}. W przypadku metody wykorzystującej zanurzenia $k$-merów parametr $k$ został ustawiony na $4$. W metodzie z wykorzystaniem sztucznej sieci neuronowej wykorzystano wcześniej stworzony model.
 
         \subsubsection{Skrypty}
 
-            Do przeprowadzenia eksperymentów zostały wykorzystane opracowane skrypty w języku \texttt{bash}. Każdy skrypt uruchamia klasyfikację taksonomiczną dla podzbiorów z wykorzystaniem jednej metody. Uruchomienie wszystkich skryptów pozwala na zebranie danych dla obu eksperymentów.
+            Do przeprowadzenia eksperymentów zostały wykorzystane opracowane skrypty w języku \texttt{bash}. Każdy skrypt uruchamia klasyfikację taksonomiczną dla podzbiorów z wykorzystaniem jednej metody:
 
-            \todo{
-                Uruchomienie skryptów?
-                Przykład skryptu?
-            }
-            
-            Do przetworzenia wyników oraz wygenerowania wykresów wykorzystano skrypty stworzone w języku \texttt{Python}.
+            \begin{itemize}
+                \item {
+                    Skrypt \texttt{experiment\_default\_search.sh} uruchamia klasyfikacją taksonomiczną bez wykorzystania potoku przetwarzania.
+                }
+                \item {
+                    Skrypt \texttt{experiment\_needleman\_wunsch.sh} uruchamia klasyfikacją taksonomiczną z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha.
+                }
+                \item {
+                    Skrypt \texttt{experiment\_kmer.sh} uruchamia klasyfikacją taksonomiczną z wykorzystaniem zanurzeń $k$-merów.
+                }
+                \item {
+                    Skrypt \texttt{experiment\_neural.sh} uruchamia klasyfikacją taksonomiczną z wykorzystaniem modelu sztucznej sieci neuronowej.
+                }
+            \end{itemize}
 
-            \todo{
-                Uruchomienie skryptu?
-                Przykład skryptu?
-            }
+            Uruchomienie wszystkich skryptów pozwala na zebranie wszystkich danych dla obu eksperymentów. Do przetworzenia wyników z uruchomienia skryptów oraz wygenerowania wykresów wykorzystano skrypt stworzony w języku \texttt{Python}. Skrypt \texttt{plot\_experiments.py} pozwala na wygenerowanie i zapisanie wykresów dla obu eksperymentów.
 
     % ===== ===== ===== =====
     % WYNIKI
     % ===== ===== ===== =====
     \subsection{Wyniki}
 
-        \todo{
-            \begin{enumerate}
-                \item {opis przeprowadzonych eksperymentów}
-            \end{enumerate}
-        }
-
         \subsubsection{Eksperyment 1: czas wykonania klasyfikacji taksonomicznej}
 
-            \todo{
-                \begin{enumerate}
-                    \item {cel,}
-                    \item {założenia,}
-                    \item {wyniki,}
-                    \item {wykres/tabela,}
-                    \item {interpretacja}
-                \end{enumerate}
-            }
+            \paragraph{Cel}
+                Celem eksperymentu jest sprawdzanie czasu wykonania klasyfikacji taksonomicznej przy użyciu różnych metod grupowaniu sekwencji genetycznych. 
 
-        \subsubsection{Eksperyment 2: jakość klasyfikacjia taksonomicznej}
+            \paragraph{Założenia}
+                \begin{itemize}
+                    \item {
+                        Proces tworzenia grup przebiega deterministycznie.
+                    }
+                    \item {
+                        Klasyfikacja taksonomiczna jest jedynym zadaniem wykonywanym na maszynie eksperymentalnej.
+                    }
+                    \item {
+                        Rozdzielczość monitorowania ustawiono na 5 sekund, co skutkuje dokładnością raportowanych czasów na $\pm 5$ sekund.
+                    }
+                \end{itemize}
 
-            \todo{
-                \begin{enumerate}
-                    \item {cel,}
-                    \item {założenia,}
-                    \item {wyniki,}
-                    \item {wykres/tabela,}
-                    \item {interpretacja}
-                \end{enumerate}
-            }
+            \paragraph{Wyniki}
+                W wyniku przeprowadzonych eksperymentów otrzymano czas wykonania klasyfikacji taksonomicznej dla wszystkich metod. W przypadku metody wykorzystującej zmodyfikowany algorytm Needlemana-Wunscha nie udało się otrzymać wyników dla klasyfikacji taksonomicznej $4096$ sekwencji z powodu przekroczenia czasu wykonania. Na rysunku~\ref{Picture:Experiment:Duration} przedstawiono wykres czasu wykonania klasyfikacji taksonomicznej w zależności od ilości sekwencji wejściowych. Szczegółowe czasy wykonania zostały zawarte w tabeli~\ref{Table:Experiment:Duration}. Ze względu na monitorowanie wykorzystania procesora oraz pamięci RAM przez klasyfikację, zgromadzono także dane o średnim wykorzystaniu procesora oraz maksymalnej użytej pamięci. Wyniki te zostały przedstawione w tabeli~\ref{Table:Experiment:Resources}.
+
+                \begin{figure}
+                    \begin{center}
+                        \input{tex/pictures/exp/experiment_duration.tex}
+                    \end{center}
+                    \caption{
+                        Czas wykonania klasyfikacji taksonomicznej.
+                    }\label{Picture:Experiment:Duration}
+                \end{figure}
+
+                \begin{table}\centering
+                    \caption{Czas trwania eksperymentów.}\label{Table:Experiment:Duration}
+                    \begin{tabularx}{\textwidth}{|c||R|R|R|R|}
+                        \hline
+                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c|}{\textbf{Czas trwania eksperymentu}} \\ \cline{2-5}
+                                        & \textbf{BZ} & \textbf{N-W} & \textbf{$k$-mer} & \textbf{SNN} \\ \hline \hline
+                                        1 & 7107 & \textbf{6025} & 6087 & 6077\\ \hline 
+                                        2 & 6129 & 5994 & \textbf{5988} & 6035\\ \hline 
+                                        4 & 6108 & \textbf{5983} & 6024 & 6019\\ \hline 
+                                        8 & 6196 & 5988 & \textbf{5925} & 6014\\ \hline 
+                                        16 & 6290 & \textbf{5941} & 5946 & 6118\\ \hline 
+                                        32 & 6279 & 6035 & \textbf{5962} & 6092\\ \hline 
+                                        64 & 6316 & 6113 & \textbf{6107} & 6139\\ \hline 
+                                        128 & 6560 & 6238 & \textbf{6206} & 6233\\ \hline 
+                                        256 & 6753 & 6446 & \textbf{6295} & 6363\\ \hline 
+                                        512 & 7091 & 6972 & \textbf{6326} & 6347\\ \hline 
+                                        1024 & 8059 & 8743 & \textbf{6248} & 6269\\ \hline 
+                                        2048 & 8517 & 16461 & 6472 & \textbf{6332}\\ \hline 
+                                        4096 & 9433 & \textbf{-1} & 7003 & 6550\\ \hline 
+
+                    \end{tabularx}
+                \end{table}
+
+                \begin{table}\centering
+                    \caption{Wykorzystanie procesora oraz pamięci przez różne metody.}\label{Table:Experiment:Resource}
+                    \begin{tabularx}{\textwidth}{|c||R|R|R|R||R|R|R|R|}
+                        \hline
+                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c||}{\textbf{Wykorzystanie procesora [\%]}} & \multicolumn{4}{|c|}{\textbf{Wykorzystanie pamięci [MB]}} \\ \cline{2-9}
+                                        & \textbf{BZ} & \textbf{N-W} & \textbf{$k$-mer} & \textbf{SNN} & \textbf{BZ} & \textbf{N-W} & \textbf{$k$-mer} & \textbf{SNN} \\ \hline \hline
+                                        1 & \textbf{14} & \textbf{14} & \textbf{14} & \textbf{14} & 37954 & 37451 & 39191 & \textbf{41120}\\ \hline 
+                                        2 & \textbf{15} & 14 & 14 & 14 & 37584 & 37493 & 38081 & \textbf{40567}\\ \hline 
+                                        4 & \textbf{16} & 14 & 14 & 14 & 37632 & 37510 & 38150 & \textbf{40701}\\ \hline 
+                                        8 & \textbf{18} & 14 & 15 & 13 & 37590 & 37545 & 38119 & \textbf{40685}\\ \hline 
+                                        16 & \textbf{22} & 15 & 16 & 17 & 37596 & 37509 & 38133 & \textbf{40781}\\ \hline 
+                                        32 & \textbf{21} & 15 & 16 & 15 & 37846 & 37589 & 38115 & \textbf{40766}\\ \hline 
+                                        64 & \textbf{21} & 17 & 17 & 17 & 37798 & 37604 & 37963 & \textbf{40706}\\ \hline 
+                                        128 & \textbf{26} & 21 & 20 & 19 & 37476 & 37638 & 37973 & \textbf{40396}\\ \hline 
+                                        256 & \textbf{32} & 25 & 22 & 20 & 37539 & 37667 & 37957 & \textbf{40385}\\ \hline 
+                                        512 & \textbf{38} & 33 & 25 & 23 & 37465 & 37590 & 37929 & \textbf{40414}\\ \hline 
+                                        1024 & \textbf{53} & 44 & 21 & 19 & 37462 & 37591 & 37876 & \textbf{40490}\\ \hline 
+                                        2048 & 61 & \textbf{70} & 24 & 22 & 37424 & 37607 & \textbf{37907} & 33674\\ \hline 
+                                        4096 & 68 & \textbf{96} & 29 & 24 & 37463 & 37504 & \textbf{37900} & 17106\\ \hline 
+                    \end{tabularx}
+                \end{table}
+
+            \paragraph{Wnioski}
+                Metoda z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha zgodnie z oczekiwaniami cechowała się najszybszym wzrostem czasu wykonania klasyfikacji taksonomicznej. Gwałtowny wzrost spowodowany jest porównywanie sekwencji każda z każdą przez budowę macierzy podobieństwa. Pomimo redukcji ilości sekwencji, które poddawane są klasyfikacji, czas wykonania tą metodą przekroczył klasyfikację taksonomiczną wszystkich sekwencji.
+
+                Metody z wykorzystaniem zanurzeń $k$-merów oraz sztucznej sieci neuronowej cechowały się porównywalnymi czasami wykonania z lekką przewagą dla pierwszej metody. Obie metody działały szybciej od klasyfikacji taksonomicznej bez wykorzystania potoku przetwarzania. Metody do porównywania wykorzystują reprezentacje sekwencji, co spowodowało powolniejszy wzrost czasu wykonania klasyfikacji taksonomicznej. W przypadku metody ze sztuczną siecią neuronową krótszy czas wykonania dla $4096$ sekwencji może być spowodowany obliczaniem zanurzeń dla wszystkich sekwencji jednocześnie za pomocą karty graficznej. 
+
+                W przypadku wykorzystania zasobów zauważono wzrost średniego wykorzystania procesora przez klasyfikację taksonomiczną z wykorzystaniem zaimplementowanych metod w miarę wzrostu czasu wykonania klasyfikacji, co jest związane ze znacznym nakładem obliczeniowym podczas tworzenia macierzy niepodobieństwa, której złożoność tworzenia rośnie kwadratowo wraz z liczbą sekwencji.
+ 
+                Zauważalne również jest większe wykorzystanie pamięci RAM przez metodę ze sztuczną siecią neuronową, co spowodowane jest koniecznością wczytania modelu sztucznej sieci neuronowej do pamięci.
+
+        \subsubsection{Eksperyment 2: jakość klasyfikacji taksonomicznej}
+
+            \paragraph{Cel}
+                Celem drugiego eksperymentu było zbadanie jakości klasyfikacji taksonomicznej z wykorzystaniem zaimplementowanych metod względem klasyfikacji taksonomicznej wszystkich sekwencji. Zbadano również tworzone grupy przez zaimplementowane metody.
+
+            \paragraph{Założenia}
+
+                \begin{itemize}
+                    \item {
+                        Proces tworzenia grup przebiega deterministycznie.
+                    }
+                    \item {
+                        Program \texttt{BLASTn} działa deterministycznie, zwracając dla danej sekwencji i zadanych parametrów zawsze te same wyniki.
+                    }
+                    \item {
+                        W przypadku braku możliwości obliczenia jakości dla danego przebiegu klasyfikacji taksonomicznej za wartość jakości przyjęto $0$, wartość ta nie jest brana pod uwagę w przypadku obliczania średniej jakości ważonej.
+                    }
+                \end{itemize}
+
+            \paragraph{Wyniki}
+                Obliczono jakość klasyfikacji za pomocą miary wyrażonej wzorem~\ref{Equation:Quality} dla zaimplementowanych metod względem pełnej klasyfikacji taksonomicznej. Na rysunku~\ref{Picture:Experiment:Quality} przedstawiono wykres jakości klasyfikacji w zależności od ilości sekwencji wejściowych, szczegółowe wyniki jakości umieszczono w tabeli~\ref{Table:Experiment:Quality}. Średnia ważona jakość obliczona za pomocą wzoru~\ref{Equation:WeightedAverageQuality} dla metody z zmodyfikowanym algorytmem Needlemana-Wunscha wyniosła $0.899$, dla metody z zanurzeniami $k$-merów wyniosła $0.913$, natomiast dla metody z wykorzystaniem sztucznej sieci neuronowej $0.929$. W tabeli~\ref{Table:Experiment:RelativeQuality} przedstawiono natomiast jakość grup oraz reprezentantów obliczoną odpowiednio za pomocą wzoru~\ref{Equation:NMI} oraz wzoru~\ref{Equation:Sensitivity}.
+
+                \begin{figure}
+                    \begin{center}
+                        \input{tex/pictures/exp/experiment_quality.tex}
+                    \end{center}
+                    \caption{
+                        Jakość klasyfikacji taksonomicznej.
+                    }\label{Picture:Experiment:Quality}
+                \end{figure}
+
+                \begin{table}\centering
+                    \caption{Jakość klasyfikacji taksonomicznej.}\label{Table:Experiment:Quality}
+
+                    \begin{tabularx}{\textwidth}{|c|R|R|R|}
+                        \hline
+                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{3}{|c|}{\textbf{Metoda}} \\ \cline{2-4}
+                        & \textbf{N-W} & \textbf{$k$-mer} & \textbf{SNN} \\ \hline \hline
+                        1 & \textbf{1.0} & \textbf{1.0} & \textbf{1.0}\\ \hline 
+                        2 & 0.27 & \textbf{0.73} & \textbf{0.73}\\ \hline 
+                        4 & \textbf{0.8} & 0.2 & 0.2\\ \hline 
+                        8 & \textbf{0.94} & 0.88 & 0.12\\ \hline 
+                        16 & 0.82 & 0.82 & \textbf{0.94}\\ \hline 
+                        32 & 0.88 & \textbf{0.92} & 0.87\\ \hline 
+                        64 & 0.93 & \textbf{0.94} & 0.93\\ \hline 
+                        128 & 0.89 & 0.87 & \textbf{0.91}\\ \hline 
+                        256 & 0.89 & 0.89 & \textbf{0.93}\\ \hline 
+                        512 & 0.73 & 0.76 & \textbf{0.94}\\ \hline 
+                        1024 & \textbf{0.95} & 0.93 & \textbf{0.95}\\ \hline 
+                        2048 & 0.92 & \textbf{0.95} & 0.92\\ \hline 
+                        4096 & 0.0 & 0.93 & \textbf{0.96}\\ \hline 
+                    \end{tabularx}
+                \end{table}
+
+                \begin{table}\centering
+                    \caption{Jakość grup oraz reprezentantów wykorzystanych w klasyfikacji taksonomicznej.}\label{Table:Experiment:RelativeQuality}
+
+                    \begin{tabularx}{\textwidth}{|c|R|R||R|R|}
+                        \hline
+                        \textbf{Liczba sekwencji} & \textbf{Pierwsza metoda} & \textbf{Druga metoda} & \textbf{NMI} & \textbf{Czułość} \\ \hline \hline
+                        \multirow{3}{*}{1} & NW & $k$-mer & 1 & 1.0\\ \cline{2-5} 
+                        & NW & SNN & 1 & 1.0\\ \cline{2-5} 
+                        & $k$-mer & SSN & 1 & 1.0\\ \hline 
+                        \multirow{3}{*}{2} & NW & $k$-mer & 1 & 0.0\\ \cline{2-5} 
+                        & NW & SNN & 1 & 0.0\\ \cline{2-5} 
+                        & $k$-mer & SSN & 1 & 1.0\\ \hline 
+                        \multirow{3}{*}{4} & NW & $k$-mer & 0.346 & 0.5\\ \cline{2-5} 
+                        & NW & SNN & 0.151 & 0.0\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.346 & 0.5\\ \hline 
+                        \multirow{3}{*}{8} & NW & $k$-mer & 0.128 & 0.0\\ \cline{2-5} 
+                        & NW & SNN & 1.0 & 0.5\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.128 & 0.0\\ \hline 
+                        \multirow{3}{*}{16} & NW & $k$-mer & 0.46 & 0.75\\ \cline{2-5} 
+                        & NW & SNN & 0.405 & 0.0\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.531 & 0.0\\ \hline 
+                        \multirow{3}{*}{32} & NW & $k$-mer & 0.328 & 0.0\\ \cline{2-5} 
+                        & NW & SNN & 0.449 & 0.2\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.429 & 0.0\\ \hline 
+                        \multirow{3}{*}{64} & NW & $k$-mer & 0.331 & 0.25\\ \cline{2-5} 
+                        & NW & SNN & 0.32 & 0.125\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.409 & 0.125\\ \hline 
+                        \multirow{3}{*}{128} & NW & $k$-mer & 0.346 & 0.0\\ \cline{2-5} 
+                        & NW & SNN & 0.309 & 0.0\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.296 & 0.091\\ \hline 
+                        \multirow{3}{*}{256} & NW & $k$-mer & 0.301 & 0.125\\ \cline{2-5} 
+                        & NW & SNN & 0.288 & 0.062\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.32 & 0.062\\ \hline 
+                        \multirow{3}{*}{512} & NW & $k$-mer & 0.284 & 0.136\\ \cline{2-5} 
+                        & NW & SNN & 0.255 & 0.0\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.283 & 0.0\\ \hline 
+                        \multirow{3}{*}{1024} & NW & $k$-mer & 0.262 & 0.031\\ \cline{2-5} 
+                        & NW & SNN & 0.25 & 0.0\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.251 & 0.031\\ \hline 
+                        \multirow{3}{*}{2048} & NW & $k$-mer & 0.242 & 0.067\\ \cline{2-5} 
+                        & NW & SNN & 0.218 & 0.0\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.227 & 0.022\\ \hline 
+                        \multirow{3}{*}{4096} & NW & $k$-mer & 0.234 & 0.031\\ \cline{2-5} 
+                        & NW & SNN & 0.202 & 0.0\\ \cline{2-5} 
+                        & $k$-mer & SSN & 0.217 & 0.0\\ \hline 
+                    \end{tabularx}
+                \end{table}
+
+            \paragraph{Wnioski}
+                Wszystkie zaimplementowane metody osiągnęły bardzo dobre wyniki jakości klasyfikacji, przekraczając $0.7$, w przypadkach, gdy liczba grup była znacznie większa od ilości sekwencji wejściowych. Średnia jakość ważona dla wszystkich metod również osiągnęła wysoką wartość.
+                Metoda z wykorzystaniem sztucznej sieci neuronowej osiągnęła najlepszy wynik średniej jakości ważonej, wyprzedzając nieznacznie metodę z zanurzeniami $k$-merów oraz metodę ze zmodyfikowanym algorytmem Needlamana-Wunscha. Wbrew oczekiwaniom, metoda Needlemana-Wunscha osiągnęła najniższy wynik spośród zaimplementowanych metod.
+                Metoda z wykorzystaniem sztucznej sieci neuronowej zawdzięcza swój wynik uwzględnieniu pełnej struktury sekwencji przez model, co pozwoliło na lepsze określenie niepodobieństwa między sekwencjami.
+                Powolny spadek znormalizowanej informacji wzajemnej wraz ze wzrostem ilości sekwencji wejściowych świadczy o tworzeniu coraz mniej podobnych grup przez algorytm grupowania w wyniku zastosowania różnych metod do wyznaczania niepodobieństwa. Najbardziej podobne zbiory grup były tworzone między metodą ze zmodyfikowanym algorytmem Needlemana-Wunscha a metodą ze sztuczną siecią neuronową.
 
         \subsubsection{Analiza wyników}
 
-            \todo{
-                \begin{enumerate}
-                    \item {porównanie osiągniętych wyników z oczekiwaniami,}
-                    \item {dyskusja nad błędami i ich wpływem na eksperymenty}
-                \end{enumerate}
-            }
-
-
-% \clearpage
-%     \section{Eksperymenty}
-
-%         Przeprowadzono eksperymenty jakościowe oraz wydajnościowe dla trzech metod oraz dodatkowo dla klasyfikacji taksonomicznej.
-
-%         \subsection{Zbiory danych}
-%             Do przeprowadzenia eksperymentów wykorzystano zbiór \textit{CAMI II Toy Human Microbiome Project}, z którego wylosowano zbiór 2047 sekwencji genetycznych, które nie były wykorzystane w procesie uczenia sieci neuronowej. Zbiór następnie został podzielony na podzbiory o wielkościach $n^k$ dla $k \in [0, 10]$.
-
-%         \subsection{Miara jakości}
-%             Do oceny jakości wyników pełnej klasyfikacji taksonomicznej został wykorzystany zmodyfikowany indeks Jaccarda, wyrażony wzorem:
-
-%             \begin{equation}
-%                 \text{Miara jakosci} = \frac{1}{|| R \cup E||} \sum_{o \in (R \cup E)}{
-%                     \frac{\min{(R_o, E_o)}}{\max{(R_o, E_o)}}
-%                 }
-%             \end{equation}
-    
-%             gdzie 
-%             \begin{align*}
-%                 R, E &- \text{zbiory organizmów referencyjnych i otrzymanych}, \\
-%                 E_o, R_o &- \text{jakość organizmów w zbiorach } E \text{ i } R.
-%             \end{align*}
-
-%             Wykorzystano również dodatkowe miary jakości, które oceniają tworzone klastry w wyniku wykorzystania różnych metod określania niepodobieństwa. Pierwszą z nich jest znormalizowana informacja wzajemna (ang. \text{Normalized mutual information, NMI}) i służy do oceny klastrów, drugą jest czułość wykorzystywaną do oceny reprezentantów (ang. \textit{sensitivity}). Miary zdefiniowane są jako:
-
-%             \begin{equation}
-%                 sensitivity = \frac{\text{liczba wyników prawdziwie dodatnych}}{
-%                     \text{liczba wyników prawdziwie dodatnych} + \text{liczba wyników fałszywie ujemnych}
-%                 }
-%             \end{equation}
-            
-%             \begin{equation}
-%                 NMI = \frac{I(X; Y)}{\sqrt{H(X) \cdot H(Y)}}
-%             \end{equation}
-
-%             gdzie 
-%             \begin{align*}
-%                 I(X; Y) &= \sum_{y \in Y}{ \sum_{x \in X}{p(x, y) \log_{2}{\frac{p(x, y)}{p(x) p(y)}}}}, \\
-%                 H(X) &= - \sum_{x \in X}{ p(x) \log_{2}{p(x)}}, \\
-%                 I(X; Y) &- \text{informacja wzajemna między zbiorami $X$ oraz $Y$}, \\
-%                 H(X) &- \text{entropia zbioru $X$}, \\
-%                 H(Y) &- \text{entropia zbioru $Y$}, \\
-%                 p(x) &- \text{prawdopobieństwo zajścia zdarzenia $x$}, \\
-%                 p(x, y) &- \text{wspólny rozkład prawdopodobieństwa $X$ oraz $Y$ }.
-%             \end{align*}
-
-%         \subsection{Procedura}
-
-%             % \subsubsection{Wykorzystany sprzęt}
-%             % Eksperymenty zostały przeprowadzone na serwerze wyposażonym w procesor Intel Core i7-6850KK (4 vCPU), 40GB pamięci RAM oraz kartę graficzną GTX 1080TI.
-
-%             % \subsubsection{Uruchomienie}
-%            Eksperymenty zostały przeprowadzone przy wykorzystaniu zbudowanego narzędzia, które monitorowało wykorzystanie procesora oraz pamięci przez eksperyment. Maksymalny czas eksperymentu ustawiono na 4 godziny. Liczbę grup ustawiono na $\sqrt{n}$, gdzie $n$ to liczba sekwencji w danym eksperymencie.
-
-% \begin{enumerate}
-%     \item Badania jakościowe
-%     \begin{itemize}
-%         \item opis bazy / referencji
-%         \item miara jakości
-%         \item 2-3 eksperymenty
-%     \end{itemize}
-%     \item Badania wydajnościowe
-%     \begin{itemize}
-%         \item pamięć, CPU
-%         \item 2-3 eksperymenty  (w zależności od parametrów)
-%     \end{itemize}
-%     \item Wnioski
-% \end{enumerate}
+            Wyniki eksperymentów częściowo potwierdziły oczekiwania postawione na początku badań. Wszystkie metody osiągnęły zadowalającą jakość klasyfikacji taksonomicznej. Szczególnie dobrze wypadła metoda wykorzystująca sztuczną sieć neuronową, która osiągnęła najlepszą średnią ważoną jakość klasyfikacji jednocześnie zachowując czas wykonania porównywalny z metodą opartą na zanurzeniach $k$-merów. Metoda Needleman-Wunscha nie spełniła oczekiwań, będąc najwolniejszą metodą i osiągając wbrew oczekiwaniom jednocześnie najgorsze wyniki jakości klasyfikacji. Niska jakość klasyfikacji taksonomicznej przy małej liczbie sekwencji wejściowych może wynikać z nieodpowiedniego wyboru reprezentantów grup, co jest spowodowane zbyt małą liczbą dostępnych sekwencji. Zaimplementowane metody powinny być więc stosowane jedynie w przypadkach, gdy liczba sekwencji wejściowych przekracza jakiś próg i ich wykorzystanie realnie skraca czas procesu klasyfikacji taksonomicznej.

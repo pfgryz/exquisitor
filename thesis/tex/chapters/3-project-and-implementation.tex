@@ -209,8 +209,7 @@
 
         Budowanie macierzy niepodobieństwa oraz zastosowanie algorytmu grupowania wygląda we wszystkich metodach jednakowo. W dalszych sekcjach opisany zostanie proces wyznaczania niepodobieństwa między sekwencjami w zaimplementowanych metodach.
         
-        \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}
-            \label{Method:NeedlemaWunsch}
+        \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}\label{Method:NeedlemanWunsch}
 
             Pierwszą metodą zastosowaną do wyznaczenia niepodobieństwa między sekwencjami DNA jest  zmodyfikowany algorytm Needlamana-Wunscha. Algorytm ten pierwotnie służy do globalnego wyrównania sekwencji genetycznych. Korzystajac z własności algorytmu, że w komórce $D_{n+1, m+1}$ macierzy podobieństwa budowanej przez algorytm znajduje się jakość globalnego wyrównania, dokonano modyfikacji algorytmu oraz odpowiedniego ustawienia parametrów, aby wynik ten odpowiadał mierze niepodobieństwa między sekwencjami. Modyfikacje te polegały na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń, w celu zapewnienia, że wartość w $D_{n+1, m+1}$ będzie zawierała się w przedziale $[0, \infty)$. Szczegóły wprowadzonych zmian względem wyrażenia \eqref{Equation:NeedlemanWunsch} przedstawiono poniżej:
 
@@ -660,8 +659,9 @@
                         \texttt{-\phantom{}-input sequences.fasta} - plik zawierający sekwencję do wyszukania,
                     }
                     \item {
-                        \texttt{-\phantom{}-output search_results} - plik wyjściowy, do którego zapisane zostaną wyniki,
-                    }\item {
+                        \texttt{-\phantom{}-output search\_results} - plik wyjściowy, do którego zapisane zostaną wyniki,
+                    }
+                    \item {
                         \texttt{-\phantom{}-blast-db /blast/db} - ścieżka do bazy danych sekwencji nukleotydów,
                     }
                     \item {
