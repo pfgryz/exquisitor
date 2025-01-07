@@ -1,8 +1,13 @@
 \clearpage
+
+\todo{rozdzialy zaczynamy 'cleardoublepage'}
+\todo{,,polskie cytownania''}
+\todo{usunąć symulowane cytowania, tzn wpisy typu [ X ] }
+
 \section{Wprowadzenie}
 
 Odkrycie DNA zapoczątkowało nową erę w biologii oraz medycynie, umożliwiając badania
-nad mechanizmami dziedziczenia [1] i molekularnymi podstawami życia oraz precyzyjną 
+nad molekularnymi podstawami życia oraz precyzyjną 
 diagnostykę wielu chorób \cite{Louie:2000}. Pierwsze kroki na tej drodze uczynił w 1869 roku 
 Friedrich Miescher, który po raz pierwszy wyizolował z jądra komórkowego substancję 
 nazwaną przez niego "nukleiną" \cite{Dahm:2005}, później zidentyfikowaną jako kwas deoksyrybonukleinowy. 
@@ -27,6 +32,8 @@ po raz pierwszy zsekwencjonować w całości materiał genetyczny wirusa DNA -
 bakteriofaga  X174 \cite{Sanger:1977_2}. Odkrycie te uwypukliło ograniczenia tradycyjnych metod  % TODO: brakuje PHI przy X
 analizy i wykazało konieczność zastosowania komputerów do przetwarzania sekwencji DNA. \cite{Staden:197 9}
 
+\todo{powyższe cytowanie błędne, poniżej dużo 'pseudocytowań'}
+
 W miarę postępu badań nad sekwencjami DNA, zespoły badawcze zaczęły gromadzić sekwencje 
 w celu dalszych analiz i porównań. Pod koniec lat 70. XX wieku pojawiła się potrzeba 
 stworzenia bazy danych, która umożliwiłaby gromadzenie sekwencji w celu ich późniejszego 
@@ -38,9 +45,10 @@ podobnych sekwencji w bazach danych [15], co pozwoliło na szybkie porównywanie
 genetycznych. W 1990 roku wprowadzono narzędzie BLAST [16], które przyśpieszyło ten 
 proces.
 
-Pierwszy pomysł na analizę materiału genetycznego organizmów obecnych w glebie bez 
-konieczności ich hodowli został zaproponowany w 1998 roku przez Jo Handlesmana i 
-jego zespół [17]. Wykorzystanie informacji o materiale genetycznym znalezionym w 
+Pierwszy pomysł na analizę materiału genetycznego wielu organizmów jednocześnie,
+konieczności ich hodowli, został zaproponowany w 1998 roku przez Jo Handlesmana i 
+jego zespół [17]. Zespół badał organizmy obecne w glebie.
+Wykorzystanie informacji o materiale genetycznym znalezionym w 
 środowisku, w połączeniu z bazami danych sekwencji, umożliwia identyfikację organizmów 
 obecnych w badanej próbce [??]. Proces analizy dużej liczby sekwencji DNA oraz ich 
 porównywania z bazami danych wymaga jednak znacznych zasobów obliczeniowych.
@@ -83,10 +91,14 @@ prowadzą do zwiększonego zapotrzebowania na zasoby obliczeniowe.
         Cel pracy dyplomowej
     }
 
-        Celem niniejszje pracy jest stworzenie projektu oraz implementacja aplikacji 
-        umożliwiającej użytkownikowi zlecanie analiz materiału genetycznego DNA pobranego
-        z środowiska. Aplikacja ma usprawnić proces przeprowadzania analiz oraz proces 
-        agregacji końcowych wyników do postaci czytelnej przez człowieka.
+    Celem niniejszje pracy jest stworzenie aplikacji umożliwiającej użytkownikowi
+    analizę materiału genetycznego DNA z wielu ogranizmów, pobranego z środowiska.
+    Będą wykorzystane bazy danych sekwencji.
+    Materiał genetyczny pochodzi z wielu organizmów.
+    Aplikacja ma usprawnić proces przeprowadzania analiz oraz proces 
+    agregacji końcowych wyników do postaci czytelnej przez człowieka.
+    Wymagać to będzie nowych algorytmów, w szczególności grupowania i wybierania reprezentantów,
+    w tym wykorzystanie modeli uczenia maszynowego.
 
     % ===== ===== ===== =====
     % ZAKRES PRACY
@@ -94,6 +106,8 @@ prowadzą do zwiększonego zapotrzebowania na zasoby obliczeniowe.
     \subsection {
         Zakres pracy
     }
+
+    \todo{kropki na końcach zdań}
 
         Zakres pracy obejmuje:
         \begin{itemize}
@@ -103,7 +117,7 @@ prowadzą do zwiększonego zapotrzebowania na zasoby obliczeniowe.
                 Funkcjonalności pozwalające na wczytanie sekwencji DNA w formacie FASTA oraz FASTQ
                 oraz wyszukiwanie w bazie danych NCBI BLAST
             }
-            \item Implementację własnej metody porównywania sekwencji 
+            \item Implementację własnej metody porównywania sekwencji \todo{wykorzystującej dokończyć...}
             \item Eksperymenty wydajnościowe oraz jakościowe klasycznych metod oraz metody własnej
         \end{itemize}
 
