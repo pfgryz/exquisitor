@@ -1,4 +1,4 @@
-\clearpage
+\cleardoublepage
 \section{Podsumowanie}
 
     % ===== ===== ===== =====
@@ -27,16 +27,53 @@
     % OGRANICZENIA
     % ===== ===== ===== =====
     \subsection{Ograniczenia}
-        \todo{
-            \begin{enumerate}
-                \item {wskazane ograniczenia, które wystąpiły podczas realizacji,}
-                \item {potecjalne trudności, które wpłynąć mogły na wyniki lub skuteczność}
-            \end{enumerate}
-        }
+
+        \subsubsection{Ograniczona funkcjonalność narzędzi do sieci neuronowych w Rust}
+
+            Mimo rosnącej popularności języka Rust\cite{Rust:popularity} i dynamicznego rozwoju jego ekosystemu, narzędzia do tworzenia modeli sztucznych sieci neuronowych są nadal w fazie rozwoju. Dostępne biblioteki w większości oferują interfejsy do istniejących rozwiązań w języku C++ lub w mniejszym stopniu są pisane od podstaw. Ze względu na wczesny etap rozwoju pierwszy typ tych narzędzi nie wykorzystuje w pełni możliwości języka Rust, a drugi typ nie zapewnia jeszcze pełnej optymalizacji procesu uczenia modeli sztucznych sieci neuronowych w porównaniu do bardziej dojrzałych rozwiązań dostępnych w językach C++ czy Python. Wykorzystana w pracy biblioteka \texttt{burn} wraz ze środowiskiem \texttt{wgpu} napotkała ograniczenia, które uniemożliwiły w pełni wykorzystanie potencjału dostępnej karty graficznej. Biblioteka na obecnym poziomie rozwoju zawiera jedynie implementacje podstawowych i klasycznych rozwiązań w dziedzinie sztucznych sieci neuronowych.
+
+        \subsubsection{Złożoność procesu uczenia modelu sztucznej sieci neuronowej}
+
+            Wykorzystanie dużego zbioru uczącego zawierającego milion przykładów w procesie uczenia znacząco spowolniło proces uczenia oraz strojenia modelu sztucznej sieci neuronowej. Ze względu na ograniczenia wykorzystanego narzędzia do tworzenia modelu wykonanie jednej epoki trwało około 1 godzinę na karcie graficznej NVIDIA RTX 2060 Super. Wybór tak dużego zbioru uczącego był podyktowany wysoką złożonością przestrzeni danych, której rozmiar w przypadku wykorzystania sekwencji DNA o długości 150 wynosi $4^{150}$, co daje w przybliżeniu $10^{90}$ różnych sekwencji DNA.
+
+        \subsubsection{Czasochłonność eksperymentów}
+
+            Przeprowadzenie całego procesu klasyfikacji taksonomicznej sekwencji DNA z wykorzystaniem narzędzia \texttt{BLASTn} w ramach eksperymentów dla każdej metody i każdego podzbioru eksperymentalnego było procesem czasochłonnym. Łączny czas wykonania eksperymentów opisanych w pracy wyniósł około 5 dni, co spowodowało ograniczenie liczby eksperymentów do jednego przebiegu i rozmiaru podzbioru eksperymentalnego do maksymalnie $4096$ sekwencji.
+
+        \subsubsection{Wykorzystanie jednego zbioru danych}
+
+            W pracy wykorzystano jedynie część dostępnego zbioru danych, ograniczając się do jednej próbki ze względu na jej duży rozmiar. Wybór próbki zawierającej sekwencje DNA pochodzące z mikrobiomu skóry człowieka mógł ograniczyć przestrzeń analizowanych sekwencji, co mogło wpłynąć na wyniki eksperymentów, ponieważ w eksperymentach również wykorzystano sekwencje DNA pochodzące z tego samego mikrobiomu.
+
+        \subsubsection{Złożoność obliczeniowa macierzy niepodobieństwa}
+
+            Czas budowy macierzy niepodobieństwa rośnie wprost proporcjonalnie do kwadratu liczby sekwencji, które zostały użyte do jej budowy. Macierz niepodobieństwa wykorzystywana przez algorytm grupowania w pracy była budowana dla wszystkich sekwencji wejściowych. Zastosowane podejście znacznie ogranicza liczbę możliwych sekwencji wejściowych ze względu na szybki wzrost czasu potrzebnego na tworzenie macierzy niepodobieństwa.
+
     % ===== ===== ===== =====
     % MOŻLIWOŚCI DALSZEGO ROZWOJU
     % ===== ===== ===== =====
     \subsection{Możliwości dalszego rozwoju}
+
+        \subsubsection{Zmiana architektury modelu sztucznej sieci neuronowej}
+
+            Stworzony model sztucznej sieci neuronowej wymaga sekwencji o stałej długości, co ogranicza elastyczność modelu w analizie sekwencji o różnych długościach i wymaga tworzenia nowego modelu dostosowanego do dłuższych sekwencji w przypadku znacznej różnicy między długościami sekwencji wejściowych a oczekiwanych przez model. Można rozważyć zmianę architektury modelu sztucznej sieci neuronowej, dostosowując ją do analizy sekwencji o zmiennych długościach poprzez zastosowanie sieci rekurencyjnych lub typu LSTM w pierwszych warstwach modelu.
+
+        \subsubsection{Grupowanie sekwencji w paczkach}
+
+            - wstępne grupowanie sekwencji w losowe paczki
+            - nastepnie wybieranie z tego reprezentantów
+            - ominięcie budowy dużej macierzy niepodobieństwa
+
+        \subsubsection{Wykonywanie obliczeń równolegle}
+
+            - wykonywanie obliczeń równolegle np. przy budowie macierzy niepodobieństwa
+
+        \subsubsection{Automatyczny dobór liczby grup}
+            
+            - automatyczne dostosowanie liczby grup - nie trzeba stroić przez użytkownika
+
+        \subsubsection{Narzędzie do klasyfikacji taksonomicznej oparte o model sztucznej sieci neuronowej}
+
+            - stworzenie własnego narzedzia, które wykorzystuje zanurzenia bezpośrednio do klasyfikacji taksonomicznej
 
         \todo{
             \begin{enumerate}

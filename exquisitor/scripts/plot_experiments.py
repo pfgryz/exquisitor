@@ -513,17 +513,6 @@ def NMI(first: Experiment, second: Experiment) -> float:
 
     return round(nmi, 3), round(fmi, 3)
 
-# def sensitivity(first: Experiment, second: Experiment) -> float:
-
-#     if first.clusters is None or second.clusters is None:
-#         return 0.0
-
-#     first_r = set(r.representative_id for r in first.clusters.clusters)
-#     second_r = set(r.representative_id for r in second.clusters.clusters)
-
-#     result = len(first_r.intersection(second_r)) / len(first_r)
-#     return round(result, 3)
-
 def plot_quality(plot, methods, count, experiments: Experiments, reference: str):
     plot.figure(figsize=FIGSIZE)
 
@@ -548,11 +537,17 @@ def plot_quality(plot, methods, count, experiments: Experiments, reference: str)
         plot.plot([xi + jit for xi in x], line, "--" + next(m), label=label, alpha = 0.7)
 
         weighted_average_quality = 0
-        for i, qual in enumerate(line[:-1]):
-            normalization = (2 ** i) / (2 ** (count - 1) - 1)
-            weighted_average_quality += normalization * qual
+        normalization = 0
+        for i, qual in enumerate(line):
+            if qual == 0: 
+                continue
+
+            normalization += (2 ** i)
+            weighted_average_quality += (2 ** i) * qual
     
-        print(label, "WAQ:", weighted_average_quality)
+        weighted_average_quality /= normalization
+
+        print(label, "WAQ:", weighted_average_quality, round(weighted_average_quality, 3))
         qualities.append(line)
 
     plot.title("Jakość klasyfikacji taksonomicznej względem wykonania bez potoku przetwarzania")
@@ -597,6 +592,45 @@ def generate_quality_latex_table(qualities):
         ) + "\\\\ \\hline \n"
     
     return result
+
+def plot_relative_quality_latex_table(plot, count, experiments):
+    plot.figure(figsize=FIGSIZE)
+    x, x_labels = generate_xs(count)
+    jitter = generate_jitter(-0.02, 0.02)
+    m = markers()
+
+    nmi1_s, nmi2_s, nmi3_s = [], [], []
+
+    for i, (nw, kmer, neural) in enumerate(zip(
+        experiments["nw"],
+        experiments["kmer"],
+        experiments["neural"]
+    )):
+        nmi1 = NMI(nw, kmer)
+        nmi2 = NMI(nw, neural)
+        nmi3 = NMI(kmer, neural)
+
+        nmi1_s.append(nmi1[0])
+        nmi2_s.append(nmi2[0])
+        nmi3_s.append(nmi3[0]) 
+
+    for nmi, label in zip(
+        [nmi1_s, nmi2_s, nmi3_s],
+        [
+            "NW - $k$-mer",
+            "NW - SNN",
+            "$k$-mer - SNN"
+        ]):
+        jit = next(jitter)
+        plot.plot([xi + jit for xi in x], nmi, "--" + next(m), label=label, alpha=0.7)
+
+    plot.title("Jakość względna grup wykorzystywanych w klasyfikacji taksonomicznej.")
+    plot.legend()
+    plot.xlabel("Liczba sekwencji")
+    plot.xticks(x, x_labels)
+    plot.ylabel("NMI")
+
+    return plot
 
 def generate_relative_quality_latex_table(count, experiments):
     result = ""
@@ -695,6 +729,11 @@ def main():
     
     quality = generate_quality_latex_table(qualities)
     relative_quality = generate_relative_quality_latex_table(N, experiments)
+    save_plot(
+        plot_relative_quality_latex_table(plt, N, experiments),
+        "experiment_relative_quality.png",
+        dpi = 500
+    )
     
     with open("quality.tex", "w") as handle:
         handle.write(quality)

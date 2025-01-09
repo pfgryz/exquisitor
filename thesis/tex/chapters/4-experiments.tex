@@ -1,7 +1,7 @@
-\clearpage 
+\cleardoublepage 
 \section{Eksperymenty}
 
-    W ramach pracy przeprowadzono eksperymenty polegające na porównaniu wydajności oraz jakości zaimplementowanych metod do grupowania sekwencji genetycznych w kontekście pełnej klasyfikacji taksonomicznej. W eksperymentach jako punkt odniesienia wybrano klasyfikację taksonomiczną wszystkich sekwencji wejściowych z pominięciem etapów grupowania sekwencji genetycznych.
+    W ramach pracy przeprowadzono eksperymenty polegające na porównaniu wydajności oraz jakości zaimplementowanych metod do grupowania sekwencji genetycznych w kontekście pełnej klasyfikacji taksonomicznej przeprowadzonej z wykorzystaniem potoku przetwarzania. W eksperymentach jako punkt odniesienia wybrano klasyfikację taksonomiczną wszystkich sekwencji wejściowych bez użycia potoku przetwarzania (BZ).
 
     % ===== ===== ===== =====
     % OPIS ŚRODOWISKA EKSPERYMENTALNEGO
@@ -17,7 +17,7 @@
                     \textbf{System operacyjny:} Ubuntu 22.04 LTS.
                 }
                 \item {
-                    \textbf{Procesor:} 4 rdzenie wirtualne Intel Core i7-6850K.
+                    \textbf{Procesor:} 4 rdzenie wirtualne procesora Intel Core i7-6850K.
                 }
                 \item {
                     \textbf{Pamięć RAM:} 40GB.
@@ -41,10 +41,10 @@
         Jako miarę jakości klasyfikacji taksonomicznej wykorzystano zmodyfikowany indeks Jaccarda, wyrażony wzorem:
 
         \begin{equation}
-            \text{Miara jakości} = \frac{
-                \sum_{r \in (R \cap E)} R_{r}
+            \text{Q} = \frac{
+                \sum_{r \in (O(R) \cap O(E))} R_{r}
             }{
-                \sum_{r \in (R \cup E)} R_{r}
+                \sum_{r \in (O(R) \cup O(E))} R_{r}
             }
             \label{Equation:Quality}
         \end{equation}
@@ -52,16 +52,17 @@
         gdzie,
         \begin{align*}
             R &- \text{zbiór wyników referencyjnych,} \\
-            E &- \text{zbiór wyników porównywanych,} \\
-            R_{r} &- \text{liczba wyników w zbiorze referencyjnych przypisanych do organizmu $r$. }
+            E &- \text{zbiór wyników otrzymanych,} \\
+            R_{r} &- \text{liczba wyników w zbiorze referencyjnym przypisanych do organizmu $r$,} \\
+            O(X) &- \text{zbiór unikalnych organizmów, dla których przypisano wyniki w zbiorze X. }
         \end{align*}
 
         Miara została wykorzystana do porównania jakości klasyfikacji taksonomicznej przeprowadzanej z wykorzystaniem zaimplementowanych metod względem klasyfikacji taksonomicznej bez użycia potoku przetwarzania.
 
-        Do porównywania jakości wielu przebiegów klasyfikacji taksonomicznej wykorzystano średnią jakość ważoną zdefiniową za pomocą wzoru:
+        Do porównywania jakości wielu przebiegów klasyfikacji taksonomicznej wykorzystano średnią jakość ważoną zdefiniowaną za pomocą wzoru:
 
         \begin{equation}
-            \text{Średnia jakość ważona} = \sum_{c \in C} \frac{n_c}{\sum_{d \in C} n_d} Q_c
+            Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{\sum_{d \in C} n_d} Q_c
             \label{Equation:WeightedAverageQuality}
         \end{equation}
 
@@ -112,7 +113,7 @@
 
         \subsubsection{Opis zbioru danych}
         
-            W eksperymentach wykorzystano ten sam zbiór sekwencji genetycznych, co w uczeniu modelu sztucznej sieci neuronowej. Zbiór \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz2019} został wybrany, ponieważ został stworzony w celu oceny wydajności algorytmów bioinformatycznych oraz zawiera znaczną liczbę sekwencji genetycznych, co umożliwiło jego wykorzystanie go zarówno w eksperymentach, jak i w uczeniu modelu sztucznej sieci neuronowej.
+            W eksperymentach wykorzystano ten sam zbiór sekwencji genetycznych, co w uczeniu modelu sztucznej sieci neuronowej. Zbiór \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019} został wybrany, ponieważ został stworzony w celu oceny wydajności algorytmów bioinformatycznych oraz zawiera znaczną liczbę sekwencji genetycznych, co umożliwiło jego wykorzystanie go zarówno w eksperymentach, jak i w uczeniu modelu sztucznej sieci neuronowej.
             
             Na podstawie zbioru stworzono podzbiory sekwencji o rozmiarach wyrażonych wzorem $2^k$ dla $k \in [0, 12]$. Zbiory są rozłączne, a do ich budowy wykorzystano wyłącznie te sekwencje, które nie zostały użyte do uczenia modelu sztucznej sieci neuronowej.
 
@@ -125,7 +126,7 @@
     % ===== ===== ===== =====
     \subsection{Procedura przeprowadzania eksperymentów}
 
-        Eksperymenty zostały przeprowadzone za pomocą zaimplementowane polecenia aplikacji konsolowej, które pozwala na nadzorowanie wykorzystania procesora oraz pamięci RAM przez polecenie, oraz kontrolowanie maksymalnego czasu trwania eksperymentu.
+        Eksperymenty zostały przeprowadzone za pomocą zaimplementowane polecenia aplikacji konsolowej \texttt{experiment}, które pozwala na nadzorowanie wykorzystania procesora oraz pamięci RAM przez polecenie, oraz kontrolowanie maksymalnego czasu trwania wykonywanego polecenia.
 
         Dane do obu eksperymentów zostały zgromadzone w wyniku przeprowadzenia klasyfikacji taksonomicznej z wykorzystaniem zaimplementowanych metod oraz klasyfikacji taksonomicznej bez wykorzystania potoku przetwarzania dla każdego podzbioru osobno.
 
@@ -161,7 +162,7 @@
     % ===== ===== ===== =====
     \subsection{Wyniki}
 
-        \subsubsection{Eksperyment 1: czas wykonania klasyfikacji taksonomicznej}
+        \subsubsection{Eksperyment 1: Czas wykonania klasyfikacji taksonomicznej}
 
             \paragraph{Cel}
                 Celem eksperymentu jest sprawdzanie czasu wykonania klasyfikacji taksonomicznej przy użyciu różnych metod grupowaniu sekwencji genetycznych. 
@@ -196,7 +197,7 @@
                     \begin{tabularx}{\textwidth}{|c||R|R|R|R|}
                         \hline
                         \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c|}{\textbf{Czas trwania eksperymentu}} \\ \cline{2-5}
-                                        & \textbf{BZ} & \textbf{N-W} & \textbf{$k$-mer} & \textbf{SNN} \\ \hline \hline
+                                        & \textbf{BZ} & \textbf{NW} & \textbf{$k$-mer} & \textbf{SNN} \\ \hline \hline
                                         1 & 7107 & \textbf{6025} & 6087 & 6077\\ \hline 
                                         2 & 6129 & 5994 & \textbf{5988} & 6035\\ \hline 
                                         4 & 6108 & \textbf{5983} & 6024 & 6019\\ \hline 
@@ -215,7 +216,7 @@
                 \end{table}
 
                 \begin{table}\centering
-                    \caption{Wykorzystanie procesora oraz pamięci przez różne metody.}\label{Table:Experiment:Resource}
+                    \caption{Wykorzystanie procesora oraz pamięci przez różne metody.}\label{Table:Experiment:Resources}
                     \begin{tabularx}{\textwidth}{|c||R|R|R|R||R|R|R|R|}
                         \hline
                         \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c||}{\textbf{Wykorzystanie procesora [\%]}} & \multicolumn{4}{|c|}{\textbf{Wykorzystanie pamięci [MB]}} \\ \cline{2-9}
@@ -237,7 +238,7 @@
                 \end{table}
 
             \paragraph{Wnioski}
-                Metoda z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha zgodnie z oczekiwaniami cechowała się najszybszym wzrostem czasu wykonania klasyfikacji taksonomicznej. Gwałtowny wzrost spowodowany jest porównywanie sekwencji każda z każdą przez budowę macierzy podobieństwa. Pomimo redukcji ilości sekwencji, które poddawane są klasyfikacji, czas wykonania tą metodą przekroczył klasyfikację taksonomiczną wszystkich sekwencji.
+                Metoda z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha zgodnie z oczekiwaniami cechowała się najszybszym wzrostem czasu wykonania klasyfikacji taksonomicznej. Gwałtowny wzrost spowodowany jest porównywanie sekwencji każda z każdą przez budowę macierzy podobieństwa. Pomimo redukcji ilości sekwencji, które poddawane są klasyfikacji, czas wykonania tą metodą przekroczył klasyfikację taksonomiczną wszystkich sekwencji bez wykorzystania potoku przetwarzania.
 
                 Metody z wykorzystaniem zanurzeń $k$-merów oraz sztucznej sieci neuronowej cechowały się porównywalnymi czasami wykonania z lekką przewagą dla pierwszej metody. Obie metody działały szybciej od klasyfikacji taksonomicznej bez wykorzystania potoku przetwarzania. Metody do porównywania wykorzystują reprezentacje sekwencji, co spowodowało powolniejszy wzrost czasu wykonania klasyfikacji taksonomicznej. W przypadku metody ze sztuczną siecią neuronową krótszy czas wykonania dla $4096$ sekwencji może być spowodowany obliczaniem zanurzeń dla wszystkich sekwencji jednocześnie za pomocą karty graficznej. 
 
@@ -245,7 +246,7 @@
  
                 Zauważalne również jest większe wykorzystanie pamięci RAM przez metodę ze sztuczną siecią neuronową, co spowodowane jest koniecznością wczytania modelu sztucznej sieci neuronowej do pamięci.
 
-        \subsubsection{Eksperyment 2: jakość klasyfikacji taksonomicznej}
+        \subsubsection{Eksperyment 2: Jakość klasyfikacji taksonomicznej}
 
             \paragraph{Cel}
                 Celem drugiego eksperymentu było zbadanie jakości klasyfikacji taksonomicznej z wykorzystaniem zaimplementowanych metod względem klasyfikacji taksonomicznej wszystkich sekwencji. Zbadano również tworzone grupy przez zaimplementowane metody.
@@ -265,7 +266,7 @@
                 \end{itemize}
 
             \paragraph{Wyniki}
-                Obliczono jakość klasyfikacji za pomocą miary wyrażonej wzorem~\ref{Equation:Quality} dla zaimplementowanych metod względem pełnej klasyfikacji taksonomicznej. Na rysunku~\ref{Picture:Experiment:Quality} przedstawiono wykres jakości klasyfikacji w zależności od ilości sekwencji wejściowych, szczegółowe wyniki jakości umieszczono w tabeli~\ref{Table:Experiment:Quality}. Średnia ważona jakość obliczona za pomocą wzoru~\ref{Equation:WeightedAverageQuality} dla metody z zmodyfikowanym algorytmem Needlemana-Wunscha wyniosła $0.899$, dla metody z zanurzeniami $k$-merów wyniosła $0.913$, natomiast dla metody z wykorzystaniem sztucznej sieci neuronowej $0.929$. W tabeli~\ref{Table:Experiment:RelativeQuality} przedstawiono natomiast jakość grup oraz reprezentantów obliczoną odpowiednio za pomocą wzoru~\ref{Equation:NMI} oraz wzoru~\ref{Equation:Sensitivity}.
+                Obliczono jakość klasyfikacji za pomocą miary wyrażonej wzorem~\ref{Equation:Quality} dla zaimplementowanych metod względem pełnej klasyfikacji taksonomicznej. Na rysunku~\ref{Picture:Experiment:Quality} przedstawiono wykres jakości klasyfikacji w zależności od ilości sekwencji wejściowych, szczegółowe wyniki jakości umieszczono w tabeli~\ref{Table:Experiment:Quality}. Średnia ważona jakość obliczona za pomocą wzoru~\ref{Equation:WeightedAverageQuality} dla metody z zmodyfikowanym algorytmem Needlemana-Wunscha wyniosła $0.899$, dla metody z zanurzeniami $k$-merów wyniosła $0.921$, natomiast dla metody z wykorzystaniem sztucznej sieci neuronowej $0.944$. Na rysunku~\ref{Picture:Experiment:Table:Experiment:RelativeQuality} przedstawiono natomiast wykres jakości grup obliczony za pomocą wzoru~\ref{Equation:NMI}. Szczegółowe wyniki z obliczoną dodatkowo czułością dla reprezentantów obliczoną za pomocą wzoru~\ref{Equation:Sensitivity} znajdują się w tabeli~\ref{Table:Experiment:RelativeQuality}. 
 
                 \begin{figure}
                     \begin{center}
@@ -298,6 +299,15 @@
                         4096 & 0.0 & 0.93 & \textbf{0.96}\\ \hline 
                     \end{tabularx}
                 \end{table}
+
+                \begin{figure}
+                    \begin{center}
+                        \input{tex/pictures/exp/experiment_relative_quality.tex}
+                    \end{center}
+                    \caption{
+                       Jakość względna grup wykorzystywanych w klasyfikacji taksonomicznej.
+                    }\label{Picture:Experiment:RelativeQuality}
+                \end{figure}
 
                 \begin{table}\centering
                     \caption{Jakość grup oraz reprezentantów wykorzystanych w klasyfikacji taksonomicznej.}\label{Table:Experiment:RelativeQuality}
@@ -351,8 +361,8 @@
                 Wszystkie zaimplementowane metody osiągnęły bardzo dobre wyniki jakości klasyfikacji, przekraczając $0.7$, w przypadkach, gdy liczba grup była znacznie większa od ilości sekwencji wejściowych. Średnia jakość ważona dla wszystkich metod również osiągnęła wysoką wartość.
                 Metoda z wykorzystaniem sztucznej sieci neuronowej osiągnęła najlepszy wynik średniej jakości ważonej, wyprzedzając nieznacznie metodę z zanurzeniami $k$-merów oraz metodę ze zmodyfikowanym algorytmem Needlamana-Wunscha. Wbrew oczekiwaniom, metoda Needlemana-Wunscha osiągnęła najniższy wynik spośród zaimplementowanych metod.
                 Metoda z wykorzystaniem sztucznej sieci neuronowej zawdzięcza swój wynik uwzględnieniu pełnej struktury sekwencji przez model, co pozwoliło na lepsze określenie niepodobieństwa między sekwencjami.
-                Powolny spadek znormalizowanej informacji wzajemnej wraz ze wzrostem ilości sekwencji wejściowych świadczy o tworzeniu coraz mniej podobnych grup przez algorytm grupowania w wyniku zastosowania różnych metod do wyznaczania niepodobieństwa. Najbardziej podobne zbiory grup były tworzone między metodą ze zmodyfikowanym algorytmem Needlemana-Wunscha a metodą ze sztuczną siecią neuronową.
+                Powolny spadek znormalizowanej informacji wzajemnej wraz ze wzrostem ilości sekwencji wejściowych świadczy o tworzeniu coraz mniej podobnych grup przez algorytm grupowania w wyniku zastosowania różnych metod do wyznaczania niepodobieństwa. Najbardziej podobne zbiory grup były tworzone między metodą ze zmodyfikowanym algorytmem Needlemana-Wunscha a metodą z zanurzeniami $k$-merów.
 
         \subsubsection{Analiza wyników}
 
-            Wyniki eksperymentów częściowo potwierdziły oczekiwania postawione na początku badań. Wszystkie metody osiągnęły zadowalającą jakość klasyfikacji taksonomicznej. Szczególnie dobrze wypadła metoda wykorzystująca sztuczną sieć neuronową, która osiągnęła najlepszą średnią ważoną jakość klasyfikacji jednocześnie zachowując czas wykonania porównywalny z metodą opartą na zanurzeniach $k$-merów. Metoda Needleman-Wunscha nie spełniła oczekiwań, będąc najwolniejszą metodą i osiągając wbrew oczekiwaniom jednocześnie najgorsze wyniki jakości klasyfikacji. Niska jakość klasyfikacji taksonomicznej przy małej liczbie sekwencji wejściowych może wynikać z nieodpowiedniego wyboru reprezentantów grup, co jest spowodowane zbyt małą liczbą dostępnych sekwencji. Zaimplementowane metody powinny być więc stosowane jedynie w przypadkach, gdy liczba sekwencji wejściowych przekracza jakiś próg i ich wykorzystanie realnie skraca czas procesu klasyfikacji taksonomicznej.
+            Wyniki eksperymentów częściowo potwierdziły oczekiwania postawione na początku badań. Wszystkie metody osiągnęły zadowalającą jakość klasyfikacji taksonomicznej. Szczególnie dobrze wypadła metoda wykorzystująca sztuczną sieć neuronową, która osiągnęła najlepszą średnią ważoną jakość klasyfikacji jednocześnie zachowując czas wykonania porównywalny z metodą opartą na zanurzeniach $k$-merów. Metoda Needleman-Wunscha nie spełniła oczekiwań, będąc najwolniejszą metodą i osiągając wbrew oczekiwaniom jednocześnie najgorsze wyniki jakości klasyfikacji. Niska jakość klasyfikacji taksonomicznej przy małej liczbie sekwencji wejściowych może wynikać z nieodpowiedniego wyboru reprezentantów grup, co jest spowodowane zbyt małą liczbą dostępnych sekwencji. Zaimplementowane metody powinny być więc stosowane jedynie w przypadkach, gdy liczba sekwencji wejściowych przekracza pewien próg i ich wykorzystanie realnie skraca czas procesu klasyfikacji taksonomicznej. Dla badanych danych warunek ten jest osiągnięty dla $128$ sekwencji, gdzie jakość klasyfikacji taksonomicznej wynosiła nie mniej niż $0.87$, a wykorzystanie dowolnej metody grupowania skraca czas o co najmniej 5 minut, co stanowi przyśpieszenie o $5\%$ względem klasyfikacji taksonomicznej wszystkich sekwencji.
