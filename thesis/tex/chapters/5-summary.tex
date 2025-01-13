@@ -34,7 +34,7 @@
 
         \subsubsection{Złożoność procesu uczenia modelu sztucznej sieci neuronowej}
 
-            Wykorzystanie dużego zbioru uczącego zawierającego milion przykładów w procesie uczenia znacząco spowolniło proces uczenia oraz strojenia modelu sztucznej sieci neuronowej. Ze względu na ograniczenia wykorzystanego narzędzia do tworzenia modelu wykonanie jednej epoki trwało około 1 godzinę na karcie graficznej NVIDIA RTX 2060 Super. Wybór tak dużego zbioru uczącego był podyktowany wysoką złożonością przestrzeni danych, której rozmiar w przypadku wykorzystania sekwencji DNA o długości 150 wynosi $4^{150}$, co daje w przybliżeniu $10^{90}$ różnych sekwencji DNA.
+            Wykorzystanie dużego zbioru uczącego zawierającego milion przykładów w procesie uczenia znacząco spowolniło proces uczenia oraz strojenia modelu sztucznej sieci neuronowej. Ze względu na ograniczenia wykorzystanego narzędzia do tworzenia modelu wykonanie jednej epoki trwało około 1 godzinę na karcie graficznej NVIDIA RTX 2060 Super. Wybór tak dużego zbioru uczącego był podyktowany wysoką złożonością przestrzeni danych, której rozmiar w przypadku wykorzystania sekwencji DNA o długości 150 wynosi $4^{150}$, co daje w przybliżeniu $10^{90}$ różnych sekwencji DNA. W uczeniu kontrastowym wykorzystanie dużych zbiorów danych pozwala na stworzenie lepszego modelu, który uwzględnia więcej informacji o strukturze sekwencji.
 
         \subsubsection{Czasochłonność eksperymentów}
 
@@ -55,33 +55,24 @@
 
         \subsubsection{Zmiana architektury modelu sztucznej sieci neuronowej}
 
-            Stworzony model sztucznej sieci neuronowej wymaga sekwencji o stałej długości, co ogranicza elastyczność modelu w analizie sekwencji o różnych długościach i wymaga tworzenia nowego modelu dostosowanego do dłuższych sekwencji w przypadku znacznej różnicy między długościami sekwencji wejściowych a oczekiwanych przez model. Można rozważyć zmianę architektury modelu sztucznej sieci neuronowej, dostosowując ją do analizy sekwencji o zmiennych długościach poprzez zastosowanie sieci rekurencyjnych lub typu LSTM w pierwszych warstwach modelu.
+            Stworzony model sztucznej sieci neuronowej wymaga sekwencji o stałej długości, co ogranicza elastyczność modelu w analizie sekwencji o różnych długościach i wymaga tworzenia nowego modelu dostosowanego do dłuższych sekwencji w przypadku znacznej różnicy między długościami sekwencji wejściowych a oczekiwanych przez model. Dodatkowo sekwencje krótsze niż wymagane wymagają wydłużenia do zadanej długości przez wypełnienie wybraną zasadą. W przyszłości można rozważyć zmianę architektury modelu sztucznej sieci neuronowej, dostosowując ją do analizy sekwencji o zmiennych długościach poprzez zastosowanie sieci rekurencyjnych lub typu LSTM w pierwszych warstwach modelu.
 
         \subsubsection{Grupowanie sekwencji w paczkach}
 
-            - wstępne grupowanie sekwencji w losowe paczki
-            - nastepnie wybieranie z tego reprezentantów
-            - ominięcie budowy dużej macierzy niepodobieństwa
+            Ze względu na czasochłonność procesu budowy macierzy niepodobieństwa, na wstępnym etapie sekwencje wejściowe mogłyby zostać poddane losowemu grupowaniu w paczki. Następnie, w ramach każdej paczki, przeprowadzony zostałby proces wyboru reprezentantów, tak jak ma to miejsce w obecnym podejściu. Zastosowanie wstępnego grupowania umożliwiłoby ominięcie budowy jednej dużej macierzy niepodobieństwa, co pozwoliłoby na analizę większej liczby sekwencji.
 
         \subsubsection{Wykonywanie obliczeń równolegle}
 
-            - wykonywanie obliczeń równolegle np. przy budowie macierzy niepodobieństwa
+            Możliwa jest optymalizacja niektórych operacji wykonywanych w potoku przetwarzania poprzez zastosowanie obliczeń równoległych. Pierwszym elementem, w którym można wykorzystać obliczenia równoległe, jest budowa macierzy niepodobieństwa. Macierz tą można podzielić na fragmenty, które będą budowane równolegle i niezależnie. Drugą zmianą jest modyfikacja potoku przetwarzania, która pozwalałaby na równoczesne wykonywanie niektórych etapów, bez konieczności oczekiwania na zakończenie obliczeń w innych częściach potoku. Przykładem takiego etapu jest wyliczanie zanurzeń, które mogłoby być wykorzystywane bezpośrednio do budowy macierzy niepodobieństwa bez oczekiwania na obliczenie wszystkich zanurzeń.
 
         \subsubsection{Automatyczny dobór liczby grup}
-            
-            - automatyczne dostosowanie liczby grup - nie trzeba stroić przez użytkownika
+
+            Obecne podejście wymaga doboru liczby tworzonych grup przez algorytm grupowania. Liczba grup bezpośrednio determinuje liczbę reprezentantów, którzy będą poddani klasyfikacji taksonomicznej i ma wpływ na jakość oraz czas wykonania całego procesu. Możliwe byłoby zastosowanie lub stworzenie algorytmu, który automatycznie dobierałby liczbę tworzonych grup na podstawie macierzy niepodobieństwa oraz miar jakości tworzonych grup. Automatyczne dostosowanie liczby grup pozwoliłoby na zwiększenie jakości klasyfikacji w przypadku bardzo różnych sekwencji wejściowych bez spowalniania procesu dla zbiorów sekwencji bardzo podobnych.
 
         \subsubsection{Narzędzie do klasyfikacji taksonomicznej oparte o model sztucznej sieci neuronowej}
 
-            - stworzenie własnego narzedzia, które wykorzystuje zanurzenia bezpośrednio do klasyfikacji taksonomicznej
-
-        \todo{
-            \begin{enumerate}
-                \item {propozycje rozwoju systemu,}
-                \item {wskazanie obszarów, które mogą zostać poprawione}
-            \end{enumerate}
-        }
-
+            Narzędzia do klasyfikacji taksonomicznej w większości opierają się na obliczaniu podobieństwa między sekwencjami wejściowymi a sekwencjami znajdującymi się w bazie danych sekwencji w celu znalezienia sekwencji, które są podobne. Wykorzystane w eksperymentach narzędzie \texttt{BLASTn} wykorzystuje $k$-mery do określenia podobieństwa między sekwencjami. 
+            Grupowanie sekwencji, które zostało wykorzystane w pracy, wykonuje podobne operacje, do tych, które są wykonywane przez narzędzia do klasyfikacji taksonomicznej. Możliwe byłoby zatem stworzenie własnego narzędzia, które wykorzystywałoby bezpośrednio model sztucznej sieci neuronowej do określenia podobieństwa między sekwencjami i klasyfikacji taksonomicznej. Wykorzystanie sztucznych sieci neuronowych w przypadku wydajnej implementacji mogłoby pozwolić na osiągnięcie akceptowalnego czasu działania przy wyższej jakości.
 
     % ===== ===== ===== =====
     % WNIOSKI KOŃCOWE
