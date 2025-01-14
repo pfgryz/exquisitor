@@ -30,6 +30,9 @@ body {
 }
 
 .header {
+    display: flex;
+    justify-content: space-between;;
+    align-items: center;
     color: var(--color-primary);
     height: 115px;
     padding: 32px;
@@ -61,11 +64,13 @@ input, .btn {
     background: rgba(255, 255, 255, 0.1);
 }
 
+input.btn-blue,
 .btn.btn-blue {
     background: var(--color-primary);
     transition: all 250ms ease;
 }
 
+input.btn-blue:hover,
 .btn.btn-blue:hover {
     cursor: pointer;
     background: var(--color-primary-darker);

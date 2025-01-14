@@ -10,25 +10,25 @@
 {% block content %}
     <div class="search-bar">
         <form method="GET" action="/search">
-            <input name="query" type="text" class="search" placeholder="Experiment identifier or name"/>
+            <input name="query" type="text" class="search" placeholder="Order identifier or name"/>
             <button type="submit" class="btn btn-blue">Search</button>
         </form>
     </div>
 
     <div class="last">
-        <h1>Last experiments</h1>
+        <h1>Last orders</h1>
 
-        <div class="experiments-header">
+        <div class="orders-header">
             <div>Id</div>
             <div>Name</div>
             <div>Status</div>
         </div>
 
-        {% for experiment in experiments %}
-        <a class="experiment" href="/experiment/{{experiment.experiment_id}}">
-            <div>#{{ experiment.experiment_id }}</div>
-            <div class="experiment-name">{{ experiment.name }}</div>
-            <div>{{ experiment.status }}</div>
+        {% for order in orders %}
+        <a class="order" href="/order/{{order.order_id}}">
+            <div>#{{ order.order_id }}</div>
+            <div class="order-name">{{ order.name }}</div>
+            <div>{{ order.status }}</div>
         </a>
         {% endfor %}
     </div>

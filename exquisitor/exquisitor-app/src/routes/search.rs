@@ -22,19 +22,19 @@ pub async fn render(
     Query(params): Query<SearchParams>,
     Extension(pool): Extension<SqlitePool>,
 ) -> Response {
-    let experiment_id = params.query.parse::<i64>().unwrap_or(0);
+    let order_id = params.query.parse::<i64>().unwrap_or(0);
 
-    let experiment =
-        match db::get_experiment_by_id_or_name(&pool, experiment_id, params.query.as_str())
+    let order =
+        match db::get_order_by_id_or_name(&pool, order_id, params.query.as_str())
             .await
             .map_err(|e| InternalServerError::DatabaseError(e))
         {
-            Ok(experiment) => experiment,
+            Ok(order) => order,
             Err(e) => return e.into_response(),
         };
 
-    let experiment = match experiment {
-        Some(experiment) => experiment,
+    let order = match order {
+        Some(order) => order,
         None => {
             return HTMLTemplate {
                 template: SearchTemplate {},
@@ -44,5 +44,5 @@ pub async fn render(
         }
     };
 
-    Redirect::to(format!("/experiment/{}", experiment.experiment_id).as_str()).into_response()
+    Redirect::to(format!("/order/{}", order.order_id).as_str()).into_response()
 }

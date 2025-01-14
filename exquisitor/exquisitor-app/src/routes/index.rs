@@ -1,4 +1,4 @@
-use crate::db::{query_experiments, Experiment};
+use crate::db::{query_orders, Order};
 use crate::templates::HTMLTemplate;
 use askama::Template;
 use axum::response::IntoResponse;
@@ -8,13 +8,13 @@ use sqlx::SqlitePool;
 #[derive(Template)]
 #[template(path = "index.html")]
 struct IndexTemplate {
-    experiments: Vec<Experiment>,
+    orders: Vec<Order>,
 }
 
 pub async fn render(Extension(pool): Extension<SqlitePool>) -> impl IntoResponse {
-    let experiments = query_experiments(&pool, 10u32).await.unwrap(); // @TODO: add error handling
+    let orders = query_orders(&pool, 10u32).await.unwrap();
 
-    let template = IndexTemplate { experiments };
+    let template = IndexTemplate { orders };
 
     HTMLTemplate::from_template(template)
 }

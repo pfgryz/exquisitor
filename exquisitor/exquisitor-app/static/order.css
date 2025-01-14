@@ -1,0 +1,19 @@
+.order {
+    text-align: center;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.order-details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.order-detail {
+    padding: 16px;
+}
+
+.order-detail h3 {
+    text-decoration: underline;
+}

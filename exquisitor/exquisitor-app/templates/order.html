@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title%}Order #{{ order.order_id }}{% endblock %}
+
+{% block header %}
+<!-- Stylesheet -->
+<link rel="stylesheet" href="/assets/order.css">
+{% endblock %}
+
+{% block content %}
+    <div class="order">
+        <h1>Order #{{ order.order_id }}</h1>
+        <h2>{{ order.name }}</h2>
+        <div class="order-details">
+            <div class="order-detail">
+                <h3>Status:</h3>
+                {{ order.status }}
+            </div>
+            <div class="order-detail">
+                <h3>Filepath:</h3>
+                {{ order.filepath }}
+            </div>
+            <div class="order-detail">
+                <h3>Result:</h3>
+                {% if let Some(id) = order.result_id %}
+                    {{ id }}
+                {% else %}
+                    ...
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

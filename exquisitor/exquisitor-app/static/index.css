@@ -4,16 +4,31 @@
     justify-content: center;
 }
 
+.search-bar form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar input {
+    width: calc(100% - 300px);
+}
 
 /* Experiments List */
-.experiments-header {
+.last h1 {
+    text-align: center;
+    margin-top: 24px;
+}
+
+.orders-header {
     display: flex;
     justify-content: space-between;
     padding: 16px 32px;
-    font-size: 2em;
+    font-size: 1.5em;
+    border-bottom: 1px solid #555;
 }
 
-.experiment {
+.order {
     display: flex;
     justify-content: space-between;
     padding: 16px 32px;

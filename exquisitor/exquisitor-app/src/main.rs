@@ -9,6 +9,7 @@ use tower_http::services::ServeDir;
 use tracing::info;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{fmt, Registry};
+use crate::db::OrderStatus;
 
 mod db;
 mod routes;
@@ -26,18 +27,21 @@ async fn main() {
     tracing::subscriber::set_global_default(subscriber).expect("Failed to set global subscriber");
 
     // SQLite database
-    let pool = SqlitePool::connect("sqlite://../exquisitor.db")
+    let pool = SqlitePool::connect("sqlite://./exquisitor.db")
         .await
         .unwrap();
 
     // Static files
     let serve_dir_from_assets = ServeDir::new("static");
 
+    // db::create_experiment(&pool, "Basic".into(), "/tmp/0.fasta".into(), OrderStatus::Queued).await.expect("");
+
     // Main router
     let app = Router::new()
         .route("/", get(routes::index::render))
         .route("/search", get(routes::search::render))
-        .route("/experiment/:id", get(routes::experiment::render))
+        //.route("/order/add", get(routes::order::add))
+        .route("/order/:id", get(routes::order::render))
         .nest_service("/assets", serve_dir_from_assets)
         .fallback(errors::handle_not_found)
         .layer(Extension(pool))

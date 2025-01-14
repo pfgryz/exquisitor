@@ -1,4 +1,4 @@
 pub mod errors;
-pub mod experiment;
+pub mod order;
 pub mod index;
 pub mod search;
