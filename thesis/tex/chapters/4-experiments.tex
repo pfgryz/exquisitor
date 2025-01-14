@@ -10,7 +10,9 @@
 
         Eksperymenty zostały przeprowadzone na maszynie wirtualnej wykorzystującej technologię KVM o specyfikacji podanej poniżej:
 
-        \subsubsection{Specyfikacja techniczna}\
+        % \subsubsection{Specyfikacja techniczna}\
+
+        \todo{zakomentowałem podrozdział, bo nieistotny}
 
             \begin{itemize}
                 \item {
@@ -61,16 +63,19 @@
 
         Do porównywania jakości wielu przebiegów klasyfikacji taksonomicznej wykorzystano średnią jakość ważoną zdefiniowaną za pomocą wzoru:
 
+        \todo{RN:zmieniłem wzór~\ref{Equation:WeightedAverageQuality}, bo tak jest trochę jaśniej}
+
         \begin{equation}
-            Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{\sum_{d \in C} n_d} Q_c
+            Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
             \label{Equation:WeightedAverageQuality}
         \end{equation}
 
         gdzie,
         \begin{align*}
-            C &- \text{zbiór wszystkich przebiegów klasyfikacji taksonomicznych,} \\
-            Q_c &- \text{jakość klasyfikacji taksonomicznej $c$,} \\
-            n_c &- \text{liczba sekwencji wejściowych do klasyfikacji taksonomicznej $c$.}
+          C &- \text{zbiór wszystkich przebiegów klasyfikacji taksonomicznych,} \\
+          Q_c &- \text{jakość klasyfikacji taksonomicznej $c$,} \\
+          n_c &- \text{liczba sekwencji wejściowych do klasyfikacji taksonomicznej $c$,}\\
+          n   &- \text{liczba sekwencji wejściowych $n = \sum_{c \in C} n_{c}.$}
         \end{align*}
 
         Wykorzystano również dodatkowe miary jakości, które zostały zastosowane do oceny jakości utworzonych grup przez potok przetwarzania. Pierwszą wykorzystaną miarą jest znormalizowana informacja wzajemna (ang. \textit{Normalized mutual information, NMI}) i służy do oceny jakości grup, drugą jest czułość (ang. \textit{sensitivity}), która wykorzystana jest do oceny reprezentantów grup. Miary zostały zdefiniowane odpowiednio wzorami:
@@ -310,6 +315,7 @@
                 \end{figure}
 
                 \begin{table}\centering
+                  \todo{RN:rozbić tabele na metody?}
                     \caption{Jakość grup oraz reprezentantów wykorzystanych w klasyfikacji taksonomicznej.}\label{Table:Experiment:RelativeQuality}
 
                     \begin{tabularx}{\textwidth}{|c|R|R||R|R|}
