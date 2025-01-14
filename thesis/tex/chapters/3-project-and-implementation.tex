@@ -5,9 +5,27 @@
 \todo{To ważne: tutaj jeszcze raz cel (trochę rozwinąć) oraz zrobić akapit dlaczego w ramach realizacji celu rzeba algorytm grupoowania i inne elementy wskazane w wymaganiach}
 
     % ===== ===== ===== =====
+    % ANALIZA CELU PRACY
+    % ===== ===== ===== ===== 
+    \subsection{Analiza celu pracy}
+        
+        Celem pracy jest stworzenie aplikacji umożliwiającej użytkownikowi zlecanie analiz materiału genetycznego DNA z wielu organizmów, który został pobrany ze środowiska. Aplikacja powinna agregować wyniki tego procesu w formie czytelnej dla człowieka. Będzie ona wykorzystywać bazę danych sekwencji genetycznych. Aplikacja będzie zawierać algorytm grupowania sekwencji oraz wyboru reprezentantów, które zapewnią usprawnienie procesu analiz danych. Zostaną zastosowane modele uczenia maszynowego.
+
+        Najbardziej rozpowszechnioną i stosowaną metodą analizy materiału genetycznego jest klasyfikacja taksonomiczna sekwencji. Pozwala ona określenie, do jakich organizmów nalezą sekwencje zawarte w poddanym analizie materiale genetycznym. Wymaga ona wyszukiwania sekwencji podobnych w bazach danych sekwencji genetycznych do sekwencji analizowanych, a następnie agregację zgromadzonych wyników.
+
+        Wykorzystanie algorytmu grupowania sekwencji genetycznych umożliwi podział sekwencji na grupy sekwencji podobnych, które będą reprezentowane przez wybraną sekwencję zwaną reprezentantem. Wyszukiwanie w bazie danych sekwencji reprezentantów zamiast wszystkich sekwencji znacząco zredukuje liczbę analizowanych sekwencji, co pozwoli na przyśpieszenie całego procesu analizy materiału genetycznego, ponieważ to wyszukiwanie sekwencji podobnych w bazie danych sekwencji jest najbardziej czasochłonnym elementem analizy. Wybór reprezentantów będzie realizowany za pomocą algorytmu, który pozwoli na wybór sekwencji, która najlepiej reprezentuje swoje grupy.
+
+        Ponadto wykorzystanie wysokowydajnego języka programowania pozwoli na minimalizację narzutu obliczeniowego związanego z aplikacją, a zastosowanie ustrukturyzowanego formatu zapisu wyników całego procesu pozwoli na dalsze analizie wyników oraz ich prostą wizualizację.
+
+        Natomiast zastosowanie modeli uczenia maszynowego może usprawnić proces analizy materiału genetycznego oraz zwiększyć jakość wyników otrzymanych za pomocą opisanej optymalizacji poprzez identyfikację ukrytych wzorców i zależności między sekwencjami genetycznymi, które wpływają na ich podobieństwo.
+
+
+    % ===== ===== ===== =====
     % WYMAGANIA FUNKCJONALNE I NIEFUNKCJONALNE
     % ===== ===== ===== ===== 
     \subsection{Wymagania funkcjonalne i niefunkcjonalne}
+
+        Aby zrealizować postawiony cel, aplikacja musi spełniać wymagania:
 
         \subsubsection{Wymagania funkcjonalne}
 
