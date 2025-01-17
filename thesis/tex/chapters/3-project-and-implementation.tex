@@ -87,7 +87,7 @@
 
         Centralnym elementem rozwiązania jest potok przetwarzania, zaprojektowany z myślą o elastycznej konfiguracji oraz możliwości zastosowania różnych metod grupowania sekwencji DNA. Elementy potoku zostały zaimplementowane w bibliotece \textit{exquisitor-core}, w postaci funkcji oraz rekordów. Realizacja potoku została umieszczona w aplikacji konsolowej, która wykorzystuje tę bibliotekę. Aplikacja umożliwia uruchamianie i konfigurację potoku, oferując dostęp do dostępnych metod. Zawiera również polecenia pomocnicze, które zostały przygotowane w celu przeprowadzenia eksperymentów.
 
-        Dodatkowo stworzono aplikację internetową, oferującą prosty interfejs w postaci strony internetowej. Umożliwia ona użytkownikowi zlecanie klasyfikacji taksonomicznej dla przesłanych sekwencji DNA.\@Do realizacji zleconych zadań aplikacja internetowa korzysta z aplikacji konsolowej.
+        Dodatkowo stworzono aplikację internetową, oferującą prosty interfejs w postaci strony internetowej. Umożliwia ona użytkownikowi zlecanie klasyfikacji taksonomicznej dla przesłanych sekwencji DNA. Do realizacji zleconych zadań aplikacja internetowa korzysta z aplikacji konsolowej.
 
         Ostatnim komponentem rozwiązania jest sieć neuronowa, której elementy zostały zawarte w bibliotece \textit{exquisitor-core}. 
 
@@ -161,14 +161,14 @@
             \end{figure}
 
         \subsubsection{Biblioteka \textit{exquisitor-core}}
-            Podstawę rozwiązania stanowi biblioteka \textit{exqusitor-core} zawarta w skrzynce (ang. \textit{crate}) \textit{exquisitor-core}, stworzona w języku Rust. Zawiera ona implementację wszystkich elementów potoku, które wymagane są przez aplikacje oraz dodatkowo opakowywuje implementację algorytmów k-medoidów. Biblioteka podzielona jest na kilka modułów ze względu na odpowiedzialność:
+            Podstawę rozwiązania stanowi biblioteka \textit{exqusitor-core} zawarta w skrzynce (ang. \textit{crate}) \textit{exquisitor-core}, stworzona w języku Rust. Zawiera ona implementację wszystkich elementów potoku, które wymagane są przez aplikacje oraz dodatkowo opakowuje implementację algorytmów k-medoidów. Biblioteka podzielona jest na kilka modułów ze względu na odpowiedzialność:
 
             \begin{itemize}
                 \item {
                     Moduł \textit{io} odpowiadający za operacje wejścia/wyjścia dla sekwencji DNA zapisanych w formatach FASTA oraz FASTQ. Zawiera on definicje struktur przechowujących sekwencje, metody do ich odczytu i zapisu oraz cechy umożliwiające opis funkcjonalności związanych z obsługą tych formatów.
                 }
                 \item {
-                    Moduł \textit{clustering} realizujący proces grupowania sekwencji DNA na podstawie ich niepodobieństwa. Zawiera metody do obliczania niepodobieństwa między sekwencjami DNA oraz wektorami liczbowymi, a także algorytmy grupowania obiektów. Dodatkowo, moduł zawiera strukturę reprezentującą grupę, składającą się z reprezentanta i elementów tej grupy. Zawiera także funkcję do budowy macierzy niepodobieństwa oraz cechy, które definiują interfejs, z którego korzystają inne elementy biblioteki, umożliwia to implementację własnych struktur i funkcji, pozwalając na elastyczne rozszerzanie systemu o nowe metody.
+                    Moduł \textit{clustering} realizujący proces grupowania sekwencji DNA na podstawie ich niepodobieństwa. Zawiera metody do obliczania niepodobieństwa między sekwencjami DNA oraz wektorami liczbowymi, a także algorytmy grupowania obiektów. Dodatkowo moduł zawiera strukturę reprezentującą grupę, składającą się z reprezentanta i elementów tej grupy. Zawiera także funkcję do budowy macierzy niepodobieństwa oraz cechy, które definiują interfejs, z którego korzystają inne elementy biblioteki, umożliwia to implementację własnych struktur i funkcji, pozwalając na elastyczne rozszerzanie systemu o nowe metody.
                 }
                 \item {
                     Moduł \textit{neural}, który zawiera definicję modelu sieci neuronowej, implementację funkcji straty oraz funkcjonalności odpowiedzialnych za wczytanie oraz przygotowanie danych dla sieci neuronowej, w tym danych uczących. Ponadto zawiera on funkcję trenującą sieć.
@@ -183,19 +183,19 @@
         \subsubsection{Aplikacja konsolowa \textit{exquisitor-cli}}
             Główną aplikacją, która implementuje pełny potok przetwarzania i realizuje klasyfikację taksonomiczną, jest aplikacja konsolowa \textit{exquisitor-cli} zawarta w skrzynce o tej samej nazwie. Aplikacja oferuje standardowy interfejs użytkownika typowy dla aplikacji konsolowych i wykonuje komendy wywołane przez użytkownika. Interfejs tekstowy umożliwia uruchamianie aplikacji w środowiskach bez dostępu do środowiska graficznego.
 
-            Aplikacja implementuje nastepujące komendy:
+            Aplikacja implementuje następujące komendy:
             \begin{itemize}
                 \item {
                     \textit{experiment} --- umożliwia uruchomienie wskazanej komendy w ramach eksperymentu. Pozwala na monitorowanie wykorzystania pamięci RAM oraz procesora oraz określenie maksymalnego czasu trwania eksperymentu, po których zostanie przerwany. Wykorzystywana jest do przeprowadzania eksperymentów. W wyniku działania generuje plik w formacie CSV zawierający monitorowane dane z zadaną rozdzielczością.
                 }
                 \item {
-                    \textit{compare} --- pozwala na porównanie dwóch zestawów wyników klasyfikacji taksonomicznej wyliczając jakość względną jednego zestawu do drugiego. Wyniki są wyświetlane na ekranie lub, w przypadku podania ścieżki, zapisywane do pliku.
+                    \textit{compare} --- pozwala na porównanie dwóch zestawów wyników klasyfikacji taksonomicznej, wyliczając jakość względną jednego zestawu do drugiego. Wyniki są wyświetlane na ekranie lub, w przypadku podania ścieżki, zapisywane do pliku.
                 }
                 \item {
                     \textit{compare-clusters} --- pozwala na porównanie jakości dwóch zestawów grup, które zostały otrzymane w wyniku zastosowania algorytmu grupowania.
                 }
                 \item {
-                    \textit{search} --- pozwala na wyszukanie sekwencji w bazie danych bez wykonywania całego potoku przetwarzania. Wyniki działania komendy zapisywane są w wskazanym pliku.
+                    \textit{search} --- pozwala na wyszukanie sekwencji w bazie danych bez wykonywania całego potoku przetwarzania. Wyniki działania komendy zapisywane są we wskazanym pliku.
                 }
                 \item {
                     \textit{run} --- jest główną komendą, która realizuje potok przetwarzania. Uruchamia potok przetwarzania dla sekwencji DNA zawartych w podanym pliku. Pozwala na konfigurację wykorzystywanej metody grupowania sekwencji, algorytmu grupowania sekwencji oraz ich parametrów. Dodatkowo umożliwia zapisanie grup otrzymanych w wyniku grupowania. Wymaga podania ścieżki do programu \textit{blastn} oraz ścieżki do jego bazy danych. Wyniki zapisuje do pliku, a w przypadku braku podania ścieżki na ekranie.
@@ -346,10 +346,10 @@
 
         \subsubsection{Sztuczna sieć neuronowa}
 
-            Nową zaproponowaną metodą jest wykorzystanie sztucznej sieci neuronowej do redukcji wymiarowości wejściowych sekwencji DNA do postaci wektora cech o wymiarze $\mathbb{R}^{64}$. Sztuczna sieć neuronowa wykorzystuje uczenie kontrastowe\cite{}, które umożliwia naukę reprezentacji danych wejściowych z zachowaniem właśności podobieństwa oraz niepodobieństwa między wejściowymi sekwencjami. Niepodobieństwo między sekwencjami zostanie obliczone poprzez obliczenie niepodobieństwa kosinusowego wyrażonego wzorem~\eqref{Equation:CosineDissimilarity} między wektorami cech sekwencji DNA.
+            Nową zaproponowaną metodą jest wykorzystanie sztucznej sieci neuronowej do redukcji wymiarowości wejściowych sekwencji DNA do postaci wektora cech o wymiarze $\mathbb{R}^{64}$. Sztuczna sieć neuronowa wykorzystuje uczenie kontrastowe, które umożliwia naukę reprezentacji danych wejściowych z zachowaniem właśności podobieństwa oraz niepodobieństwa między wejściowymi sekwencjami. Niepodobieństwo między sekwencjami zostanie obliczone poprzez obliczenie niepodobieństwa kosinusowego wyrażonego wzorem~\eqref{Equation:CosineDissimilarity} między wektorami cech sekwencji DNA.
 
             \paragraph{Architektura}
-                Architektura modelu sztucznej sieci neuronowej składa się z dwóch bloków splotowych oraz bloku perceptronów wielowarstwowych. Każdy z bloków splotowych zawiera warstwę splotową oraz warstwę normalizacji wsadowej i jest opdowiedzialny za ekstrakcję niskopoziomowych cech sekwencji. Ostatni blok splotowy jest połaczony z blokiem perceptronów wielowarstwowych za pomocą warstwy spłaszczającej. Blok perceptronów wielowarstwowych odpowiada za tworzenie reprezentacji sekwencji, składa się z trzech warstw, które wykorzystują funkcję aktywacji GELU\cite{GELU}, z wyjątkiem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$.
+                Architektura modelu sztucznej sieci neuronowej składa się z dwóch bloków splotowych oraz bloku perceptronów wielowarstwowych. Każdy z bloków splotowych zawiera warstwę splotową oraz warstwę normalizacji wsadowej i jest opdowiedzialny za ekstrakcję niskopoziomowych cech sekwencji. Ostatni blok splotowy jest połaczony z blokiem perceptronów wielowarstwowych za pomocą warstwy spłaszczającej. Blok perceptronów wielowarstwowych odpowiada za tworzenie reprezentacji sekwencji, składa się z trzech warstw, które wykorzystują funkcję aktywacji GELU\cite{Hendrycks:2016}, z wyjątkiem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$.
 
                 Schematycznie architektura została przedstawiona na rysunku~\ref{Picture:NeuralModel}. 
 
@@ -363,13 +363,13 @@
                 \end{figure}
 
             \paragraph{Dane wejściowe}
-                Wejściem modelu są sekwencje DNA o długości $150$, które są zakodowane do postaci wektora o wymiarach $1x600$ za pomocą kodu 1 z n\cite{Kod1zN}.
+                Wejściem modelu są sekwencje DNA o długości $150$, które są zakodowane do postaci wektora o wymiarach $1x600$ za pomocą kodu 1 z n\cite{HarrisDavid:2007}.
             
             \paragraph{Przykłady uczące}
                 Przykłady uczące oraz walidacyjne składają się z kotwicy (ang. \textit{anchor}), sekwencji pozytywnej (ang. \textit{positive}) czyli podobnej do kotwicy oraz sekwencji negatywnej (ang. \textit{negative}) niepodobnej do kotwicy.
             
             \paragraph{Zbiór danych}
-                Zbiór danych uczących oraz walidacyjnych został stworzony na podstawie pierwszej próbki sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz2019}. Próbka zawiera symulowane dane metagenomiczne z mikrobiomu skóry człowieka. Przykłady zostały uzyskane poprzez losowanie kotwic ze zbioru oraz modyfikację tych kotwic w celu stworzenia sekwencji pozytywnej i negatywnej. Modyfikacja polegała na zamianie punktowej danego nukleotydu na inny. W przypadku sekwencji pozytywnej zmiana obejmowała od $0\%$ do $20\%$ długości kotwicy, natomiast w przypadku sekwencji negatywnej od $20\%$ do $80\%$ długości kotwicy.
+                Zbiór danych uczących oraz walidacyjnych został stworzony na podstawie pierwszej próbki sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019}. Próbka zawiera symulowane dane metagenomiczne z mikrobiomu skóry człowieka. Przykłady zostały uzyskane poprzez losowanie kotwic ze zbioru oraz modyfikację tych kotwic w celu stworzenia sekwencji pozytywnej i negatywnej. Modyfikacja polegała na zamianie punktowej danego nukleotydu na inny. W przypadku sekwencji pozytywnej zmiana obejmowała od $0\%$ do $20\%$ długości kotwicy, natomiast w przypadku sekwencji negatywnej od $20\%$ do $80\%$ długości kotwicy.
 
             \paragraph{Funkcja straty}
                 Wykorzystano funkcję straty zdefiniowaną jako:
@@ -422,7 +422,7 @@
 
             W pracy wykorzystano języki programowania Rust\cite{Rust} oraz Python\cite{Python}.
             
-            Język Python był wykorzystywany w początkowych fazach rozwoju pracy jako narzędzie do prototypowania rozwiązania oraz w ostatecznej wersji pracy do stworzenia skryptów automatyzyjących niektóre czynności związane z nauką sieci neuronowej oraz do generowania wykresów. Został on wybrany ze względu na bogatą bibliotekę standardową, dostępność wielu bibliotek zewnętrznych oraz wieloplatformowość.
+            Język Python był wykorzystywany w początkowych fazach rozwoju pracy jako narzędzie do prototypowania rozwiązania oraz w ostatecznej wersji pracy do stworzenia skryptów automatyzujących niektóre czynności związane z nauką sieci neuronowej, oraz do generowania wykresów. Został on wybrany ze względu na bogatą bibliotekę standardową, dostępność wielu bibliotek zewnętrznych oraz wieloplatformowość.
             
             Język Rust został użyty do stworzenia wszystkich aplikacji oraz programów. Wybrany został ze względu na wysokość wydajność, bezpieczne zarządzanie pamięcią oraz dużą dostępność bibliotek programistycznych, które można zainstalować za pomocą menedżera pakietów \textit{cargo}\cite{Rust:cargo} dołączonego wraz ze środowiskiem języka Rust. Dodatkowymi atutami, które przyczyniły się do wyboru języka, jest bogaty system typów oraz kompilacja do kodu maszynowego. 
 
@@ -433,11 +433,11 @@
 
             Aplikacja konsolowa została oparta na bibliotece \textit{clap}\cite{Rust:clap}, która pozwoliła na zdefiniowanie interfejsu użytkownika, w postaci dostępnych poleceń wraz z parametrami.
 
-            Bibioteka \textit{exquisitor-core} korzysta z biblioteki \textit{kmedoids}\cite{Schubert:2022}, która implementuje grupowanie k-medoidów oraz bibliotek pomocniczych \textit{num-traits}, \textit{tempfiles} oraz \textit{float-cmp}, które wykorzystywane są w testach jednostkowych.
+            Biblioteka \textit{exquisitor-core} korzysta z biblioteki \textit{kmedoids}\cite{Schubert:2022}, która implementuje grupowanie k-medoidów oraz bibliotek pomocniczych \textit{num-traits}, \textit{tempfiles} oraz \textit{float-cmp}, które wykorzystywane są w testach jednostkowych.
 
             Model sieci neuronowej został zbudowany przy użyciu biblioteki \textit{burn}\cite{Rust:burn} oraz silnika obliczeniowego \textit{wgpu}.
 
-            Ponadto w obu aplikacjach oraz bibliotece wykorzystywana jest biblioteka \textit{serde}\cite{Rust:serde} umożliwiającą serializację i deserializację danych do różnych formatów oraz biblioteka \textit{rand}\cite{Rust:rand} zapewniająca generator liczb pseudolosowych.
+            Ponadto w obu aplikacjach oraz bibliotece wykorzystywana jest biblioteka \textit{serde}\cite{Rust:serde} umożliwiającą serializację i deserializację danych do różnych formatów, oraz biblioteka \textit{rand}\cite{Rust:rand} zapewniająca generator liczb pseudolosowych.
 
         \subsubsection{Narzędzia}
             
@@ -477,10 +477,10 @@
                                 \texttt{search} - główne polecenie aplikacji,
                             }
                             \item {
-                                \texttt{-\phantom{}-log-level INFO} - argument ustawiający poziom ważności komunikatów na informacyjny,
+                                \texttt{-\phantom{}-log-level INFO} — argument ustawiający poziom ważności komunikatów na informacyjny,
                             }
                             \item {
-                                \texttt{-\phantom{}-input tmp.fasta} - argument wskazujący plik wejściowy.
+                                \texttt{-\phantom{}-input tmp.fasta} — argument wskazujący plik wejściowy.
                             }
                         \end{itemize}
                         Ustawienie poziomu ważności komunikatów musi nastąpić przed podaniem głównego polecenia aplikacji. Domyślnie poziom ważności komunikatów jest ustawiony na informacyjny.
@@ -495,13 +495,13 @@
                         Aplikacja wyświetla komunikaty o błędach w przypadku nieprawidłowego użycia polecenia oraz wprowadzenia nieobsługiwanych argumentów. Typowe komunikaty o błędach mogą obejmować:
                         \begin{itemize}
                             \item {
-                                \texttt{error: the following required arguments were not provided} – gdy użytkownik nie wprowadzi wszystkich wymaganych argumentów,
+                                \texttt{error: the following required arguments were not provided} — gdy użytkownik nie wprowadzi wszystkich wymaganych argumentów,
                             }
                             \item {
-                                \texttt{error: unexpected argument <argument> found} – gdy użytkownik wprowadzi argument, który nie jest obsługiwany,
+                                \texttt{error: unexpected argument <argument> found} — gdy użytkownik wprowadzi argument, który nie jest obsługiwany,
                             }
                             \item {
-                                \texttt{Error: No such file or directory (os error 2)} – gdy użytkownik podał ścieżkę do pliku lub programu, który nie istnieje.
+                                \texttt{Error: No such file or directory (os error 2)} — gdy użytkownik podał ścieżkę do pliku lub programu, który nie istnieje.
                             }
                         \end{itemize}
                     }
@@ -526,16 +526,16 @@
                         Aplikacja składa się z 4 ekranów użytkownika:
                         \begin{itemize}
                             \item {
-                                \textbf{Strona główna} - na tym ekranie znajduje się lista dziesięciu ostatnio przeprowadzonych zleceń, formularz do wyszukiwania zleceń po nazwie lub identyfikatorze oraz przycisk do dodawania nowych zleceń. Jest to główny ekran aplikacji.
+                                \textbf{Strona główna} — na tym ekranie znajduje się lista dziesięciu ostatnio przeprowadzonych zleceń, formularz do wyszukiwania zleceń po nazwie lub identyfikatorze oraz przycisk do dodawania nowych zleceń. Jest to główny ekran aplikacji.
                                 }
                             \item {
-                                \textbf{Strona zlecenia} - ekran wyświetlający szczegóły konkretnego zlecenia, w tym identyfikator, opis, status, daty rozpoczęcia i zakończenia oraz wyniki.
+                                \textbf{Strona zlecenia} — ekran wyświetlający szczegóły konkretnego zlecenia, w tym identyfikator, opis, status, daty rozpoczęcia i zakończenia oraz wyniki.
                             }
                             \item {
-                                \textbf{Strona dodania zlecenia} - ekran, na którym użytkownik może wprowadzić nowe zlecenie. 
+                                \textbf{Strona dodania zlecenia} — ekran, na którym użytkownik może wprowadzić nowe zlecenie. 
                             }
                             \item {
-                                \textbf{Ekran błędu} - ekran odpowiedzialny za wyświetlanie komunikatów o błędach
+                                \textbf{Ekran błędu} — ekran odpowiedzialny za wyświetlanie komunikatów o błędach
                             }
                         \end{itemize}
                         Na rysunku~\ref{Picture:App:WebScreen} znajduje się zrzut ekranu z głównego ekranu aplikacji internetowej.
@@ -637,10 +637,10 @@
                         \end{itemize}
                     }
                     \item {
-                        Przejdź do folderu \texttt{exquisitor}, oraz uruchom polecenie \texttt{cargo build -\phantom{}-release -\phantom{}-bins}.
+                        Przejdź do folderu \texttt{exquisitor} oraz uruchom polecenie \texttt{cargo build -\phantom{}-release -\phantom{}-bins}.
                     }
                     \item {
-                        Aplikacja konsolowa oraz internetowana powinny być skompilowane i znajdują się w folderze \texttt{exquisitor/target/release}. 
+                        Aplikacja konsolowa oraz internetowa powinny być skompilowane i znajdują się w folderze \texttt{exquisitor/target/release}. 
                         Skopiuj pliki wykonywalne aplikacji do docelowej lokacji.
                     }
                     \item{
@@ -687,16 +687,16 @@
                 gdzie,
                 \begin{itemize}
                     \item {
-                        \texttt{-\phantom{}-input sequences.fasta} - plik zawierający sekwencję do wyszukania,
+                        \texttt{-\phantom{}-input sequences.fasta} — plik zawierający sekwencję do wyszukania,
                     }
                     \item {
-                        \texttt{-\phantom{}-output search\_results} - plik wyjściowy, do którego zapisane zostaną wyniki,
+                        \texttt{-\phantom{}-output search\_results} — plik wyjściowy, do którego zapisane zostaną wyniki,
                     }
                     \item {
-                        \texttt{-\phantom{}-blast-db /blast/db} - ścieżka do bazy danych sekwencji nukleotydów,
+                        \texttt{-\phantom{}-blast-db /blast/db} — ścieżka do bazy danych sekwencji nukleotydów,
                     }
                     \item {
-                        \texttt{-\phantom{}-blast /blast/executables/bin/blastn} - ścieżka do pliku wykonywalnego programu \texttt{BLASTn}.
+                        \texttt{-\phantom{}-blast /blast/executables/bin/blastn} — ścieżka do pliku wykonywalnego programu \texttt{BLASTn}.
                     }
                 \end{itemize}
 
