@@ -2,8 +2,6 @@
 \cleardoublepage
 \section{Projekt i Implementacja}
 
-\todo{To ważne: tutaj jeszcze raz cel (trochę rozwinąć) oraz zrobić akapit dlaczego w ramach realizacji celu rzeba algorytm grupoowania i inne elementy wskazane w wymaganiach}
-
     % ===== ===== ===== =====
     % ANALIZA CELU PRACY
     % ===== ===== ===== ===== 
@@ -32,7 +30,20 @@
             \begin{itemize}
                 \item Aplikacja powinna umożliwiać przeprowadzanie klasyfikacji taksonomicznej dla wprowadzonych sekwencji.
                 \item Aplikacja powinna umożliwiać wybór metody grupowania sekwencji genetycznych.
-                \item Aplikacja powinna zawierać zaimplementowane trzy metody grupowania sekwencji genetycznych.
+                \item {
+                    Aplikacja powinna zawierać zaimplementowane trzy metody grupowania sekwencji genetycznych:
+                    \begin{itemize}
+                        \item {
+                            metodę klasyczną wykorzystującą algorytm Needlemana-Wunscha,
+                        }
+                        \item {
+                            metodę klasyczną wykorzystującą $k$-mery,
+                        }
+                        \item {
+                            nową metodą opartą na sztucznych sieciach neuronowych.
+                        }
+                    \end{itemize}
+                }
                 \item Aplikacja powinna umożliwiać porównanie jakości klasyfikacji taksonomicznej wykonanej przy użyciu różnych metod grupowania.
                 \item Aplikacja powinna umożliwiać zapis wyników w formacie JSON.
             \end{itemize}

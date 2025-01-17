@@ -20,19 +20,19 @@ N = 13
     # Methods
 METHODS = {
     "bs": {
-        "name": "Brak metody",
+        "name": "BZ",
         "search_type": ESearchType.Base,
     },
     "nw": {
-        "name": "Zmodyfikowany algorytm Needlemana-Wunscha",
+        "name": "NW",
         "search_type": ESearchType.Advanced,
     },
     "kmer": {
-        "name": "Metoda zanurzeń k-merów",
+        "name": "$k$-mer",
         "search_type": ESearchType.Advanced,
     },
     "neural": {
-        "name": "Sztuczna sieć neuronowa",
+        "name": "SSN",
         "search_type": ESearchType.Advanced,
     }
 }
@@ -367,7 +367,7 @@ def plot_execution_duration(plot, methods, count, experiments: Experiments):
 
         plot.plot([xi + jit for xi in x], line, "--" + next(m), label=label, alpha = 0.7)
 
-    plot.title("Czas wykonania klasyfikacji taksonomicznej")
+    # plot.title("Czas wykonania klasyfikacji taksonomicznej")
     plot.legend()
     plot.xlabel("Liczba sekwencji")
     plot.xticks(x, x_labels)
@@ -550,11 +550,11 @@ def plot_quality(plot, methods, count, experiments: Experiments, reference: str)
         print(label, "WAQ:", weighted_average_quality, round(weighted_average_quality, 3))
         qualities.append(line)
 
-    plot.title("Jakość klasyfikacji taksonomicznej względem wykonania bez potoku przetwarzania")
+    # plot.title("Jakość klasyfikacji taksonomicznej względem wykonania bez potoku przetwarzania")
     plot.legend()
     plot.xlabel("Liczba sekwencji")
     plot.xticks(x, x_labels)
-    plot.ylabel("Jakość względna [%]")
+    plot.ylabel("Jakość względna")
     # plot.show()
 
     return plot, qualities
@@ -593,7 +593,7 @@ def generate_quality_latex_table(qualities):
     
     return result
 
-def plot_relative_quality_latex_table(plot, count, experiments):
+def plot_relative_quality_latex_table(plot, count, experiments, nmi: bool = True):
     plot.figure(figsize=FIGSIZE)
     x, x_labels = generate_xs(count)
     jitter = generate_jitter(-0.02, 0.02)
@@ -610,29 +610,31 @@ def plot_relative_quality_latex_table(plot, count, experiments):
         nmi2 = NMI(nw, neural)
         nmi3 = NMI(kmer, neural)
 
-        nmi1_s.append(nmi1[0])
-        nmi2_s.append(nmi2[0])
-        nmi3_s.append(nmi3[0]) 
+        idx = 0 if nmi else 1
+
+        nmi1_s.append(nmi1[idx])
+        nmi2_s.append(nmi2[idx])
+        nmi3_s.append(nmi3[idx]) 
 
     for nmi, label in zip(
         [nmi1_s, nmi2_s, nmi3_s],
         [
             "NW - $k$-mer",
-            "NW - SNN",
-            "$k$-mer - SNN"
+            "NW - SSN",
+            "$k$-mer - SSN"
         ]):
         jit = next(jitter)
         plot.plot([xi + jit for xi in x], nmi, "--" + next(m), label=label, alpha=0.7)
 
-    plot.title("Jakość względna grup wykorzystywanych w klasyfikacji taksonomicznej.")
+    # plot.title("Jakość względna grup wykorzystywanych w klasyfikacji taksonomicznej.")
     plot.legend()
     plot.xlabel("Liczba sekwencji")
     plot.xticks(x, x_labels)
-    plot.ylabel("NMI")
+    plot.ylabel("NMI" if nmi else "Czułość")
 
     return plot
 
-def generate_relative_quality_latex_table(count, experiments):
+def generate_relative_quality_latex_table(count, experiments, nmi: bool = True):
     result = ""
 
     nmi1_s, nmi2_s, nmi3_s = 0, 0, 0
@@ -642,9 +644,6 @@ def generate_relative_quality_latex_table(count, experiments):
         experiments["kmer"],
         experiments["neural"]
     )):
-
-        result += f"\\multirow{{3}}{{*}}{{{2 ** i}}}"
-
         nmi1 = NMI(nw, kmer)
         nmi2 = NMI(nw, neural)
         nmi3 = NMI(kmer, neural)
@@ -653,50 +652,8 @@ def generate_relative_quality_latex_table(count, experiments):
         nmi2_s += nmi2[0]
         nmi3_s += nmi3[0]
 
-        # first 
-        result += " & "
-        result += " & ".join(
-            map(
-                str,
-                [
-                    "NW",
-                    "$k$-mer",
-                    *nmi1,
-                    # sensitivity(nw, kmer)
-                ]
-            )
-        )
-        result += "\\\\ \\cline{2-5} \n"
-
-        # second
-        result += " & "
-        result += " & ".join(
-            map(
-                str,
-                [
-                    "NW",
-                    "SNN",
-                    *nmi2,
-                    # sensitivity(nw, neural)
-                ]
-            )
-        )
-        result += "\\\\ \\cline{2-5} \n"
-
-        # third
-        result += " & "
-        result += " & ".join(
-            map(
-                str,
-                [
-                    "$k$-mer",
-                    "SSN",
-                    *nmi3,
-                    # sensitivity(kmer, neural)
-                ]
-            )
-        )
-        result += "\\\\ \\hline \n"
+        idx = 0 if nmi else 1
+        result += " & ".join(map(str, [2 ** i, nmi1[idx], nmi2[idx], nmi3[idx]])) + "\\\\ \\hline \n"
     
     print("NMI:", nmi1_s / count, nmi2_s / count, nmi3_s / count)
 
@@ -728,18 +685,27 @@ def main():
         handle.write(duration)
     
     quality = generate_quality_latex_table(qualities)
-    relative_quality = generate_relative_quality_latex_table(N, experiments)
+    relative_quality_nmi = generate_relative_quality_latex_table(N, experiments)
+    relative_quality_sensitivity = generate_relative_quality_latex_table(N, experiments, False)
     save_plot(
         plot_relative_quality_latex_table(plt, N, experiments),
-        "experiment_relative_quality.png",
+        "experiment_relative_quality_nmi.png",
+        dpi = 500
+    )
+    save_plot(
+        plot_relative_quality_latex_table(plt, N, experiments, False),
+        "experiment_relative_quality_sensitivity.png",
         dpi = 500
     )
     
     with open("quality.tex", "w") as handle:
         handle.write(quality)
 
-    with open("rel_quality.tex", "w") as handle:
-        handle.write(relative_quality)
+    with open("rel_quality_nmi.tex", "w") as handle:
+        handle.write(relative_quality_nmi)
+
+    with open("rel_quality_sensitivity.tex", "w") as handle:
+        handle.write(relative_quality_sensitivity)
 
 # endregion
 
