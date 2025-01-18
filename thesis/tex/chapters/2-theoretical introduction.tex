@@ -22,7 +22,7 @@
 
         \subsubsection{Uczenie kontrastowe}
             
-            Uczenie kontrastowe (ang. \textit{contrastive learning})\cite{Bromley1993} jest metodą uczenia maszynowego polegającą na maksymalizacji podobieństwa między podobnymi próbkami oraz minimalizacji podobieństwa między niepodobnymi próbkami. Wykorzystuje ona miary niepodobieństwa między reprezentacjami do nauki odróżniania kluczowych cech próbek. Zastosowanie tej metody pozwala na redukcję wymiarowości danych przy jednoczesnym zachowaniu właściwości podobieństwa i niepodobieństwa między danymi wejściowymi.
+            Uczenie kontrastowe (ang. \textit{contrastive learning}) \cite{Bromley1993} jest metodą uczenia maszynowego polegającą na maksymalizacji podobieństwa między podobnymi próbkami oraz minimalizacji podobieństwa między niepodobnymi próbkami. Wykorzystuje ona miary niepodobieństwa między reprezentacjami do nauki odróżniania kluczowych cech próbek. Zastosowanie tej metody pozwala na redukcję wymiarowości danych przy jednoczesnym zachowaniu właściwości podobieństwa i niepodobieństwa między danymi wejściowymi.
 
         \subsubsection{Podobieństwo kosinusowe}
 
@@ -51,7 +51,7 @@
 
         \subsubsection{Niepodobieństwo kosinusowe}
 
-            Niepodobieństwo kosinusowe to miara, która określa jak bardzo wektory różnią się pod względem kierunku. Wyrażone jest wzorem:
+            Niepodobieństwo kosinusowe to miara, która określa, jak bardzo wektory różnią się pod względem kierunku. Wyrażone jest wzorem:
 
             \begin{equation}
                 dissimilarity_{cosine}(A, B) = 1 - similarity_{cosine}(A, B)
@@ -92,138 +92,77 @@
 
         \subsubsection{Klasyfikacja taksonomiczna}
 
-            Klasyfikacja taksonomiczna sekwencji DNA to proces przypisywania sekwencji DNA do określonych grup taksonomicznych takich jak gatunki czy rodzaje, na podstawie ich podobieńśtwa do znanych sekwencji w bazach sekwencji genetycznych.
+            Klasyfikacja taksonomiczna sekwencji DNA to proces przypisywania sekwencji DNA do określonych grup taksonomicznych takich jak gatunki czy rodzaje, na podstawie ich podobieństwa do znanych sekwencji w bazach sekwencji genetycznych.
 
-        \subsubsection{Algorytm k-medoidów}
+        \subsubsection{Algorytm $k$-medoidów}
 
-            Algorytm k-medoidów to metoda grupowania danych, w której dane podzielone są na $k$ grup, a reprezentantem każdej grupy jest rzeczywisty punkt danych, zwany medoidem. Algorytm znajduje zastosowanie w problemach, w których nie można wyznaczyć średniej lub centroidu np. w przypadku danych kategorycznych.
+            Algorytm $k$-medoidów to metoda grupowania danych, w której dane podzielone są na $k$ grup, a reprezentantem każdej grupy jest rzeczywisty punkt danych, zwany medoidem. Algorytm znajduje zastosowanie w problemach, w których nie można wyznaczyć średniej lub centroidu np. w przypadku danych kategorycznych.
 
     % ===== ===== ===== =====
     % PRZEGLĄD LITERATURY
     % ===== ===== ===== ===== 
     \subsection{Przegląd literatury}
 
-            \todo{RN: przeniosłem z początku rozdziału, bo tutaj lepiej pasuje, do złączenia z kolejnym podrozdziałem}
+        Badania nad klasyfikacją taksonomiczną sekwencji DNA cechują się dynamicznym rozwojem w ciągu ostatnich 25 lat. Wprowadzenie metod sekwencjonowania nowej generacji pozwoliło na analizę dużych ilości materiału genetycznego pochodzącego z różnych środowisk. Optymalizacja procesu klasyfikacji taksonomicznej stała się głównym kierunkiem rozwoju narzędzi do klasyfikacji, szczególnie w przypadku narzędzi opartych na bazach danych sekwencji genetycznych, ponieważ liczba sekwencji w tych bazach podwaja się średnio co 30 miesięcy~\cite{Benson:2008}.
 
-        \todo{
-            \begin{enumerate}
-                \item {podsumowanie dotychczasowych badań, publikacji i prac naukowych,}
-                \item {krótkie przedstawienie osiągnięć w analizowanych obszarze,}
-                \item {wskazanie luki badawczej}
-            \end{enumerate}
-        }
+        Historycznie jednym z pierwszych algorytmów, który umożliwił klasyfikację taksonomiczną był algorytm Needlemana-Wunscha\cite{Needleman:1970} opracowany w 1970 roku, który pozwalał na porównywanie sekwencji genetycznych. Jednak pierwszym rozwiązaniem, które pozwalało na klasyfikację taksonomiczną w rozsądnym czasie, było narzędzie stworzone w 1983 roku przez D. Lipmana i W. Wilbura\cite{Wilbur:1983}. Bazowało ono na podziale sekwencji na $k$-krotki, które są uogólnieniem $k$-merów i ich porównywaniu. Rozwinięciem tego rozwiązania był algorytm ,,BLAST'' przedstawiony w 1990 roku\cite{Altschul:1990} bazujący na $k$-merach oraz umożliwiający wyszukiwanie sekwencji podobnych w bazach NCBI. Innym podejściem powstałym w podobnym okresie było narzędzie ,,Clustal''\cite{Higgins:1988} stworzone w 1988 roku, które pozwalało na wyrównywanie wielu sekwencji genetycznych.
 
-        \todo{
-            DO NAPISANIA\\
-            \textbf{Przegląd literatury}
-            \begin{itemize}
-                \item Clustal
-                \item BLAST
-                \item MetaPhiAn2
-                \item Motus2
-                \item Centrifuge
-                \item Kraken
-            \end{itemize}
-            
-            \textbf{Luka badawcza}
-            Brak narzędzi korzystających ze sztucznych sieci neuronowych
-        }
+        Największy postęp w badaniach nastąpił jednak w ciągu ostatnich 15 lat, czego przykładem jest utworzenie w 2012 roku narzędzia ,,MetaPhlAn''\cite{Segata:2012}, które wykorzystuje geny markerowe do porównywania składu gatunkowego próbek metagenomicznych. Kolejnym podejściem opartym na genach markerowych jest narzędzie ,,mOTUs2''\cite{Milanese:2019}, które bazuje na identyfikacji i analizie markerów unikalnych dla specyficznych szczepów mikroorganizmów. Inne podejście zostało zastosowane w narzędziu ,,Centrifuge''\cite{Kim:2016} opracowanym w 2016 roku, które wykorzystuje indeksowanie sekwencji za pomocą transformacji Burrowsa-Wheelera\cite{Burrows:1994} oraz indeksu Ferraginy-Manziniego\cite{Ferragina:2000} w celu efektywne wyszukiwania sekwencji podobnych. Bardziej klasyczne podejście zostało zastosowane w narzędziu ,,Kraken''\cite{Wood:2014} przedstawionym w 2014 roku, które wykorzystuje $k$-mery wraz z indeksowaną bazą sekwencji.
+
+        Inną metodę optymalizacji procesu klasyfikacji taksonomicznej przedstawili Gautier i Lund w 2013 roku\cite{Gautier:2013}. Ich metoda opierała się na rozproszonej architekturze, w której serwer zwracał wskazówki dotyczące możliwych sekwencji do analizy na podstawie losowo wybranych sekwencji wejściowych, co pozwoliło na redukcję przesyłanych danych przez sieć. Nietypowe podejście do zadania klasyfikacji taksonomicznej przedstawiono w 2022 roku w narzędziu ,,BERTax''\cite{Mock:2022}. Narzędzie to wykorzystuje model typu transformer\cite{Transformers} do analizy sekwencji DNA, traktując je jako specyficzny język, na podstawie którego można dokonać przypisania bez potrzeby korzystania z baz referencyjnych. Kolejnym rozwiązaniem wykorzystującym modele uczenia maszynowego jest narzędzie ,,CGRclus''\cite{Alipour:2024}, które grupuje sekwencje DNA za pomocą dwuwymiarowej reprezentacji gier chaosu, łącząc nienadzorowane uczenie kontrastowe ze splotowymi sieciami neuronowymi.
+
+        Choć w ostatnich latach pojawiły się badania dotyczące klasyfikacji taksonomicznej z wykorzystaniem metod uczenia maszynowego, to wciąż brakuje prac skupiających się na zastosowaniu sztucznych sieci neuronowych z uczeniem kontrastowym do efektywnego grupowania sekwencji, co mogłoby znacząco przyspieszyć proces klasyfikacji przy użyciu dostępnych narzędzi.
 
     % ===== ===== ===== =====
     % METODY I PODEJŚCIA
     % ===== ===== ===== ===== 
     \subsection{Metody i podejścia}
 
-        \todo{
-            \begin{enumerate}
-                \item {Przedstawienie najpopularniejszych metod, podejść lub algorytmów wykorzystywanych w literaturze przedmiotu w kontekście tematu pracy.,}
-                \item {Opis sposobów, w jaki te metody zostały zaadoptowane lub zmodyfikowane w pracy.}
-                \item {Wskazanie zalet i wad poszczególnych metod.}
-            \end{enumerate}
-        }
+        W pracy zostaną wykorzystane dwa klasyczne podejścia do klasyfikacji taksonomicznej sekwencji genetycznych. Pierwsze z nich opiera się na wyrównaniu sekwencji, przy czym zostanie wykorzystany zmodyfikowany algorytm Needlemana-Wunscha. Drugie podejście wykorzystuje $k$-mery, w którym do obliczeń zostana zastosowane proste zanurzenia oraz odległość euklidesowa.
 
-        \todo {
-            Needleman-Wunsch
-        
-            Wady: wolne określanie podobieństwa 
-            Zalety: uwzględnia strukturę
-        }   
+        \subsubsection{Algorytm Needlemana-Wunscha}
 
-        \todo {
-            KMer
+            Algorytm Needlemana-Wunscha jest klasycznym algorytmem do wyrównywania globalnego sekwencji genetycznych. Metoda ta polega na zbudowaniu macierzy podobieństwa między sekwencjami zgodnie z ustalonymi regułami, które zostały przedstawione w równaniu~\eqref{Equation:NeedlemanWunsch}. W przypadku klasyfikacji taksonomicznej do dalszych obliczeń wystarczy wartość jakości dopasowania zawarta w $D_{n + 1, m + 1}$.
 
-            Wady: nie uwzględnia struktury
-            Zalety: szybkie, łatwe w wykorzystaniu, SOTA
-        }
+            \begin{equation}
+                \begin{aligned}
+                    D_{i,0} &= i \cdot g, & \text{dla } & i \in [1, n + 1] \\
+                    D_{0,j} &= j \cdot g, & \text{dla } & j \in [2, m + 1] \\
+                    D_{i,j} &= \max
+                    \begin{cases}
+                        D_{i - 1, j} + g \\
+                        D_{i, j - 1} + g \\
+                        D_{i - 1, j - 1} + s(A_i, B_j)
+                    \end{cases}, & \text{dla } & i \in (1, n + 1] \text{ oraz } j \in (1, m + 1]
+                \end{aligned}
+                \label{Equation:NeedlemanWunsch}
+            \end{equation}
 
-        \todo {
-            DO NAPISANIA \\
-            \textbf{
-                Metoda NW
-            }
-            \begin{itemize}
-                \item Opis
-                \item Zalety
-                \item Wady
-            \end{itemize}
+            gdzie,
+            \begin{align*} 
+                & g, s(A_i, B_j) \in \mathbb{R} \\
+                A, B -& \text{porównywane sekwencje}, \\
+                n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
+                D -& \text{macierz podobieństwa o rozmiarach } n + 1 \text{ x } m + 1, \\
+                g -& \text{kara za przerwę}, \\
+                s(A_i, B_j) -& \text{podobieństwo między } i \text{-tym elementem w sekwencji A,} \\ 
+                & \text{a } j \text{-tym elementem w sekwencji B}. \\
+            \end{align*}
 
-            \textbf{
-                Metoda kmer
-            }
-            \begin{itemize}
-                \item Opis
-                \item Zalety
-                \item Wady
-            \end{itemize}
-        }
-
+        \subsubsection{Zanurzenia $k$-merów}
+            
+            Wykorzystanie $k$-merów w roli zanurzeń pozwala na reprezentację sekwencji DNA w postaci wektorów liczbowych, które można porównywać za pomocą różnych miar, takich jak na przykład odległość euklidesowa. Wektory liczbowe pozwalają na kompaktową reprezentację długich sekwencji, co znacznie przyśpiesza procesy grupowania sekwencji oraz klasyfikacji taksonomicznej. Metoda ta jest obecnie jedną z najpopularniejszych metod stosowanych do klasyfikacji taksonomicznej z wykorzystaniem baz danych, ponieważ cechuje się wysoką prędkością działania oraz pozwala uzyskać dobre wyniki. Obecne narzędzia wykorzystują różne miary, parametry $k$ oraz dodatkowe mechanizmy do dalszej optymalizacji tej metody.
+    
     % ===== ===== ===== =====
     % TEORETYCZNE PODSTAWY PROBLEMU
     % ===== ===== ===== ===== 
-    \subsection{Teoretyczne podstawy problemu}
+    \subsection{Sztuczne sieci neuronowe}
 
-        \todo{
-            DO NAPISANIA\\
-            \textbf{Opisać sieci neuronowe}
-            \begin{itemize}
-                \item Warstwy
-                \item Perceptron
-                \item Sieć splotowa
-                \item Wygaszanie (Dropout)
-                \item Normalizacja wsadowa (BatchNorm)
-                \item Warstwa spłaszczająca
-                \item Wektor zanurzeń
-                \item GELU
-            \end{itemize}
-        }
-
-%         \subsubsection{Algorytm Needlema-Wunscha}
+        Sztuczna sieć neuronowa to model matematyczny inspirowany strukturą i działaniem systemu nerwowego organizmów biologicznych, który jest stosowany do rozwiązywania problemów bez uprzedniej definicji matematycznej danego zagadnienia\cite{Leksykon}. Sieć neuronowa składa się z neuronów, czyli podstawowych jednostek przetwarzających informacje, które są wzorowane na funkcjonowaniu biologicznych komórek nerwowych, choć w znacznie uproszczonej formie\cite{Leksykon}. Sieć jest logicznie zorganizowana w warstwy, czyli grupy neuronów pełniące określone funkcje\cite{Leksykon}.
         
-%            Algorytm Needlemana-Wunscha stanowi metodę wykorzystywaną do ustalania globalnego dopasowania pomiędzy dwiema sekwencjami \cite{NeedlemanWunsch1970}. Metoda ta polega na skonstruowaniu macierzy podobieństwa pomiędzy sekwencjami zgodnie z ustalonymi regułami:
+        Jednym z podstawowych typów warstw są warstwy w pełni połączone (ang. Fully Connected Layers, FCN), które składają się z neuronów połączonych ze wszystkimi neuronami poprzedniej warstwy. \cite{Leksykon}. Kolejnym typem warstw w sieciach neuronowych są warstwy splotowe, które wykorzystywane są głównie w przypadku danych o strukturze wielowymiarowej. Warstwa splotowa stosuje operację splotu, przetwarzając dane wejściowe i identyfikując istotne cechy strukturalne tych danych\cite{LeCun:2015}. Specyficznym typem warstw są warstwy spłaszczające, które przekształcają dane wielowymiarowe w wektor jednowymiarowy, umożliwiają one łączenie warstw splotowych z warstwami w pełni połączonymi.
 
-%            \begin{equation}
-%                 \begin{aligned}
-%                     D_{i,0} &= i \cdot g, & \text{dla } & i \in [0, n] \\
-%                     D_{0,j} &= j \cdot g, & \text{dla } & j \in [1, m] \\
-%                     D_{i,j} &= \max
-%                     \begin{cases}
-%                     D_{i - 1, j} + g \\
-%                     D_{i, j - 1} + g \\
-%                     D_{i - 1, j - 1} + s(A_i, B_j)
-%                     \end{cases}, & \text{dla } & i \in (0, n] \text{ oraz } j \in (0, m]
-%                 \end{aligned}
-%                 \label{Equation:NeedlemanWunsch}
-%             \end{equation}
+        Normalizacja wsadowa (ang. batch normalization) jest metodą, która pozwala na przyspieszenie procesu uczenia oraz zwiększa stabilność sztucznych sieci neuronowych\cite{Ioffe:2015}. Wygaszanie (ang. dropout)\cite{Wan:2013} jest techniką regularizacji, która pomaga w redukcji przeuczenia\cite{Leksykon}.
 
-%             gdzie,
-%             \begin{align*} 
-%                 & g, s(A_i, B_j) \in \mathbb{R} \\
-%                 A, B -& \text{porównywane sekwencje}, \\
-%                 n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
-%                 D -& \text{macierz podobieństwa o rozmiarach } n \text{ x } m, \\
-%                 g -& \text{kara za przerwę}, \\
-%                 s(A_i, B_j) -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\ 
-%                 & \text{a } j \text{-tym elementem w sekwencji B}. \\
-%             \end{align*}
+        Wyjściem ostatniej warstwy modelu sztucznej sieci neuronowej może być wektor zanurzeń, czyli reprezentacja danych w przestrzeni o zredukowanej liczbie wymiarów w przypadku zadań, które wymagają redukcji wymiarowości danych wejściowych.
 
-%             Wartość znajdująca się w $D_{n, m}$ określa liczbowo jakość globalnego dopasowania sekwencji.

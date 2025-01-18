@@ -99,7 +99,7 @@
 
         \subsubsection{Potok przetwarzania}
 
-            Potok przetwarzania składa się z szeregu kroków, które są realizowane kolejno, jeden po drugim, w celu przeprowadzenia pełnej klasyfikacji taksonomicznej DNA.\@Każdy krok potoku jest odpowiedzialny za określoną część procesu i może być niezależnie modyfikowany lub wymieniany, co umożliwia elastyczność w doborze metod. Do kluczowych kroków potoku należą:
+            Potok przetwarzania składa się z szeregu kroków, które są realizowane kolejno, jeden po drugim, w celu przeprowadzenia pełnej klasyfikacji taksonomicznej DNA. Każdy krok potoku jest odpowiedzialny za określoną część procesu i może być niezależnie modyfikowany lub wymieniany, co umożliwia elastyczność w doborze metod. Do kluczowych kroków potoku należą:
 
             \begin{enumerate}
                 \item {
@@ -127,7 +127,7 @@
 
                     Wyjście: \textit{wykryte organizmy}.
 
-                    Wyszukiwanie w bazie danych sekwencji pozwala znaleźć sekwencje podobne do wyszukiwanych sekwencji DNA.\@Pozwala to na określenie do jakich organizmów mogą należeć wyszukiwane sekwencje. W tym kroku przetwarzani są wyłącznie reprezentanci grup. W wyniku wyszukiwania dla każdego reprezentanta uzyskuje się listę odpowiadających organizmów.
+                    Wyszukiwanie w bazie danych sekwencji pozwala znaleźć sekwencje podobne do wyszukiwanych sekwencji DNA. Pozwala to na określenie, do jakich organizmów mogą należeć wyszukiwane sekwencje. W tym kroku przetwarzani są wyłącznie reprezentanci grup. W wyniku wyszukiwania dla każdego reprezentanta uzyskuje się listę odpowiadających organizmów.
                 }
                 \item {
                     \textbf{Przetwarzanie wyników wyszukiwania}
@@ -161,7 +161,7 @@
             \end{figure}
 
         \subsubsection{Biblioteka \textit{exquisitor-core}}
-            Podstawę rozwiązania stanowi biblioteka \textit{exqusitor-core} zawarta w skrzynce (ang. \textit{crate}) \textit{exquisitor-core}, stworzona w języku Rust. Zawiera ona implementację wszystkich elementów potoku, które wymagane są przez aplikacje oraz dodatkowo opakowuje implementację algorytmów k-medoidów. Biblioteka podzielona jest na kilka modułów ze względu na odpowiedzialność:
+            Podstawę rozwiązania stanowi biblioteka \textit{exqusitor-core} zawarta w skrzynce (ang. \textit{crate}) \textit{exquisitor-core}, stworzona w języku Rust. Zawiera ona implementację wszystkich elementów potoku, które wymagane są przez aplikacje oraz dodatkowo opakowuje implementację algorytmów $k$-medoidów. Biblioteka podzielona jest na kilka modułów ze względu na odpowiedzialność:
 
             \begin{itemize}
                 \item {
@@ -171,7 +171,7 @@
                     Moduł \textit{clustering} realizujący proces grupowania sekwencji DNA na podstawie ich niepodobieństwa. Zawiera metody do obliczania niepodobieństwa między sekwencjami DNA oraz wektorami liczbowymi, a także algorytmy grupowania obiektów. Dodatkowo moduł zawiera strukturę reprezentującą grupę, składającą się z reprezentanta i elementów tej grupy. Zawiera także funkcję do budowy macierzy niepodobieństwa oraz cechy, które definiują interfejs, z którego korzystają inne elementy biblioteki, umożliwia to implementację własnych struktur i funkcji, pozwalając na elastyczne rozszerzanie systemu o nowe metody.
                 }
                 \item {
-                    Moduł \textit{neural}, który zawiera definicję modelu sieci neuronowej, implementację funkcji straty oraz funkcjonalności odpowiedzialnych za wczytanie oraz przygotowanie danych dla sieci neuronowej, w tym danych uczących. Ponadto zawiera on funkcję trenującą sieć.
+                    Moduł \textit{neural}, który zawiera definicję modelu sieci neuronowej, implementację funkcji straty oraz funkcjonalności odpowiedzialnych za wczytanie, oraz przygotowanie danych dla sieci neuronowej, w tym danych uczących. Ponadto zawiera on funkcję trenującą sieć.
                 }
                 \item {
                     Moduł \textit{searching} zawierający implementację struktur opisujących wykryte organizmy oraz integrację z algorytmem \textit{blastn}.
@@ -186,7 +186,7 @@
             Aplikacja implementuje następujące komendy:
             \begin{itemize}
                 \item {
-                    \textit{experiment} --- umożliwia uruchomienie wskazanej komendy w ramach eksperymentu. Pozwala na monitorowanie wykorzystania pamięci RAM oraz procesora oraz określenie maksymalnego czasu trwania eksperymentu, po których zostanie przerwany. Wykorzystywana jest do przeprowadzania eksperymentów. W wyniku działania generuje plik w formacie CSV zawierający monitorowane dane z zadaną rozdzielczością.
+                    \textit{experiment} --- umożliwia uruchomienie wskazanej komendy w ramach eksperymentu. Pozwala na monitorowanie wykorzystania pamięci RAM oraz procesora, oraz określenie maksymalnego czasu trwania eksperymentu, po których zostanie przerwany. Wykorzystywana jest do przeprowadzania eksperymentów. W wyniku działania generuje plik w formacie CSV zawierający monitorowane dane z zadaną rozdzielczością.
                 }
                 \item {
                     \textit{compare} --- pozwala na porównanie dwóch zestawów wyników klasyfikacji taksonomicznej, wyliczając jakość względną jednego zestawu do drugiego. Wyniki są wyświetlane na ekranie lub, w przypadku podania ścieżki, zapisywane do pliku.
@@ -205,7 +205,7 @@
         \subsubsection{Aplikacja internetowa \texttt{exquisitor-app}}
             Aplikacja internetowa została zaprojektowana z myślą o umożliwieniu użytkownikom końcowym zlecania zadań klasyfikacji taksonomicznej oraz przeglądania wyników po zakończeniu procesu. Wybór formy aplikacji internetowej wynika z jej dostępności na różnych urządzeniach posiadających dostęp do internetu i przeglądarki, co zapewnia łatwy, uniwersalny dostęp do systemu. Aplikacja składa się z serwera oraz stron internetowych generowanych za pomocą szablonów.
 
-            Serwer udostępnia stronę główną, na której użytkownik może zapoznać się z ostatnimi dziesięcioma zadaniami, zlecić wykonanie nowego zadania lub wyszukać zadanie po identyfikatorze lub nazwie. Do przechowywania informacji o zleconych zadaniach wykorzystywana jest baza danych \textit{SQLite}.
+            Serwer udostępnia stronę główną, na której użytkownik może zapoznać się z ostatnimi dziesięcioma zadaniami, zlecić wykonanie nowego zadania lub wyszukać zadanie po identyfikatorze, lub nazwie. Do przechowywania informacji o zleconych zadaniach wykorzystywana jest baza danych \textit{SQLite}.
             
             Do głównych funkcji serwera należą:
             \begin{itemize}
@@ -242,7 +242,7 @@
         
         \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}\label{Method:NeedlemanWunsch}
 
-            Pierwszą metodą zastosowaną do wyznaczenia niepodobieństwa między sekwencjami DNA jest  zmodyfikowany algorytm Needlamana-Wunscha. Algorytm ten pierwotnie służy do globalnego wyrównania sekwencji genetycznych. Korzystajac z własności algorytmu, że w komórce $D_{n+1, m+1}$ macierzy podobieństwa budowanej przez algorytm znajduje się jakość globalnego wyrównania, dokonano modyfikacji algorytmu oraz odpowiedniego ustawienia parametrów, aby wynik ten odpowiadał mierze niepodobieństwa między sekwencjami. Modyfikacje te polegały na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń, w celu zapewnienia, że wartość w $D_{n+1, m+1}$ będzie zawierała się w przedziale $[0, \infty)$. Szczegóły wprowadzonych zmian względem wyrażenia \eqref{Equation:NeedlemanWunsch} przedstawiono poniżej:
+            Pierwszą metodą zastosowaną do wyznaczenia niepodobieństwa między sekwencjami DNA jest  zmodyfikowany algorytm Needlamana-Wunscha. Algorytm ten pierwotnie służy do globalnego wyrównania sekwencji genetycznych. Korzystając z własności algorytmu, że w komórce $D_{n+1, m+1}$ macierzy podobieństwa budowanej przez algorytm znajduje się jakość globalnego wyrównania, dokonano modyfikacji algorytmu oraz odpowiedniego ustawienia parametrów, aby wynik ten odpowiadał mierze niepodobieństwa między sekwencjami. Modyfikacje te polegały na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń, w celu zapewnienia, że wartość w $D_{n+1, m+1}$ będzie zawierała się w przedziale $[0, \infty)$. Szczegóły wprowadzonych zmian względem wyrażenia \eqref{Equation:NeedlemanWunsch} przedstawiono poniżej:
 
             \begin{equation}
                 \begin{aligned}
@@ -331,10 +331,6 @@
 
             Pełny przebieg wykorzystania metody zanurzeń \textit{k-merów} w grupowaniu sekwencji został pokazany na schemacie~\ref{Picture:Cluster:KMer}. Czerwonym obramowaniem oznaczono krok, w którym wykorzystana została metoda.
 
-            \question{
-                Czy warto i stosowne jest pokazanie tutaj przykładu na przykładowych bardzo prostych danych?
-            }
-
             \begin{figure}
                 \begin{center}
                     \input{tex/pictures/cluster_kmer.tex}
@@ -346,10 +342,10 @@
 
         \subsubsection{Sztuczna sieć neuronowa}
 
-            Nową zaproponowaną metodą jest wykorzystanie sztucznej sieci neuronowej do redukcji wymiarowości wejściowych sekwencji DNA do postaci wektora cech o wymiarze $\mathbb{R}^{64}$. Sztuczna sieć neuronowa wykorzystuje uczenie kontrastowe, które umożliwia naukę reprezentacji danych wejściowych z zachowaniem właśności podobieństwa oraz niepodobieństwa między wejściowymi sekwencjami. Niepodobieństwo między sekwencjami zostanie obliczone poprzez obliczenie niepodobieństwa kosinusowego wyrażonego wzorem~\eqref{Equation:CosineDissimilarity} między wektorami cech sekwencji DNA.
+            Nową zaproponowaną metodą jest wykorzystanie sztucznej sieci neuronowej do redukcji wymiarowości wejściowych sekwencji DNA do postaci wektora cech o wymiarze $\mathbb{R}^{64}$. Sztuczna sieć neuronowa wykorzystuje uczenie kontrastowe, które umożliwia naukę reprezentacji danych wejściowych z zachowaniem własności podobieństwa oraz niepodobieństwa między wejściowymi sekwencjami. Niepodobieństwo między sekwencjami zostanie obliczone poprzez obliczenie niepodobieństwa kosinusowego wyrażonego wzorem~\eqref{Equation:CosineDissimilarity} między wektorami cech sekwencji DNA.
 
             \paragraph{Architektura}
-                Architektura modelu sztucznej sieci neuronowej składa się z dwóch bloków splotowych oraz bloku perceptronów wielowarstwowych. Każdy z bloków splotowych zawiera warstwę splotową oraz warstwę normalizacji wsadowej i jest opdowiedzialny za ekstrakcję niskopoziomowych cech sekwencji. Ostatni blok splotowy jest połaczony z blokiem perceptronów wielowarstwowych za pomocą warstwy spłaszczającej. Blok perceptronów wielowarstwowych odpowiada za tworzenie reprezentacji sekwencji, składa się z trzech warstw, które wykorzystują funkcję aktywacji GELU\cite{Hendrycks:2016}, z wyjątkiem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$.
+                Architektura modelu sztucznej sieci neuronowej składa się z dwóch bloków splotowych oraz bloku perceptronów wielowarstwowych. Każdy z bloków splotowych zawiera warstwę splotową oraz warstwę normalizacji wsadowej i jest odpowiedzialny za ekstrakcję niskopoziomowych cech sekwencji. Ostatni blok splotowy jest połączony z blokiem perceptronów wielowarstwowych za pomocą warstwy spłaszczającej. Blok perceptronów wielowarstwowych odpowiada za tworzenie reprezentacji sekwencji, składa się z trzech warstw, które wykorzystują funkcję aktywacji GELU\cite{Hendrycks:2016}, z wyjątkiem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$.
 
                 Schematycznie architektura została przedstawiona na rysunku~\ref{Picture:NeuralModel}. 
 
@@ -366,7 +362,7 @@
                 Wejściem modelu są sekwencje DNA o długości $150$, które są zakodowane do postaci wektora o wymiarach $1x600$ za pomocą kodu 1 z n\cite{HarrisDavid:2007}.
             
             \paragraph{Przykłady uczące}
-                Przykłady uczące oraz walidacyjne składają się z kotwicy (ang. \textit{anchor}), sekwencji pozytywnej (ang. \textit{positive}) czyli podobnej do kotwicy oraz sekwencji negatywnej (ang. \textit{negative}) niepodobnej do kotwicy.
+                Przykłady uczące oraz walidacyjne składają się z kotwicy (ang. \textit{anchor}), sekwencji pozytywnej (ang. \textit{positive}), czyli podobnej do kotwicy oraz sekwencji negatywnej (ang. \textit{negative}) niepodobnej do kotwicy.
             
             \paragraph{Zbiór danych}
                 Zbiór danych uczących oraz walidacyjnych został stworzony na podstawie pierwszej próbki sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019}. Próbka zawiera symulowane dane metagenomiczne z mikrobiomu skóry człowieka. Przykłady zostały uzyskane poprzez losowanie kotwic ze zbioru oraz modyfikację tych kotwic w celu stworzenia sekwencji pozytywnej i negatywnej. Modyfikacja polegała na zamianie punktowej danego nukleotydu na inny. W przypadku sekwencji pozytywnej zmiana obejmowała od $0\%$ do $20\%$ długości kotwicy, natomiast w przypadku sekwencji negatywnej od $20\%$ do $80\%$ długości kotwicy.
@@ -433,7 +429,7 @@
 
             Aplikacja konsolowa została oparta na bibliotece \textit{clap}\cite{Rust:clap}, która pozwoliła na zdefiniowanie interfejsu użytkownika, w postaci dostępnych poleceń wraz z parametrami.
 
-            Biblioteka \textit{exquisitor-core} korzysta z biblioteki \textit{kmedoids}\cite{Schubert:2022}, która implementuje grupowanie k-medoidów oraz bibliotek pomocniczych \textit{num-traits}, \textit{tempfiles} oraz \textit{float-cmp}, które wykorzystywane są w testach jednostkowych.
+            Biblioteka \textit{exquisitor-core} korzysta z biblioteki \textit{kmedoids}\cite{Schubert:2022}, która implementuje grupowanie $k$-medoidów oraz bibliotek pomocniczych \textit{num-traits}, \textit{tempfiles} oraz \textit{float-cmp}, które wykorzystywane są w testach jednostkowych.
 
             Model sieci neuronowej został zbudowany przy użyciu biblioteki \textit{burn}\cite{Rust:burn} oraz silnika obliczeniowego \textit{wgpu}.
 
@@ -474,7 +470,7 @@
                         gdzie,
                         \begin{itemize}
                             \item {
-                                \texttt{search} - główne polecenie aplikacji,
+                                \texttt{search} — główne polecenie aplikacji,
                             }
                             \item {
                                 \texttt{-\phantom{}-log-level INFO} — argument ustawiający poziom ważności komunikatów na informacyjny,
@@ -545,10 +541,10 @@
                         Aplikacja zawiera dwa formularze:
                         \begin{itemize}
                             \item {
-                                \textbf{Formularz wyszukiwania eksperymentu} - pozwala na znalezienie eksperymentu przez podanie jego nazwy lub identyfikatora.
+                                \textbf{Formularz wyszukiwania eksperymentu} — pozwala na znalezienie eksperymentu przez podanie jego nazwy lub identyfikatora.
                             }
                             \item {
-                                \textbf{Formularz dodania zlecenia} - pozwala na dodanie nowego zlecenia klasyfikacji taksonomicznej poprzez podanie nazwy, opisu oraz pliku z danymi wejściowymi.
+                                \textbf{Formularz dodania zlecenia} — pozwala na dodanie nowego zlecenia klasyfikacji taksonomicznej poprzez podanie nazwy, opisu oraz pliku z danymi wejściowymi.
                             }
                         \end{itemize}
                     }
@@ -603,7 +599,7 @@
                         Uruchom skrypt, aby rozpocząć pobieranie i instalację \texttt{blastn} oraz bazy danych nukleotydów \texttt{nt}: \texttt{sudo ./download\_database.sh}.
                     }
                     \item {
-                        Skrypt automatycznie pobierze, zainstaluje oraz rozpakuje aplikację \texttt{blastn} oraz bazę danych nukleotydów \texttt{nt}.
+                        Skrypt automatycznie pobierze, zainstaluje oraz rozpakuje aplikację \texttt{blastn}, oraz bazę danych nukleotydów \texttt{nt}.
                     }
                 \end{enumerate}
 
@@ -680,7 +676,7 @@
 
             \paragraph{Przykładowe wykorzystanie aplikacji konsolowej}
 
-                Aplikacja konsolowa umożliwia wyszukiwanie podobnych sekwencji DNA w bazie danych sekwencji z pominięciem potoku przetwarzania. Aby uruchomić wyszukiwanie należy użyc poniższego polecenia:
+                Aplikacja konsolowa umożliwia wyszukiwanie podobnych sekwencji DNA w bazie danych sekwencji z pominięciem potoku przetwarzania. Aby uruchomić wyszukiwanie należy użyć poniższego polecenia:
                 
                 \texttt{./exquisitor-cli search -\phantom{}-input sequences.fasta -\phantom{}-output search\_results -\phantom{}-blast-db /blast/db -\phantom{}-blast /blast/executables/bin/blastn}
 
@@ -763,8 +759,8 @@
                     \textbf{\normalsize Polecenie}     & \textbf{\normalsize Argument}    & \textbf{\normalsize Opis argumentu} \\*
                     \hline \hline
 
-                    \multirow{4}{*}{\texttt{experiment}}  & \texttt{-\phantom{}-resolution <liczba>}   & Rozdzielczość monitorowania eksperymentu w sekundach. Określa jak często będzie sprawdzane wykorzystanie zasobów przez eksperyment oraz przekroczenie czasu trwania eksperymentu. \\*
-                                                          & \texttt{-\phantom{}-command <polecenie>}   & Polecenie, które zostanie wykonane jako eksperyment. Powinno to był poprawne polecenie aplikacji konsolowej. \\*
+                    \multirow{4}{*}{\texttt{experiment}}  & \texttt{-\phantom{}-resolution <liczba>}   & Rozdzielczość monitorowania eksperymentu w sekundach. Określa jak często będzie sprawdzane wykorzystanie zasobów przez eksperyment, oraz przekroczenie czasu trwania eksperymentu. \\*
+                                                          & \texttt{-\phantom{}-command <polecenie>}   & Polecenie, które zostanie wykonane jako eksperyment. Powinno to być poprawne polecenie aplikacji konsolowej. \\*
                                                           & \texttt{-\phantom{}-output <ścieżka>}      & Ścieżka do pliku, w którym zostaną zapisane wyniki monitorowania eksperumentu. Wyniki zapisywane są jako tabela w formacie CSV. \\*
                                                           & \texttt{-\phantom{}-max-duration <liczba>} & Maksymalny czas trwania eksperymentu w sekundach. Po przekroczeniu czasu trwania eksperymentu nastąpi jego przerwanie. \\ \hline
 

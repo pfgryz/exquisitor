@@ -5,57 +5,19 @@
     % GŁÓWNE CELE PRACY
     % ===== ===== ===== =====
     \subsection{Główne cele pracy}
-        \todo{
-            \begin{enumerate}
-                \item {krótkie przepomnienie celu pracy oraz eksperymentów,}
-                \item {podsumowanie problemów, które zostały rozwiązane}
-            \end{enumerate}
-        }
 
-        \todo {
-            DO NAPISANIA \\
-            \textbf{Główne cele}
-            \begin{itemize}
-                \item {CEL 1: Stworzenie aplikacji do przeprowadzania analiz}
-                \item {CEL 2: Usprawnienie procesu analizowania sekwencji}
-                \item {CEL 2.5: Implementacja trzech metod grupowania dwóch klasycznych i jednej własnej}
-                \item {EXP 1: Eksperyment wydajnościowy - czas wykonania klasyfikacji}
-                \item {EXP 2: Eksperyment jakościowy - jakość klasyfikacji}
-            \end{itemize}
+        Głównym celem pracy było stworzenie aplikacji umożliwiającej przeprowadzanie analiz materiału genetycznego oraz usprawnienie tego procesu. Tworzona aplikacja miała zawierać metodę opartą na modelach uczenia maszynowego, której skuteczność miała być porównana z klasycznymi podejściami wykorzystującymi wyrównanie sekwencji oraz analizę z użyciem $k$-merów. W ramach pracy zaplanowano przeprowadzenie eksperymentów oceniających zarówno jakość wyników, jak i wydajność metod.
 
-            \textbf{Rozwiązane problemy}
-            \begin{itemize}
-                \item {ROZWIĄZANIE 1: Stworzono aplikację, która pozwala na zlecanie analiz przez przeglądarkę}
-                \item {ROZWIĄZANIE 2: Zastosowanie grupowanie}
-                \item {ROZWIĄZANIE 2.5: Zaimplementowano metodę NW, $k$-mer oraz stworzono model uczenia maszynowego}
-            \end{itemize}
-        }
+        W ramach pracy udało się stworzyć aplikację konsolową, która realizuje proces analizy materiału genetycznego w postaci sekwencji DNA oraz zawiera implementację metod klasycznych i modelu sztucznej sieci neuronowej. Ponadto stworzono aplikację internetową, która pozwala na zlecanie analiz w formie przyjaznej użytkownikowi. Do przeprowadzania analiz wybrano klasyfikację taksonomiczną, którą usprawniono poprzez implementację algorytmu grupowania sekwencji i wyboru reprezentantów. Przeprowadzono eksperymenty: czasu wykonania klasyfikacji taksonomicznej oraz jakości względnej klasyfikacji taksonomicznej w porównaniu do metody bez wykorzystania implementowanych metod.
 
     % ===== ===== ===== =====
     % WYNIKI I OSIĄGNIĘCIA
     % ===== ===== ===== =====
     \subsection{Wyniki i osiągnięcia}
-        \todo{
-            \begin{enumerate}
-                \item {najważniejsze cechy wytworzonego rozwiązania,}
-                \item {wnioski z eksperymentów}
-            \end{enumerate}
-        }
-        \todo{
-            DO NAPISANIA \\\
-            \textbf{Cechy}
-            \begin{itemize}
-                \item {CECHA: Stworzono rozwiązanie, które pozwala na łatwy dostęp do użytkownika - aplikacja internetowa}
-                \item {CECHA: Jest aplikacja konsolowa do pracy wsadowej}
-                \item {CECHA: Rozwiązanie zaimplementowane w Rust zapewnia brak wycieków pamięci}
-            \end{itemize}
 
-            \textbf{Wnioski}
-            \begin{itemize} 
-                \item {WNIOSEK: Nowa metoda okazała się dość szybka, porównywalna z kmerami i szybsza od klasycznej klasyfikacji}
-                \item {WNIOSEK: Nowa metoda ma wyższą jakość od pozostałych metod klasycnzych}
-            \end{itemize}
-        }
+        Stworzone rozwiązanie zostało zaimplementowane przy użyciu języka Rust, a jego struktura została odpowiednio zorganizowana w moduły, które realizują poszczególne funkcjonalności i umożliwiają łatwe rozszerzanie aplikacji. Aplikacja konsolowa pozwala w bardzo prosty sposób na uruchomienie procesu analizy oraz ustawienie wszystkich parametrów dostępnych dla zaimplementowanych metod. Aplikacja przeglądarkowa umożliwia uruchomienie analizy przy użyciu najlepszego zestawu parametrów oraz wyświetlenie wyników w czytelnej dla użytkownika postaci.
+
+        Przeprowadzone eksperymenty wykazały, że nowa metoda oparta na sztucznych sieciach neuronowych pozwala na osiągnięcie wyższej jakości od metod klasycznych, jednocześniec zachowując czas wykonania porównywalny z metodą klasyczną wykorzystującą $k$-mery.
 
     % ===== ===== ===== =====
     % OGRANICZENIA
@@ -113,18 +75,6 @@
     % ===== ===== ===== =====
     \subsection{Wnioski końcowe}
 
-        \todo{
-            \begin{enumerate}
-                \item {podsumowanie głównych wniosków z pracy,}
-                \item {podkręslenie najważniejszych osiągnięć}
-            \end{enumerate}
-        }
-
-        \todo {
-            DO NAPISANIA \\
-            \textbf{Łącznie:}
-            \begin{itemize}
-                \item {Udało się stworzyć w pełni aplikację do przeprowadzania analiz}
-                \item {Zastosowanie sztucznych sieci neuronowych poprawiło jakość klasyfikacji}
-            \end{itemize}
-        }
+        W ramach pracy udało się zrealizować stawiane cele, tworząc system aplikacji do przeprowadzania analiz materiału genetycznego. Oparcie rozwiązania o język Rust pozwoliło na osiągnięcie wysokiej wydajności. 
+        
+        Dzięki zastosowaniu metod uczenia maszynowego udało się osiągnąć wyższą jakość wyników w porównaniu do tradycyjnych technik. Zastosowanie sztucznych sieci neuronowych stanowi obiecujący kierunek dalszych badań w dziedzinie klasyfikacji taksonomicznej sekwencji genetycznych.

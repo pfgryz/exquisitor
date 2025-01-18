@@ -135,7 +135,7 @@
 
         \subsubsection{Parametry}
 
-            Maksymalny czas trwania jednej klasyfikacji taksonomicznej został ograniczony do 12 godzin. Dla wszystkich metod wybrano algorytm grupowania k-medoidów oraz określono liczbę tworzonych grup przez algorytm grupowania za pomocą wzoru $\sqrt{n}$, gdzie $n$ to liczba sekwencji wejściowych. W metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha wykorzystano parametry określone w sekcji~\ref{Method:NeedlemanWunsch}. W przypadku metody wykorzystującej zanurzenia $k$-merów parametr $k$ został ustawiony na $4$. W metodzie z wykorzystaniem sztucznej sieci neuronowej wykorzystano wcześniej stworzony model.
+            Maksymalny czas trwania jednej klasyfikacji taksonomicznej został ograniczony do 12 godzin. Dla wszystkich metod wybrano algorytm grupowania $k$-medoidów oraz określono liczbę tworzonych grup przez algorytm grupowania za pomocą wzoru $\sqrt{n}$, gdzie $n$ to liczba sekwencji wejściowych. W metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha wykorzystano parametry określone w sekcji~\ref{Method:NeedlemanWunsch}. W przypadku metody wykorzystującej zanurzenia $k$-merów parametr $k$ został ustawiony na $4$. W metodzie z wykorzystaniem sztucznej sieci neuronowej wykorzystano wcześniej stworzony model.
 
         \subsubsection{Skrypty}
 
@@ -220,7 +220,7 @@
                     \caption{Wykorzystanie procesora oraz pamięci przez różne metody.}\label{Table:Experiment:Resources}
                     \begin{tabularx}{\textwidth}{|c||R|R|R|R||R|R|R|R|}
                         \hline
-                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c||}{\textbf{Wykorzystanie procesora [\%]}} & \multicolumn{4}{|c|}{\textbf{Wykorzystanie pamięci [MB]}} \\ \cline{2-9}
+                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c||}{\textbf{Wykorzystanie procesora [proc.]}} & \multicolumn{4}{|c|}{\textbf{Wykorzystanie pamięci [MB]}} \\ \cline{2-9}
                                         & \textbf{BZ} & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} & \textbf{BZ} & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} \\ \hline \hline
                                         1 & \textbf{14} & \textbf{14} & \textbf{14} & \textbf{14} & 37954 & 37451 & 39191 & \textbf{41120}\\ \hline 
                                         2 & \textbf{15} & 14 & 14 & 14 & 37584 & 37493 & 38081 & \textbf{40567}\\ \hline 
