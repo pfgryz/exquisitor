@@ -23,7 +23,8 @@
     % ===== ===== ===== ===== 
     \subsection{Wymagania funkcjonalne i niefunkcjonalne}
 
-        Aby zrealizować postawiony cel, aplikacja musi spełniać wymagania:
+    Aby zrealizować postawiony cel, aplikacja musi spełniać wymagania:
+    \todo{zdanie niedokończone, proszę zakończyć, np. 'spełniać wymagania funkcjonalne i niefunkcjonalne.'}
 
         \subsubsection{Wymagania funkcjonalne}
 
@@ -51,7 +52,10 @@
         \subsubsection{Wymagania niefunkcjonalne}
 
             \begin{itemize}
-                \item Aplikacja powinna być wykonana przy wykorzystaniu kompilowanego wysoko wydajnego języka programowania.
+            \item Aplikacja powinna być wykonana przy wykorzystaniu kompilowanego wysoko wydajnego języka programowania.
+              \todo{może lepiej:
+                'Aplikacja powinna być wydajna. Wymaga to wykorzystanie języka programowania pozwalającego tworzyć
+                wydajny kod wykonywalny.'}
                 \item Implementacja powinna zawierać testy jednostkowe poszczególnych modułów i funkcji.
             \end{itemize}
 
@@ -62,7 +66,11 @@
 
         Architektura rozwiązania została przedstawiona w postaci modelu C4\cite{C4}. Model ten opisuje architekturę na czterech poziomach: kontekstowym (ang. \textit{System context}), kontenerów (ang. \textit{Container}), komponentów (ang. \textit{Component}) oraz kodu, przechodząc od najbardziej abstrakcyjnego spojrzenia na architekturę rozwiązania do kodu implementacji. Na rysunku~\ref{Picture:App:C4:Context} przedstawiono diagram kontekstowy modelu architektury, przedstawia on relacje między użytkownikami systemu a systemem oraz relacje między systemem a systemami zewnętrznymi. Na rysunku~\ref{Picture:App:C4:Container} przedstawiono natomiast diagram kontenerów modelu architektury, który przedstawia relacje między użytkownikami a poszczególnymi aplikacjami, biblioteką oraz systemami zewnętrznymi.
 
-        \begin{figure}
+        \todo{nie bardzo widzę sens robić 'input' pliku 'tex', który ma 'includegraphics'. Proszę bezpośrednio dać 'includegraphics' i usunąć pliki 'tex' z 'tex/pictures'}
+
+        \todo{dla każdego środowiska 'figure' dać '[!htb]' jak niżej}
+        
+        \begin{figure}[!htb]
             \begin{center}
                 \input{tex/pictures/app/c4_system_context.tex}
             \end{center}
@@ -85,7 +93,7 @@
     % ===== ===== ===== ===== 
     \subsection{Opis rozwiązania}
 
-        Centralnym elementem rozwiązania jest potok przetwarzania, zaprojektowany z myślą o elastycznej konfiguracji oraz możliwości zastosowania różnych metod grupowania sekwencji DNA. Elementy potoku zostały zaimplementowane w bibliotece \textit{exquisitor-core}, w postaci funkcji oraz rekordów. Realizacja potoku została umieszczona w aplikacji konsolowej, która wykorzystuje tę bibliotekę. Aplikacja umożliwia uruchamianie i konfigurację potoku, oferując dostęp do dostępnych metod. Zawiera również polecenia pomocnicze, które zostały przygotowane w celu przeprowadzenia eksperymentów.
+    Centralnym elementem rozwiązania jest potok przetwarzania, zaprojektowany z myślą o elastycznej konfiguracji oraz możliwości zastosowania różnych metod grupowania sekwencji DNA. Elementy potoku zostały zaimplementowane w bibliotece \textit{exquisitor-core}, w postaci funkcji oraz rekordów. Realizacja potoku została umieszczona w aplikacji konsolowej, która wykorzystuje tę bibliotekę. Aplikacja umożliwia uruchamianie i konfigurację potoku, oferując dostęp do dostępnych metod. Zawiera również polecenia pomocnicze, które zostały przygotowane w celu przeprowadzenia eksperymentów.
 
         Dodatkowo stworzono aplikację internetową, oferującą prosty interfejs w postaci strony internetowej. Umożliwia ona użytkownikowi zlecanie klasyfikacji taksonomicznej dla przesłanych sekwencji DNA. Do realizacji zleconych zadań aplikacja internetowa korzysta z aplikacji konsolowej.
 
@@ -99,7 +107,10 @@
 
         \subsubsection{Potok przetwarzania}
 
-            Potok przetwarzania składa się z szeregu kroków, które są realizowane kolejno, jeden po drugim, w celu przeprowadzenia pełnej klasyfikacji taksonomicznej DNA. Każdy krok potoku jest odpowiedzialny za określoną część procesu i może być niezależnie modyfikowany lub wymieniany, co umożliwia elastyczność w doborze metod. Do kluczowych kroków potoku należą:
+            \todo{dodać na początku: 'Potok przetwarzania został pokazany na Rys. XXX'}
+            Potok przetwarzania składa się z szeregu kroków, które są realizowane kolejno, jeden po drugim, w celu przeprowadzenia pełnej klasyfikacji taksonomicznej DNA. Każdy krok potoku jest odpowiedzialny za określoną część procesu i może być niezależnie modyfikowany lub wymieniany, co umożliwia elastyczność w doborze metod.
+            \todo{tutaj dać rysunek potoku}
+            Do kluczowych kroków potoku należą:
 
             \begin{enumerate}
                 \item {
@@ -257,6 +268,7 @@
             \end{equation}
 
             gdzie,
+            \todo{popatrz na moje zmiany w równaniu \eqref{Equation:NeedlemanWunsch}, linijka powyżej do wyrzucenia}
             \begin{align*} 
                 A, B -& \text{porównywane sekwencje}, \\
                 n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
@@ -307,13 +319,18 @@
             
             \[
             \text{AA} \to 0, \quad \text{AC} \to 1, \quad \text{AT} \to 2, \quad \text{AG} \to 3, \quad \text{CA} \to 4, \quad \dots
-            \]
+          \]
+
+          \todo{zmienić kolejność AG i AT, żeby było alfabetycznie}
+          \todo{dodać jeszcze $TT \to 15$ po $\dots$}
             
             Wektor zanurzeń dla danej sekwencji DNA zawiera liczbę wystąpień każdego \textit{k-meru} w odpowiednich pozycjach. Na przykład, dla sekwencji `AAACA' wektor zanurzeń dla $k=2$ może wyglądać następująco:
             
             \[
             \text{AAACA} \to [2, 1, 0, 0, 1, \dots]
-            \]
+          \]
+
+          \todo{dać cały wektor, 16 liczb, bez $\dots$}
             
             gdzie liczba na pozycji 0 oznacza liczbę wystąpień \textit{AA} w sekwencji, liczba na pozycji 1 oznacza liczbę wystąpień \textit{AC}, itd. Następnie, na podstawie tych wektorów zanurzeń, oblicza się niepodobieństwo między sekwencjami, porównując ich wektory zanurzeń według wzoru:
 
@@ -555,6 +572,7 @@
                 \end{itemize}
 
                 \begin{figure}
+                  \todo{usunąć (przyciąć) rysunek, bo dużo 'pustego', podobnie inne zrzuty}
                     \begin{center}
                         \input{tex/pictures/app/web_screen.tex}
                     \end{center}

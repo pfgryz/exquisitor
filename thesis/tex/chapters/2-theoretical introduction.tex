@@ -1,5 +1,6 @@
 \cleardoublepage
-\section{Wstęp teoretyczny}
+\section{Metody wykorzystywane w pracy, istniejące rozwiązania}
+\todo{proponuję zmianę tytułu}
 
     % ===== ===== ===== =====
     % KLUCZOWE POJĘCIA I DEFINICJE
@@ -13,6 +14,7 @@
 
         \subsubsection{$k$-mer}
 
+        \todo{alfabet oznaczać inaczej, nie 'G' ale np. $\mathbb{A}$}
             $k$-mer to podsłowo sekwencji genetycznej o długości $k$. Dla danego alfabetu $G$ składające się z $n$ symboli istnieje dokładnie $n^k$ różnych $k$-merów o długości $k$. Sekwencja genetyczna o długości $m$ zawiera dokładnie $m - k + 1$ $k$-merów o długości $k$.
 
 
@@ -21,7 +23,8 @@
             Proces dopasowania sekwencji polega na wyrównaniu ich symboli w celu maksymalizacji ich wzajemnego podobieństwa, co realizowane może być poprzez wstawianie przerw (ang. \textit{gaps}) między symbolami sekwencji wejściowych. Dopasowanie sekwencji może być realizowane na dwa sposoby: lokalnie, gdzie maksymalizowane jest podobieństwo fragmentów sekwencji niezależnie od ich położenia oraz globalnie, gdzie maksymalizowane jest podobieństwo całych sekwencji. Wynikiem dopasowania są sekwencje z opcjonalnie wstawionymi przerwami oraz miara jakości dopasowania lub miara podobieństwa między sekwencjami.
 
         \subsubsection{Uczenie kontrastowe}
-            
+
+        \todo{problem z cytowaniem \cite{Bromley1993}}
             Uczenie kontrastowe (ang. \textit{contrastive learning}) \cite{Bromley1993} jest metodą uczenia maszynowego polegającą na maksymalizacji podobieństwa między podobnymi próbkami oraz minimalizacji podobieństwa między niepodobnymi próbkami. Wykorzystuje ona miary niepodobieństwa między reprezentacjami do nauki odróżniania kluczowych cech próbek. Zastosowanie tej metody pozwala na redukcję wymiarowości danych przy jednoczesnym zachowaniu właściwości podobieństwa i niepodobieństwa między danymi wejściowymi.
 
         \subsubsection{Podobieństwo kosinusowe}
@@ -140,12 +143,12 @@
 
             gdzie,
             \begin{align*} 
-                & g, s(A_i, B_j) \in \mathbb{R} \\
+%                & g, s(A_i, B_j) \in \mathbb{R} \\
                 A, B -& \text{porównywane sekwencje}, \\
                 n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
                 D -& \text{macierz podobieństwa o rozmiarach } n + 1 \text{ x } m + 1, \\
-                g -& \text{kara za przerwę}, \\
-                s(A_i, B_j) -& \text{podobieństwo między } i \text{-tym elementem w sekwencji A,} \\ 
+                g \in \mathbb{R} -& \text{kara za przerwę}, \\
+                s(A_i, B_j) \in \mathbb{R} -& \text{podobieństwo między } i \text{-tym elementem w sekwencji A,} \\ 
                 & \text{a } j \text{-tym elementem w sekwencji B}. \\
             \end{align*}
 
