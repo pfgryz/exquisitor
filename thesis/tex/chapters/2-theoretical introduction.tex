@@ -39,10 +39,10 @@
                     \sqrt{
                         \sum^{n}_{i = 1}B_i^2
                     }
-                }
+                },
             \end{equation}
 
-            gdzie,
+            gdzie
             \begin{align*}
                 A, B -& \text{porównywane wektory,} \\
                 \theta -& \text{kąt między wektorami $A$ i $B$,} \\
@@ -54,15 +54,17 @@
             Niepodobieństwo kosinusowe to miara, która określa, jak bardzo wektory różnią się pod względem kierunku. Wyrażone jest wzorem:
 
             \begin{equation}
-                dissimilarity_{cosine}(A, B) = 1 - similarity_{cosine}(A, B)
-                \label{Equation:CosineDissimilarity}
+              \label{Equation:CosineDissimilarity}
+                dissimilarity_{cosine}(A, B) = 1 - similarity_{cosine}(A, B),
+
+                \text{gdzie }
+            \begin{array}{rl}
+                A, B & \text{porównywane wektory.} \\
+%                similarity_{cosine}(A, B) -& \text{podobieństwo kosinusowe między wektorami $A$ i $B$.}
+            \end{array}
+
             \end{equation}
 
-            gdzie,
-            \begin{align*}
-                A, B -& \text{porównywane wektory,} \\
-                similarity_{cosine}(A, B) -& \text{podobieństwo kosinusowe między wektorami $A$ i $B$.}
-            \end{align*}
 
         \subsubsection{Format FASTA}
 
@@ -140,12 +142,12 @@
 
             gdzie,
             \begin{align*} 
-                & g, s(A_i, B_j) \in \mathbb{R} \\
+%                & g, s(A_i, B_j) \in \mathbb{R} \\
                 A, B -& \text{porównywane sekwencje}, \\
                 n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
                 D -& \text{macierz podobieństwa o rozmiarach } n + 1 \text{ x } m + 1, \\
-                g -& \text{kara za przerwę}, \\
-                s(A_i, B_j) -& \text{podobieństwo między } i \text{-tym elementem w sekwencji A,} \\ 
+                g \in \mathbb{R} -& \text{kara za przerwę}, \\
+                s(A_i, B_j) \in \mathbb{R} -& \text{podobieństwo między } i \text{-tym elementem w sekwencji A,} \\
                 & \text{a } j \text{-tym elementem w sekwencji B}. \\
             \end{align*}
 

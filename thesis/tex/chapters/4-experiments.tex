@@ -1,11 +1,12 @@
-\cleardoublepage 
-\section{Eksperymenty}
+\cleardoublepage
+\section{Badanie jakości i wydajności zaproponowanago rozwiązania}
+\todo{zmieniłem tytuł}
 
     W ramach pracy przeprowadzono eksperymenty polegające na porównaniu wydajności oraz jakości zaimplementowanych metod do grupowania sekwencji genetycznych w kontekście pełnej klasyfikacji taksonomicznej przeprowadzonej z wykorzystaniem potoku przetwarzania. W eksperymentach jako punkt odniesienia wybrano klasyfikację taksonomiczną wszystkich sekwencji wejściowych bez użycia potoku przetwarzania.
 
     % ===== ===== ===== =====
     % OPIS ŚRODOWISKA EKSPERYMENTALNEGO
-    % ===== ===== ===== ===== 
+    % ===== ===== ===== =====
     \subsection{Opis środowiska eksperymentalnego}
 
         Eksperymenty zostały przeprowadzone na maszynie wirtualnej wykorzystującej technologię KVM o specyfikacji podanej poniżej:
@@ -74,7 +75,7 @@
           n   &- \text{liczba sekwencji wejściowych $n = \sum_{c \in C} n_{c}.$}
         \end{align*}
 
-        Wykorzystano również dodatkowe miary jakości, które zostały zastosowane do oceny jakości utworzonych grup przez potok przetwarzania. Pierwszą wykorzystaną miarą jest znormalizowana informacja wzajemna (ang. \textit{Normalized mutual information, NMI}) i służy do oceny jakości grup, drugą jest czułość (ang. \textit{sensitivity}), która wykorzystana jest do oceny reprezentantów grup. Miary zostały zdefiniowane odpowiednio wzorami:
+        Wykorzystano również dodatkowe miary jakości, które zostały zastosowane do oceny jakości utworzonych grup przez potok przetwarzania. Pierwszą wykorzystaną miarą jest znormalizowana informacja wzajemna (ang. \textit{Normalized mutual information, NMI}) i służy do oceny jakości grup, drugą jest czułość (ang. \textit{sensitivity}), która wykorzystana jest do oceny reprezentantów grup. Miary zostały zdefiniowane odpowiednio wzorami \eqref{Equation:NMI} i \eqref{Equation:Sensitivity}.
 
         \begin{equation}
             NMI(X, Y) = \frac{I(X, Y)}{\sqrt{H(X) \cdot H(Y)}}
@@ -110,12 +111,13 @@
     % ===== ===== ===== =====
     % ZBIÓR DANYCH
     % ===== ===== ===== =====
-    \subsection{Zbiór danych}
+    \subsection{Zbiór danych do badań}
+    \todo{zmieniłem tytuł}
 
         \subsubsection{Opis zbioru danych}
-        
+
             W eksperymentach wykorzystano ten sam zbiór sekwencji genetycznych, co w uczeniu modelu sztucznej sieci neuronowej. Zbiór \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019} został wybrany, ponieważ został stworzony w celu oceny wydajności algorytmów bioinformatycznych oraz zawiera znaczną liczbę sekwencji genetycznych, co umożliwiło jego wykorzystanie go zarówno w eksperymentach, jak i w uczeniu modelu sztucznej sieci neuronowej.
-            
+
             Na podstawie zbioru stworzono podzbiory sekwencji o rozmiarach wyrażonych wzorem $2^k$ dla $k \in [0, 12]$. Zbiory są rozłączne, a do ich budowy wykorzystano wyłącznie te sekwencje, które nie zostały użyte do uczenia modelu sztucznej sieci neuronowej.
 
         \subsubsection{Przygotowanie zbioru danych}
@@ -161,12 +163,13 @@
     % ===== ===== ===== =====
     % WYNIKI
     % ===== ===== ===== =====
-    \subsection{Wyniki}
+            \subsection{Wyniki i wnioski}
+            \todo{zmieniłem tytuł}
 
         \subsubsection{Eksperyment 1: Czas wykonania klasyfikacji taksonomicznej}
 
             \paragraph{Cel}
-                Celem eksperymentu jest sprawdzanie czasu wykonania klasyfikacji taksonomicznej przy użyciu różnych metod grupowaniu sekwencji genetycznych. 
+                Celem eksperymentu jest sprawdzanie czasu wykonania klasyfikacji taksonomicznej przy użyciu różnych metod grupowaniu sekwencji genetycznych.
 
             \paragraph{Założenia}
                 \begin{itemize}
@@ -199,19 +202,19 @@
                         \hline
                         \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c|}{\textbf{Czas trwania eksperymentu}} \\ \cline{2-5}
                                         & \textbf{BZ} & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} \\ \hline \hline
-                                        1 & 7107 & \textbf{6025} & 6087 & 6077\\ \hline 
-                                        2 & 6129 & 5994 & \textbf{5988} & 6035\\ \hline 
-                                        4 & 6108 & \textbf{5983} & 6024 & 6019\\ \hline 
-                                        8 & 6196 & 5988 & \textbf{5925} & 6014\\ \hline 
-                                        16 & 6290 & \textbf{5941} & 5946 & 6118\\ \hline 
-                                        32 & 6279 & 6035 & \textbf{5962} & 6092\\ \hline 
-                                        64 & 6316 & 6113 & \textbf{6107} & 6139\\ \hline 
-                                        128 & 6560 & 6238 & \textbf{6206} & 6233\\ \hline 
-                                        256 & 6753 & 6446 & \textbf{6295} & 6363\\ \hline 
-                                        512 & 7091 & 6972 & \textbf{6326} & 6347\\ \hline 
-                                        1024 & 8059 & 8743 & \textbf{6248} & 6269\\ \hline 
-                                        2048 & 8517 & 16461 & 6472 & \textbf{6332}\\ \hline 
-                                        4096 & 9433 & \textbf{-1} & 7003 & 6550\\ \hline 
+                                        1 & 7107 & \textbf{6025} & 6087 & 6077\\ \hline
+                                        2 & 6129 & 5994 & \textbf{5988} & 6035\\ \hline
+                                        4 & 6108 & \textbf{5983} & 6024 & 6019\\ \hline
+                                        8 & 6196 & 5988 & \textbf{5925} & 6014\\ \hline
+                                        16 & 6290 & \textbf{5941} & 5946 & 6118\\ \hline
+                                        32 & 6279 & 6035 & \textbf{5962} & 6092\\ \hline
+                                        64 & 6316 & 6113 & \textbf{6107} & 6139\\ \hline
+                                        128 & 6560 & 6238 & \textbf{6206} & 6233\\ \hline
+                                        256 & 6753 & 6446 & \textbf{6295} & 6363\\ \hline
+                                        512 & 7091 & 6972 & \textbf{6326} & 6347\\ \hline
+                                        1024 & 8059 & 8743 & \textbf{6248} & 6269\\ \hline
+                                        2048 & 8517 & 16461 & 6472 & \textbf{6332}\\ \hline
+                                        4096 & 9433 & \textbf{-1} & 7003 & 6550\\ \hline
 
                     \end{tabularx}
                 \end{table}
@@ -222,29 +225,29 @@
                         \hline
                         \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c||}{\textbf{Wykorzystanie procesora [proc.]}} & \multicolumn{4}{|c|}{\textbf{Wykorzystanie pamięci [MB]}} \\ \cline{2-9}
                                         & \textbf{BZ} & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} & \textbf{BZ} & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} \\ \hline \hline
-                                        1 & \textbf{14} & \textbf{14} & \textbf{14} & \textbf{14} & 37954 & 37451 & 39191 & \textbf{41120}\\ \hline 
-                                        2 & \textbf{15} & 14 & 14 & 14 & 37584 & 37493 & 38081 & \textbf{40567}\\ \hline 
-                                        4 & \textbf{16} & 14 & 14 & 14 & 37632 & 37510 & 38150 & \textbf{40701}\\ \hline 
-                                        8 & \textbf{18} & 14 & 15 & 13 & 37590 & 37545 & 38119 & \textbf{40685}\\ \hline 
-                                        16 & \textbf{22} & 15 & 16 & 17 & 37596 & 37509 & 38133 & \textbf{40781}\\ \hline 
-                                        32 & \textbf{21} & 15 & 16 & 15 & 37846 & 37589 & 38115 & \textbf{40766}\\ \hline 
-                                        64 & \textbf{21} & 17 & 17 & 17 & 37798 & 37604 & 37963 & \textbf{40706}\\ \hline 
-                                        128 & \textbf{26} & 21 & 20 & 19 & 37476 & 37638 & 37973 & \textbf{40396}\\ \hline 
-                                        256 & \textbf{32} & 25 & 22 & 20 & 37539 & 37667 & 37957 & \textbf{40385}\\ \hline 
-                                        512 & \textbf{38} & 33 & 25 & 23 & 37465 & 37590 & 37929 & \textbf{40414}\\ \hline 
-                                        1024 & \textbf{53} & 44 & 21 & 19 & 37462 & 37591 & 37876 & \textbf{40490}\\ \hline 
-                                        2048 & 61 & \textbf{70} & 24 & 22 & 37424 & 37607 & \textbf{37907} & 33674\\ \hline 
-                                        4096 & 68 & \textbf{96} & 29 & 24 & 37463 & 37504 & \textbf{37900} & 17106\\ \hline 
+                                        1 & \textbf{14} & \textbf{14} & \textbf{14} & \textbf{14} & 37954 & 37451 & 39191 & \textbf{41120}\\ \hline
+                                        2 & \textbf{15} & 14 & 14 & 14 & 37584 & 37493 & 38081 & \textbf{40567}\\ \hline
+                                        4 & \textbf{16} & 14 & 14 & 14 & 37632 & 37510 & 38150 & \textbf{40701}\\ \hline
+                                        8 & \textbf{18} & 14 & 15 & 13 & 37590 & 37545 & 38119 & \textbf{40685}\\ \hline
+                                        16 & \textbf{22} & 15 & 16 & 17 & 37596 & 37509 & 38133 & \textbf{40781}\\ \hline
+                                        32 & \textbf{21} & 15 & 16 & 15 & 37846 & 37589 & 38115 & \textbf{40766}\\ \hline
+                                        64 & \textbf{21} & 17 & 17 & 17 & 37798 & 37604 & 37963 & \textbf{40706}\\ \hline
+                                        128 & \textbf{26} & 21 & 20 & 19 & 37476 & 37638 & 37973 & \textbf{40396}\\ \hline
+                                        256 & \textbf{32} & 25 & 22 & 20 & 37539 & 37667 & 37957 & \textbf{40385}\\ \hline
+                                        512 & \textbf{38} & 33 & 25 & 23 & 37465 & 37590 & 37929 & \textbf{40414}\\ \hline
+                                        1024 & \textbf{53} & 44 & 21 & 19 & 37462 & 37591 & 37876 & \textbf{40490}\\ \hline
+                                        2048 & 61 & \textbf{70} & 24 & 22 & 37424 & 37607 & \textbf{37907} & 33674\\ \hline
+                                        4096 & 68 & \textbf{96} & 29 & 24 & 37463 & 37504 & \textbf{37900} & 17106\\ \hline
                     \end{tabularx}
                 \end{table}
 
             \paragraph{Wnioski}
                 Metoda z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha zgodnie z oczekiwaniami cechowała się najszybszym wzrostem czasu wykonania klasyfikacji taksonomicznej. Gwałtowny wzrost spowodowany jest porównywanie sekwencji każda z każdą przez budowę macierzy podobieństwa. Pomimo redukcji ilości sekwencji, które poddawane są klasyfikacji, czas wykonania tą metodą przekroczył klasyfikację taksonomiczną wszystkich sekwencji bez wykorzystania potoku przetwarzania.
 
-                Metody z wykorzystaniem zanurzeń $k$-merów oraz sztucznej sieci neuronowej cechowały się porównywalnymi czasami wykonania z lekką przewagą dla pierwszej metody. Obie metody działały szybciej od klasyfikacji taksonomicznej bez wykorzystania potoku przetwarzania. Metody do porównywania wykorzystują reprezentacje sekwencji, co spowodowało powolniejszy wzrost czasu wykonania klasyfikacji taksonomicznej. W przypadku metody ze sztuczną siecią neuronową krótszy czas wykonania dla $4096$ sekwencji może być spowodowany obliczaniem zanurzeń dla wszystkich sekwencji jednocześnie za pomocą karty graficznej. 
+                Metody z wykorzystaniem zanurzeń $k$-merów oraz sztucznej sieci neuronowej cechowały się porównywalnymi czasami wykonania z lekką przewagą dla pierwszej metody. Obie metody działały szybciej od klasyfikacji taksonomicznej bez wykorzystania potoku przetwarzania. Metody do porównywania wykorzystują reprezentacje sekwencji, co spowodowało powolniejszy wzrost czasu wykonania klasyfikacji taksonomicznej. W przypadku metody ze sztuczną siecią neuronową krótszy czas wykonania dla $4096$ sekwencji może być spowodowany obliczaniem zanurzeń dla wszystkich sekwencji jednocześnie za pomocą karty graficznej.
 
                 W przypadku wykorzystania zasobów zauważono wzrost średniego wykorzystania procesora przez klasyfikację taksonomiczną z wykorzystaniem zaimplementowanych metod w miarę wzrostu czasu wykonania klasyfikacji, co jest związane ze znacznym nakładem obliczeniowym podczas tworzenia macierzy niepodobieństwa, której złożoność tworzenia rośnie kwadratowo wraz z liczbą sekwencji.
- 
+
                 Zauważalne również jest większe wykorzystanie pamięci RAM przez metodę ze sztuczną siecią neuronową, co spowodowane jest koniecznością wczytania modelu sztucznej sieci neuronowej do pamięci.
 
         \subsubsection{Eksperyment 2: Jakość klasyfikacji taksonomicznej}
@@ -285,19 +288,19 @@
                         \hline
                         \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{3}{|c|}{\textbf{Metoda}} \\ \cline{2-4}
                         & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} \\ \hline \hline
-                        1 & \textbf{1,0} & \textbf{1,0} & \textbf{1,0}\\ \hline 
-                        2 & 0,27 & \textbf{0,73} & \textbf{0,73}\\ \hline 
-                        4 & \textbf{0,8} & 0,2 & 0,2\\ \hline 
-                        8 & \textbf{0,94} & 0,88 & 0,12\\ \hline 
-                        16 & 0,82 & 0,82 & \textbf{0,94}\\ \hline 
-                        32 & 0,88 & \textbf{0,92} & 0,87\\ \hline 
-                        64 & 0,93 & \textbf{0,94} & 0,93\\ \hline 
-                        128 & 0,89 & 0,87 & \textbf{0,91}\\ \hline 
-                        256 & 0,89 & 0,89 & \textbf{0,93}\\ \hline 
-                        512 & 0,73 & 0,76 & \textbf{0,94}\\ \hline 
-                        1024 & \textbf{0,95} & 0,93 & \textbf{0,95}\\ \hline 
-                        2048 & 0,92 & \textbf{0,95} & 0,92\\ \hline 
-                        4096 & 0,0 & 0,93 & \textbf{0,96}\\ \hline 
+                        1 & \textbf{1,0} & \textbf{1,0} & \textbf{1,0}\\ \hline
+                        2 & 0,27 & \textbf{0,73} & \textbf{0,73}\\ \hline
+                        4 & \textbf{0,8} & 0,2 & 0,2\\ \hline
+                        8 & \textbf{0,94} & 0,88 & 0,12\\ \hline
+                        16 & 0,82 & 0,82 & \textbf{0,94}\\ \hline
+                        32 & 0,88 & \textbf{0,92} & 0,87\\ \hline
+                        64 & 0,93 & \textbf{0,94} & 0,93\\ \hline
+                        128 & 0,89 & 0,87 & \textbf{0,91}\\ \hline
+                        256 & 0,89 & 0,89 & \textbf{0,93}\\ \hline
+                        512 & 0,73 & 0,76 & \textbf{0,94}\\ \hline
+                        1024 & \textbf{0,95} & 0,93 & \textbf{0,95}\\ \hline
+                        2048 & 0,92 & \textbf{0,95} & 0,92\\ \hline
+                        4096 & 0,0 & 0,93 & \textbf{0,96}\\ \hline
                     \end{tabularx}
                 \end{table}
 
@@ -326,19 +329,19 @@
                         \hline
                         \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{3}{|c|}{\textbf{Metoda}} \\ \cline{2-4}
                         & \textbf{NW - $k$-mer} & \textbf{NW - SSN} & \textbf{$k$-mer - SSN} \\ \hline \hline
-                        1 & 1 & 1 & 1\\ \hline 
-                        2 & 1 & 1 & 1\\ \hline 
-                        4 & 0,346 & 0,151 & 0,346\\ \hline 
-                        8 & 0,128 & 1,0 & 0,128\\ \hline 
-                        16 & 0,46 & 0,405 & 0,531\\ \hline 
-                        32 & 0,328 & 0,449 & 0,429\\ \hline 
-                        64 & 0,331 & 0,32 & 0,409\\ \hline 
-                        128 & 0,346 & 0,309 & 0,296\\ \hline 
-                        256 & 0,301 & 0,288 & 0,32\\ \hline 
-                        512 & 0,284 & 0,255 & 0,283\\ \hline 
-                        1024 & 0,262 & 0,25 & 0,251\\ \hline 
-                        2048 & 0,242 & 0,218 & 0,227\\ \hline 
-                        4096 & 0,234 & 0,202 & 0,217\\ \hline  
+                        1 & 1 & 1 & 1\\ \hline
+                        2 & 1 & 1 & 1\\ \hline
+                        4 & 0,346 & 0,151 & 0,346\\ \hline
+                        8 & 0,128 & 1,0 & 0,128\\ \hline
+                        16 & 0,46 & 0,405 & 0,531\\ \hline
+                        32 & 0,328 & 0,449 & 0,429\\ \hline
+                        64 & 0,331 & 0,32 & 0,409\\ \hline
+                        128 & 0,346 & 0,309 & 0,296\\ \hline
+                        256 & 0,301 & 0,288 & 0,32\\ \hline
+                        512 & 0,284 & 0,255 & 0,283\\ \hline
+                        1024 & 0,262 & 0,25 & 0,251\\ \hline
+                        2048 & 0,242 & 0,218 & 0,227\\ \hline
+                        4096 & 0,234 & 0,202 & 0,217\\ \hline
                     \end{tabularx}
                 \end{table}
 
@@ -349,19 +352,19 @@
                         \hline
                         \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{3}{|c|}{\textbf{Metoda}} \\ \cline{2-4}
                         & \textbf{NW - $k$-mer} & \textbf{NW - SSN} & \textbf{$k$-mer - SSN} \\ \hline \hline
-                        1 & 1,0 & 1,0 & 1,0\\ \hline 
-                        2 & 0,0 & 0,0 & 1,0\\ \hline 
-                        4 & 0,5 & 0,0 & 0,5\\ \hline 
-                        8 & 0,0 & 0,5 & 0,0\\ \hline 
-                        16 & 0,75 & 0,0 & 0,0\\ \hline 
-                        32 & 0,0 & 0,2 & 0,0\\ \hline 
-                        64 & 0,25 & 0,125 & 0,125\\ \hline 
-                        128 & 0,0 & 0,0 & 0,091\\ \hline 
-                        256 & 0,125 & 0,062 & 0,062\\ \hline 
-                        512 & 0,136 & 0,0 & 0,0\\ \hline 
-                        1024 & 0,031 & 0,0 & 0,031\\ \hline 
-                        2048 & 0,067 & 0,0 & 0,022\\ \hline 
-                        4096 & 0,031 & 0,0 & 0,0\\ \hline                         
+                        1 & 1,0 & 1,0 & 1,0\\ \hline
+                        2 & 0,0 & 0,0 & 1,0\\ \hline
+                        4 & 0,5 & 0,0 & 0,5\\ \hline
+                        8 & 0,0 & 0,5 & 0,0\\ \hline
+                        16 & 0,75 & 0,0 & 0,0\\ \hline
+                        32 & 0,0 & 0,2 & 0,0\\ \hline
+                        64 & 0,25 & 0,125 & 0,125\\ \hline
+                        128 & 0,0 & 0,0 & 0,091\\ \hline
+                        256 & 0,125 & 0,062 & 0,062\\ \hline
+                        512 & 0,136 & 0,0 & 0,0\\ \hline
+                        1024 & 0,031 & 0,0 & 0,031\\ \hline
+                        2048 & 0,067 & 0,0 & 0,022\\ \hline
+                        4096 & 0,031 & 0,0 & 0,0\\ \hline
                     \end{tabularx}
                 \end{table}
 
