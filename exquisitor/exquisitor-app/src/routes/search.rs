@@ -1,3 +1,4 @@
+use std::sync::Arc;
 use crate::db;
 use crate::routes::errors::InternalServerError;
 use crate::templates::HTMLTemplate;
@@ -20,18 +21,17 @@ struct SearchTemplate;
 
 pub async fn render(
     Query(params): Query<SearchParams>,
-    Extension(pool): Extension<SqlitePool>,
+    Extension(pool): Extension<Arc<SqlitePool>>,
 ) -> Response {
     let order_id = params.query.parse::<i64>().unwrap_or(0);
 
-    let order =
-        match db::get_order_by_id_or_name(&pool, order_id, params.query.as_str())
-            .await
-            .map_err(|e| InternalServerError::DatabaseError(e))
-        {
-            Ok(order) => order,
-            Err(e) => return e.into_response(),
-        };
+    let order = match db::get_order_by_id_or_name(&pool, order_id, params.query.as_str())
+        .await
+        .map_err(|e| InternalServerError::DatabaseError(e))
+    {
+        Ok(order) => order,
+        Err(e) => return e.into_response(),
+    };
 
     let order = match order {
         Some(order) => order,

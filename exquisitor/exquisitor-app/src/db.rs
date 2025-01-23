@@ -1,4 +1,5 @@
-use sqlx::SqlitePool;
+use sqlx::sqlite::SqliteRow;
+use sqlx::{Error, SqlitePool};
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct Order {
@@ -12,15 +13,16 @@ pub struct Order {
 #[derive(Debug, sqlx::FromRow)]
 pub struct OrderResult {
     pub result_id: i64,
-    pub success: bool,
-    pub filepath: String,
+    pub success: i64,
+    pub filepath: Option<String>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Eq)]
 pub enum OrderStatus {
     Queued,
     InProgress,
     Done,
+    Failed,
 }
 
 impl OrderStatus {
@@ -29,6 +31,7 @@ impl OrderStatus {
             OrderStatus::Queued => "QUEUED",
             OrderStatus::InProgress => "IN_PROGRESS",
             OrderStatus::Done => "DONE",
+            OrderStatus::Failed => "FAILED",
         }
     }
 }
@@ -41,6 +44,7 @@ impl TryFrom<String> for OrderStatus {
             "QUEUED" => Ok(OrderStatus::Queued),
             "IN_PROGRESS" => Ok(OrderStatus::InProgress),
             "DONE" => Ok(OrderStatus::Done),
+            "FAILED" => Ok(OrderStatus::Failed),
             _ => Err(format!("Invalid status value: {}", value)),
         }
     }
@@ -54,11 +58,11 @@ impl From<OrderStatus> for String {
 
 // region CREATE
 
-pub async fn create_experiment(
+pub async fn create_order(
     pool: &SqlitePool,
     name: String,
     filepath: String,
-    status: OrderStatus
+    status: OrderStatus,
 ) -> Result<Option<i64>, sqlx::Error> {
     let status = status.as_str();
 
@@ -68,10 +72,27 @@ pub async fn create_experiment(
         filepath,
         status
     )
-        .fetch_one(pool)
-        .await?;
+    .fetch_one(pool)
+    .await?;
 
     Ok(Some(order.order_id))
+}
+
+pub async fn create_result(
+    pool: &SqlitePool,
+    success: bool,
+    filepath: Option<String>,
+) -> Result<Option<i64>, sqlx::Error> {
+    let filepath = filepath.unwrap_or("NULL".into());
+    let result = sqlx::query!(
+        "INSERT INTO results (success, filepath) VALUES ($1, $2) RETURNING result_id",
+        success,
+        filepath
+    )
+    .fetch_one(pool)
+    .await?;
+
+    Ok(Some(result.result_id))
 }
 
 // endregion
@@ -82,13 +103,9 @@ pub async fn get_order_by_id(
     pool: &SqlitePool,
     order_id: i64,
 ) -> Result<Option<Order>, sqlx::Error> {
-    sqlx::query_as!(
-        Order,
-        "SELECT * FROM orders WHERE order_id = $1",
-        order_id
-    )
-    .fetch_optional(pool)
-    .await
+    sqlx::query_as!(Order, "SELECT * FROM orders WHERE order_id = $1", order_id)
+        .fetch_optional(pool)
+        .await
 }
 
 pub async fn get_order_by_id_or_name(
@@ -106,17 +123,79 @@ pub async fn get_order_by_id_or_name(
     .await
 }
 
-pub async fn query_orders(
-    pool: &SqlitePool,
-    limit: u32,
-) -> Result<Vec<Order>, sqlx::Error> {
+pub async fn query_orders(pool: &SqlitePool, limit: u32) -> Result<Vec<Order>, sqlx::Error> {
     sqlx::query_as!(Order, "SELECT * FROM orders LIMIT ?", limit)
         .fetch_all(pool)
         .await
 }
 
+pub async fn query_orders_by_status(
+    pool: &SqlitePool,
+    status: OrderStatus,
+    limit: Option<u32>,
+) -> Result<Vec<Order>, sqlx::Error> {
+    let status = String::from(status);
+
+    if let Some(limit) = limit {
+        sqlx::query_as!(
+            Order,
+            "SELECT * FROM orders WHERE status = $1 LIMIT $2",
+            status,
+            limit
+        )
+        .fetch_all(pool)
+        .await
+    } else {
+        sqlx::query_as!(Order, "SELECT * FROM orders WHERE status = ?", status)
+            .fetch_all(pool)
+            .await
+    }
+}
+
+pub async fn get_result_by_id(
+    pool: &SqlitePool,
+    result_id: i64,
+) -> Result<Option<OrderResult>, sqlx::Error> {
+    sqlx::query_as!(
+        OrderResult,
+        "SELECT * FROM results WHERE result_id = $1",
+        result_id
+    )
+    .fetch_optional(pool)
+    .await
+}
+
 // endregion
 
 // region UPDATE
+
+pub async fn update_order_status(
+    pool: &SqlitePool,
+    order_id: i64,
+    status: OrderStatus,
+) -> Result<Vec<SqliteRow>, Error> {
+    let status = String::from(status);
+    sqlx::query!(
+        "UPDATE orders SET status = $1 WHERE order_id = $2",
+        status,
+        order_id
+    )
+    .fetch_all(pool)
+    .await
+}
+
+pub async fn update_order_result(
+    pool: &SqlitePool,
+    order_id: i64,
+    result_id: i64,
+) -> Result<Vec<SqliteRow>, Error> {
+    sqlx::query!(
+        "UPDATE orders SET result_id = $1 WHERE order_id = $2",
+        result_id,
+        order_id
+    )
+    .fetch_all(pool)
+    .await
+}
 
 // endregion

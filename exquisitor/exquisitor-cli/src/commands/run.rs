@@ -199,7 +199,7 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
         }
     };
 
-    debug!("Calculated distance matrix");
+    debug!("Calculated distance matrix: {}", distance_matrix.len());
 
     let clustering_method: Box<dyn Clustering<DistanceMatrix>> =
         match args.clustering_configuration.clustering {

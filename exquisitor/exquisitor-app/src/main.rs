@@ -1,17 +1,20 @@
+use crate::db::OrderStatus;
+use crate::executor::executor_task;
 use crate::routes::errors;
 use axum::middleware::Next;
 use axum::response::IntoResponse;
-use axum::routing::get;
+use axum::routing::{get, post};
 use axum::{extract, middleware, Extension, Router};
 use dotenv::dotenv;
 use sqlx::SqlitePool;
+use std::sync::Arc;
 use tower_http::services::ServeDir;
 use tracing::info;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::{fmt, Registry};
-use crate::db::OrderStatus;
 
 mod db;
+mod executor;
 mod routes;
 mod templates;
 
@@ -30,17 +33,23 @@ async fn main() {
     let pool = SqlitePool::connect("sqlite://./exquisitor.db")
         .await
         .unwrap();
+    let pool = Arc::new(pool);
+
+    // Executor task
+    tokio::spawn(executor_task(Arc::clone(&pool)));
 
     // Static files
     let serve_dir_from_assets = ServeDir::new("static");
-
-    // db::create_experiment(&pool, "Basic".into(), "/tmp/0.fasta".into(), OrderStatus::Queued).await.expect("");
 
     // Main router
     let app = Router::new()
         .route("/", get(routes::index::render))
         .route("/search", get(routes::search::render))
-        //.route("/order/add", get(routes::order::add))
+        .route(
+            "/order/add",
+            get(routes::order::add_form).post(routes::order::add_submit),
+        )
+        .route("/order/download/:id/:kind", get(routes::order::download))
         .route("/order/:id", get(routes::order::render))
         .nest_service("/assets", serve_dir_from_assets)
         .fallback(errors::handle_not_found)

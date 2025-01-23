@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title%}Exquisitor - Not Found{% endblock %}
+{% block title%}Exquisitor - {{ message }}{% endblock %}
 
 {% block header %}
     <style>
@@ -14,6 +14,7 @@
         .error-message {
             font-size: 20px;
             opacity: 0.7;
+            margin-bottom: 16px;
         }
     </style>
 {% endblock %}
@@ -22,5 +23,8 @@
     <div class="error">
         <div class="error-code">{{ code.as_u16() }}</div>
         <div class="error-message">{{ message }}</div>
+        <div>
+            <a href="/" class="btn btn-blue>">Home</a>
+        </div>
     </div>
 {% endblock %}

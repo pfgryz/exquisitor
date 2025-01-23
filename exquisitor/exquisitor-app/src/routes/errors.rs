@@ -17,7 +17,7 @@ impl IntoResponse for InternalServerError {
         error!("Error: {}\n\t{}", name, details);
 
         HTMLTemplate {
-            template: ErrorTemplate {
+            template: CodeTemplate {
                 code: StatusCode::INTERNAL_SERVER_ERROR,
                 message: "Internal Server Error".into(),
             },
@@ -28,20 +28,21 @@ impl IntoResponse for InternalServerError {
 }
 
 #[derive(Template)]
-#[template(path = "error.html")]
-struct ErrorTemplate {
+#[template(path = "code.html")]
+struct CodeTemplate {
     code: StatusCode,
     message: String,
 }
 
-pub async fn handle_not_found() -> impl IntoResponse {
-    let template = ErrorTemplate {
-        code: StatusCode::NOT_FOUND,
-        message: "Not found".into(),
+pub fn create_code_response(code: StatusCode, message: &str) -> impl IntoResponse {
+    let template = CodeTemplate {
+        code,
+        message: message.to_string(),
     };
 
-    HTMLTemplate {
-        template,
-        code: StatusCode::NOT_FOUND,
-    }
+    HTMLTemplate { template, code }
+}
+
+pub async fn handle_not_found() -> impl IntoResponse {
+    create_code_response(StatusCode::NOT_FOUND, "Not Found")
 }

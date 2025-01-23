@@ -18,12 +18,12 @@
             </div>
             <div class="order-detail">
                 <h3>Filepath:</h3>
-                {{ order.filepath }}
+                <a href="/order/download/{{ order.order_id }}/input">Download</a>
             </div>
             <div class="order-detail">
                 <h3>Result:</h3>
                 {% if let Some(id) = order.result_id %}
-                    {{ id }}
+                    <a href="/order/download/{{ order.order_id }}/output">Download</a>
                 {% else %}
                     ...
                 {% endif %}

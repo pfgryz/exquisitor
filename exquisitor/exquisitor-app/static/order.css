@@ -17,3 +17,7 @@
 .order-detail h3 {
     text-decoration: underline;
 }
+
+.order input {
+    font-size: 16px;
+}
