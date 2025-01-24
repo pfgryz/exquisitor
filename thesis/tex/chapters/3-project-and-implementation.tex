@@ -13,7 +13,7 @@
 
         Wykorzystanie algorytmu grupowania sekwencji genetycznych umożliwi podział sekwencji na grupy sekwencji podobnych, które będą reprezentowane przez wybraną sekwencję zwaną reprezentantem. Wyszukiwanie w bazie danych sekwencji reprezentantów zamiast wszystkich sekwencji znacząco zredukuje liczbę analizowanych sekwencji, co pozwoli na przyśpieszenie całego procesu analizy materiału genetycznego, ponieważ to wyszukiwanie sekwencji podobnych w bazie danych sekwencji jest najbardziej czasochłonnym elementem analizy. Wybór reprezentantów będzie realizowany za pomocą algorytmu, który pozwoli na wybór sekwencji, która najlepiej reprezentuje swoje grupy.
 
-        Ponadto wykorzystanie wysokowydajnego języka programowania pozwoli na minimalizację narzutu obliczeniowego związanego z aplikacją, a zastosowanie ustrukturyzowanego formatu zapisu wyników całego procesu pozwoli na dalsze analizie wyników oraz ich prostą wizualizację.
+        Ponadto wykorzystanie wysokowydajnego języka programowania pozwoli na minimalizację narzutu obliczeniowego związanego z aplikacją, a zastosowanie ustandaryzowanego tekstowego formatu zapisu wyników całego procesu pozwoli na dalsze analizie wyników oraz ich prostą wizualizację.
 
         Natomiast zastosowanie modeli uczenia maszynowego może usprawnić proces analizy materiału genetycznego oraz zwiększyć jakość wyników otrzymanych za pomocą opisanej optymalizacji poprzez identyfikację ukrytych wzorców i zależności między sekwencjami genetycznymi, które wpływają na ich podobieństwo.
 
@@ -23,8 +23,7 @@
     % ===== ===== ===== ===== 
     \subsection{Wymagania funkcjonalne i niefunkcjonalne}
 
-    Aby zrealizować postawiony cel, aplikacja musi spełniać wymagania:
-    \todo{zdanie niedokończone, proszę zakończyć, np. 'spełniać wymagania funkcjonalne i niefunkcjonalne.'}
+    Aby zrealizować postawiony cel, aplikacja musi spełniać wymagania funkcjonalne i niefunkcjonalne.
 
         \subsubsection{Wymagania funkcjonalne}
 
@@ -35,10 +34,10 @@
                     Aplikacja powinna zawierać zaimplementowane trzy metody grupowania sekwencji genetycznych:
                     \begin{itemize}
                         \item {
-                            metodę klasyczną wykorzystującą algorytm Needlemana-Wunscha,
+                            metodę klasyczną wykorzystującą algorytm Needlemana-Wunscha;
                         }
                         \item {
-                            metodę klasyczną wykorzystującą $k$-mery,
+                            metodę klasyczną wykorzystującą $k$-mery;
                         }
                         \item {
                             nową metodą opartą na sztucznych sieciach neuronowych.
@@ -52,10 +51,7 @@
         \subsubsection{Wymagania niefunkcjonalne}
 
             \begin{itemize}
-            \item Aplikacja powinna być wykonana przy wykorzystaniu kompilowanego wysoko wydajnego języka programowania.
-              \todo{może lepiej:
-                'Aplikacja powinna być wydajna. Wymaga to wykorzystanie języka programowania pozwalającego tworzyć
-                wydajny kod wykonywalny.'}
+                \item Aplikacja powinna być wydajna.
                 \item Implementacja powinna zawierać testy jednostkowe poszczególnych modułów i funkcji.
             \end{itemize}
 
@@ -66,22 +62,18 @@
 
         Architektura rozwiązania została przedstawiona w postaci modelu C4\cite{C4}. Model ten opisuje architekturę na czterech poziomach: kontekstowym (ang. \textit{System context}), kontenerów (ang. \textit{Container}), komponentów (ang. \textit{Component}) oraz kodu, przechodząc od najbardziej abstrakcyjnego spojrzenia na architekturę rozwiązania do kodu implementacji. Na rysunku~\ref{Picture:App:C4:Context} przedstawiono diagram kontekstowy modelu architektury, przedstawia on relacje między użytkownikami systemu a systemem oraz relacje między systemem a systemami zewnętrznymi. Na rysunku~\ref{Picture:App:C4:Container} przedstawiono natomiast diagram kontenerów modelu architektury, który przedstawia relacje między użytkownikami a poszczególnymi aplikacjami, biblioteką oraz systemami zewnętrznymi.
 
-        \todo{nie bardzo widzę sens robić 'input' pliku 'tex', który ma 'includegraphics'. Proszę bezpośrednio dać 'includegraphics' i usunąć pliki 'tex' z 'tex/pictures'}
-
-        \todo{dla każdego środowiska 'figure' dać '[!htb]' jak niżej}
-        
         \begin{figure}[!htb]
             \begin{center}
-                \input{tex/pictures/app/c4_system_context.tex}
+                \includegraphics[width=\textwidth]{tex/pictures/app/c4_system_context.png}
             \end{center}
             \caption{
                 Diagram kontekstowy modelu architektury.
             }\label{Picture:App:C4:Context}
         \end{figure}
 
-        \begin{figure}
+        \begin{figure}[!htb]
             \begin{center}
-                \input{tex/pictures/app/c4_container.tex}
+                \includegraphics[width=\textwidth]{tex/pictures/app/c4_container.png}
             \end{center}
             \caption{
                 Diagram komponentów modelu architektury.
@@ -107,10 +99,11 @@
 
         \subsubsection{Potok przetwarzania}
 
-            \todo{dodać na początku: 'Potok przetwarzania został pokazany na Rys. XXX'}
             Potok przetwarzania składa się z szeregu kroków, które są realizowane kolejno, jeden po drugim, w celu przeprowadzenia pełnej klasyfikacji taksonomicznej DNA. Każdy krok potoku jest odpowiedzialny za określoną część procesu i może być niezależnie modyfikowany lub wymieniany, co umożliwia elastyczność w doborze metod.
-            \todo{tutaj dać rysunek potoku}
-            Do kluczowych kroków potoku należą:
+           
+            Schematyczne przedstawienie potoku zaprezentowano na rysunku~\ref{Picture:Pipeline}. W kółkach umieszczono wejście oraz wyjście z potoku przetwarzania, natomiast w prostokątach – kolejne kroki. Na strzałkach opisano rodzaj przekazywanych danych. Niebieskim kolorem obramowania oznaczono kroki, których wyjściem są sekwencje DNA, czerwonym – kroki, których wyjściem są wykryte organizmy, a zielonym – kroki generujące wyniki w formie czytelnej dla człowieka.
+
+            Potok składa się z 5 kluczowych kroków.
 
             \begin{enumerate}
                 \item {
@@ -160,11 +153,60 @@
                 }
             \end{enumerate}
 
-            Schematyczne przedstawienie potoku zaprezentowano na rysunku~\ref{Picture:Pipeline}. W kółkach umieszczono wejście oraz wyjście z potoku przetwarzania, natomiast w prostokątach – kolejne kroki. Na strzałkach opisano rodzaj przekazywanych danych. Niebieskim kolorem obramowania oznaczono kroki, których wyjściem są sekwencje DNA, czerwonym – kroki, których wyjściem są wykryte organizmy, a zielonym – kroki generujące wyniki w formie czytelnej dla człowieka.
-
-            \begin{figure}
+            \begin{figure}[!htb]
                 \begin{center}
-                    \input{tex/pictures/pipeline.tex}
+                    {
+                    % ===== BEGIN =====
+                    % ----- -----
+                    % COLORS
+                    % ----- -----
+                    \definecolor{Green}{HTML}{1dd1a1}   % Results
+                    \definecolor{Blue}{HTML}{54a0ff}    % Sequences
+                    \definecolor{Yellow}{HTML}{feca57}
+                    \definecolor{Purple}{HTML}{5f27cd}
+                    \definecolor{Grey}{HTML}{576574}
+                    \definecolor{Red}{HTML}{ff6b6b}     % Organisms
+                    \definecolor{Pink}{HTML}{ff9ff3}    
+                    \definecolor{Background}{HTML}{c8d6e5}
+
+                    % ----- -----
+                    % ELEMENTS
+                    % ----- -----
+                    \tikzstyle{Circle} = [circle, minimum size = 1cm, line width = 2pt, draw=black]
+                    \tikzstyle{Box} = [rectangle, minimum width = 10cm, minimum height = 1.5cm, line width=2pt, text centered, inner sep=10pt, draw=black]
+                    \tikzstyle{Arrow} = [very thick, -Triangle]
+                    \tikzstyle{Arrow:Text} = [pos=0.5, right, font=\footnotesize]
+
+                    \tikzstyle{seq} = [draw=Blue]
+                    \tikzstyle{db} = [draw=Red]
+                    \tikzstyle{res} = [draw=Green]
+
+                    % ----- -----
+                    % PICTURE
+                    % ----- -----
+                    \begin{tikzpicture}[node distance=3cm]
+                        \node (input) [Circle, seq] {Wejście};
+                        \node (preprocess) [Box, seq, below of=input, align=center] { 1. Wstępne przetwarzanie sekwencji \\ \textbf{(opcjonalnie)} };
+                        \node (cluster) [Box, seq, below of=preprocess] {2. Grupowanie sekwencji};
+                        \node (search) [Box, db, below of=cluster] {3. Wyszukiwanie w bazie danych sekwencji};
+                        \node (postprocess) [Box, db, below of=search] {4. Przetwarzanie wyników wyszukiwania};
+                        \node (results) [Box, res, below of=postprocess] {5. Generowanie raportów dla użytkownika};
+                        \node (output) [Circle, res, below of=results] {Wyjście};
+
+                        \node (cluster-right) [right of=cluster, xshift=3cm] {};
+                        \node (postprocess-right) [right of=postprocess, xshift=3cm] { };
+
+                        \draw [Arrow, seq] (input) -- (preprocess) node [Arrow:Text] {Zbiór sekwencji DNA};
+                        \draw [Arrow, seq] (preprocess) -- (cluster) node [Arrow:Text] {Zbiór sekwencji DNA};
+                        \draw [Arrow, seq] (cluster) -- (search) node [Arrow:Text] {Reprezentanci grup (sekwencje DNA)};
+                        \draw [Arrow, db] (search) -- (postprocess) node [Arrow:Text] {Wykryte organizmy};
+                        \draw [Arrow, seq] (cluster.east) -- (cluster-right) -- node [Arrow:Text] {Grupy} (postprocess-right) -- (postprocess.east);
+                        \draw [Arrow, db] (postprocess) -- (results) node [Arrow:Text] {Wykryte organizmy};
+                        \draw [Arrow, res] (results) -- (output) node [Arrow:Text] {Wyniki};
+                    \end{tikzpicture}
+
+                    % ===== END =====
+                    }
                 \end{center}
                 \caption{
                     Schemat potoku przetwarzania.
@@ -172,7 +214,7 @@
             \end{figure}
 
         \subsubsection{Biblioteka \textit{exquisitor-core}}
-            Podstawę rozwiązania stanowi biblioteka \textit{exqusitor-core} zawarta w skrzynce (ang. \textit{crate}) \textit{exquisitor-core}, stworzona w języku Rust. Zawiera ona implementację wszystkich elementów potoku, które wymagane są przez aplikacje oraz dodatkowo opakowuje implementację algorytmów $k$-medoidów. Biblioteka podzielona jest na kilka modułów ze względu na odpowiedzialność:
+            Podstawę rozwiązania stanowi biblioteka \textit{exqusitor-core} zawarta w skrzynce (ang. \textit{crate}) \textit{exquisitor-core}, stworzona w języku Rust. Zawiera ona implementację wszystkich elementów potoku, które wymagane są przez aplikacje oraz dodatkowo opakowuje implementację algorytmów $k$-medoidów. Biblioteka podzielona jest na kilka modułów ze względu na odpowiedzialność.
 
             \begin{itemize}
                 \item {
@@ -194,7 +236,7 @@
         \subsubsection{Aplikacja konsolowa \textit{exquisitor-cli}}
             Główną aplikacją, która implementuje pełny potok przetwarzania i realizuje klasyfikację taksonomiczną, jest aplikacja konsolowa \textit{exquisitor-cli} zawarta w skrzynce o tej samej nazwie. Aplikacja oferuje standardowy interfejs użytkownika typowy dla aplikacji konsolowych i wykonuje komendy wywołane przez użytkownika. Interfejs tekstowy umożliwia uruchamianie aplikacji w środowiskach bez dostępu do środowiska graficznego.
 
-            Aplikacja implementuje następujące komendy:
+            Aplikacja implementuje 5 komend.
             \begin{itemize}
                 \item {
                     \textit{experiment} --- umożliwia uruchomienie wskazanej komendy w ramach eksperymentu. Pozwala na monitorowanie wykorzystania pamięci RAM oraz procesora, oraz określenie maksymalnego czasu trwania eksperymentu, po których zostanie przerwany. Wykorzystywana jest do przeprowadzania eksperymentów. W wyniku działania generuje plik w formacie CSV zawierający monitorowane dane z zadaną rozdzielczością.
@@ -220,16 +262,16 @@
             
             Do głównych funkcji serwera należą:
             \begin{itemize}
-                \item Generowanie stron internetowych na podstawie szablonów.
-                \item Serwowanie statycznych plików CSS oraz JavaScript.
-                \item Obsługa błędów i wyświetlanie stosownych komunikatów dla użytkownika.
+                \item generowanie stron internetowych na podstawie szablonów;
+                \item serwowanie statycznych plików CSS oraz JavaScript;
+                \item obsługa błędów i wyświetlanie stosownych komunikatów dla użytkownika.
             \end{itemize}
             
             Schemat bazy danych znajduje się na rysunku~\ref{Picture:App:Database}.
 
-            \begin{figure}
+            \begin{figure}[!htb]
                 \begin{center}
-                    \input{tex/pictures/app/database.tex}
+                    \includegraphics[width=\textwidth]{tex/pictures/app/database.png}
                 \end{center}
                 \caption{
                     Diagram ER modelu bazy danych aplikacji internetowej.
@@ -244,9 +286,15 @@
         W pracy zaimplementowano trzy metody grupowania sekwencji DNA. Każda metoda składa się z wyznaczania niepodobieństwa między sekwencjami DNA, które służą do budowy macierzy niepodobieństwa, a następnie do przeprowadzenia grupowania sekwencji. Każda z metod obejmuje:
 
         \begin{itemize}
-            \item {wyznaczenie niepodobieństwa między sekwencjami,}
-            \item {budowę macierzy niepodobieństwa,}
-            \item {zastosowanie algorytmu grupowania.}
+            \item {
+                wyznaczenie niepodobieństwa między sekwencjami;
+            }
+            \item {
+                budowę macierzy niepodobieństwa;
+            }
+            \item {
+                zastosowanie algorytmu grupowania.
+            }
         \end{itemize}
 
         Budowanie macierzy niepodobieństwa oraz zastosowanie algorytmu grupowania wygląda we wszystkich metodach jednakowo. W dalszych sekcjach opisany zostanie proces wyznaczania niepodobieństwa między sekwencjami w zaimplementowanych metodach.
@@ -263,18 +311,16 @@
                     D_{i, j - 1} + g \\
                     D_{i - 1, j - 1} + s(A_{i - 1}, B_{j - 1})
                     \end{cases}, & \text{dla } & i \in \left(1, n + 1\right] \text{ oraz } j \in \left(1, m + 1\right] \\
-                    & g, s(A_i, B_j) \in \mathbb{R}^{+}
                 \end{aligned}
             \end{equation}
 
-            gdzie,
-            \todo{popatrz na moje zmiany w równaniu \eqref{Equation:NeedlemanWunsch}, linijka powyżej do wyrzucenia}
+            gdzie:
             \begin{align*} 
                 A, B -& \text{porównywane sekwencje}, \\
                 n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
                 D -& \text{macierz podobieństwa o rozmiarach } (n + 1) \text{ x } (m + 1), \\
-                g -& \text{kara za przerwę}, \\
-                s(A_i, B_j) -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\ 
+                g \in \mathbb{R}^{+} -& \text{kara za przerwę}, \\
+                s(A_i, B_j) \in \mathbb{R}^{+} -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\ 
                 & \text{a } j \text{-tym elementem w sekwencji B}. \\
             \end{align*}
 
@@ -303,9 +349,48 @@
 
             Niepodobieństwo między tymi sekwencjami, zawarte w komórce $D_{n + 1, m + 1}$ wynosi zatem $2$.
 
-            \begin{figure}
+            \begin{figure}[!htb]
                 \begin{center}
-                    \input{tex/pictures/cluster_needleman.tex}
+                    {
+                    % ===== BEGIN =====
+                    % ----- -----
+                    % COLORS
+                    % ----- -----
+                    \definecolor{Green}{HTML}{1dd1a1}
+                    \definecolor{Blue}{HTML}{54a0ff}
+                    \definecolor{Yellow}{HTML}{feca57}
+                    \definecolor{Purple}{HTML}{5f27cd}
+                    \definecolor{Grey}{HTML}{576574}
+                    \definecolor{Red}{HTML}{ff6b6b}
+                    \definecolor{Pink}{HTML}{ff9ff3}
+                    \definecolor{Background}{HTML}{c8d6e5}
+
+                    % ----- -----
+                    % ELEMENTS
+                    % ----- -----
+                    \tikzstyle{Circle} = [circle, minimum size=1cm, line width=2pt, draw=black]
+                    \tikzstyle{Box} = [rectangle, minimum width=10cm, minimum height=1.5cm, line width=2pt, text centered, inner sep=10pt, draw=black]
+                    \tikzstyle{Arrow} = [very thick, -Triangle]
+                    \tikzstyle{Arrow:Text} = [pos=0.5, right, font=\footnotesize]
+
+                    % ----- -----
+                    % PICTURE
+                    % ----- -----
+                    \begin{tikzpicture}[node distance=3cm]
+                        \node (input) [Circle] { Wejście };
+                        \node (distance) [Box, below of=input, align=center, draw=Red] { 1. Obliczenie niepodobieństwa między sekwencjami \\ \textbf{za pomocą algorytmu Needlemana-Wunscha} };
+                        \node (matrix) [Box, below of=distance] { 2. Stworzenie macierzy niepodobieństwa };
+                        \node (cluster) [Box, below of=matrix, align=center] { 3. Grupowanie sekwencji \\ \textbf{za pomocą algorytmu k-medoidów}};
+                        \node (output) [Circle, below of=cluster] { Wyjście };
+
+                        \draw [Arrow] (input) -- (distance) node [Arrow:Text] {Zbiór sekwencji DNA};
+                        \draw [Arrow] (distance) -- (matrix) node [Arrow:Text] {Niepodobieństwo sekwencji};
+                        \draw [Arrow] (matrix) -- (cluster) node [Arrow:Text] {Macierz niepodobieństwa};
+                        \draw [Arrow] (cluster) -- (output) node [Arrow:Text] {Grupy};
+                    \end{tikzpicture}
+
+                    % ===== END =====
+                    }
                 \end{center}
                 \caption{
                     Grupowanie sekwencji z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha do określenia niepodobieństwa między sekwencjami.
@@ -318,19 +403,14 @@
             Z wyznaczonych \textit{k-merów} tworzy się wektor zanurzeń, w którym każda pozycja odpowiada określonemu \textit{k-merowi}. Przykładowo, dla \textit{k} = 2 (k-mery dwuznakowe) możemy przypisać odpowiednią pozycję w wektorze do każdego możliwego k-meru, np.:
             
             \[
-            \text{AA} \to 0, \quad \text{AC} \to 1, \quad \text{AT} \to 2, \quad \text{AG} \to 3, \quad \text{CA} \to 4, \quad \dots
-          \]
-
-          \todo{zmienić kolejność AG i AT, żeby było alfabetycznie}
-          \todo{dodać jeszcze $TT \to 15$ po $\dots$}
+                \text{AA} \to 0, \quad \text{AC} \to 1, \quad \text{AG} \to 2, \quad \text{AT} \to 3, \quad \text{CA} \to 4, \quad \dots, \quad \text{TT} to 15
+            \]
             
-            Wektor zanurzeń dla danej sekwencji DNA zawiera liczbę wystąpień każdego \textit{k-meru} w odpowiednich pozycjach. Na przykład, dla sekwencji `AAACA' wektor zanurzeń dla $k=2$ może wyglądać następująco:
+            Wektor zanurzeń dla danej sekwencji DNA zawiera liczbę wystąpień każdego \textit{k-meru} w odpowiednich pozycjach. Na przykład, dla sekwencji `AAACATT' wektor zanurzeń dla $k=2$ może wyglądać następująco:
             
             \[
-            \text{AAACA} \to [2, 1, 0, 0, 1, \dots]
-          \]
-
-          \todo{dać cały wektor, 16 liczb, bez $\dots$}
+                \text{AAACATT} \to [2, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
+            \]
             
             gdzie liczba na pozycji 0 oznacza liczbę wystąpień \textit{AA} w sekwencji, liczba na pozycji 1 oznacza liczbę wystąpień \textit{AC}, itd. Następnie, na podstawie tych wektorów zanurzeń, oblicza się niepodobieństwo między sekwencjami, porównując ich wektory zanurzeń według wzoru:
 
@@ -338,7 +418,7 @@
                 dissimilarity_{kmer}(A, B, k) = \sqrt{\sum_{m \in M_{k}} (A_m - B_m)^{2}}
             \end{equation}
 
-            gdzie,
+            gdzie:
             \begin{align*} 
                 k -& \text{długość $k$-merów}, \\
                 A, B -& \text{porównywane sekwencje}, \\
@@ -348,9 +428,50 @@
 
             Pełny przebieg wykorzystania metody zanurzeń \textit{k-merów} w grupowaniu sekwencji został pokazany na schemacie~\ref{Picture:Cluster:KMer}. Czerwonym obramowaniem oznaczono krok, w którym wykorzystana została metoda.
 
-            \begin{figure}
+            \begin{figure}[!htb]
                 \begin{center}
-                    \input{tex/pictures/cluster_kmer.tex}
+                    {
+                    % ===== BEGIN =====
+                    % ----- -----
+                    % COLORS
+                    % ----- -----
+                    \definecolor{Green}{HTML}{1dd1a1}
+                    \definecolor{Blue}{HTML}{54a0ff}
+                    \definecolor{Yellow}{HTML}{feca57}
+                    \definecolor{Purple}{HTML}{5f27cd}
+                    \definecolor{Grey}{HTML}{576574}
+                    \definecolor{Red}{HTML}{ff6b6b}
+                    \definecolor{Pink}{HTML}{ff9ff3}
+                    \definecolor{Background}{HTML}{c8d6e5}
+
+                    % ----- -----
+                    % ELEMENTS
+                    % ----- -----
+                    \tikzstyle{Circle} = [circle, minimum size=1cm, line width=2pt, draw=black]
+                    \tikzstyle{Box} = [rectangle, minimum width=10cm, minimum height=1.5cm, line width=2pt, text centered, inner sep=10pt, draw=black]
+                    \tikzstyle{Arrow} = [very thick, -Triangle]
+                    \tikzstyle{Arrow:Text} = [pos=0.5, right, font=\footnotesize]
+
+                    % ----- -----
+                    % PICTURE
+                    % ----- -----
+                    \begin{tikzpicture}[node distance=3cm]
+                        \node (input) [Circle] { Wejście };
+                        \node (embed) [Box, below of=input, draw=Red] { 1. Stworzenie zanurzeń k-merów };
+                        \node (distance) [Box, below of=embed, align=center] { 2. Obliczenie niepodobieństwa \\ między wektorami zanurzeń };
+                        \node (matrix) [Box, below of=distance] { 3. Stworzenie macierzy niepodobieństwa };
+                        \node (cluster) [Box, below of=matrix, align=center] { 4. Grupowanie sekwencji \\ \textbf{za pomocą algorytmu k-medoidów}};
+                        \node (output) [Circle, below of=cluster] { Wyjście };
+
+                        \draw [Arrow] (input) -- (embed) node [Arrow:Text] {Zbiór sekwencji DNA};
+                        \draw [Arrow] (embed) -- (distance) node [Arrow:Text] {Wektory zanurzeń};
+                        \draw [Arrow] (distance) -- (matrix) node [Arrow:Text] {Niepodobieństwo sekwencji};
+                        \draw [Arrow] (matrix) -- (cluster) node [Arrow:Text] {Macierz niepodobieństwa};
+                        \draw [Arrow] (cluster) -- (output) node [Arrow:Text] {Grupy};
+                    \end{tikzpicture}
+
+                    % ===== END =====
+                    }
                 \end{center}
                 \caption{
                     Grupowanie sekwencji z wykorzystaniem zanurzeń \textit{k-merów} do określenia niepodobieństwa między sekwencjami.
@@ -366,9 +487,77 @@
 
                 Schematycznie architektura została przedstawiona na rysunku~\ref{Picture:NeuralModel}. 
 
-                \begin{figure}
+                \begin{figure}[!htb]
                     \begin{center}
-                        \input{tex/pictures/neural.tex}
+                        {
+                        % ===== BEGIN =====
+                        % ----- -----
+                        % COLORS
+                        % ----- -----
+                        \definecolor{Green}{HTML}{1dd1a1}   % Input
+                        \definecolor{Blue}{HTML}{54a0ff}    % Linear
+                        \definecolor{Yellow}{HTML}{feca57}  % Convolution
+                        \definecolor{Purple}{HTML}{5f27cd}  % Batch Norm
+                        \definecolor{Grey}{HTML}{576574}    % Dropout
+                        \definecolor{Red}{HTML}{ff6b6b}     % Output
+                        \definecolor{Pink}{HTML}{ff9ff3}    % Activation
+                        \definecolor{Background}{HTML}{c8d6e5}
+
+                        % ----- -----
+                        % ELEMENTS
+                        % ----- -----
+                        \tikzstyle{box} = [rectangle, rounded corners, minimum width=5cm, minimum height=1cm, text centered, draw=black, align=center]
+                        \tikzstyle{input} = [box, fill=Green!30]
+                        \tikzstyle{linear} = [box, fill=Blue!30]
+                        \tikzstyle{conv} = [box, fill=Yellow!30]
+                        \tikzstyle{bn} = [box, fill=Purple!30]
+                        \tikzstyle{activation} = [box, fill=Pink!30]
+                        \tikzstyle{dropout} = [box, fill=Grey!30]
+                        \tikzstyle{output} = [box, fill=Red!30]
+
+                        \tikzstyle{arrow} = [very thick, -Triangle]
+                        \tikzstyle{arrow:text} = [pos=0.5, right, font=\footnotesize]
+
+                        % ----- -----
+                        % PICTURE
+                        % ----- -----
+                        \begin{tikzpicture}[node distance=2cm]
+                            \node (input) [input] { Wejście };
+                            \node (conv1) [conv, below of=input] { Splot 1D \\ \textbf{16@1x16, krok: 4} };
+                            \node (bn1) [bn, below of=conv1] { Normalizacja wsadowa };
+                            \node (conv2) [conv, below of=bn1] { Splot 1D \\ \textbf{32@1x8} };
+                            \node (bn2) [bn, below of=conv2] { Normalizacja wsadowa };
+                            \node (flatten) [linear, below of=bn2] { Warstwa spłaszczająca };
+                            \node (flatten-right) [right of=flatten, xshift=2cm] {};
+                            
+                            \node (fc1-left) [right of=input, xshift=2cm] {};
+                            \node (fc1) [linear, right of=input, xshift=6cm] { Warstwa gęsta };
+                            \node (act1) [activation, below of=fc1] { Aktywacja \\ \textbf{GELU} };
+                            \node (drop1) [dropout, below of=act1] { Wyłączenie neuronów };
+                            \node (fc2) [linear, below of=drop1] { Warstwa gęsta };
+                            \node (act2) [activation, below of=fc2] { Aktywacja \\ \textbf{GELU} };
+                            \node (drop2) [dropout, below of=act2] { Wyłączenie neuronów };
+                            \node (fc3) [linear, below of=drop2] { Warstwa gęsta };
+                            \node (output) [output, below of=fc3] { Wyjście };
+
+                            \draw [arrow] (input) -- (conv1) node [arrow:text] {1x600};
+                            \draw [arrow] (conv1) -- (bn1) node [arrow:text] {16x147};
+                            \draw [arrow] (bn1) -- (conv2) node [arrow:text] {16x147};
+                            \draw [arrow] (conv2) -- (bn2) node [arrow:text] {32x140};
+                            \draw [arrow] (bn2) -- (flatten) node [arrow:text] {32x140};
+
+                            \draw [arrow] (flatten.east) -- (flatten-right) -- node [arrow:text] {1x4480} (fc1-left) -- (fc1.west);
+                            \draw [arrow] (fc1) -- (act1) node [arrow:text] {1x4096};
+                            \draw [arrow] (act1) -- (drop1) node [arrow:text] {1x4096};
+                            \draw [arrow] (drop1) -- (fc2) node [arrow:text] {1x4096};
+                            \draw [arrow] (fc2) -- (act2) node [arrow:text] {1x512};
+                            \draw [arrow] (act2) -- (drop2) node [arrow:text] {1x512};
+                            \draw [arrow] (drop2) -- (fc3) node [arrow:text] {1x512};
+                            \draw [arrow] (fc3) -- (output) node [arrow:text] {1x64};
+                        \end{tikzpicture}
+
+                        % ===== END =====
+                        }
                     \end{center}
                     \caption{
                         Schemat architektury sieci neuronowej.
@@ -391,7 +580,7 @@
                     \text{Strata kontrastowa} = [m_{pos} - s_{pos}]_{+} + [s_{neg} - m_{neg}]_{+}
                 \end{equation}
 
-                gdzie,
+                gdzie:
                 \begin{align*}
                     m_{pos} &- \text{margines podobieństwa między sekwencją pozytywną a kotwicą,} \\
                     m_{neg} &- \text{margines podobieństwa między sekwencją negatywną a kotwicą,} \\
@@ -417,9 +606,50 @@
 
             Pełne wykorzystanie sztucznej sieci neuronowej w grupowaniu sekwencji zostało przedstawione na rysunku~\ref{Picture:Cluster:Neural}. Czerwonym obramowaniem oznaczono element wykorzystujący sztuczną sieć neuronową.
 
-            \begin{figure}
+            \begin{figure}[!htb]
                 \begin{center}
-                    \input{tex/pictures/cluster_neural.tex}
+                    {
+                    % ===== BEGIN =====
+                    % ----- -----
+                    % COLORS
+                    % ----- -----
+                    \definecolor{Green}{HTML}{1dd1a1}
+                    \definecolor{Blue}{HTML}{54a0ff}
+                    \definecolor{Yellow}{HTML}{feca57}
+                    \definecolor{Purple}{HTML}{5f27cd}
+                    \definecolor{Grey}{HTML}{576574}
+                    \definecolor{Red}{HTML}{ff6b6b}
+                    \definecolor{Pink}{HTML}{ff9ff3}
+                    \definecolor{Background}{HTML}{c8d6e5}
+
+                    % ----- -----
+                    % ELEMENTS
+                    % ----- -----
+                    \tikzstyle{Circle} = [circle, minimum size=1cm, line width=2pt, draw=black]
+                    \tikzstyle{Box} = [rectangle, minimum width=10cm, minimum height=1.5cm, line width=2pt, text centered, inner sep=10pt, draw=black]
+                    \tikzstyle{Arrow} = [very thick, -Triangle]
+                    \tikzstyle{Arrow:Text} = [pos=0.5, right, font=\footnotesize]
+
+                    % ----- -----
+                    % PICTURE
+                    % ----- -----
+                    \begin{tikzpicture}[node distance=3cm]
+                        \node (input) [Circle] { Wejście };
+                        \node (embed) [Box, below of=input, align=center, draw=Red] { 1. Otrzymanie wektorów cech \\ \textbf{za pomocą sieci neuronowej} };
+                        \node (distance) [Box, below of=embed, align=center] { 2. Obliczenie niepodobieństwa \\ między wektorami cech };
+                        \node (matrix) [Box, below of=distance] { 3. Stworzenie macierzy niepodobieństwa };
+                        \node (cluster) [Box, below of=matrix, align=center] { 4. Grupowanie sekwencji \\ \textbf{za pomocą algorytmu k-medoidów}};
+                        \node (output) [Circle, below of=cluster] { Wyjście };
+
+                        \draw [Arrow] (input) -- (embed) node [Arrow:Text] {Zbiór sekwencji DNA};
+                        \draw [Arrow] (embed) -- (distance) node [Arrow:Text] {Wektory cech};
+                        \draw [Arrow] (distance) -- (matrix) node [Arrow:Text] {Niepodobieństwo sekwencji};
+                        \draw [Arrow] (matrix) -- (cluster) node [Arrow:Text] {Macierz niepodobieństwa};
+                        \draw [Arrow] (cluster) -- (output) node [Arrow:Text] {Grupy};
+                    \end{tikzpicture}
+
+                    % ===== END =====
+                    }
                 \end{center}
                 \caption{
                     Schemat architektury sztucznej sieci neuronowej.
@@ -435,7 +665,7 @@
 
             W pracy wykorzystano języki programowania Rust\cite{Rust} oraz Python\cite{Python}.
             
-            Język Python był wykorzystywany w początkowych fazach rozwoju pracy jako narzędzie do prototypowania rozwiązania oraz w ostatecznej wersji pracy do stworzenia skryptów automatyzujących niektóre czynności związane z nauką sieci neuronowej, oraz do generowania wykresów. Został on wybrany ze względu na bogatą bibliotekę standardową, dostępność wielu bibliotek zewnętrznych oraz wieloplatformowość.
+            Język Python był wykorzystywany w początkowych fazach rozwoju pracy jako narzędzie do prototypowania rozwiązania oraz w ostatecznej wersji pracy do stworzenia skryptów automatyzujących niektóre czynności związane z nauką sieci neuronowej, oraz do generowania wykresów. Został on wybrany ze względu na bogatą bibliotekę standardową, dostępność wielu bibliotek zewnętrznych oraz uniwersalność.
             
             Język Rust został użyty do stworzenia wszystkich aplikacji oraz programów. Wybrany został ze względu na wysokość wydajność, bezpieczne zarządzanie pamięcią oraz dużą dostępność bibliotek programistycznych, które można zainstalować za pomocą menedżera pakietów \textit{cargo}\cite{Rust:cargo} dołączonego wraz ze środowiskiem języka Rust. Dodatkowymi atutami, które przyczyniły się do wyboru języka, jest bogaty system typów oraz kompilacja do kodu maszynowego. 
 
@@ -450,17 +680,17 @@
 
             Model sieci neuronowej został zbudowany przy użyciu biblioteki \textit{burn}\cite{Rust:burn} oraz silnika obliczeniowego \textit{wgpu}.
 
-            Ponadto w obu aplikacjach oraz bibliotece wykorzystywana jest biblioteka \textit{serde}\cite{Rust:serde} umożliwiającą serializację i deserializację danych do różnych formatów, oraz biblioteka \textit{rand}\cite{Rust:rand} zapewniająca generator liczb pseudolosowych.
+            Ponadto w obu aplikacjach oraz bibliotece wykorzystywana jest biblioteka \textit{serde}\cite{Rust:serde} umożliwiającą kodowanie i dekodowanie danych do różnych formatów, oraz biblioteka \textit{rand}\cite{Rust:rand} zapewniająca generator liczb pseudolosowych.
 
         \subsubsection{Narzędzia}
             
             W pracy zostały wykorzystane następujące narzędzia:
             \begin{itemize}
-                \item \textit{cargo} jako menedżer pakietów i system budowania w Rust,
-                \item \textit{rustup} do automatycznego zarządzania wersjami Rust,
-                \item \textit{clippy} do statycznej analizy kodu w Rust,
-                \item \textit{rustfmt} do automatycznego formatowania kodu źródłowego w Rust,
-                \item \textit{cargo test} do przeprowadzania testów jednostkowych,
+                \item \textit{cargo} jako menedżer pakietów i system budowania w Rust;
+                \item \textit{rustup} do automatycznego zarządzania wersjami Rust;
+                \item \textit{clippy} do statycznej analizy kodu w Rust;
+                \item \textit{rustfmt} do automatycznego formatowania kodu źródłowego w Rust;
+                \item \textit{cargo test} do przeprowadzania testów jednostkowych;
                 \item \textit{git} jako system kontroli wersji, umożliwiający śledzenie zmian oraz zarządzanie historią kodu.
             \end{itemize}
 
@@ -484,13 +714,13 @@
                         \[
                             \texttt{./exquisitor-cli -\phantom{}-log-level INFO search -\phantom{}-input tmp.fasta}
                         \]
-                        gdzie,
+                        gdzie:
                         \begin{itemize}
                             \item {
-                                \texttt{search} — główne polecenie aplikacji,
+                                \texttt{search} — główne polecenie aplikacji;
                             }
                             \item {
-                                \texttt{-\phantom{}-log-level INFO} — argument ustawiający poziom ważności komunikatów na informacyjny,
+                                \texttt{-\phantom{}-log-level INFO} — argument ustawiający poziom ważności komunikatów na informacyjny;
                             }
                             \item {
                                 \texttt{-\phantom{}-input tmp.fasta} — argument wskazujący plik wejściowy.
@@ -508,10 +738,10 @@
                         Aplikacja wyświetla komunikaty o błędach w przypadku nieprawidłowego użycia polecenia oraz wprowadzenia nieobsługiwanych argumentów. Typowe komunikaty o błędach mogą obejmować:
                         \begin{itemize}
                             \item {
-                                \texttt{error: the following required arguments were not provided} — gdy użytkownik nie wprowadzi wszystkich wymaganych argumentów,
+                                \texttt{error: the following required arguments were not provided} — gdy użytkownik nie wprowadzi wszystkich wymaganych argumentów;
                             }
                             \item {
-                                \texttt{error: unexpected argument <argument> found} — gdy użytkownik wprowadzi argument, który nie jest obsługiwany,
+                                \texttt{error: unexpected argument <argument> found} — gdy użytkownik wprowadzi argument, który nie jest obsługiwany;
                             }
                             \item {
                                 \texttt{Error: No such file or directory (os error 2)} — gdy użytkownik podał ścieżkę do pliku lub programu, który nie istnieje.
@@ -536,11 +766,11 @@
                 \begin{itemize}
                     \item {
                         \textbf{Układ i elementy interfejsu:}
-                        Aplikacja składa się z 4 ekranów użytkownika:
+                        Aplikacja składa się z 4 ekranów użytkownika.
                         \begin{itemize}
                             \item {
                                 \textbf{Strona główna} — na tym ekranie znajduje się lista dziesięciu ostatnio przeprowadzonych zleceń, formularz do wyszukiwania zleceń po nazwie lub identyfikatorze oraz przycisk do dodawania nowych zleceń. Jest to główny ekran aplikacji.
-                                }
+                            }
                             \item {
                                 \textbf{Strona zlecenia} — ekran wyświetlający szczegóły konkretnego zlecenia, w tym identyfikator, opis, status, daty rozpoczęcia i zakończenia oraz wyniki.
                             }
@@ -555,7 +785,7 @@
                     }
                     \item {
                         \textbf{Formularze i przyciski:}
-                        Aplikacja zawiera dwa formularze:
+                        Aplikacja zawiera dwa formularze.
                         \begin{itemize}
                             \item {
                                 \textbf{Formularz wyszukiwania eksperymentu} — pozwala na znalezienie eksperymentu przez podanie jego nazwy lub identyfikatora.
@@ -571,10 +801,9 @@
                     }
                 \end{itemize}
 
-                \begin{figure}
-                  \todo{usunąć (przyciąć) rysunek, bo dużo 'pustego', podobnie inne zrzuty}
+                \begin{figure}[!htb]
                     \begin{center}
-                        \input{tex/pictures/app/web_screen.tex}
+                        \includegraphics[width=\textwidth]{tex/pictures/app/web_screen.png}
                     \end{center}
                     \caption{
                         Ekran główny aplikacji internetowej.
@@ -588,16 +817,16 @@
             \paragraph{Wymagania techniczne:}
                 \begin{itemize}
                     \item {
-                        \textbf{System operacyjny:} Ubuntu 20.0 lub nowszy.
+                        \textbf{System operacyjny:} Ubuntu 20.0 lub nowszy;
                     }
                     \item {
-                        \textbf{Pamięć RAM:} minimum 4 GB, zalecane 8 GB.
+                        \textbf{Pamięć RAM:} minimum 4 GB, zalecane 8 GB;
                     }
                     \item {
-                        \textbf{Karta graficzna:} Nvidia GeForce GTX 1060 6 GB lub lepsza.
+                        \textbf{Karta graficzna:} Nvidia GeForce GTX 1060 6 GB lub lepsza;
                     }
                     \item {
-                        \textbf{Miejsce na dysku:} minimum 1 TB dostępnej przestrzeni.
+                        \textbf{Miejsce na dysku:} minimum 1 TB dostępnej przestrzeni;
                     }
                     \item {
                         \textbf{Oprogramowanie:} zainstalowane i skonfigurowane sterowniki karty graficznej.
@@ -621,7 +850,7 @@
                     }
                 \end{enumerate}
 
-            \paragraph{Instalacja wymaganych programów:}
+            \paragraph{Instalacja wymaganych programów}
 
                 \begin{enumerate}
                     \item {
@@ -698,16 +927,16 @@
                 
                 \texttt{./exquisitor-cli search -\phantom{}-input sequences.fasta -\phantom{}-output search\_results -\phantom{}-blast-db /blast/db -\phantom{}-blast /blast/executables/bin/blastn}
 
-                gdzie,
+                gdzie:
                 \begin{itemize}
                     \item {
-                        \texttt{-\phantom{}-input sequences.fasta} — plik zawierający sekwencję do wyszukania,
+                        \texttt{-\phantom{}-input sequences.fasta} — plik zawierający sekwencję do wyszukania;
                     }
                     \item {
-                        \texttt{-\phantom{}-output search\_results} — plik wyjściowy, do którego zapisane zostaną wyniki,
+                        \texttt{-\phantom{}-output search\_results} — plik wyjściowy, do którego zapisane zostaną wyniki;
                     }
                     \item {
-                        \texttt{-\phantom{}-blast-db /blast/db} — ścieżka do bazy danych sekwencji nukleotydów,
+                        \texttt{-\phantom{}-blast-db /blast/db} — ścieżka do bazy danych sekwencji nukleotydów;
                     }
                     \item {
                         \texttt{-\phantom{}-blast /blast/executables/bin/blastn} — ścieżka do pliku wykonywalnego programu \texttt{BLASTn}.
@@ -731,7 +960,7 @@
 
             \paragraph{Przykładowe wykorzystanie aplikacji internetowej}
 
-                Aplikacja internetowa może być wykorzystana do przeglądania zleconych zadań klasyfikacji taksonomicznej. Aby znaleźć wyniki zleconego zadania, można skorzystać z wyszukiwarki dostępnej na stronie głównej aplikacji. Proces wygląda następująco:
+                Aplikacja internetowa może być wykorzystana do przeglądania zleconych zadań klasyfikacji taksonomicznej. Aby znaleźć wyniki zleconego zadania, można skorzystać z wyszukiwarki dostępnej na stronie głównej aplikacji.
 
                 \begin{enumerate}
                     \item {
@@ -744,26 +973,17 @@
                         Kliknij przycisk z napisem \texttt{SEARCH}.
                     }
                     \item {
-                        W wyniku wyszukiwania wyświetli się strona zlecenia, tak jak pokazano na rysunku~\ref{Picture:App:WebSearchSuccess}. W przypadku błędnie wprowadzonych danych lub braku takiego zlecenia w systemie zostanie wyświetlona strona z komunikatem o błędzie, jak pokazano na rysunku~\ref{Picture:App:WebSearchFailure}.
+                        W wyniku wyszukiwania wyświetli się informacja o zleceniu, tak jak pokazano na rysunku~\ref{Picture:App:WebSearchSuccess}. W przypadku błędnie wprowadzonych danych lub braku takiego zlecenia w systemie zostanie wyświetlona strona z komunikatem o błędzie.
                     }
                 \end{enumerate}
 
-                \begin{figure}
+                \begin{figure}[!htb]
                     \begin{center}
-                        \input{tex/pictures/app/web_search_success.tex}
+                        \includegraphics[width=\textwidth]{tex/pictures/app/web_search_success.png}
                     \end{center}
                     \caption{
-                        Strona zlecenia.
+                        Informacja o zleceniu.
                     }\label{Picture:App:WebSearchSuccess}
-                \end{figure}
-
-                \begin{figure}
-                    \begin{center}
-                        \input{tex/pictures/app/web_search_failure.tex}
-                    \end{center}
-                    \caption{
-                        Strona z komunikatem o błędzie wyszukiwania zlecenia.
-                    }\label{Picture:App:WebSearchFailure}
                 \end{figure}
 
                 \begin{longtblr}[
@@ -779,7 +999,7 @@
 
                     \multirow{4}{*}{\texttt{experiment}}  & \texttt{-\phantom{}-resolution <liczba>}   & Rozdzielczość monitorowania eksperymentu w sekundach. Określa jak często będzie sprawdzane wykorzystanie zasobów przez eksperyment, oraz przekroczenie czasu trwania eksperymentu. \\*
                                                           & \texttt{-\phantom{}-command <polecenie>}   & Polecenie, które zostanie wykonane jako eksperyment. Powinno to być poprawne polecenie aplikacji konsolowej. \\*
-                                                          & \texttt{-\phantom{}-output <ścieżka>}      & Ścieżka do pliku, w którym zostaną zapisane wyniki monitorowania eksperumentu. Wyniki zapisywane są jako tabela w formacie CSV. \\*
+                                                          & \texttt{-\phantom{}-output <ścieżka>}      & Ścieżka do pliku, w którym zostaną zapisane wyniki monitorowania eksperymentu. Wyniki zapisywane są jako tabela w formacie CSV. \\*
                                                           & \texttt{-\phantom{}-max-duration <liczba>} & Maksymalny czas trwania eksperymentu w sekundach. Po przekroczeniu czasu trwania eksperymentu nastąpi jego przerwanie. \\ \hline
 
                     % % compare             & \texttt{
@@ -823,7 +1043,7 @@
             Testy jednostkowe objęły większość funkcji oraz metod w bibliotece \texttt{exquisitor-core}. Szczególną uwagę poświęcono poprawności działania funkcji związanych z wczytywaniem sekwencji oraz obliczaniem miar.
             
             \paragraph{Narzędzia}  
-            Wykorzystano wbudowane narzędzie \texttt{cargo test} języka Rust, do uruchamiania testów jednostkowych. Narzędzie to automatycznie uruchamia testy zawarte w plikach implementacyjnych, traktując je jako testy jednostkowe.
+            Wykorzystano wbudowane narzędzie \texttt{cargo test} języka Rust, do uruchamiania testów jednostkowych. Narzędzie to automatycznie uruchamia testy zawarte w plikach implementacji, traktując je jako testy jednostkowe.
 
             \paragraph{Pokrycie testami}
             Do sprawdzenia stopnia pokrycia kodu testami wykorzystano narzędzie \texttt{tarpaulin}\cite{Rust:tarpaulin}. 
@@ -832,12 +1052,12 @@
         \subsubsection{Testy manualne}
         
             \paragraph{Zakres}
-            Testy manualne objęły działanie interfejsu użytkownika aplikacji konsolowej oraz aplikacji internetowej W przypadku aplikacji konsolowej sprawdzono działanie wszystkich poleceń z uwzględnieniem klasycznych sytuacji błędnych. W aplikacji intenretowej testowano funkcjonalności: dodawania, wyszukiwania i przeglądania zleceń.
+            Testy manualne objęły działanie interfejsu użytkownika aplikacji konsolowej oraz aplikacji internetowej W przypadku aplikacji konsolowej sprawdzono działanie wszystkich poleceń z uwzględnieniem klasycznych sytuacji błędnych. W aplikacji przeglądarkowej testowano funkcjonalności: dodawania, wyszukiwania i przeglądania zleceń.
 
             \paragraph{Metoda}
             Ręczne wykonywanie scenariuszy testowych, takich jak:
             \begin{itemize}
-                \item {Dodanie nowego zlecenia i weryfikacja czy wyświetla się na stronie głównej aplikacji internetowej.}
-                \item {Wyszukanie dodanego zlecenia po identyfikatorze na stronie głównej.}
-                \item {Uruchomienie polecenia aplikacji konsolowej wyszukiwania w bazie danych i sprawdzenie, czy powstał odpowiedni plik z wynikami.}
+                \item {dodanie nowego zlecenia i weryfikacja czy wyświetla się na stronie głównej aplikacji internetowej;}
+                \item {wyszukanie dodanego zlecenia po identyfikatorze na stronie głównej;}
+                \item {uruchomienie polecenia aplikacji konsolowej wyszukiwania w bazie danych i sprawdzenie, czy powstał odpowiedni plik z wynikami.}
             \end{itemize}

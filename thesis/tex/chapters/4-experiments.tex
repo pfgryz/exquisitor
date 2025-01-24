@@ -1,6 +1,5 @@
 \cleardoublepage
-\section{Badanie jakości i wydajności zaproponowanago rozwiązania}
-\todo{zmieniłem tytuł}
+\section{Badanie jakości i wydajności zaproponowanego rozwiązania}
 
     W ramach pracy przeprowadzono eksperymenty polegające na porównaniu wydajności oraz jakości zaimplementowanych metod do grupowania sekwencji genetycznych w kontekście pełnej klasyfikacji taksonomicznej przeprowadzonej z wykorzystaniem potoku przetwarzania. W eksperymentach jako punkt odniesienia wybrano klasyfikację taksonomiczną wszystkich sekwencji wejściowych bez użycia potoku przetwarzania.
 
@@ -15,19 +14,19 @@
 
             \begin{itemize}
                 \item {
-                    \textbf{System operacyjny:} Ubuntu 22.04 LTS.
+                    \textbf{System operacyjny:} Ubuntu 22.04 LTS;
                 }
                 \item {
-                    \textbf{Procesor:} 4 rdzenie wirtualne procesora Intel Core i7-6850K.
+                    \textbf{Procesor:} 4 rdzenie wirtualne procesora Intel Core i7-6850K;
                 }
                 \item {
-                    \textbf{Pamięć RAM:} 40GB.
+                    \textbf{Pamięć RAM:} 40GB;
                 }
                 \item {
-                    \textbf{Karta graficzna:} Nvidia GeForce GTX 1080 TI.
+                    \textbf{Karta graficzna:} Nvidia GeForce GTX 1080 TI;
                 }
                 \item {
-                    \textbf{Dysk:} dysk sieciowy 1 TB z prędkością odczytu 1 Gbps.
+                    \textbf{Dysk:} dysk sieciowy 1 TB z prędkością odczytu 1 Gbps;
                 }
                 \item {
                     \textbf{Oprogramowanie:} pakiet \texttt{BLAST} w wersji 2.16.0 oraz sterowniki karty graficznej.
@@ -50,7 +49,7 @@
             \label{Equation:Quality}
         \end{equation}
 
-        gdzie,
+        gdzie:
         \begin{align*}
             R &- \text{zbiór wyników referencyjnych,} \\
             E &- \text{zbiór wyników otrzymanych,} \\
@@ -67,7 +66,7 @@
             \label{Equation:WeightedAverageQuality}
         \end{equation}
 
-        gdzie,
+        gdzie:
         \begin{align*}
           C &- \text{zbiór wszystkich przebiegów klasyfikacji taksonomicznych,} \\
           Q_c &- \text{jakość klasyfikacji taksonomicznej $c$,} \\
@@ -82,14 +81,14 @@
             \label{Equation:NMI}
         \end{equation}
 
-        gdzie,
+        gdzie:
         \begin{align*}
             I(X, Y) &= \sum_{y \in Y}{ \sum_{x \in X}{p(x, y) \log_{2}{\frac{p(x, y)}{p(x) p(y)}}}}, \\
             H(X) &= - \sum_{x \in X}{ p(x) \log_{2}{p(x)}}, \\
             I(X, Y) &- \text{informacja wzajemna między zbiorami $X$ oraz $Y$}, \\
             H(X) &- \text{entropia zbioru $X$}, \\
             H(Y) &- \text{entropia zbioru $Y$}, \\
-            p(x) &- \text{prawdopobieństwo zajścia zdarzenia $x$}, \\
+            p(x) &- \text{prawdopodobieństwo zajścia zdarzenia $x$}, \\
             p(x, y) &- \text{wspólny rozkład prawdopodobieństwa $X$ oraz $Y$ }.
         \end{align*}
 
@@ -100,9 +99,9 @@
             \label{Equation:Sensitivity}
         \end{equation}
 
-        gdzie,
+        gdzie:
         \begin{align*}
-            TP &- \text{liczba wyników prawdziwie dodatnych,} \\
+            TP &- \text{liczba wyników prawdziwie dodatnich,} \\
             TN &- \text{liczba wyników fałszywie ujemnych.}
         \end{align*}
 
@@ -112,7 +111,6 @@
     % ZBIÓR DANYCH
     % ===== ===== ===== =====
     \subsection{Zbiór danych do badań}
-    \todo{zmieniłem tytuł}
 
         \subsubsection{Opis zbioru danych}
 
@@ -141,7 +139,7 @@
 
         \subsubsection{Skrypty}
 
-            Do przeprowadzenia eksperymentów zostały wykorzystane opracowane skrypty w języku \texttt{bash}. Każdy skrypt uruchamia klasyfikację taksonomiczną dla podzbiorów z wykorzystaniem jednej metody:
+            Do przeprowadzenia eksperymentów zostały wykorzystane opracowane skrypty w języku \texttt{bash}. Każdy skrypt uruchamia klasyfikację taksonomiczną dla podzbiorów z wykorzystaniem jednej metody.
 
             \begin{itemize}
                 \item {
@@ -163,8 +161,7 @@
     % ===== ===== ===== =====
     % WYNIKI
     % ===== ===== ===== =====
-            \subsection{Wyniki i wnioski}
-            \todo{zmieniłem tytuł}
+    \subsection{Wyniki i wnioski}
 
         \subsubsection{Eksperyment 1: Czas wykonania klasyfikacji taksonomicznej}
 
@@ -172,7 +169,7 @@
                 Celem eksperymentu jest sprawdzanie czasu wykonania klasyfikacji taksonomicznej przy użyciu różnych metod grupowaniu sekwencji genetycznych.
 
             \paragraph{Założenia}
-                \begin{itemize}
+                \begin{enumerate}
                     \item {
                         Proces tworzenia grup przebiega deterministycznie.
                     }
@@ -182,14 +179,14 @@
                     \item {
                         Rozdzielczość monitorowania ustawiono na 5 sekund, co skutkuje dokładnością raportowanych czasów na $\pm 5$ sekund.
                     }
-                \end{itemize}
+                \end{enumerate}
 
             \paragraph{Wyniki}
                 W wyniku przeprowadzonych eksperymentów otrzymano czas wykonania klasyfikacji taksonomicznej dla wszystkich metod. W przypadku metody wykorzystującej zmodyfikowany algorytm Needlemana-Wunscha nie udało się otrzymać wyników dla klasyfikacji taksonomicznej $4096$ sekwencji z powodu przekroczenia czasu wykonania. Na rysunku~\ref{Picture:Experiment:Duration} przedstawiono wykres czasu wykonania klasyfikacji taksonomicznej w zależności od ilości sekwencji wejściowych dla: metody ze zmodyfikowanym algorytmem Needlemana-Wunscha (NW), metody wykorzystującej zanurzenia $k$-merów ($k$-mer), metody wykorzystującej sztuczne sieci neuronowe (SSN) oraz dla klasyfikacji taksonomicznej wszystkich sekwencji bez wykorzystania potoku (BZ). Szczegółowe czasy wykonania zostały zawarte w tabeli~\ref{Table:Experiment:Duration}. Ze względu na monitorowanie wykorzystania procesora oraz pamięci RAM przez klasyfikację, zgromadzono także dane o średnim wykorzystaniu procesora oraz maksymalnej użytej pamięci. Wyniki te zostały przedstawione w tabeli~\ref{Table:Experiment:Resources}.
 
-                \begin{figure}
+                \begin{figure}[!htb]
                     \begin{center}
-                        \input{tex/pictures/exp/experiment_duration.tex}
+                        \includegraphics[width=\textwidth]{tex/pictures/exp/experiment_duration.png}
                     \end{center}
                     \caption{
                         Czas wykonania klasyfikacji taksonomicznej.
@@ -220,7 +217,7 @@
                 \end{table}
 
                 \begin{table}\centering
-                    \caption{Wykorzystanie procesora oraz pamięci przez różne metody.}\label{Table:Experiment:Resources}
+                    \caption{Wykorzystanie procesora oraz pamięci.}\label{Table:Experiment:Resources}
                     \begin{tabularx}{\textwidth}{|c||R|R|R|R||R|R|R|R|}
                         \hline
                         \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c||}{\textbf{Wykorzystanie procesora [proc.]}} & \multicolumn{4}{|c|}{\textbf{Wykorzystanie pamięci [MB]}} \\ \cline{2-9}
@@ -257,7 +254,7 @@
 
             \paragraph{Założenia}
 
-                \begin{itemize}
+                \begin{enumerate}
                     \item {
                         Proces tworzenia grup przebiega deterministycznie.
                     }
@@ -267,14 +264,14 @@
                     \item {
                         W przypadku braku możliwości obliczenia jakości dla danego przebiegu klasyfikacji taksonomicznej za wartość jakości przyjęto $0$, wartość ta nie jest brana pod uwagę w przypadku obliczania średniej jakości ważonej.
                     }
-                \end{itemize}
+                \end{enumerate}
 
             \paragraph{Wyniki}
                 Obliczono jakość klasyfikacji za pomocą miary wyrażonej wzorem~\ref{Equation:Quality} dla zaimplementowanych metod względem pełnej klasyfikacji taksonomicznej. Na rysunku~\ref{Picture:Experiment:Quality} przedstawiono wykres jakości klasyfikacji w zależności od ilości sekwencji wejściowych, szczegółowe wyniki jakości umieszczono w tabeli~\ref{Table:Experiment:Quality}. Średnia ważona jakość obliczona za pomocą wzoru~\ref{Equation:WeightedAverageQuality} dla metody ze zmodyfikowanym algorytmem Needlemana-Wunscha wyniosła $0,899$, dla metody z zanurzeniami $k$-merów wyniosła $0,921$, natomiast dla metody z wykorzystaniem sztucznej sieci neuronowej $0,944$. Na rysunku~\ref{Picture:Experiment:RelativeQualityNMI} przedstawiono wykres jakości względnej grup obliczony za pomocą wzoru~\ref{Equation:NMI}, natomiast na rysunku~\ref{Picture:Experiment:RelativeQualitySensitivity} przedstawiono wykres czułości obliczonej za pomocą wzoru~\ref{Equation:Sensitivity} reprezentantów grup. Szczegółowe wyniki znajdują się odpowiednio w tabeli~\ref{Table:Experiment:RelativeQualityNMI} oraz tabeli~\ref{Table:Experiment:RelativeQualitySensitivity}.
 
-                \begin{figure}
+                \begin{figure}[!htb]
                     \begin{center}
-                        \input{tex/pictures/exp/experiment_quality.tex}
+                        \includegraphics[width=\textwidth]{tex/pictures/exp/experiment_quality.png}
                     \end{center}
                     \caption{
                         Jakość klasyfikacji taksonomicznej.
@@ -304,18 +301,18 @@
                     \end{tabularx}
                 \end{table}
 
-                \begin{figure}
+                \begin{figure}[!htb]
                     \begin{center}
-                        \input{tex/pictures/exp/experiment_relative_quality_nmi.tex}
+                        \includegraphics[width=\textwidth]{tex/pictures/exp/experiment_relative_quality_nmi.png}
                     \end{center}
                     \caption{
                        Jakość względna grup wykorzystywanych w klasyfikacji taksonomicznej.
                     }\label{Picture:Experiment:RelativeQualityNMI}
                 \end{figure}
 
-                \begin{figure}
+                \begin{figure}[!htb]
                     \begin{center}
-                        \input{tex/pictures/exp/experiment_relative_quality_sensitivity.tex}
+                        \includegraphics[width=\textwidth]{tex/pictures/exp/experiment_relative_quality_sensitivity.png}
                     \end{center}
                     \caption{
                        Czułość między reprezentantami grup wykorzystanych w klasyfikacji taksonomicznej.
