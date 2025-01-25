@@ -4,9 +4,9 @@
 
     % ===== ===== ===== =====
     % ANALIZA CELU PRACY
-    % ===== ===== ===== ===== 
+    % ===== ===== ===== =====
     \subsection{Analiza celu pracy}
-        
+
         Celem pracy jest stworzenie aplikacji umożliwiającej użytkownikowi zlecanie analiz materiału genetycznego DNA z wielu organizmów, który został pobrany ze środowiska. Aplikacja powinna agregować wyniki tego procesu w formie czytelnej dla człowieka. Będzie ona wykorzystywać bazę danych sekwencji genetycznych. Aplikacja będzie zawierać algorytm grupowania sekwencji oraz wyboru reprezentantów, które zapewnią usprawnienie procesu analiz danych. Zostaną zastosowane modele uczenia maszynowego.
 
         Najbardziej rozpowszechnioną i stosowaną metodą analizy materiału genetycznego jest klasyfikacja taksonomiczna sekwencji. Pozwala ona określenie, do jakich organizmów nalezą sekwencje zawarte w poddanym analizie materiale genetycznym. Wymaga ona wyszukiwania sekwencji podobnych w bazach danych sekwencji genetycznych do sekwencji analizowanych, a następnie agregację zgromadzonych wyników.
@@ -20,7 +20,7 @@
 
     % ===== ===== ===== =====
     % WYMAGANIA FUNKCJONALNE I NIEFUNKCJONALNE
-    % ===== ===== ===== ===== 
+    % ===== ===== ===== =====
     \subsection{Wymagania funkcjonalne i niefunkcjonalne}
 
     Aby zrealizować postawiony cel, aplikacja musi spełniać wymagania funkcjonalne i niefunkcjonalne.
@@ -58,22 +58,23 @@
     % ===== ===== ===== =====
     % MODEL ARCHITEKTURY C4
     % ===== ===== ===== =====
-    \subsection{Model architektury rozwiązania}
-
-        Architektura rozwiązania została przedstawiona w postaci modelu C4\cite{C4}. Model ten opisuje architekturę na czterech poziomach: kontekstowym (ang. \textit{System context}), kontenerów (ang. \textit{Container}), komponentów (ang. \textit{Component}) oraz kodu, przechodząc od najbardziej abstrakcyjnego spojrzenia na architekturę rozwiązania do kodu implementacji. Na rysunku~\ref{Picture:App:C4:Context} przedstawiono diagram kontekstowy modelu architektury, przedstawia on relacje między użytkownikami systemu a systemem oraz relacje między systemem a systemami zewnętrznymi. Na rysunku~\ref{Picture:App:C4:Container} przedstawiono natomiast diagram kontenerów modelu architektury, który przedstawia relacje między użytkownikami a poszczególnymi aplikacjami, biblioteką oraz systemami zewnętrznymi.
+            \subsection{Model architektury rozwiązania}
 
         \begin{figure}[!htb]
             \begin{center}
-                \includegraphics[width=\textwidth]{tex/pictures/app/c4_system_context.png}
+                \includegraphics[width=0.5\textwidth]{tex/pictures/app/c4_system_context.png}
             \end{center}
             \caption{
                 Diagram kontekstowy modelu architektury.
             }\label{Picture:App:C4:Context}
         \end{figure}
 
+        Architektura rozwiązania została przedstawiona w postaci modelu C4\cite{C4}. Model ten opisuje architekturę na czterech poziomach: kontekstowym (ang. \textit{System context}), kontenerów (ang. \textit{Container}), komponentów (ang. \textit{Component}) oraz kodu, przechodząc od najbardziej abstrakcyjnego spojrzenia na architekturę rozwiązania do kodu implementacji. Na rysunku~\ref{Picture:App:C4:Context} przedstawiono diagram kontekstowy modelu architektury, przedstawia on relacje między użytkownikami systemu a systemem oraz relacje między systemem a systemami zewnętrznymi. Na rysunku~\ref{Picture:App:C4:Container} przedstawiono natomiast diagram kontenerów modelu architektury, który przedstawia relacje między użytkownikami a poszczególnymi aplikacjami, biblioteką oraz systemami zewnętrznymi.
+
+
         \begin{figure}[!htb]
             \begin{center}
-                \includegraphics[width=\textwidth]{tex/pictures/app/c4_container.png}
+                \includegraphics[width=0.9\textwidth]{tex/pictures/app/c4_container.png}
             \end{center}
             \caption{
                 Diagram komponentów modelu architektury.
@@ -82,25 +83,25 @@
 
     % ===== ===== ===== =====
     % OPIS ROZWIĄZANIA
-    % ===== ===== ===== ===== 
+    % ===== ===== ===== =====
     \subsection{Opis rozwiązania}
 
     Centralnym elementem rozwiązania jest potok przetwarzania, zaprojektowany z myślą o elastycznej konfiguracji oraz możliwości zastosowania różnych metod grupowania sekwencji DNA. Elementy potoku zostały zaimplementowane w bibliotece \textit{exquisitor-core}, w postaci funkcji oraz rekordów. Realizacja potoku została umieszczona w aplikacji konsolowej, która wykorzystuje tę bibliotekę. Aplikacja umożliwia uruchamianie i konfigurację potoku, oferując dostęp do dostępnych metod. Zawiera również polecenia pomocnicze, które zostały przygotowane w celu przeprowadzenia eksperymentów.
 
         Dodatkowo stworzono aplikację internetową, oferującą prosty interfejs w postaci strony internetowej. Umożliwia ona użytkownikowi zlecanie klasyfikacji taksonomicznej dla przesłanych sekwencji DNA. Do realizacji zleconych zadań aplikacja internetowa korzysta z aplikacji konsolowej.
 
-        Ostatnim komponentem rozwiązania jest sieć neuronowa, której elementy zostały zawarte w bibliotece \textit{exquisitor-core}. 
+        Ostatnim komponentem rozwiązania jest sieć neuronowa, której elementy zostały zawarte w bibliotece \textit{exquisitor-core}.
 
         Biblioteka, aplikacja konsolowa oraz aplikacja internetowa zostały umieszczone w oddzielnych skrzynkach (ang. \textit{crate}) w ramach jednego rozwiązania. Dzięki temu możliwe jest rozdzielenie odpowiedzialności między poszczególnymi elementami, niezależny rozwój kodu oraz umożliwienie wykorzystania biblioteki w innych aplikacjach.
 
-        % ----- ----- ----- ----- 
+        % ----- ----- ----- -----
         % OPIS POTOKU
         % ----- ----- ----- -----
 
         \subsubsection{Potok przetwarzania}
 
             Potok przetwarzania składa się z szeregu kroków, które są realizowane kolejno, jeden po drugim, w celu przeprowadzenia pełnej klasyfikacji taksonomicznej DNA. Każdy krok potoku jest odpowiedzialny za określoną część procesu i może być niezależnie modyfikowany lub wymieniany, co umożliwia elastyczność w doborze metod.
-           
+
             Schematyczne przedstawienie potoku zaprezentowano na rysunku~\ref{Picture:Pipeline}. W kółkach umieszczono wejście oraz wyjście z potoku przetwarzania, natomiast w prostokątach – kolejne kroki. Na strzałkach opisano rodzaj przekazywanych danych. Niebieskim kolorem obramowania oznaczono kroki, których wyjściem są sekwencje DNA, czerwonym – kroki, których wyjściem są wykryte organizmy, a zielonym – kroki generujące wyniki w formie czytelnej dla człowieka.
 
             Potok składa się z 5 kluczowych kroków.
@@ -166,7 +167,7 @@
                     \definecolor{Purple}{HTML}{5f27cd}
                     \definecolor{Grey}{HTML}{576574}
                     \definecolor{Red}{HTML}{ff6b6b}     % Organisms
-                    \definecolor{Pink}{HTML}{ff9ff3}    
+                    \definecolor{Pink}{HTML}{ff9ff3}
                     \definecolor{Background}{HTML}{c8d6e5}
 
                     % ----- -----
@@ -259,24 +260,30 @@
             Aplikacja internetowa została zaprojektowana z myślą o umożliwieniu użytkownikom końcowym zlecania zadań klasyfikacji taksonomicznej oraz przeglądania wyników po zakończeniu procesu. Wybór formy aplikacji internetowej wynika z jej dostępności na różnych urządzeniach posiadających dostęp do internetu i przeglądarki, co zapewnia łatwy, uniwersalny dostęp do systemu. Aplikacja składa się z serwera oraz stron internetowych generowanych za pomocą szablonów.
 
             Serwer udostępnia stronę główną, na której użytkownik może zapoznać się z ostatnimi dziesięcioma zadaniami, zlecić wykonanie nowego zadania lub wyszukać zadanie po identyfikatorze, lub nazwie. Do przechowywania informacji o zleconych zadaniach wykorzystywana jest baza danych \textit{SQLite}.
-            
+
             Do głównych funkcji serwera należą:
             \begin{itemize}
                 \item generowanie stron internetowych na podstawie szablonów;
                 \item serwowanie statycznych plików CSS oraz JavaScript;
                 \item obsługa błędów i wyświetlanie stosownych komunikatów dla użytkownika.
             \end{itemize}
-            
+
             Schemat bazy danych znajduje się na rysunku~\ref{Picture:App:Database}.
 
             \begin{figure}[!htb]
                 \begin{center}
-                    \includegraphics[width=\textwidth]{tex/pictures/app/database.png}
+                    \includegraphics[width=0.7\textwidth]{tex/pictures/app/database.png}
                 \end{center}
                 \caption{
                     Diagram ER modelu bazy danych aplikacji internetowej.
                 }\label{Picture:App:Database}
-            \end{figure}
+              \end{figure}
+
+              \subsubsection{Statystyki kodu}
+
+              \todo{dodałem ten rozdział, proszę dać liczę plików, linii kodu (LOC), na przykład z narzędzia 'cloc' w rozbiciu na języki programowania i powyższe elementy}
+              \todo{proszę podać także pracochłonność np w godzinach roboczych lub ManMonth, 1 MM = 160godzin}
+              \todo{tutaj można także wliczyć testy jednostkowe / albo nie wliczać}
 
     % ===== ===== ===== =====
     % METODY
@@ -298,7 +305,7 @@
         \end{itemize}
 
         Budowanie macierzy niepodobieństwa oraz zastosowanie algorytmu grupowania wygląda we wszystkich metodach jednakowo. W dalszych sekcjach opisany zostanie proces wyznaczania niepodobieństwa między sekwencjami w zaimplementowanych metodach.
-        
+
         \subsubsection{Zmodyfikowany algorytm Needlemana-Wunscha}\label{Method:NeedlemanWunsch}
 
             Pierwszą metodą zastosowaną do wyznaczenia niepodobieństwa między sekwencjami DNA jest  zmodyfikowany algorytm Needlamana-Wunscha. Algorytm ten pierwotnie służy do globalnego wyrównania sekwencji genetycznych. Korzystając z własności algorytmu, że w komórce $D_{n+1, m+1}$ macierzy podobieństwa budowanej przez algorytm znajduje się jakość globalnego wyrównania, dokonano modyfikacji algorytmu oraz odpowiedniego ustawienia parametrów, aby wynik ten odpowiadał mierze niepodobieństwa między sekwencjami. Modyfikacje te polegały na zmianie budowy macierzy podobieństwa oraz wprowadzeniu dodatkowych ograniczeń, w celu zapewnienia, że wartość w $D_{n+1, m+1}$ będzie zawierała się w przedziale $[0, \infty)$. Szczegóły wprowadzonych zmian względem wyrażenia \eqref{Equation:NeedlemanWunsch} przedstawiono poniżej:
@@ -315,12 +322,12 @@
             \end{equation}
 
             gdzie:
-            \begin{align*} 
+            \begin{align*}
                 A, B -& \text{porównywane sekwencje}, \\
                 n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
                 D -& \text{macierz podobieństwa o rozmiarach } (n + 1) \text{ x } (m + 1), \\
                 g \in \mathbb{R}^{+} -& \text{kara za przerwę}, \\
-                s(A_i, B_j) \in \mathbb{R}^{+} -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\ 
+                s(A_i, B_j) \in \mathbb{R}^{+} -& \text{podobieństwo między  } i\text{-tym elementem w sekwencji A,} \\
                 & \text{a } j \text{-tym elementem w sekwencji B}. \\
             \end{align*}
 
@@ -401,17 +408,19 @@
             Metoda zanurzeń \textit{k-merów} jest drugą klasyczną metodą wyznaczania niepodobieństwa między sekwencjami genetycznymi, w tym sekwencjami DNA. Polega ona na wyznaczeniu wszystkich \textit{k-merów} dla sekwencji wejściowych, a następnie obliczeniu niepodobieństwa sekwencji poprzez porównanie liczby wystąpień danych \textit{k-merów} w porównywanych sekwencjach.
 
             Z wyznaczonych \textit{k-merów} tworzy się wektor zanurzeń, w którym każda pozycja odpowiada określonemu \textit{k-merowi}. Przykładowo, dla \textit{k} = 2 (k-mery dwuznakowe) możemy przypisać odpowiednią pozycję w wektorze do każdego możliwego k-meru, np.:
-            
+
             \[
                 \text{AA} \to 0, \quad \text{AC} \to 1, \quad \text{AG} \to 2, \quad \text{AT} \to 3, \quad \text{CA} \to 4, \quad \dots, \quad \text{TT} to 15
-            \]
-            
+              \]
+
+              \todo{wyrażenie powyżej błędne}
+
             Wektor zanurzeń dla danej sekwencji DNA zawiera liczbę wystąpień każdego \textit{k-meru} w odpowiednich pozycjach. Na przykład, dla sekwencji `AAACATT' wektor zanurzeń dla $k=2$ może wyglądać następująco:
-            
+
             \[
                 \text{AAACATT} \to [2, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
             \]
-            
+
             gdzie liczba na pozycji 0 oznacza liczbę wystąpień \textit{AA} w sekwencji, liczba na pozycji 1 oznacza liczbę wystąpień \textit{AC}, itd. Następnie, na podstawie tych wektorów zanurzeń, oblicza się niepodobieństwo między sekwencjami, porównując ich wektory zanurzeń według wzoru:
 
             \begin{equation}
@@ -419,7 +428,7 @@
             \end{equation}
 
             gdzie:
-            \begin{align*} 
+            \begin{align*}
                 k -& \text{długość $k$-merów}, \\
                 A, B -& \text{porównywane sekwencje}, \\
                 M -& \text{zbiór wszystkich możliwych sekwencji genetycznych o długości $k$}, \\
@@ -485,7 +494,7 @@
             \paragraph{Architektura}
                 Architektura modelu sztucznej sieci neuronowej składa się z dwóch bloków splotowych oraz bloku perceptronów wielowarstwowych. Każdy z bloków splotowych zawiera warstwę splotową oraz warstwę normalizacji wsadowej i jest odpowiedzialny za ekstrakcję niskopoziomowych cech sekwencji. Ostatni blok splotowy jest połączony z blokiem perceptronów wielowarstwowych za pomocą warstwy spłaszczającej. Blok perceptronów wielowarstwowych odpowiada za tworzenie reprezentacji sekwencji, składa się z trzech warstw, które wykorzystują funkcję aktywacji GELU\cite{Hendrycks:2016}, z wyjątkiem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$.
 
-                Schematycznie architektura została przedstawiona na rysunku~\ref{Picture:NeuralModel}. 
+                Schematycznie architektura została przedstawiona na rysunku~\ref{Picture:NeuralModel}.
 
                 \begin{figure}[!htb]
                     \begin{center}
@@ -529,7 +538,7 @@
                             \node (bn2) [bn, below of=conv2] { Normalizacja wsadowa };
                             \node (flatten) [linear, below of=bn2] { Warstwa spłaszczająca };
                             \node (flatten-right) [right of=flatten, xshift=2cm] {};
-                            
+
                             \node (fc1-left) [right of=input, xshift=2cm] {};
                             \node (fc1) [linear, right of=input, xshift=6cm] { Warstwa gęsta };
                             \node (act1) [activation, below of=fc1] { Aktywacja \\ \textbf{GELU} };
@@ -566,10 +575,10 @@
 
             \paragraph{Dane wejściowe}
                 Wejściem modelu są sekwencje DNA o długości $150$, które są zakodowane do postaci wektora o wymiarach $1x600$ za pomocą kodu 1 z n\cite{HarrisDavid:2007}.
-            
+
             \paragraph{Przykłady uczące}
                 Przykłady uczące oraz walidacyjne składają się z kotwicy (ang. \textit{anchor}), sekwencji pozytywnej (ang. \textit{positive}), czyli podobnej do kotwicy oraz sekwencji negatywnej (ang. \textit{negative}) niepodobnej do kotwicy.
-            
+
             \paragraph{Zbiór danych}
                 Zbiór danych uczących oraz walidacyjnych został stworzony na podstawie pierwszej próbki sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019}. Próbka zawiera symulowane dane metagenomiczne z mikrobiomu skóry człowieka. Przykłady zostały uzyskane poprzez losowanie kotwic ze zbioru oraz modyfikację tych kotwic w celu stworzenia sekwencji pozytywnej i negatywnej. Modyfikacja polegała na zamianie punktowej danego nukleotydu na inny. W przypadku sekwencji pozytywnej zmiana obejmowała od $0\%$ do $20\%$ długości kotwicy, natomiast w przypadku sekwencji negatywnej od $20\%$ do $80\%$ długości kotwicy.
 
@@ -589,18 +598,18 @@
                 \end{align*}
 
             \paragraph{Proces uczenia}
-                Proces uczenia modelu sieci neuronowej został przeprowadzony na zbiorze $10^{6}$ przykładów uczących oraz $10^{4}$ przykładów walidacyjnych. 
+                Proces uczenia modelu sieci neuronowej został przeprowadzony na zbiorze $10^{6}$ przykładów uczących oraz $10^{4}$ przykładów walidacyjnych.
                 W procesie wykorzystano optymalizator \textit{AdamW}\cite{Loshchilov2017DecoupledWD} z wykładniczym spadkiem współczynnika uczenia oraz zanikiem wag (ang. \textit{weight decay}).
-            
+
             \paragraph{Miara jakości}
                 Jako miarę jakości modelu wykorzystano stratę kontrastową modelu obliczoną na zbiorze walidacyjnym.
 
             \paragraph{Parametry procesu uczenia}
-                Przeprowadzono eksperymenty w celu określenia optymalnych parametrów uczenia modelu sztucznej sieci neuronowej. Sprawdzono parametry współczynnika uczenia $\lambda$, zaniku wag $w$, współczynnika $\gamma$ stosowanego w wykładniczym spadku współczynnika uczenia, parametr wyłączania neuronów oraz stosowność trzech warstw perceptronów. W wyniku eksperymentów wybrano najlepsze parametry: $\lambda = 10^{-6}$, $w = $, $\gamma=0.99999$, współczynnik wyłączenia neuronów na poziomie $0.5$ oraz stwierdzono pozytywny wpływ zastosowania trzech warstw perceptronów. 
+                Przeprowadzono eksperymenty w celu określenia optymalnych parametrów uczenia modelu sztucznej sieci neuronowej. Sprawdzono parametry współczynnika uczenia $\lambda$, zaniku wag $w$, współczynnika $\gamma$ stosowanego w wykładniczym spadku współczynnika uczenia, parametr wyłączania neuronów oraz stosowność trzech warstw perceptronów. W wyniku eksperymentów wybrano najlepsze parametry: $\lambda = 10^{-6}$, $w = $, $\gamma=0.99999$, współczynnik wyłączenia neuronów na poziomie $0.5$ oraz stwierdzono pozytywny wpływ zastosowania trzech warstw perceptronów.
                 Wykorzystano również funkcję straty z parametrami: $m_{pos} = 1.0$, $m_{neg} = 0.25$.
 
             \paragraph{Wyniki procesu uczenia}
-                
+
                 W wyniku procesu uczenia modelu sztucznej sieci neuronowej, po 3 epokach uzyskano model, który osiągnął stratę równą $0.117$ na zbiorze walidacyjnym. Liczba epok została wybrana na podstawie analizy procesu uczenia, w którym po tej liczbie epok zaobserwowano nadmierne dopasowywanie się modelu (ang. \textit{overfitting}).
 
 
@@ -658,16 +667,16 @@
 
     % ===== ===== ===== =====
     % WYKORZYSTANE NARZĘDZIA
-    % ===== ===== ===== ===== 
+    % ===== ===== ===== =====
     \subsection{Wykorzystane technologie, narzędzia oraz biblioteki}
 
         \subsubsection{Języki programowania}
 
             W pracy wykorzystano języki programowania Rust\cite{Rust} oraz Python\cite{Python}.
-            
+
             Język Python był wykorzystywany w początkowych fazach rozwoju pracy jako narzędzie do prototypowania rozwiązania oraz w ostatecznej wersji pracy do stworzenia skryptów automatyzujących niektóre czynności związane z nauką sieci neuronowej, oraz do generowania wykresów. Został on wybrany ze względu na bogatą bibliotekę standardową, dostępność wielu bibliotek zewnętrznych oraz uniwersalność.
-            
-            Język Rust został użyty do stworzenia wszystkich aplikacji oraz programów. Wybrany został ze względu na wysokość wydajność, bezpieczne zarządzanie pamięcią oraz dużą dostępność bibliotek programistycznych, które można zainstalować za pomocą menedżera pakietów \textit{cargo}\cite{Rust:cargo} dołączonego wraz ze środowiskiem języka Rust. Dodatkowymi atutami, które przyczyniły się do wyboru języka, jest bogaty system typów oraz kompilacja do kodu maszynowego. 
+
+            Język Rust został użyty do stworzenia wszystkich aplikacji oraz programów. Wybrany został ze względu na wysokość wydajność, bezpieczne zarządzanie pamięcią oraz dużą dostępność bibliotek programistycznych, które można zainstalować za pomocą menedżera pakietów \textit{cargo}\cite{Rust:cargo} dołączonego wraz ze środowiskiem języka Rust. Dodatkowymi atutami, które przyczyniły się do wyboru języka, jest bogaty system typów oraz kompilacja do kodu maszynowego.
 
         \subsubsection{Biblioteki programistyczne}
 
@@ -683,7 +692,7 @@
             Ponadto w obu aplikacjach oraz bibliotece wykorzystywana jest biblioteka \textit{serde}\cite{Rust:serde} umożliwiającą kodowanie i dekodowanie danych do różnych formatów, oraz biblioteka \textit{rand}\cite{Rust:rand} zapewniająca generator liczb pseudolosowych.
 
         \subsubsection{Narzędzia}
-            
+
             W pracy zostały wykorzystane następujące narzędzia:
             \begin{itemize}
                 \item \textit{cargo} jako menedżer pakietów i system budowania w Rust;
@@ -702,11 +711,11 @@
         \subsubsection{Opis interfejsu użytkownika}
 
             \paragraph{Aplikacja konsolowa}
-                
+
                 Aplikacja konsolowa działa w środowisku terminalowym i wykonuje polecenia wprowadzone przez użytkownika, generując komunikaty o różnych poziomach ważności.
-                
+
                 \begin{itemize}
-                
+
                     \item{
                         \textbf{Polecenia aplikacji konsolowej:}
                         Polecenia w aplikacji konsolowej składają się z głównego polecenia oraz opcjonalnych argumentów. Główne polecenie jest zawsze wymaganym elementem, a argumenty mogą być opcjonalne lub obowiązkowe w zależności od głównego polecenia.
@@ -751,7 +760,7 @@
                     \item {
                         \textbf{Pomoc i instrukcje:}
                         Aplikacja posiada wbudowane polecenie \texttt{-\phantom{}-help}, które pozwala na wyświetlenie informacji o dostępnych poleceniach, ich opisach oraz wymaganych argumentach.
-                        Aby uzyskać informacje o poleceniu \texttt{search}, użytkownik może wykorzystać następujące polecenie: 
+                        Aby uzyskać informacje o poleceniu \texttt{search}, użytkownik może wykorzystać następujące polecenie:
                         \[
                             \texttt{./exquisitor-cli search --help}
                         \]
@@ -775,7 +784,7 @@
                                 \textbf{Strona zlecenia} — ekran wyświetlający szczegóły konkretnego zlecenia, w tym identyfikator, opis, status, daty rozpoczęcia i zakończenia oraz wyniki.
                             }
                             \item {
-                                \textbf{Strona dodania zlecenia} — ekran, na którym użytkownik może wprowadzić nowe zlecenie. 
+                                \textbf{Strona dodania zlecenia} — ekran, na którym użytkownik może wprowadzić nowe zlecenie.
                             }
                             \item {
                                 \textbf{Ekran błędu} — ekran odpowiedzialny za wyświetlanie komunikatów o błędach
@@ -862,7 +871,7 @@
                 \end{enumerate}
 
             \paragraph{Kompilacja aplikacji}
-                
+
                 \begin{enumerate}
                     \item {
                         Pobierz repozytorium rozwiązania za pomocą polecenia \texttt{git clone <url>}, gdzie \texttt{<url>} jest adresem repozytorium z kodem.
@@ -883,14 +892,14 @@
                         Przejdź do folderu \texttt{exquisitor} oraz uruchom polecenie \texttt{cargo build -\phantom{}-release -\phantom{}-bins}.
                     }
                     \item {
-                        Aplikacja konsolowa oraz internetowa powinny być skompilowane i znajdują się w folderze \texttt{exquisitor/target/release}. 
+                        Aplikacja konsolowa oraz internetowa powinny być skompilowane i znajdują się w folderze \texttt{exquisitor/target/release}.
                         Skopiuj pliki wykonywalne aplikacji do docelowej lokacji.
                     }
                     \item{
                         Skopiuj plik \texttt{exquisitor.db} z folderu \texttt{exquisitor/exquisitor-app} do tej samej lokacji co aplikacja internetowa.
                     }
                 \end{enumerate}
-            
+
             \paragraph{Uruchomienie aplikacji konsolowej}
 
                 \begin{enumerate}
@@ -898,7 +907,7 @@
                         Przejdź do folderu, w którym znajduje się plik wykonywalny aplikacji konsolowej.
                     }
                     \item {
-                        Ustaw zmienne środowiskowe \texttt{BLASTDB} oraz \texttt{BLASTN}, aby wskazywały odpowiednio na folder z bazą danych nukleotydów oraz na program \texttt{blastn}. 
+                        Ustaw zmienne środowiskowe \texttt{BLASTDB} oraz \texttt{BLASTN}, aby wskazywały odpowiednio na folder z bazą danych nukleotydów oraz na program \texttt{blastn}.
                         W przypadku standardowej instalacji środowiska za pomocą skryptu \texttt{download\_database.sh} zmienne należy ustawić odpowiednio na \texttt{/blast/db} oraz \texttt{/blast/executables/bin/blastn}.
                     }
                     \item {
@@ -909,7 +918,7 @@
                 \begin{table}[!ht] \centering
                     \caption{Polecenia aplikacji konsolowej.}\label{Table:ConsoleCommands}
 
-                    \begin{tabularx}{\textwidth}{| >{\footnotesize}m{0.25\textwidth} |  >{\footnotesize}X |} 
+                    \begin{tabularx}{\textwidth}{| >{\footnotesize}m{0.25\textwidth} |  >{\footnotesize}X |}
                         \hline
                         \textbf{\normalsize Polecenie}  & \textbf{\normalsize Opis polecenia} \\ \hline \hline
                         \texttt{experiment} 	        & Uruchamia wskazane polecenie jako eksperyment. Pozwala na monitorowanie wykorzystania procesora oraz pamięci RAM oraz ograniczenie trwania eksperymentu. \\ \hline
@@ -918,13 +927,13 @@
                         \texttt{search}                 & Wyszukuje sekwencje DNA w bazie danych bez uruchamiania pełnego potoku przetwarzania. \\ \hline
                         \texttt{run}		            & Uruchamia pełną klasyfikację taksonomiczną z wykorzystaniem potoku przetwarzania. \\ \hline
                     \end{tabularx}
-                
+
                 \end{table}
 
             \paragraph{Przykładowe wykorzystanie aplikacji konsolowej}
 
                 Aplikacja konsolowa umożliwia wyszukiwanie podobnych sekwencji DNA w bazie danych sekwencji z pominięciem potoku przetwarzania. Aby uruchomić wyszukiwanie należy użyć poniższego polecenia:
-                
+
                 \texttt{./exquisitor-cli search -\phantom{}-input sequences.fasta -\phantom{}-output search\_results -\phantom{}-blast-db /blast/db -\phantom{}-blast /blast/executables/bin/blastn}
 
                 gdzie:
@@ -953,7 +962,7 @@
                         Uruchom plik wykonywalny za pomocą polecenia: \texttt{./exquisitor-app}.
                     }
                     \item {
-                        Aplikacja powinna się uruchomić. Interfejs użytkownika dostępny jest pod adresem: 
+                        Aplikacja powinna się uruchomić. Interfejs użytkownika dostępny jest pod adresem:
                         \texttt{localhost:3000}.
                     }
                 \end{enumerate}
@@ -1003,7 +1012,7 @@
                                                           & \texttt{-\phantom{}-max-duration <liczba>} & Maksymalny czas trwania eksperymentu w sekundach. Po przekroczeniu czasu trwania eksperymentu nastąpi jego przerwanie. \\ \hline
 
                     % % compare             & \texttt{
-                            
+
                     % % } \\ \hline % @TODO
 
                     \multirow{3}{*}{\texttt{compare-clusters}}  & \texttt{-\phantom{}-reference <ścieżka>} & Ścieżka do pliku z wynikami klasyfikacji taksonomicznej, które stanowią punkt odniesienia w porównaniu. \\*
@@ -1037,22 +1046,26 @@
 
         \subsubsection{Testy jednostkowe}
 
-            Testy jednostkowe zostały przeprowadzone w celu weryfikacji poprawności działania poszczególnych funkcji i metod w izolacji. Testy obejmowały zarówno typowe scenariusze wykorzystania funkcjonalności, jak i potencjalne sytuacje błędne.
-            
-            \paragraph{Zakres}  
+        Testy jednostkowe zostały przeprowadzone w celu weryfikacji poprawności działania poszczególnych funkcji i metod w izolacji. Testy obejmowały zarówno typowe scenariusze wykorzystania funkcjonalności, jak i potencjalne sytuacje błędne.
+
+        \todo{dodać: w projekcie jest dostęnych X testów jednostkowych, kod testów to Y linii kodu, uzupełnić X i Y, jeżeli były linie podane w rozdziale 'statystyki' to proszę się tutaj odwołać, jeżeli nie -- to podać}
+
+            \paragraph{Zakres}
             Testy jednostkowe objęły większość funkcji oraz metod w bibliotece \texttt{exquisitor-core}. Szczególną uwagę poświęcono poprawności działania funkcji związanych z wczytywaniem sekwencji oraz obliczaniem miar.
-            
-            \paragraph{Narzędzia}  
+
+            \paragraph{Narzędzia}
             Wykorzystano wbudowane narzędzie \texttt{cargo test} języka Rust, do uruchamiania testów jednostkowych. Narzędzie to automatycznie uruchamia testy zawarte w plikach implementacji, traktując je jako testy jednostkowe.
 
             \paragraph{Pokrycie testami}
-            Do sprawdzenia stopnia pokrycia kodu testami wykorzystano narzędzie \texttt{tarpaulin}\cite{Rust:tarpaulin}. 
+            Do sprawdzenia stopnia pokrycia kodu testami wykorzystano narzędzie \texttt{tarpaulin}\cite{Rust:tarpaulin}.
             Osiągnięto \textbf{65\%} pokrycia linii kodu za pomocą testów jednostkowych.
 
         \subsubsection{Testy manualne}
-        
+
             \paragraph{Zakres}
             Testy manualne objęły działanie interfejsu użytkownika aplikacji konsolowej oraz aplikacji internetowej W przypadku aplikacji konsolowej sprawdzono działanie wszystkich poleceń z uwzględnieniem klasycznych sytuacji błędnych. W aplikacji przeglądarkowej testowano funkcjonalności: dodawania, wyszukiwania i przeglądania zleceń.
+
+            \todo{proszę dodać: opisano K scenariuszy, ich wykonanie zajmuje średnio L minut, proszę uzupełnić K i L}
 
             \paragraph{Metoda}
             Ręczne wykonywanie scenariuszy testowych, takich jak:

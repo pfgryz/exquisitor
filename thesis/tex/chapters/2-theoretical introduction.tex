@@ -3,7 +3,7 @@
 
     % ===== ===== ===== =====
     % KLUCZOWE POJĘCIA I DEFINICJE
-    % ===== ===== ===== ===== 
+    % ===== ===== ===== =====
     \subsection{Kluczowe pojęcia i definicje}
 
         \subsubsection{Sekwencja DNA}
@@ -21,7 +21,7 @@
             Proces dopasowania sekwencji polega na wyrównaniu ich symboli w celu maksymalizacji ich wzajemnego podobieństwa, co realizowane może być poprzez wstawianie przerw (ang. \textit{gaps}) między symbolami sekwencji wejściowych. Dopasowanie sekwencji może być realizowane na dwa sposoby: lokalnie, gdzie maksymalizowane jest podobieństwo fragmentów sekwencji niezależnie od ich położenia oraz globalnie, gdzie maksymalizowane jest podobieństwo całych sekwencji. Wynikiem dopasowania są sekwencje z opcjonalnie wstawionymi przerwami oraz miara jakości dopasowania lub miara podobieństwa między sekwencjami.
 
         \subsubsection{Uczenie kontrastowe}
-            
+
             Uczenie kontrastowe (ang. \textit{contrastive learning}) \cite{Bromley:1993} jest metodą uczenia maszynowego polegającą na maksymalizacji podobieństwa między podobnymi próbkami oraz minimalizacji podobieństwa między niepodobnymi próbkami. Wykorzystuje ona miary niepodobieństwa między reprezentacjami do nauki odróżniania kluczowych cech próbek. Zastosowanie tej metody pozwala na redukcję wymiarowości danych przy jednoczesnym zachowaniu właściwości podobieństwa i niepodobieństwa między danymi wejściowymi.
 
         \subsubsection{Podobieństwo kosinusowe}
@@ -67,7 +67,7 @@
 
             Format FASTA jest to tekstowy format zapisu sekwencji nukleotydów. Nukleotydy reprezentowane są przez znaki \texttt{A, C, T, G}. Format składa się z jednej linii rozpoczynającej się znakiem \texttt{>} zawierającej identyfikator i opcjonalny opis oraz kolejnych linii zawierających sekwencję nukleotydów. Możliwy jest zapis wielu sekwencji w formacie FASTA w jednym pliku poprzez połączenie wielu sekwencji zapisanych w tym formacie.
 
-        \subsubsection{Format FASTQ} 
+        \subsubsection{Format FASTQ}
 
             Format FASTQ jest to tekstowy format zapisu sekwencji nukleotydów, który zawiera dodatkowo informację o jakości sekwencjonowania. Format umożliwia zapis wielu sekwencji w jednym pliku. Zapis każdej sekwencji składa się z czterech części.
             \begin{enumerate}
@@ -85,9 +85,10 @@
                 }
             \end{enumerate}
 
-        \subsubsection{\texttt{BLASTn}}
+            \subsubsection{BLASTn}
+            \todo{zmieniłem czcionkę, texttt nie występuje w nazwach formatów i algorytmów}
 
-            \texttt{BLASTn} (ang. \textit{Basic Local Alignment Search Tool for Nucleotides}) to wariant narzędzia bioinformatycznego \texttt{BLAST}, zaprojektowany do porównywania sekwencji nukleotydów. Umożliwia wyszukiwanie podobieństw między analizowanymi sekwencjami nukleotydów a sekwencjami znajdującymi się w wybranej bazie sekwencji nukleotydów. Może być wykorzystywany do przeprowadzania klasyfikacji taksonomicznej.
+            BLASTn (ang. \textit{Basic Local Alignment Search Tool for Nucleotides}) to wariant narzędzia bioinformatycznego BLAST, zaprojektowany do porównywania sekwencji nukleotydów. Umożliwia wyszukiwanie podobieństw między analizowanymi sekwencjami nukleotydów a sekwencjami znajdującymi się w wybranej bazie sekwencji nukleotydów. Może być wykorzystywany do przeprowadzania klasyfikacji taksonomicznej.
 
         \subsubsection{Klasyfikacja taksonomiczna}
 
@@ -99,7 +100,7 @@
 
     % ===== ===== ===== =====
     % PRZEGLĄD LITERATURY
-    % ===== ===== ===== ===== 
+    % ===== ===== ===== =====
     \subsection{Przegląd literatury}
 
         Badania nad klasyfikacją taksonomiczną sekwencji DNA cechują się dynamicznym rozwojem w ciągu ostatnich 25 lat. Wprowadzenie metod sekwencjonowania nowej generacji pozwoliło na analizę dużych ilości materiału genetycznego pochodzącego z różnych środowisk. Optymalizacja procesu klasyfikacji taksonomicznej stała się głównym kierunkiem rozwoju narzędzi do klasyfikacji, szczególnie w przypadku narzędzi opartych na bazach danych sekwencji genetycznych, ponieważ liczba sekwencji w tych bazach podwaja się średnio co 30 miesięcy~\cite{Benson:2008}.
@@ -114,7 +115,7 @@
 
     % ===== ===== ===== =====
     % METODY I PODEJŚCIA
-    % ===== ===== ===== ===== 
+    % ===== ===== ===== =====
     \subsection{Metody i podejścia}
 
         W pracy zostaną wykorzystane dwa klasyczne podejścia do klasyfikacji taksonomicznej sekwencji genetycznych. Pierwsze z nich opiera się na wyrównaniu sekwencji, przy czym zostanie wykorzystany zmodyfikowany algorytm Needlemana-Wunscha. Drugie podejście wykorzystuje $k$-mery, w którym do obliczeń zostana zastosowane proste zanurzenia oraz odległość euklidesowa.
@@ -138,7 +139,7 @@
             \end{equation}
 
             gdzie:
-            \begin{align*} 
+            \begin{align*}
                 A, B -& \text{porównywane sekwencje}, \\
                 n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
                 D -& \text{macierz podobieństwa o rozmiarach } n + 1 \text{ x } m + 1, \\
@@ -148,19 +149,18 @@
             \end{align*}
 
         \subsubsection{Zanurzenia $k$-merów}
-            
+
             Wykorzystanie $k$-merów w roli zanurzeń pozwala na reprezentację sekwencji DNA w postaci wektorów liczbowych, które można porównywać za pomocą różnych miar, takich jak na przykład odległość euklidesowa. Wektory liczbowe pozwalają na kompaktową reprezentację długich sekwencji, co znacznie przyśpiesza procesy grupowania sekwencji oraz klasyfikacji taksonomicznej. Metoda ta jest obecnie jedną z najpopularniejszych metod stosowanych do klasyfikacji taksonomicznej z wykorzystaniem baz danych, ponieważ cechuje się wysoką prędkością działania oraz pozwala uzyskać dobre wyniki. Obecne narzędzia wykorzystują różne miary, parametry $k$ oraz dodatkowe mechanizmy do dalszej optymalizacji tej metody.
-    
+
     % ===== ===== ===== =====
     % TEORETYCZNE PODSTAWY PROBLEMU
-    % ===== ===== ===== ===== 
+    % ===== ===== ===== =====
     \subsection{Sztuczne sieci neuronowe}
 
         Sztuczna sieć neuronowa to model matematyczny inspirowany strukturą i działaniem systemu nerwowego organizmów biologicznych, który jest stosowany do rozwiązywania problemów bez uprzedniej definicji matematycznej danego zagadnienia\cite{Leksykon}. Sieć neuronowa składa się z neuronów, czyli podstawowych jednostek przetwarzających informacje, które są wzorowane na funkcjonowaniu biologicznych komórek nerwowych, choć w znacznie uproszczonej formie\cite{Leksykon}. Sieć jest logicznie zorganizowana w warstwy, czyli grupy neuronów pełniące określone funkcje\cite{Leksykon}.
-        
+
         Jednym z podstawowych typów warstw są warstwy w pełni połączone (ang. \textit{Fully Connected Layers, FCN}), które składają się z neuronów połączonych ze wszystkimi neuronami poprzedniej warstwy. \cite{Leksykon}. Kolejnym typem warstw w sieciach neuronowych są warstwy splotowe, które wykorzystywane są głównie w przypadku danych o strukturze wielowymiarowej. Warstwa splotowa stosuje operację splotu, przetwarzając dane wejściowe i identyfikując istotne cechy strukturalne tych danych\cite{LeCun:2015}. Specyficznym typem warstw są warstwy spłaszczające, które przekształcają dane wielowymiarowe w wektor jednowymiarowy, umożliwiają one łączenie warstw splotowych z warstwami w pełni połączonymi.
 
         Normalizacja wsadowa (ang. \textit{batch normalization}) jest metodą, która pozwala na przyspieszenie procesu uczenia oraz zwiększa stabilność sztucznych sieci neuronowych\cite{Ioffe:2015}. Wygaszanie (ang. dropout)\cite{Wan:2013} jest techniką regularyzacji, która pomaga w redukcji przeuczenia\cite{Leksykon}.
 
         Wyjściem ostatniej warstwy modelu sztucznej sieci neuronowej może być wektor zanurzeń, czyli reprezentacja danych w przestrzeni o zredukowanej liczbie wymiarów w przypadku zadań, które wymagają redukcji wymiarowości danych wejściowych.
-
