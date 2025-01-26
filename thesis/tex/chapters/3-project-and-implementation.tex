@@ -279,11 +279,36 @@
                 }\label{Picture:App:Database}
               \end{figure}
 
-              \subsubsection{Statystyki kodu}
+        \subsubsection{Statystyki kodu}
 
-              \todo{dodałem ten rozdział, proszę dać liczę plików, linii kodu (LOC), na przykład z narzędzia 'cloc' w rozbiciu na języki programowania i powyższe elementy}
-              \todo{proszę podać także pracochłonność np w godzinach roboczych lub ManMonth, 1 MM = 160godzin}
-              \todo{tutaj można także wliczyć testy jednostkowe / albo nie wliczać}
+            W tabeli~\ref{Table:CodeStatistics} przedstawiono liczbę plików oraz linii kodu (ang. \textit{Line of Code, LOC}) w projekcie, w podziale na języki programowania.
+            Całkowity czas realizacji projektu wyniósł około 320 godzin, co odpowiada 2 miesiącom pracy jednej osoby. W projekcie zaimplementowano 83 testy jednostkowe, które zgodnie z konwencją języka Rust mieszczą się w plikach implementacji oraz jeden test jednostkowy w oddzielnym pliku.
+
+            \begin{table}[!ht] \centering
+                \caption{Liczba plików oraz linii kodu projektu.}\label{Table:CodeStatistics}
+
+                \begin{tabularx}{\textwidth}{| >{\footnotesize}X |  >{\footnotesize}X |>{\footnotesize}X |}
+                    \hline
+                    \textbf{\normalsize Język programowania}  & \textbf{\normalsize Liczba plików} & \textbf{\normalsize Liczba linii kodu} \\ \hline \hline
+                    Rust    &  48   &   4135 \\ \hline
+                    Python  &   2   &    438 \\ \hline
+                \end{tabularx}
+            \end{table}
+
+            % 1) Pliki i LoC w podziale na języki programowania
+            %   Język | Pliki | LoC 
+            %   Rust	48	4135
+            %   Py	2	438
+            %   BASH	6	106
+            %   SQL	2	69
+            %
+            % 2) Czas
+            %  ~320h = 2M
+            %  
+            % 3) Testy
+            %   15 plików
+            %   818 LoC
+            %   83 testy
 
     % ===== ===== ===== =====
     % METODY
@@ -410,10 +435,8 @@
             Z wyznaczonych \textit{k-merów} tworzy się wektor zanurzeń, w którym każda pozycja odpowiada określonemu \textit{k-merowi}. Przykładowo, dla \textit{k} = 2 (k-mery dwuznakowe) możemy przypisać odpowiednią pozycję w wektorze do każdego możliwego k-meru, np.:
 
             \[
-                \text{AA} \to 0, \quad \text{AC} \to 1, \quad \text{AG} \to 2, \quad \text{AT} \to 3, \quad \text{CA} \to 4, \quad \dots, \quad \text{TT} to 15
-              \]
-
-              \todo{wyrażenie powyżej błędne}
+                \text{AA} \to 0, \quad \text{AC} \to 1, \quad \text{AG} \to 2, \quad \text{AT} \to 3, \quad \text{CA} \to 4, \quad \dots, \quad \text{TT} \to 15
+            \]
 
             Wektor zanurzeń dla danej sekwencji DNA zawiera liczbę wystąpień każdego \textit{k-meru} w odpowiednich pozycjach. Na przykład, dla sekwencji `AAACATT' wektor zanurzeń dla $k=2$ może wyglądać następująco:
 
@@ -1046,9 +1069,7 @@
 
         \subsubsection{Testy jednostkowe}
 
-        Testy jednostkowe zostały przeprowadzone w celu weryfikacji poprawności działania poszczególnych funkcji i metod w izolacji. Testy obejmowały zarówno typowe scenariusze wykorzystania funkcjonalności, jak i potencjalne sytuacje błędne.
-
-        \todo{dodać: w projekcie jest dostęnych X testów jednostkowych, kod testów to Y linii kodu, uzupełnić X i Y, jeżeli były linie podane w rozdziale 'statystyki' to proszę się tutaj odwołać, jeżeli nie -- to podać}
+            Testy jednostkowe zostały przeprowadzone w celu weryfikacji poprawności działania poszczególnych funkcji i metod w izolacji. Testy obejmowały zarówno typowe scenariusze wykorzystania funkcjonalności, jak i potencjalne sytuacje błędne. W projekcie zaimplementowano 83 testy jednostkowe, których kod zajmuje 818 linii, co stanowi około 20\% całkowitej liczby linii kodu.
 
             \paragraph{Zakres}
             Testy jednostkowe objęły większość funkcji oraz metod w bibliotece \texttt{exquisitor-core}. Szczególną uwagę poświęcono poprawności działania funkcji związanych z wczytywaniem sekwencji oraz obliczaniem miar.
@@ -1063,9 +1084,30 @@
         \subsubsection{Testy manualne}
 
             \paragraph{Zakres}
-            Testy manualne objęły działanie interfejsu użytkownika aplikacji konsolowej oraz aplikacji internetowej W przypadku aplikacji konsolowej sprawdzono działanie wszystkich poleceń z uwzględnieniem klasycznych sytuacji błędnych. W aplikacji przeglądarkowej testowano funkcjonalności: dodawania, wyszukiwania i przeglądania zleceń.
+            Testy manualne objęły działanie interfejsu użytkownika aplikacji konsolowej oraz aplikacji internetowej W przypadku aplikacji konsolowej sprawdzono działanie wszystkich poleceń z uwzględnieniem klasycznych sytuacji błędnych. W aplikacji przeglądarkowej testowano funkcjonalności: dodawania, wyszukiwania i przeglądania zleceń. Opisano 12 scenariuszy testowych, a ich wykonanie zajmuje średnio 15 minut.
 
-            \todo{proszę dodać: opisano K scenariuszy, ich wykonanie zajmuje średnio L minut, proszę uzupełnić K i L}
+            % Scenariusze do opisania:
+                % cli clusters
+                %     1. success
+                %     2. save_to_file
+                % cli experiment
+                %     3. success
+                % cli run
+                %     4. success nw
+                %     5. success kmer
+                %     6. success neural
+                %     7. failure nw
+                % cli search
+                %     8. success
+
+
+
+                % 9. app search - success
+                % 10. app search - failure
+                % 11. app add - success
+
+            % K = 12
+            % L = 15 minut
 
             \paragraph{Metoda}
             Ręczne wykonywanie scenariuszy testowych, takich jak:
