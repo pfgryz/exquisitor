@@ -1018,50 +1018,6 @@
                     }\label{Picture:App:WebSearchSuccess}
                 \end{figure}
 
-                \begin{longtblr}[
-                    caption = {Składnia poleceń aplikacji konsolowej.},
-                    label = {Table:ConsoleCommandsSyntax}
-                ]{
-                    colspec = {| >{\footnotesize}m{0.2\textwidth} | >{\footnotesize}m{0.2\textwidth} | >{\footnotesize}X |},
-                    rowhead = 1,
-                }
-                    \hline
-                    \textbf{\normalsize Polecenie}     & \textbf{\normalsize Argument}    & \textbf{\normalsize Opis argumentu} \\*
-                    \hline \hline
-
-                    \multirow{4}{*}{\texttt{experiment}}  & \texttt{-\phantom{}-resolution <liczba>}   & Rozdzielczość monitorowania eksperymentu w sekundach. Określa jak często będzie sprawdzane wykorzystanie zasobów przez eksperyment, oraz przekroczenie czasu trwania eksperymentu. \\*
-                                                          & \texttt{-\phantom{}-command <polecenie>}   & Polecenie, które zostanie wykonane jako eksperyment. Powinno to być poprawne polecenie aplikacji konsolowej. \\*
-                                                          & \texttt{-\phantom{}-output <ścieżka>}      & Ścieżka do pliku, w którym zostaną zapisane wyniki monitorowania eksperymentu. Wyniki zapisywane są jako tabela w formacie CSV. \\*
-                                                          & \texttt{-\phantom{}-max-duration <liczba>} & Maksymalny czas trwania eksperymentu w sekundach. Po przekroczeniu czasu trwania eksperymentu nastąpi jego przerwanie. \\ \hline
-
-                    % % compare             & \texttt{
-
-                    % % } \\ \hline % @TODO
-
-                    \multirow{3}{*}{\texttt{compare-clusters}}  & \texttt{-\phantom{}-reference <ścieżka>} & Ścieżka do pliku z wynikami klasyfikacji taksonomicznej, które stanowią punkt odniesienia w porównaniu. \\*
-                                                                & \texttt{-\phantom{}-second <ścieżka>}    & Ścieżka do pliku z wynikami klasyfikacji taksonomicznej, które zostaną porównane względem wskazanych wyników referencyjnych. \\*
-                                                                & \texttt{[-\phantom{}-output <ścieżka>]}  & Ścieżka do pliku, w którym zostaną zapisane wyniki dokonanego porównania. \\ \hline
-
-                    \multirow{4}{*}{\texttt{search}}    & \texttt{-\phantom{}-input <ścieżka>}    & Ścieżka do pliku, który zawiera sekwencje DNA. \\*
-                                                        & \texttt{-\phantom{}-output <ścieżka>}   & Ścieżka do pliku, w którym zostaną zapisane wyniki wyszukiwania. \\*
-                                                        & \texttt{-\phantom{}-blast <ścieżka>}    & Ścieżka do pliku wykonywalnego \texttt{blastn}. \\*
-                                                        & \texttt{-\phantom{}-blast-db <ścieżka>} & Ścieżka do folderu z bazą danych nukleotydów \texttt{nt}. \\ \hline
-
-                    \multirow{13}{*}{\texttt{run}}      & \texttt{-\phantom{}-input <ścieżka>}           & Ścieżka do pliku, który zawiera sekwencje DNA. \\*
-                                                        & \texttt{-\phantom{}-output <ścieżka>}          & Ścieżka do pliku, w którym zostaną zapisane wyniki klasyfikacji taksonomicznej. \\*
-                                                        & \texttt{-\phantom{}-file-format <file-format>} & Format pliku z sekwencjami DNA. Dostępne formaty: \texttt{fasta}, \texttt{fastq} oraz \texttt{auto} (automatyczne wykrywanie formatu na podstawie rozszerzenia pliku). \\*
-                                                        & \texttt{-\phantom{}-pipeline <pipeline>}       & Metoda wykorzystana do określania niepodobieństwa między sekwencjami DNA. Dostępne metody: \texttt{basic} (zmodyfikowany algorytm Needlemana-Wunscha), \texttt{k-mer} (zanurzenia k-merów), \texttt{neural} (sieć neuronowa). \\*
-                                                        & \texttt{-\phantom{}-cluster <cluster>}         & Algorytm grupowania. Dostępne algorytmy: \texttt{k-medoid}. \\*
-                                                        & \texttt{-\phantom{}-k <liczba>}                & Liczba grup tworzonych przez algorytm grupowania. \\*
-                                                        & \texttt{-\phantom{}-blast <ścieżka>}           & Ścieżka do pliku wykonywalnego \texttt{blastn}. \\*
-                                                        & \texttt{-\phantom{}-blast-db <ścieżka>}        & Ścieżka do folderu z bazą danych nukleotydów \texttt{nt}. \\*
-                                                        & \texttt{[-\phantom{}-gap-penalty <liczba>]}    & Parametr kary za przerwę w metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha. Argument obowiązkowy przy podaniu \texttt{basic} jako wartości argumentu \texttt{-{}-pipeline}. \\*
-                                                        & \texttt{[-\phantom{}-kmer <ścieżka>]}          & Długość wykorzystanych k-merów w metodzie zanurzeń k-merów. Argument obowiązkowy przy podaniu \texttt{k-mer} jako wartości argumentu \texttt{-{}-pipeline}. \\*
-                                                        & \texttt{[-\phantom{}-model <ścieżka>]}         & Ścieżka do pliku, który zawiera zapisane wagi modelu sieci neuronowej. Argument obowiązkowy przy podaniu \texttt{neural} jako wartości argumentu \texttt{-{}-pipeline} .\\*
-                                                        & \texttt{[-\phantom{}-only-cluster]}            & Flaga, której użycie powoduje przerwanie potoku przetwarzania po przeprowadzeniu grupowania sekwencji.  \\*
-                                                        & \texttt{[-\phantom{}-save-clusters}            & Flaga, której użycie powoduje zapisanie wyników grupowania do pliku. \\ \hline
-                \end{longtblr}
-
     % ===== ===== ===== =====
     % OPIS TESTÓW JEDNOSTKOWYCH
     % ===== ===== ===== =====
@@ -1116,3 +1072,47 @@
                 \item {wyszukanie dodanego zlecenia po identyfikatorze na stronie głównej;}
                 \item {uruchomienie polecenia aplikacji konsolowej wyszukiwania w bazie danych i sprawdzenie, czy powstał odpowiedni plik z wynikami.}
             \end{itemize}
+
+            \begin{longtblr}[
+                caption = {Składnia poleceń aplikacji konsolowej.},
+                label = {Table:ConsoleCommandsSyntax}
+            ]{
+                colspec = {| >{\footnotesize}m{0.2\textwidth} | >{\footnotesize}m{0.2\textwidth} | >{\footnotesize}X |},
+                rowhead = 1,
+            }
+                \hline
+                \textbf{\normalsize Polecenie}     & \textbf{\normalsize Argument}    & \textbf{\normalsize Opis argumentu} \\*
+                \hline \hline
+
+                \multirow{4}{*}{\texttt{experiment}}  & \texttt{-\phantom{}-resolution <liczba>}   & Rozdzielczość monitorowania eksperymentu w sekundach. Określa jak często będzie sprawdzane wykorzystanie zasobów przez eksperyment, oraz przekroczenie czasu trwania eksperymentu. \\*
+                                                      & \texttt{-\phantom{}-command <polecenie>}   & Polecenie, które zostanie wykonane jako eksperyment. Powinno to być poprawne polecenie aplikacji konsolowej. \\*
+                                                      & \texttt{-\phantom{}-output <ścieżka>}      & Ścieżka do pliku, w którym zostaną zapisane wyniki monitorowania eksperymentu. Wyniki zapisywane są jako tabela w formacie CSV. \\*
+                                                      & \texttt{-\phantom{}-max-duration <liczba>} & Maksymalny czas trwania eksperymentu w sekundach. Po przekroczeniu czasu trwania eksperymentu nastąpi jego przerwanie. \\ \hline
+
+                % % compare             & \texttt{
+
+                % % } \\ \hline % @TODO
+
+                \multirow{3}{*}{\texttt{compare-clusters}}  & \texttt{-\phantom{}-reference <ścieżka>} & Ścieżka do pliku z wynikami klasyfikacji taksonomicznej, które stanowią punkt odniesienia w porównaniu. \\*
+                                                            & \texttt{-\phantom{}-second <ścieżka>}    & Ścieżka do pliku z wynikami klasyfikacji taksonomicznej, które zostaną porównane względem wskazanych wyników referencyjnych. \\*
+                                                            & \texttt{[-\phantom{}-output <ścieżka>]}  & Ścieżka do pliku, w którym zostaną zapisane wyniki dokonanego porównania. \\ \hline
+
+                \multirow{4}{*}{\texttt{search}}    & \texttt{-\phantom{}-input <ścieżka>}    & Ścieżka do pliku, który zawiera sekwencje DNA. \\*
+                                                    & \texttt{-\phantom{}-output <ścieżka>}   & Ścieżka do pliku, w którym zostaną zapisane wyniki wyszukiwania. \\*
+                                                    & \texttt{-\phantom{}-blast <ścieżka>}    & Ścieżka do pliku wykonywalnego \texttt{blastn}. \\*
+                                                    & \texttt{-\phantom{}-blast-db <ścieżka>} & Ścieżka do folderu z bazą danych nukleotydów \texttt{nt}. \\ \hline
+
+                \multirow{13}{*}{\texttt{run}}      & \texttt{-\phantom{}-input <ścieżka>}           & Ścieżka do pliku, który zawiera sekwencje DNA. \\*
+                                                    & \texttt{-\phantom{}-output <ścieżka>}          & Ścieżka do pliku, w którym zostaną zapisane wyniki klasyfikacji taksonomicznej. \\*
+                                                    & \texttt{-\phantom{}-file-format <file-format>} & Format pliku z sekwencjami DNA. Dostępne formaty: \texttt{fasta}, \texttt{fastq} oraz \texttt{auto} (automatyczne wykrywanie formatu na podstawie rozszerzenia pliku). \\*
+                                                    & \texttt{-\phantom{}-pipeline <pipeline>}       & Metoda wykorzystana do określania niepodobieństwa między sekwencjami DNA. Dostępne metody: \texttt{basic} (zmodyfikowany algorytm Needlemana-Wunscha), \texttt{k-mer} (zanurzenia k-merów), \texttt{neural} (sieć neuronowa). \\*
+                                                    & \texttt{-\phantom{}-cluster <cluster>}         & Algorytm grupowania. Dostępne algorytmy: \texttt{k-medoid}. \\*
+                                                    & \texttt{-\phantom{}-k <liczba>}                & Liczba grup tworzonych przez algorytm grupowania. \\*
+                                                    & \texttt{-\phantom{}-blast <ścieżka>}           & Ścieżka do pliku wykonywalnego \texttt{blastn}. \\*
+                                                    & \texttt{-\phantom{}-blast-db <ścieżka>}        & Ścieżka do folderu z bazą danych nukleotydów \texttt{nt}. \\*
+                                                    & \texttt{[-\phantom{}-gap-penalty <liczba>]}    & Parametr kary za przerwę w metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha. Argument obowiązkowy przy podaniu \texttt{basic} jako wartości argumentu \texttt{-{}-pipeline}. \\*
+                                                    & \texttt{[-\phantom{}-kmer <ścieżka>]}          & Długość wykorzystanych k-merów w metodzie zanurzeń k-merów. Argument obowiązkowy przy podaniu \texttt{k-mer} jako wartości argumentu \texttt{-{}-pipeline}. \\*
+                                                    & \texttt{[-\phantom{}-model <ścieżka>]}         & Ścieżka do pliku, który zawiera zapisane wagi modelu sieci neuronowej. Argument obowiązkowy przy podaniu \texttt{neural} jako wartości argumentu \texttt{-{}-pipeline} .\\*
+                                                    & \texttt{[-\phantom{}-only-cluster]}            & Flaga, której użycie powoduje przerwanie potoku przetwarzania po przeprowadzeniu grupowania sekwencji.  \\*
+                                                    & \texttt{[-\phantom{}-save-clusters}            & Flaga, której użycie powoduje zapisanie wyników grupowania do pliku. \\ \hline
+            \end{longtblr}
