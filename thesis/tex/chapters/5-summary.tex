@@ -26,7 +26,7 @@
 
         \subsubsection{Ograniczona funkcjonalność narzędzi do sieci neuronowych w Rust}
 
-            Mimo rosnącej popularności języka Rust\cite{Rust:popularity} i dynamicznego rozwoju jego ekosystemu, narzędzia do tworzenia modeli sztucznych sieci neuronowych są nadal w fazie rozwoju. Dostępne biblioteki w większości oferują interfejsy do istniejących rozwiązań w języku C++ lub w mniejszym stopniu są pisane od podstaw. Ze względu na wczesny etap rozwoju pierwszy typ tych narzędzi nie wykorzystuje w pełni możliwości języka Rust, a drugi typ nie zapewnia jeszcze pełnej optymalizacji procesu uczenia modeli sztucznych sieci neuronowych w porównaniu do bardziej dojrzałych rozwiązań dostępnych w językach C++ czy Python. Wykorzystana w pracy biblioteka \texttt{burn} wraz ze środowiskiem \texttt{wgpu} napotkała ograniczenia, które uniemożliwiły w pełni wykorzystanie potencjału dostępnej karty graficznej. Biblioteka na obecnym poziomie rozwoju zawiera jedynie implementacje podstawowych i klasycznych rozwiązań w dziedzinie sztucznych sieci neuronowych.
+            Mimo rosnącej popularności języka Rust\cite{Rust:popularity} i dynamicznego rozwoju jego ekosystemu, narzędzia do tworzenia modeli sztucznych sieci neuronowych są nadal w fazie rozwoju. Dostępne biblioteki w większości oferują interfejsy do istniejących rozwiązań w języku C++ lub w mniejszym stopniu są pisane od podstaw. Ze względu na wczesny etap rozwoju, pierwszy typ tych narzędzi nie wykorzystuje w pełni możliwości języka Rust, a drugi typ nie zapewnia jeszcze pełnej optymalizacji procesu uczenia modeli sztucznych sieci neuronowych w porównaniu do bardziej dojrzałych rozwiązań dostępnych w językach C++ czy Python. Wykorzystana w pracy biblioteka \texttt{burn} wraz ze środowiskiem \texttt{wgpu} napotkała ograniczenia, które uniemożliwiły w pełni wykorzystanie potencjału dostępnej karty graficznej. Biblioteka na obecnym poziomie rozwoju zawiera jedynie implementacje podstawowych i klasycznych rozwiązań w dziedzinie sztucznych sieci neuronowych.
 
         \subsubsection{Złożoność procesu uczenia modelu sztucznej sieci neuronowej}
 
@@ -55,7 +55,7 @@
 
         \subsubsection{Grupowanie sekwencji w paczkach}
 
-            Ze względu na czasochłonność procesu budowy macierzy niepodobieństwa, na wstępnym etapie sekwencje wejściowe mogłyby zostać poddane losowemu grupowaniu w paczki. Następnie, w ramach każdej paczki, przeprowadzony zostałby proces wyboru reprezentantów, tak jak ma to miejsce w obecnym podejściu. Zastosowanie wstępnego grupowania umożliwiłoby ominięcie budowy jednej dużej macierzy niepodobieństwa, co pozwoliłoby na analizę większej liczby sekwencji.
+            Ze względu na czasochłonność procesu budowy macierzy niepodobieństwa, na wstęp\-nym etapie sekwencje wejściowe mogłyby zostać poddane losowemu grupowaniu w paczki. Następnie, w ramach każdej paczki, przeprowadzony zostałby proces wyboru reprezentantów, tak jak ma to miejsce w obecnym podejściu. Zastosowanie wstępnego grupowania umożliwiłoby ominięcie budowy jednej dużej macierzy niepodobieństwa, co pozwoliłoby na analizę większej liczby sekwencji.
 
         \subsubsection{Wykonywanie obliczeń równolegle}
 

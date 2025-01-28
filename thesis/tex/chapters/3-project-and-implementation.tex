@@ -9,7 +9,7 @@
 
         Celem pracy jest stworzenie aplikacji umożliwiającej użytkownikowi zlecanie analiz materiału genetycznego DNA z wielu organizmów, który został pobrany ze środowiska. Aplikacja powinna agregować wyniki tego procesu w formie czytelnej dla człowieka. Będzie ona wykorzystywać bazę danych sekwencji genetycznych. Aplikacja będzie zawierać algorytm grupowania sekwencji oraz wyboru reprezentantów, które zapewnią usprawnienie procesu analiz danych. Zostaną zastosowane modele uczenia maszynowego.
 
-        Najbardziej rozpowszechnioną i stosowaną metodą analizy materiału genetycznego jest klasyfikacja taksonomiczna sekwencji. Pozwala ona określenie, do jakich organizmów nalezą sekwencje zawarte w poddanym analizie materiale genetycznym. Wymaga ona wyszukiwania sekwencji podobnych w bazach danych sekwencji genetycznych do sekwencji analizowanych, a następnie agregację zgromadzonych wyników.
+        Najbardziej rozpowszechnioną i stosowaną metodą analizy materiału genetycznego jest klasyfikacja taksonomiczna sekwencji. Pozwala ona określenie, do jakich organizmów należą sekwencje zawarte w poddanym analizie materiale genetycznym. Wymaga ona wyszukiwania sekwencji podobnych w bazach danych sekwencji genetycznych do sekwencji analizowanych, a następnie agregację zgromadzonych wyników.
 
         Wykorzystanie algorytmu grupowania sekwencji genetycznych umożliwi podział sekwencji na grupy sekwencji podobnych, które będą reprezentowane przez wybraną sekwencję zwaną reprezentantem. Wyszukiwanie w bazie danych sekwencji reprezentantów zamiast wszystkich sekwencji znacząco zredukuje liczbę analizowanych sekwencji, co pozwoli na przyśpieszenie całego procesu analizy materiału genetycznego, ponieważ to wyszukiwanie sekwencji podobnych w bazie danych sekwencji jest najbardziej czasochłonnym elementem analizy. Wybór reprezentantów będzie realizowany za pomocą algorytmu, który pozwoli na wybór sekwencji, która najlepiej reprezentuje swoje grupy.
 
@@ -365,7 +365,7 @@
                 \end{cases}
             \end{align*}
 
-            Pełny przebieg metody przedstawiono na schemacie~\ref{Picture:Cluster:NeedlemanWunsch}. Czerwonym obramowaniem oznaczono krok, w którym wykorzystywany jest zmodyfikowany algorytm Needlemana-Wunscha.
+            Pełny przebieg metody przedstawiono na schemacie~\ref{Picture:Cluster:NeedlemanWunsch}. Czerwonym obramowaniem oznaczono krok, w którym wykorzystywany jest zmodyfikowany algorytm Needlemana\--Wunscha.
 
             \paragraph{Przykład.} Macierz podobieństwa zbudowana dla sekwencji \texttt{ACT} oraz \texttt{GCA} przy użyciu zmodyfikowanego algorytmu Needlemana-Wunscha, z uwzględnieniem przyjętych parametrów będzie wyglądać następująco:
 
@@ -429,16 +429,16 @@
                 }\label{Picture:Cluster:NeedlemanWunsch}
             \end{figure}
 
-        \subsubsection{Metoda zanurzeń \textit{k-merów}}
-            Metoda zanurzeń \textit{k-merów} jest drugą klasyczną metodą wyznaczania niepodobieństwa między sekwencjami genetycznymi, w tym sekwencjami DNA. Polega ona na wyznaczeniu wszystkich \textit{k-merów} dla sekwencji wejściowych, a następnie obliczeniu niepodobieństwa sekwencji poprzez porównanie liczby wystąpień danych \textit{k-merów} w porównywanych sekwencjach.
+        \subsubsection{Metoda zanurzeń $k$-merów}
+            Metoda zanurzeń $k$-merów jest drugą klasyczną metodą wyznaczania niepodobieństwa między sekwencjami genetycznymi, w tym sekwencjami DNA. Polega ona na wyznaczeniu wszystkich $k$-merów dla sekwencji wejściowych, a następnie obliczeniu niepodobieństwa sekwencji poprzez porównanie liczby wystąpień danych $k$-merów w porównywanych sekwencjach.
 
-            Z wyznaczonych \textit{k-merów} tworzy się wektor zanurzeń, w którym każda pozycja odpowiada określonemu \textit{k-merowi}. Przykładowo, dla \textit{k} = 2 (k-mery dwuznakowe) możemy przypisać odpowiednią pozycję w wektorze do każdego możliwego k-meru, np.:
+            Z wyznaczonych $k$-merów tworzy się wektor zanurzeń, w którym każda pozycja odpowiada określonemu $k$-merowi. Przykładowo, dla $k$ = 2 ($k$-mery dwuznakowe) możemy przypisać odpowiednią pozycję w wektorze do każdego możliwego $k$-meru, np.:
 
             \[
                 \text{AA} \to 0, \quad \text{AC} \to 1, \quad \text{AG} \to 2, \quad \text{AT} \to 3, \quad \text{CA} \to 4, \quad \dots, \quad \text{TT} \to 15
             \]
 
-            Wektor zanurzeń dla danej sekwencji DNA zawiera liczbę wystąpień każdego \textit{k-meru} w odpowiednich pozycjach. Na przykład, dla sekwencji `AAACATT' wektor zanurzeń dla $k=2$ może wyglądać następująco:
+            Wektor zanurzeń dla danej sekwencji DNA zawiera liczbę wystąpień każdego $k$-meru w odpowiednich pozycjach. Na przykład, dla sekwencji `AAACATT' wektor zanurzeń dla $k=2$ może wyglądać następująco:
 
             \[
                 \text{AAACATT} \to [2, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
@@ -458,7 +458,7 @@
                 A_j, B_j -& \text{liczba wystąpień sekwencji } j \text{ odpowiednio w sekwencjach } A \text{ i } B. \\
             \end{align*}
 
-            Pełny przebieg wykorzystania metody zanurzeń \textit{k-merów} w grupowaniu sekwencji został pokazany na schemacie~\ref{Picture:Cluster:KMer}. Czerwonym obramowaniem oznaczono krok, w którym wykorzystana została metoda.
+            Pełny przebieg wykorzystania metody zanurzeń $k$-merów w grupowaniu sekwencji został pokazany na schemacie~\ref{Picture:Cluster:KMer}. Czerwonym obramowaniem oznaczono krok, w którym wykorzystana została metoda.
 
             \begin{figure}[!htb]
                 \begin{center}
@@ -489,7 +489,7 @@
                     % ----- -----
                     \begin{tikzpicture}[node distance=3cm]
                         \node (input) [Circle] { Wejście };
-                        \node (embed) [Box, below of=input, draw=Red] { 1. Stworzenie zanurzeń k-merów };
+                        \node (embed) [Box, below of=input, draw=Red] { 1. Stworzenie zanurzeń $k$-merów };
                         \node (distance) [Box, below of=embed, align=center] { 2. Obliczenie niepodobieństwa \\ między wektorami zanurzeń };
                         \node (matrix) [Box, below of=distance] { 3. Stworzenie macierzy niepodobieństwa };
                         \node (cluster) [Box, below of=matrix, align=center] { 4. Grupowanie sekwencji \\ \textbf{za pomocą algorytmu k-medoidów}};
@@ -506,7 +506,7 @@
                     }
                 \end{center}
                 \caption{
-                    Grupowanie sekwencji z wykorzystaniem zanurzeń \textit{k-merów} do określenia niepodobieństwa między sekwencjami.
+                    Grupowanie sekwencji z wykorzystaniem zanurzeń $k$-merów do określenia niepodobieństwa między sekwencjami.
                 }\label{Picture:Cluster:KMer}
             \end{figure}
 
@@ -597,7 +597,7 @@
                 \end{figure}
 
             \paragraph{Dane wejściowe}
-                Wejściem modelu są sekwencje DNA o długości $150$, które są zakodowane do postaci wektora o wymiarach $1x600$ za pomocą kodu 1 z n\cite{HarrisDavid:2007}.
+                Wejściem modelu są sekwencje DNA o długości $150$, które są zakodowane do postaci wektora o wymiarach $1$ x $600$ za pomocą kodu 1 z n\cite{HarrisDavid:2007}.
 
             \paragraph{Przykłady uczące}
                 Przykłady uczące oraz walidacyjne składają się z kotwicy (ang. \textit{anchor}), sekwencji pozytywnej (ang. \textit{positive}), czyli podobnej do kotwicy oraz sekwencji negatywnej (ang. \textit{negative}) niepodobnej do kotwicy.
@@ -810,7 +810,7 @@
                                 \textbf{Strona dodania zlecenia} — ekran, na którym użytkownik może wprowadzić nowe zlecenie.
                             }
                             \item {
-                                \textbf{Ekran błędu} — ekran odpowiedzialny za wyświetlanie komunikatów o błędach
+                                \textbf{Ekran błędu} — ekran odpowiedzialny za wyświetlanie komunikatów o błędach.
                             }
                         \end{itemize}
                         Na rysunku~\ref{Picture:App:WebScreen} znajduje się zrzut ekranu z głównego ekranu aplikacji internetowej.
@@ -823,7 +823,7 @@
                                 \textbf{Formularz wyszukiwania eksperymentu} — pozwala na znalezienie eksperymentu przez podanie jego nazwy lub identyfikatora.
                             }
                             \item {
-                                \textbf{Formularz dodania zlecenia} — pozwala na dodanie nowego zlecenia klasyfikacji taksonomicznej poprzez podanie nazwy, opisu oraz pliku z danymi wejściowymi.
+                                \textbf{Formularz dodania zlecenia} — pozwala na dodanie nowego zlecenia klasyfikacji taksonomicznej poprzez podanie nazwy oraz pliku z danymi wejściowymi.
                             }
                         \end{itemize}
                     }
@@ -1028,7 +1028,7 @@
             Testy jednostkowe zostały przeprowadzone w celu weryfikacji poprawności działania poszczególnych funkcji i metod w izolacji. Testy obejmowały zarówno typowe scenariusze wykorzystania funkcjonalności, jak i potencjalne sytuacje błędne. W projekcie zaimplementowano 83 testy jednostkowe, których kod zajmuje 818 linii, co stanowi około 20\% całkowitej liczby linii kodu.
 
             \paragraph{Zakres}
-            Testy jednostkowe objęły większość funkcji oraz metod w bibliotece \texttt{exquisitor-core}. Szczególną uwagę poświęcono poprawności działania funkcji związanych z wczytywaniem sekwencji oraz obliczaniem miar.
+            Testy jednostkowe objęły większość funkcji oraz metod w bibliotece \texttt{exquisitor\--core}. Szczególną uwagę poświęcono poprawności działania funkcji związanych z wczytywaniem sekwencji oraz obliczaniem miar.
 
             \paragraph{Narzędzia}
             Wykorzystano wbudowane narzędzie \texttt{cargo test} języka Rust, do uruchamiania testów jednostkowych. Narzędzie to automatycznie uruchamia testy zawarte w plikach implementacji, traktując je jako testy jednostkowe.
@@ -1105,14 +1105,14 @@
                 \multirow{13}{*}{\texttt{run}}      & \texttt{-\phantom{}-input <ścieżka>}           & Ścieżka do pliku, który zawiera sekwencje DNA. \\*
                                                     & \texttt{-\phantom{}-output <ścieżka>}          & Ścieżka do pliku, w którym zostaną zapisane wyniki klasyfikacji taksonomicznej. \\*
                                                     & \texttt{-\phantom{}-file-format <file-format>} & Format pliku z sekwencjami DNA. Dostępne formaty: \texttt{fasta}, \texttt{fastq} oraz \texttt{auto} (automatyczne wykrywanie formatu na podstawie rozszerzenia pliku). \\*
-                                                    & \texttt{-\phantom{}-pipeline <pipeline>}       & Metoda wykorzystana do określania niepodobieństwa między sekwencjami DNA. Dostępne metody: \texttt{basic} (zmodyfikowany algorytm Needlemana-Wunscha), \texttt{k-mer} (zanurzenia k-merów), \texttt{neural} (sieć neuronowa). \\*
+                                                    & \texttt{-\phantom{}-pipeline <pipeline>}       & Metoda wykorzystana do określania niepodobieństwa między sekwencjami DNA. Dostępne metody: \texttt{basic} (zmodyfikowany algorytm Needlemana-Wunscha), \texttt{k-mer} (zanurzenia $k$-merów), \texttt{neural} (sieć neuronowa). \\*
                                                     & \texttt{-\phantom{}-cluster <cluster>}         & Algorytm grupowania. Dostępne algorytmy: \texttt{k-medoid}. \\*
                                                     & \texttt{-\phantom{}-k <liczba>}                & Liczba grup tworzonych przez algorytm grupowania. \\*
                                                     & \texttt{-\phantom{}-blast <ścieżka>}           & Ścieżka do pliku wykonywalnego \texttt{blastn}. \\*
                                                     & \texttt{-\phantom{}-blast-db <ścieżka>}        & Ścieżka do folderu z bazą danych nukleotydów \texttt{nt}. \\*
-                                                    & \texttt{[-\phantom{}-gap-penalty <liczba>]}    & Parametr kary za przerwę w metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha. Argument obowiązkowy przy podaniu \texttt{basic} jako wartości argumentu \texttt{-{}-pipeline}. \\*
-                                                    & \texttt{[-\phantom{}-kmer <ścieżka>]}          & Długość wykorzystanych k-merów w metodzie zanurzeń k-merów. Argument obowiązkowy przy podaniu \texttt{k-mer} jako wartości argumentu \texttt{-{}-pipeline}. \\*
-                                                    & \texttt{[-\phantom{}-model <ścieżka>]}         & Ścieżka do pliku, który zawiera zapisane wagi modelu sieci neuronowej. Argument obowiązkowy przy podaniu \texttt{neural} jako wartości argumentu \texttt{-{}-pipeline} .\\*
+                                                    & \texttt{[-\phantom{}-gap-penalty <liczba>]}    & Parametr kary za przerwę w metodzie z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha. Argument obowiązkowy przy podaniu \texttt{basic} jako wartości argumentu \texttt{-\phantom{}-pipeline}. \\*
+                                                    & \texttt{[-\phantom{}-kmer <ścieżka>]}          & Długość wykorzystanych $k$-merów w metodzie zanurzeń $k$-merów. Argument obowiązkowy przy podaniu \texttt{k-mer} jako wartości argumentu \texttt{-\phantom{}-pipeline}. \\*
+                                                    & \texttt{[-\phantom{}-model <ścieżka>]}         & Ścieżka do pliku, który zawiera zapisane wagi modelu sieci neuronowej. Argument obowiązkowy przy podaniu \texttt{neural} jako wartości argumentu \texttt{-\phantom{}-pipeline} .\\*
                                                     & \texttt{[-\phantom{}-only-cluster]}            & Flaga, której użycie powoduje przerwanie potoku przetwarzania po przeprowadzeniu grupowania sekwencji.  \\*
                                                     & \texttt{[-\phantom{}-save-clusters}            & Flaga, której użycie powoduje zapisanie wyników grupowania do pliku. \\ \hline
             \end{longtblr}

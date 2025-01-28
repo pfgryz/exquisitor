@@ -38,7 +38,7 @@
     % ===== ===== ===== =====
     \subsection{Miara jakości}
 
-        Jako miarę jakości klasyfikacji taksonomicznej wykorzystano zmodyfikowany indeks Jaccarda, wyrażony wzorem:
+        Jako miarę jakości klasyfikacji taksonomicznej wykorzystano zmodyfikowany indeks Jaccarda, wyrażony za pomocą wzoru~\ref{Equation:Quality}.
 
         \begin{equation}
             \text{Q} = \frac{
@@ -59,7 +59,7 @@
 
         Miara została wykorzystana do porównania jakości klasyfikacji taksonomicznej przeprowadzanej z wykorzystaniem zaimplementowanych metod względem klasyfikacji taksonomicznej bez użycia potoku przetwarzania.
 
-        Do porównywania jakości wielu przebiegów klasyfikacji taksonomicznej wykorzystano średnią jakość ważoną zdefiniowaną za pomocą wzoru:
+        Do porównywania jakości wielu przebiegów klasyfikacji taksonomicznej wykorzystano średnią jakość ważoną zdefiniowaną za pomocą wzoru~\ref{Equation:WeightedAverageQuality}.
 
         \begin{equation}
             Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
