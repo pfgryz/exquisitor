@@ -40,7 +40,10 @@ async fn get_order(id: i64, pool: &Arc<SqlitePool>) -> Result<Order, Response> {
 }
 
 /// Renders order page
-pub(crate) async fn render(Path(id): Path<i64>, Extension(pool): Extension<Arc<SqlitePool>>) -> Response {
+pub(crate) async fn render(
+    Path(id): Path<i64>,
+    Extension(pool): Extension<Arc<SqlitePool>>,
+) -> Response {
     let order = match get_order(id, &pool).await {
         Ok(value) => value,
         Err(value) => return value,
@@ -68,7 +71,11 @@ pub(crate) async fn add_form() -> Response {
 }
 
 /// Creates a unique file for long-term storage.
-pub(crate) async fn create_file(prefix: &str, suffix: &str, directory: &str) -> io::Result<NamedTempFile> {
+pub(crate) async fn create_file(
+    prefix: &str,
+    suffix: &str,
+    directory: &str,
+) -> io::Result<NamedTempFile> {
     tokio::fs::create_dir_all(directory).await?;
 
     let file = Builder::new()
@@ -193,8 +200,6 @@ pub async fn download(
 
             (headers, buffer).into_response()
         }
-        Err(_) => {
-            create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response()
-        }
+        Err(_) => create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response(),
     }
 }

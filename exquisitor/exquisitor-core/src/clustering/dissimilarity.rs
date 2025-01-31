@@ -396,14 +396,16 @@ mod tests {
 
     #[test]
     fn test_cosine_dissimilarity_zero_magnitude() {
-        let dissimilarity = CosineDissimilarity.dissimilarity(&vec![0.0f64, 0.0f64], &vec![1.0f64, 2.0f64]);
+        let dissimilarity =
+            CosineDissimilarity.dissimilarity(&vec![0.0f64, 0.0f64], &vec![1.0f64, 2.0f64]);
 
         assert_eq!(dissimilarity, Ok(0.0f64));
     }
 
     #[test]
     fn test_cosine_dissimilarity() {
-        let dissimilarity = CosineDissimilarity.dissimilarity(&vec![0.0f64, 1.0f64], &vec![1.0f64, 0.0f64]);
+        let dissimilarity =
+            CosineDissimilarity.dissimilarity(&vec![0.0f64, 1.0f64], &vec![1.0f64, 0.0f64]);
 
         assert_eq!(dissimilarity, Ok(1.0f64));
     }

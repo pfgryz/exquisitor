@@ -78,10 +78,7 @@ pub async fn executor_task(pool: Arc<SqlitePool>) {
 }
 
 /// Runs the ordered analysis
-async fn run_exquisitor_analysis(
-    input_filename: &str,
-    output_filename: &str,
-) -> Result<bool, ()> {
+async fn run_exquisitor_analysis(input_filename: &str, output_filename: &str) -> Result<bool, ()> {
     let mut program = env::current_exe().map_err(|_| ())?;
     if let Some(extension) = program.extension() {
         let filename = format!("exquisitor-cli.{}", extension.to_string_lossy());
