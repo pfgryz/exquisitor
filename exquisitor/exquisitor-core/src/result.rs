@@ -1,4 +1,4 @@
-/// Exquisitor internal errors
+//! Exquisitor internal errors
 
 use std::error::Error;
 use std::fmt;

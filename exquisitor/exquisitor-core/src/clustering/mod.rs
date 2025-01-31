@@ -1,3 +1,4 @@
+//! Module for clustering related functionalities
 pub mod cluster;
 pub mod dissimilarity;
 pub mod neural;
