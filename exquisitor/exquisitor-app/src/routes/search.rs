@@ -1,4 +1,3 @@
-use std::sync::Arc;
 use crate::db;
 use crate::routes::errors::InternalServerError;
 use crate::templates::HTMLTemplate;
@@ -9,6 +8,7 @@ use axum::response::{IntoResponse, Redirect, Response};
 use axum::Extension;
 use serde::Deserialize;
 use sqlx::SqlitePool;
+use std::sync::Arc;
 
 #[derive(Debug, Deserialize)]
 pub struct SearchParams {

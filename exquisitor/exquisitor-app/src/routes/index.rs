@@ -1,10 +1,10 @@
-use std::sync::Arc;
 use crate::db::{query_orders, Order};
 use crate::templates::HTMLTemplate;
 use askama::Template;
 use axum::response::IntoResponse;
 use axum::Extension;
 use sqlx::SqlitePool;
+use std::sync::Arc;
 
 #[derive(Template)]
 #[template(path = "index.html")]

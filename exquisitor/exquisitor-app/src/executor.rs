@@ -113,11 +113,10 @@ fn get_env(key: &str) -> Result<String, Box<dyn std::error::Error>> {
     env::var(key).map_err(|e| e.into())
 }
 
-pub async fn run_exquisitor_cli(
-    program: PathBuf,
-    arguments: Vec<&str>,
-) -> Result<bool, ()> {
-    let output: Output = Command::new(program).args(&arguments).output()
+pub async fn run_exquisitor_cli(program: PathBuf, arguments: Vec<&str>) -> Result<bool, ()> {
+    let output: Output = Command::new(program)
+        .args(&arguments)
+        .output()
         .await
         .map_err(|e| ())?;
 

@@ -1,15 +1,15 @@
-use std::future::Future;
-use crate::Arc;
 use crate::db;
 use crate::db::{get_result_by_id, Order, OrderResult, OrderStatus};
 use crate::routes::errors::{create_code_response, handle_not_found, InternalServerError};
 use crate::templates::HTMLTemplate;
+use crate::Arc;
 use askama::Template;
 use axum::extract::{Multipart, Path};
 use axum::http::{header, HeaderMap, HeaderValue, StatusCode};
 use axum::response::{IntoResponse, Response};
 use axum::Extension;
 use sqlx::{Error, SqlitePool};
+use std::future::Future;
 use std::io;
 use std::io::Write;
 use tempfile::{Builder, NamedTempFile};
@@ -105,7 +105,7 @@ pub async fn add_submit(
         }
     }
 
-    let mut file = create_file("input-", ".fasta","exquisitor-fs").await;
+    let mut file = create_file("input-", ".fasta", "exquisitor-fs").await;
     if let Err(e) = file {
         return create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response();
     }
@@ -122,7 +122,10 @@ pub async fn add_submit(
     return create_code_response(StatusCode::CREATED, "Created").into_response();
 }
 
-pub async fn download(Path((id, kind)): Path<(i64, String)>, Extension(pool): Extension<Arc<SqlitePool>>) -> Response {
+pub async fn download(
+    Path((id, kind)): Path<(i64, String)>,
+    Extension(pool): Extension<Arc<SqlitePool>>,
+) -> Response {
     let order = match get_order(id, &pool).await {
         Ok(value) => value,
         Err(value) => return value,
@@ -131,12 +134,11 @@ pub async fn download(Path((id, kind)): Path<(i64, String)>, Extension(pool): Ex
     let kind = kind.to_lowercase();
 
     let path = match kind.as_str() {
-        "input" => {
-            order.filepath
-        }
+        "input" => order.filepath,
         "output" => {
             if order.status == OrderStatus::Done.as_str() || order.result_id.is_none() {
-                return create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response();
+                return create_code_response(StatusCode::BAD_REQUEST, "Bad Request")
+                    .into_response();
             }
 
             match get_result_by_id(&pool, order.result_id.unwrap()).await {
@@ -145,14 +147,17 @@ pub async fn download(Path((id, kind)): Path<(i64, String)>, Extension(pool): Ex
                         if let Some(filepath) = result.filepath {
                             filepath
                         } else {
-                            return create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response();
+                            return create_code_response(StatusCode::BAD_REQUEST, "Bad Request")
+                                .into_response();
                         }
                     } else {
-                        return create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response();
+                        return create_code_response(StatusCode::BAD_REQUEST, "Bad Request")
+                            .into_response();
                     }
                 }
                 Err(_) => {
-                    return create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response()
+                    return create_code_response(StatusCode::BAD_REQUEST, "Bad Request")
+                        .into_response()
                 }
             }
         }
@@ -165,7 +170,8 @@ pub async fn download(Path((id, kind)): Path<(i64, String)>, Extension(pool): Ex
         Ok(mut file) => {
             let mut buffer = Vec::new();
             if let Err(err) = file.read_to_end(&mut buffer).await {
-                return create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response();
+                return create_code_response(StatusCode::BAD_REQUEST, "Bad Request")
+                    .into_response();
             }
 
             let mut headers = HeaderMap::new();
