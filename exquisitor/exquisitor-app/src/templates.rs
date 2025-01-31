@@ -1,3 +1,5 @@
+//! HTML Template for server-side rendering
+
 use askama::Template;
 use axum::http::StatusCode;
 use axum::response::{Html, IntoResponse, Response};

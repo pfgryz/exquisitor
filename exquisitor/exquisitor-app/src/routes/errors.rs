@@ -1,11 +1,14 @@
+//! Defines server error types and handles rendering of error pages.
+
 use crate::templates::HTMLTemplate;
 use askama::Template;
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use tracing::error;
 
+/// Wraps application errors in an internal server error.
 #[derive(Debug)]
-pub enum InternalServerError {
+pub(crate) enum InternalServerError {
     DatabaseError(sqlx::Error),
 }
 
@@ -34,7 +37,8 @@ struct CodeTemplate {
     message: String,
 }
 
-pub fn create_code_response(code: StatusCode, message: &str) -> impl IntoResponse {
+/// Creates a server response with a status code and message.
+pub(crate) fn create_code_response(code: StatusCode, message: &str) -> impl IntoResponse {
     let template = CodeTemplate {
         code,
         message: message.to_string(),
@@ -43,6 +47,7 @@ pub fn create_code_response(code: StatusCode, message: &str) -> impl IntoRespons
     HTMLTemplate { template, code }
 }
 
-pub async fn handle_not_found() -> impl IntoResponse {
+/// Crates a server response for not found resource
+pub(crate) async fn handle_not_found() -> impl IntoResponse {
     create_code_response(StatusCode::NOT_FOUND, "Not Found")
 }

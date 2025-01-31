@@ -1,3 +1,5 @@
+//! Orders' executor
+
 use crate::db::{
     create_result, query_orders_by_status, update_order_result, update_order_status, OrderStatus,
 };
@@ -11,6 +13,11 @@ use std::time::Duration;
 use tokio::process::Command;
 use tracing::{debug, info};
 
+/// Executes the orders and saves results
+///
+/// On startup, moves all in-progress orders back to the queue.
+/// Periodically checks for orders in the queue and processes them.
+/// Saves results to the database.
 pub async fn executor_task(pool: Arc<SqlitePool>) {
     let orders = query_orders_by_status(&pool, OrderStatus::InProgress, None)
         .await
@@ -70,7 +77,8 @@ pub async fn executor_task(pool: Arc<SqlitePool>) {
     }
 }
 
-pub async fn run_exquisitor_analysis(
+/// Runs the ordered analysis
+async fn run_exquisitor_analysis(
     input_filename: &str,
     output_filename: &str,
 ) -> Result<bool, ()> {
@@ -114,7 +122,7 @@ fn get_env(key: &str) -> Result<String, Box<dyn std::error::Error>> {
     env::var(key).map_err(|e| e.into())
 }
 
-pub async fn run_exquisitor_cli(program: PathBuf, arguments: Vec<&str>) -> Result<bool, ()> {
+async fn run_exquisitor_cli(program: PathBuf, arguments: Vec<&str>) -> Result<bool, ()> {
     let output: Output = Command::new(program)
         .args(&arguments)
         .output()

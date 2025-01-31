@@ -1,29 +1,57 @@
+//! Module for database operations
+//!
+//! Defines tables and provides CRUD operations for managing data about orders and results.
+
 use sqlx::sqlite::SqliteRow;
 use sqlx::{Error, SqlitePool};
 
+///
+///
 #[derive(Debug, sqlx::FromRow)]
 pub struct Order {
+    /// Identifier of order
     pub order_id: i64,
+
+    /// Name of the order
     pub name: String,
+
+    /// Filepath for input data file with sequences
     pub filepath: String,
+
+    /// Status of the order
     pub status: String,
+
+    /// Unique identifier for the result (optional).
     pub result_id: Option<i64>,
 }
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct OrderResult {
+    /// Identifier of order result
     #[allow(dead_code)] // Note: this field is not used in solution, but is present in database
     pub result_id: i64,
+
+    /// Indicates the success status (1 for success, 0 for failure)
     #[allow(dead_code)] // Note: this field is not used in solution, but is present in database
     pub success: i64,
+
+    /// Filepath for output data file (optional)
     pub filepath: Option<String>,
 }
 
+/// Possible statuses of order
 #[derive(Debug, PartialEq, Eq)]
 pub enum OrderStatus {
+    /// Order in queue, waiting for execution
     Queued,
+
+    /// Execution of order in progress
     InProgress,
+
+    /// Order executed successfully
     Done,
+
+    /// Order executed with error
     Failed,
 }
 
@@ -60,6 +88,7 @@ impl From<OrderStatus> for String {
 
 // region CREATE
 
+/// Creates new order in database
 pub async fn create_order(
     pool: &SqlitePool,
     name: String,
@@ -80,6 +109,7 @@ pub async fn create_order(
     Ok(Some(order.order_id))
 }
 
+/// Crates new order result in database
 pub async fn create_result(
     pool: &SqlitePool,
     success: bool,
@@ -101,6 +131,7 @@ pub async fn create_result(
 
 // region READ
 
+/// Get the order by order identifier
 pub async fn get_order_by_id(
     pool: &SqlitePool,
     order_id: i64,
@@ -110,6 +141,7 @@ pub async fn get_order_by_id(
         .await
 }
 
+/// Get order by order identifier or order name
 pub async fn get_order_by_id_or_name(
     pool: &SqlitePool,
     order_id: i64,
@@ -125,12 +157,14 @@ pub async fn get_order_by_id_or_name(
     .await
 }
 
+/// Get first `limit` orders
 pub async fn query_orders(pool: &SqlitePool, limit: u32) -> Result<Vec<Order>, sqlx::Error> {
     sqlx::query_as!(Order, "SELECT * FROM orders LIMIT ?", limit)
         .fetch_all(pool)
         .await
 }
 
+/// Get all orders with given status
 pub async fn query_orders_by_status(
     pool: &SqlitePool,
     status: OrderStatus,
@@ -154,6 +188,7 @@ pub async fn query_orders_by_status(
     }
 }
 
+/// Get result by result identifier
 pub async fn get_result_by_id(
     pool: &SqlitePool,
     result_id: i64,
@@ -171,6 +206,7 @@ pub async fn get_result_by_id(
 
 // region UPDATE
 
+/// Update the status of the order
 pub async fn update_order_status(
     pool: &SqlitePool,
     order_id: i64,
@@ -186,6 +222,7 @@ pub async fn update_order_status(
     .await
 }
 
+/// Update the result id for the order
 pub async fn update_order_result(
     pool: &SqlitePool,
     order_id: i64,

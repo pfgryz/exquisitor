@@ -1,3 +1,5 @@
+//! Order pages
+
 use crate::db;
 use crate::db::{get_result_by_id, Order, OrderStatus};
 use crate::routes::errors::{create_code_response, handle_not_found, InternalServerError};
@@ -21,6 +23,7 @@ struct OrderTemplate {
     order: Order,
 }
 
+/// Retrieves the order by its identifier and returns a "not found" response if the order does not exist.
 async fn get_order(id: i64, pool: &Arc<SqlitePool>) -> Result<Order, Response> {
     let order = match db::get_order_by_id(&pool, id)
         .await
@@ -36,7 +39,8 @@ async fn get_order(id: i64, pool: &Arc<SqlitePool>) -> Result<Order, Response> {
     Ok(order)
 }
 
-pub async fn render(Path(id): Path<i64>, Extension(pool): Extension<Arc<SqlitePool>>) -> Response {
+/// Renders order page
+pub(crate) async fn render(Path(id): Path<i64>, Extension(pool): Extension<Arc<SqlitePool>>) -> Response {
     let order = match get_order(id, &pool).await {
         Ok(value) => value,
         Err(value) => return value,
@@ -53,7 +57,8 @@ pub async fn render(Path(id): Path<i64>, Extension(pool): Extension<Arc<SqlitePo
 #[template(path = "order_add.html")]
 struct OrderAddTemplate;
 
-pub async fn add_form() -> Response {
+/// Renders the page for creating a new order.
+pub(crate) async fn add_form() -> Response {
     let template = HTMLTemplate {
         template: OrderAddTemplate {},
         code: StatusCode::OK,
@@ -62,7 +67,8 @@ pub async fn add_form() -> Response {
     template.into_response()
 }
 
-pub async fn create_file(prefix: &str, suffix: &str, directory: &str) -> io::Result<NamedTempFile> {
+/// Creates a unique file for long-term storage.
+pub(crate) async fn create_file(prefix: &str, suffix: &str, directory: &str) -> io::Result<NamedTempFile> {
     tokio::fs::create_dir_all(directory).await?;
 
     let file = Builder::new()
@@ -75,7 +81,8 @@ pub async fn create_file(prefix: &str, suffix: &str, directory: &str) -> io::Res
     Ok(file)
 }
 
-pub async fn add_submit(
+/// Handles the submission of the order creation form.
+pub(crate) async fn add_submit(
     Extension(pool): Extension<Arc<SqlitePool>>,
     mut multipart: Multipart,
 ) -> Response {
@@ -118,9 +125,10 @@ pub async fn add_submit(
         .await
         .expect("");
 
-    return create_code_response(StatusCode::CREATED, "Created").into_response();
+    create_code_response(StatusCode::CREATED, "Created").into_response()
 }
 
+/// Handles the download of order files.
 pub async fn download(
     Path((id, kind)): Path<(i64, String)>,
     Extension(pool): Extension<Arc<SqlitePool>>,
@@ -186,7 +194,7 @@ pub async fn download(
             (headers, buffer).into_response()
         }
         Err(_) => {
-            return create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response()
+            create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response()
         }
     }
 }

@@ -1,3 +1,8 @@
+#![warn(missing_docs)]
+//! Web application for taxonomic classification
+//!
+//! Hosts both the server and frontend
+
 use crate::executor::executor_task;
 use crate::routes::errors;
 use axum::middleware::Next;
@@ -17,6 +22,9 @@ mod executor;
 mod routes;
 mod templates;
 
+/// Application entry point
+///
+/// Creates connection to database, handles routing and starts executor task
 #[tokio::main]
 async fn main() {
     // Environment variables
@@ -63,6 +71,9 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
+/// Logs the requests
+///
+/// Prints method, path and status of the response for the request
 async fn log_request(request: extract::Request, next: Next) -> impl IntoResponse {
     let method = request.method().clone();
     let path = request.uri().to_string();

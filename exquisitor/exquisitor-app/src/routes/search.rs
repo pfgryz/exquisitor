@@ -1,3 +1,5 @@
+//! Handles order searching
+
 use crate::db;
 use crate::routes::errors::InternalServerError;
 use crate::templates::HTMLTemplate;
@@ -19,6 +21,9 @@ pub struct SearchParams {
 #[template(path = "search.html")]
 struct SearchTemplate;
 
+/// Handles searching of the order
+///
+/// Redirects to order if order exists, otherwise renders "Not Found" message.
 pub async fn render(
     Query(params): Query<SearchParams>,
     Extension(pool): Extension<Arc<SqlitePool>>,
