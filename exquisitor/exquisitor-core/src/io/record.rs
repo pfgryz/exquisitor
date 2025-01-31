@@ -1,4 +1,4 @@
-/// Record helper functions
+//! Record helper functions
 use crate::io::traits::Record;
 use std::io;
 use std::io::Result as IoResult;

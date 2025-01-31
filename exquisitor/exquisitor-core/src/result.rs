@@ -1,11 +1,13 @@
+/// Exquisitor internal errors
+
 use std::error::Error;
-/// Exquisitor errors
 use std::fmt;
 use std::fmt::Formatter;
 use std::io::{Error as IoError, ErrorKind};
 
 pub type ExquisitorResult<T> = Result<T, ExquisitorError>;
 
+/// Kind of the internal errors
 #[derive(Clone, Eq, PartialEq, Hash, Debug)]
 pub enum ExquisitorErrorKind {
     UnequalSequenceLengths,

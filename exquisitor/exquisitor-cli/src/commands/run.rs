@@ -4,8 +4,8 @@ use clap::{Parser, ValueEnum};
 use exquisitor_core::clustering::cluster::{
     save_clustering_data, KMedoidClustering, NaiveClustering,
 };
-use exquisitor_core::clustering::distance::{
-    distance_matrix, CosineDistance, DistanceMatrix, KMer, NeedlemanWunsch,
+use exquisitor_core::clustering::dissimilarity::{
+    dissimilarity_matrix, CosineDissimilarity, DissimilarityMatrix, KMer, NeedlemanWunsch,
 };
 use exquisitor_core::clustering::neural::NeuralEmbedder;
 use exquisitor_core::clustering::traits::Clustering;
@@ -164,7 +164,7 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
 
             let similarity_matrix = NeedlemanWunsch::create_default_similarity_matrix();
 
-            distance_matrix(
+            dissimilarity_matrix(
                 &sequences,
                 &NeedlemanWunsch::new(gap_penalty, similarity_matrix),
             )?
@@ -174,7 +174,7 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
                 IoError::new(ErrorKind::Other, "Missing k parameter for KMer algorithm"),
             )?);
 
-            distance_matrix(&sequences, &distance_metric)?
+            dissimilarity_matrix(&sequences, &distance_metric)?
         }
         Pipeline::Neural => {
             let device: WgpuDevice = Default::default();
@@ -195,13 +195,13 @@ pub(crate) fn run(args: RunCommand) -> IoResult<()> {
                 .map(|t| t.to_data().to_vec::<f32>().unwrap())
                 .collect::<Vec<_>>();
 
-            distance_matrix(&embeddings, &CosineDistance)?
+            dissimilarity_matrix(&embeddings, &CosineDissimilarity)?
         }
     };
 
     debug!("Calculated distance matrix: {}", distance_matrix.len());
 
-    let clustering_method: Box<dyn Clustering<DistanceMatrix>> =
+    let clustering_method: Box<dyn Clustering<DissimilarityMatrix>> =
         match args.clustering_configuration.clustering {
             ClusteringMethod::Naive => Box::new(NaiveClustering::new(
                 args.clustering_configuration

@@ -1,6 +1,7 @@
+//! Module for console application that generates data for neural network
+
 use clap::{Parser, Subcommand, ValueEnum};
 use csv::Writer as CsvWriter;
-use exquisitor_core::clustering::traits::DistanceMetric;
 use exquisitor_core::clustering::ALPHABET;
 use exquisitor_core::io::fasta::reader::FastaReader;
 use exquisitor_core::io::fasta::record::FastaRecord;
@@ -116,6 +117,7 @@ enum FileFormat {
 
 // region Artificial
 
+/// Mutate the DNA sequences at given positions
 fn mutate_raw_sequence(generator: &mut StdRng, sequence: String, indexes: &[usize]) -> String {
     let mut chars: Vec<char> = sequence.chars().collect();
 
@@ -133,6 +135,7 @@ fn mutate_raw_sequence(generator: &mut StdRng, sequence: String, indexes: &[usiz
     chars.into_iter().collect()
 }
 
+/// Generates the random DNA sequence
 fn generate_raw_sequence(generator: &mut StdRng, state: &mut Vec<usize>, length: usize) -> String {
     state.shuffle(generator);
 
@@ -143,6 +146,7 @@ fn generate_raw_sequence(generator: &mut StdRng, state: &mut Vec<usize>, length:
     sequence
 }
 
+/// Creates artificial dataset for neural network training and validation
 fn create_artificial_neural_dataset(
     generator: &mut StdRng,
     path: String,
@@ -173,6 +177,7 @@ fn create_artificial_neural_dataset(
     Ok(())
 }
 
+/// Creates the artificial dataset for experiments
 fn create_artificial_experiments_dataset(
     generator: &mut StdRng,
     path: String,
@@ -198,6 +203,7 @@ fn create_artificial_experiments_dataset(
 
 // region Dataset
 
+/// Generates set of random indexes in range, that are not excluded
 fn generate_unique_random(
     generator: &mut StdRng,
     exclude: &mut HashSet<usize>,
@@ -219,6 +225,7 @@ fn generate_unique_random(
     result
 }
 
+/// Extracts only sequences from sequence file in FASTA/FASTQ format
 fn read_records(path: &Path, format: &FileFormat, ids: &HashSet<usize>) -> IoResult<Vec<Sequence>> {
     let file = File::open(path)?;
     let buffer = BufReader::with_capacity(4000000, file);
@@ -245,6 +252,7 @@ fn read_records(path: &Path, format: &FileFormat, ids: &HashSet<usize>) -> IoRes
     Ok(result)
 }
 
+/// Creates real dataset for neural network training and validation
 fn create_real_neural_dataset(
     generator: &mut StdRng,
     input: &Path,
@@ -286,6 +294,7 @@ fn create_real_neural_dataset(
     Ok(())
 }
 
+/// Creates real dataset for experiments
 fn create_real_experiments_dataset(
     input: &PathBuf,
     output: &PathBuf,
@@ -305,6 +314,7 @@ fn create_real_experiments_dataset(
     Ok(())
 }
 
+/// Saves the indexes to fiel
 fn save_ids(path: &Path, p1: &HashSet<usize>) -> IoResult<()> {
     let file = File::create(path)?;
     let mut buffer = BufWriter::with_capacity(4000000, file);
@@ -316,6 +326,7 @@ fn save_ids(path: &Path, p1: &HashSet<usize>) -> IoResult<()> {
 
 // endregion
 
+/// Entry point for console application
 fn main() {
     let cli = Cli::parse();
 
@@ -325,6 +336,7 @@ fn main() {
     };
 }
 
+/// Handles creating artificial datasets for neural network and experiments
 fn artificial_command(args: &ArtificialCommand) {
     let mut generator = StdRng::seed_from_u64(args.common.seed);
 
@@ -379,6 +391,7 @@ fn artificial_command(args: &ArtificialCommand) {
     }
 }
 
+/// Handles creating real datasets for neural network and experiments
 fn dataset_command(args: &DatasetCommand) {
     let mut generator = StdRng::seed_from_u64(args.common.seed);
 

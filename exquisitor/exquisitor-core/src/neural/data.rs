@@ -1,3 +1,5 @@
+//! Module containing implementation of dataset and batcher of artificial neural network
+
 use crate::clustering::ALPHABET;
 use burn::data::dataloader::batcher::Batcher;
 use burn::data::dataloader::Dataset;
@@ -7,17 +9,25 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::io::Result as IoResult;
 
+/// Data record for training sample
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct SequencesRecord {
+    /// Anchor sequences
     anchor: String,
+
+    /// Positive case; sequences similar to anchor
     positive: String,
+
+    /// Negative case; sequences dissimilar to anchor
     negative: String,
 }
 
+/// Dataset of sequences stored in Sqlite
 pub struct SequencesDataset {
     dataset: SqliteDataset<SequencesRecord>,
 }
 
+/// Encoded the sequences using one-hot encoding with given alphabet
 fn one_hot(s: &str, alphabet: &[char]) -> Vec<f32> {
     let mut char_index = HashMap::new();
 
@@ -39,6 +49,7 @@ fn one_hot(s: &str, alphabet: &[char]) -> Vec<f32> {
     encoded
 }
 
+/// Encodes the sequence using one-hot and converts to tensor
 pub fn encode_sequence<B: Backend>(device: &B::Device, s: &str, alphabet: &[char]) -> Tensor<B, 2> {
     Tensor::<B, 1>::from_data(one_hot(s, alphabet).as_slice(), device).unsqueeze_dim::<2>(0)
 }
@@ -60,11 +71,13 @@ impl Dataset<SequencesRecord> for SequencesDataset {
     }
 }
 
+/// Sequences batcher
 #[derive(Clone, Debug)]
 pub struct SequencesBatcher<B: Backend> {
     device: B::Device,
 }
 
+/// Batch for training
 #[derive(Clone, Debug)]
 pub struct SequencesBatch<B: Backend> {
     pub(crate) anchors: Tensor<B, 2>,

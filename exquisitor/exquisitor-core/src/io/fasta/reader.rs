@@ -1,4 +1,4 @@
-/// Implementation of FASTA format reader.
+//! Implementation of FASTA format reader.
 use crate::io::fasta::record::FastaRecord;
 use crate::io::sequence::Sequence;
 use crate::io::traits::{Reader, Record};

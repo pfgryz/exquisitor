@@ -1,4 +1,6 @@
-use crate::clustering::distance::DistanceMatrix;
+//! Module with clustering implementations
+
+use crate::clustering::dissimilarity::DissimilarityMatrix;
 use crate::clustering::traits::Clustering;
 use crate::result::ExquisitorResult;
 use float_cmp::approx_eq;
@@ -10,6 +12,7 @@ use std::fmt;
 use std::fmt::Formatter;
 use std::io::{Read, Result as IoResult, Write};
 
+/// Represents the cluster with representative and all elements (including representative)
 #[derive(Clone, Eq, PartialEq, Hash, Serialize, Deserialize, Debug)]
 pub struct Cluster {
     representative_id: usize,
@@ -50,6 +53,7 @@ impl fmt::Display for Cluster {
     }
 }
 
+/// Naive clustering method
 pub struct NaiveClustering {
     max_distance: f64,
 }
@@ -60,8 +64,8 @@ impl NaiveClustering {
     }
 }
 
-impl Clustering<DistanceMatrix> for NaiveClustering {
-    fn cluster(&self, distances: DistanceMatrix) -> ExquisitorResult<Vec<Cluster>> {
+impl Clustering<DissimilarityMatrix> for NaiveClustering {
+    fn cluster(&self, distances: DissimilarityMatrix) -> ExquisitorResult<Vec<Cluster>> {
         let mut result = vec![];
         let mut used = vec![false; distances.len()];
 
@@ -90,6 +94,9 @@ impl Clustering<DistanceMatrix> for NaiveClustering {
     }
 }
 
+/// K-Medoid clustering method
+///
+/// Wraps external algorithm provided by k-medoid crate
 pub struct KMedoidClustering {
     k: usize,
 }
@@ -100,7 +107,7 @@ impl KMedoidClustering {
     }
 }
 
-struct PackedDistanceMatrix(DistanceMatrix);
+struct PackedDistanceMatrix(DissimilarityMatrix);
 
 impl ArrayAdapter<f64> for PackedDistanceMatrix {
     fn len(&self) -> usize {
@@ -116,8 +123,8 @@ impl ArrayAdapter<f64> for PackedDistanceMatrix {
     }
 }
 
-impl Clustering<DistanceMatrix> for KMedoidClustering {
-    fn cluster(&self, distances: DistanceMatrix) -> ExquisitorResult<Vec<Cluster>> {
+impl Clustering<DissimilarityMatrix> for KMedoidClustering {
+    fn cluster(&self, distances: DissimilarityMatrix) -> ExquisitorResult<Vec<Cluster>> {
         let distances = PackedDistanceMatrix(distances);
         let mut medoids =
             kmedoids::random_initialization(distances.len(), self.k, &mut rand::thread_rng());
@@ -138,14 +145,14 @@ impl Clustering<DistanceMatrix> for KMedoidClustering {
     }
 }
 
-// @TODO: Need tests
+/// Saves clustering data to file
 pub fn save_clustering_data(buffer: &mut dyn Write, clusters: &Vec<Cluster>) -> IoResult<()> {
     let json = serde_json::to_string(&clusters)?;
     buffer.write_all(json.as_bytes())?;
     Ok(())
 }
 
-// @TODO: Need tests
+/// Loads clustering data from file
 pub fn load_clustering_data(buffer: &mut dyn Read) -> IoResult<Vec<Cluster>> {
     let mut data = String::new();
     buffer.read_to_string(&mut data)?;
@@ -153,6 +160,7 @@ pub fn load_clustering_data(buffer: &mut dyn Read) -> IoResult<Vec<Cluster>> {
     Ok(vec)
 }
 
+/// Calculates the FMI score between two clustering result sets
 pub fn clusters_fmi_score(reference: &Vec<Cluster>, other: &Vec<Cluster>) -> f64 {
     let all = reference.len() as f64;
 
@@ -164,6 +172,7 @@ pub fn clusters_fmi_score(reference: &Vec<Cluster>, other: &Vec<Cluster>) -> f64
     reference.intersection(&other).count() as f64 / all
 }
 
+/// Calculates the entropy of the clusters set
 fn clusters_entropy(clusters: &Vec<Cluster>) -> f64 {
     let all = clusters
         .iter()
@@ -177,6 +186,7 @@ fn clusters_entropy(clusters: &Vec<Cluster>) -> f64 {
         .sum::<f64>()
 }
 
+/// Calculates mutual information about two clustering result sets
 fn clusters_mutual_information(u: &Vec<Cluster>, v: &Vec<Cluster>) -> f64 {
     let count = |cluster: &Vec<Cluster>| -> f64 {
         cluster
@@ -221,6 +231,7 @@ fn clusters_mutual_information(u: &Vec<Cluster>, v: &Vec<Cluster>) -> f64 {
         .sum()
 }
 
+/// Calculates the NMI score between two clustering result sets
 pub fn clusters_nmi_score(reference: &Vec<Cluster>, other: &Vec<Cluster>) -> f64 {
     clusters_mutual_information(&reference, &other)
         / (clusters_entropy(&reference) * clusters_entropy(&other)).sqrt()

@@ -1,4 +1,4 @@
-/// Module containing I/O traits
+//! Module containing I/O traits
 use crate::io::sequence::Sequence;
 use std::fmt;
 use std::io::Result as IoResult;

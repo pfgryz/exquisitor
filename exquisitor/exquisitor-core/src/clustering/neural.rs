@@ -1,3 +1,5 @@
+//! Module containing implementation of Neural Embedder
+
 use crate::clustering::ALPHABET;
 use crate::io::sequence::{Alignment, Sequence};
 use crate::neural::data::encode_sequence;
@@ -11,6 +13,7 @@ use burn::tensor::Tensor;
 use std::io::Error as IoError;
 use std::io::Result as IoResult;
 
+/// Neural embedder
 pub struct NeuralEmbedder<B: Backend> {
     model: Model<B>,
     sequence_length: usize,
@@ -46,6 +49,7 @@ impl<B: Backend> NeuralEmbedder<B> {
         })
     }
 
+    /// Creates embedding of given sequence
     pub fn embed(&self, device: B::Device, sequences: &Vec<Sequence>) -> Tensor<B, 2> {
         let encoded = sequences
             .clone()

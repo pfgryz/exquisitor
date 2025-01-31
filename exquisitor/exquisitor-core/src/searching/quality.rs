@@ -1,6 +1,9 @@
+//! Module for calculating quality of search
+
 use crate::searching::organism::OrganismFound;
 use std::collections::{HashMap, HashSet};
 
+/// Calculates the quality of search
 pub fn calculate_search_quality(
     reference: Vec<OrganismFound>,
     probe: Vec<OrganismFound>,

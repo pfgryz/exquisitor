@@ -3,10 +3,16 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::io::{Read, Write};
 
+/// Organism matched to given sequence
 #[derive(Clone, PartialEq, Serialize, Deserialize, Debug)]
 pub struct OrganismMatch {
+    /// Index of the sequence to which the organism is assigned.
     sequence_id: usize,
+
+    /// Name of the organism
     name: String,
+
+    /// Confidence score returned by BLASTn
     confidence_score: f64,
 }
 
@@ -32,9 +38,15 @@ impl OrganismMatch {
     }
 }
 
+/// Organism found
+///
+/// It is agregate information from all sequences
 #[derive(Clone, PartialEq, Serialize, Deserialize, Debug)]
 pub struct OrganismFound {
+    /// Name of the organism
     name: String,
+
+    /// Quality of found
     quality: f64,
 }
 
@@ -56,12 +68,14 @@ impl OrganismFound {
     }
 }
 
+/// Save organism matches to file
 pub fn save_matches(buffer: &mut dyn Write, matches: &Vec<OrganismMatch>) -> std::io::Result<()> {
     let json = serde_json::to_string(&matches)?;
     buffer.write_all(json.as_bytes())?;
     Ok(())
 }
 
+/// Save found organisms to file
 pub fn save_found_organisms(
     buffer: &mut dyn Write,
     organisms: &Vec<OrganismFound>,
@@ -71,6 +85,7 @@ pub fn save_found_organisms(
     Ok(())
 }
 
+/// Load found organisms from file
 pub fn load_found_organisms(buffer: &mut dyn Read) -> std::io::Result<Vec<OrganismFound>> {
     let mut data = String::new();
     buffer.read_to_string(&mut data)?;
@@ -78,6 +93,7 @@ pub fn load_found_organisms(buffer: &mut dyn Read) -> std::io::Result<Vec<Organi
     Ok(vec)
 }
 
+/// Aggregates matched organisms to create list of found organisms
 pub fn filter_matches(
     matches: &Vec<OrganismMatch>,
     clusters: &Vec<Cluster>,

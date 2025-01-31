@@ -1,4 +1,4 @@
-/// Implementation of FASTA format record.
+//! Implementation of FASTA format record.
 use crate::io::sequence::Sequence;
 use crate::io::traits::Record;
 use std::fmt::{Display, Formatter};

@@ -1,3 +1,5 @@
+//! Module containing model of artificial neural network
+
 use crate::neural::data::SequencesBatch;
 use crate::neural::loss::{ContrastiveLoss, ContrastiveLossConfig};
 use burn::nn::conv::{Conv1d, Conv1dConfig};
@@ -7,6 +9,7 @@ use burn::tensor::backend::AutodiffBackend;
 use burn::tensor::ops::conv::calculate_conv_output_size;
 use burn::train::{RegressionOutput, TrainOutput, TrainStep, ValidStep};
 
+/// Exqusitior artificial neural network model
 #[derive(Module, Debug)]
 pub struct Model<B: Backend> {
     conv1: Conv1dBlock<B>,
@@ -20,6 +23,7 @@ pub struct Model<B: Backend> {
 }
 
 impl<B: Backend> Model<B> {
+    /// Forwards the sample
     pub fn forward(&self, input: Tensor<B, 2>) -> Tensor<B, 2> {
         let [batch_size, sequence_length] = input.dims();
 
@@ -43,6 +47,7 @@ impl<B: Backend> Model<B> {
         x
     }
 
+    /// Forwards method for learning
     pub fn forward_contrastive(
         &self,
         anchors: Tensor<B, 2>,
@@ -76,6 +81,7 @@ impl<B: Backend> ValidStep<SequencesBatch<B>, RegressionOutput<B>> for Model<B> 
     }
 }
 
+/// Configuration of the model
 #[derive(Config, Debug)]
 pub struct ModelConfig {}
 
@@ -107,6 +113,7 @@ impl ModelConfig {
     }
 }
 
+/// Convolution block used by model
 #[derive(Module, Debug)]
 pub struct Conv1dBlock<B: Backend> {
     conv: Conv1d<B>,

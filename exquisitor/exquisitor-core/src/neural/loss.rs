@@ -1,5 +1,8 @@
+//! Module with implementation of loss function for artificial neural network
+
 use burn::prelude::{Backend, Config, Module, Tensor};
 
+/// Configuration of Contrastive Loss
 #[derive(Config, Debug)]
 pub struct ContrastiveLossConfig;
 
@@ -12,6 +15,7 @@ impl ContrastiveLossConfig {
     }
 }
 
+/// Contrastive loss
 #[derive(Module, Clone, Debug)]
 pub struct ContrastiveLoss {
     /// Margin for positive cases (similar)

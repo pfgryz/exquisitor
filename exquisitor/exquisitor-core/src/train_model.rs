@@ -1,3 +1,5 @@
+//! Module responsible for training artificial neural network (ANN) model
+
 use burn::backend::wgpu::WgpuDevice;
 use burn::backend::{Autodiff, Wgpu};
 use burn::optim::AdamWConfig;

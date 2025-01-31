@@ -1,3 +1,5 @@
+//! Module with train function for artificial neural network
+
 use crate::clustering::ALPHABET;
 use crate::neural::data::{SequencesBatcher, SequencesDataset};
 use crate::neural::model::ModelConfig;
@@ -52,6 +54,7 @@ pub struct TrainingConfig {
     pub seed: u64,
 }
 
+/// Trains the given model using given device and stores it's artifacts in given directory
 pub fn train<B: AutodiffBackend>(artifact_dir: &str, config: TrainingConfig, device: B::Device) {
     // Create directory for artifacts
     if std::fs::exists(artifact_dir).unwrap() {

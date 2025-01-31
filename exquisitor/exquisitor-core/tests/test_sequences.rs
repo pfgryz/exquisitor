@@ -1,3 +1,5 @@
+//! Integration tests for testing reader and writer for FASTA format
+
 use exquisitor_core::io::fasta::reader::FastaReader;
 use exquisitor_core::io::fasta::record::FastaRecord;
 use exquisitor_core::io::fasta::writer::FastaWriter;

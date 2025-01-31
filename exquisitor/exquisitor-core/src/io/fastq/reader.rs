@@ -1,4 +1,5 @@
-/// Implementation of FASTQ format reader.
+//! Implementation of FASTQ format reader.
+
 use crate::io::fastq::record::FastqRecord;
 use crate::io::sequence::Sequence;
 use crate::io::traits::{Reader, Record};

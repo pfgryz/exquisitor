@@ -1,4 +1,3 @@
-#![warn(missing_docs)]
 //! Web application for taxonomic classification
 //!
 //! Hosts both the server and frontend

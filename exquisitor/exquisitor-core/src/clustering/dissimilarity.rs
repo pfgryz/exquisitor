@@ -1,4 +1,6 @@
-use crate::clustering::traits::DistanceMetric;
+//! Module implementing dissimilarity
+
+use crate::clustering::traits::DissimilarityMeasure;
 use crate::clustering::ALPHABET;
 use crate::io::sequence::Sequence;
 use crate::result::{ExquisitorError, ExquisitorErrorKind, ExquisitorResult};
@@ -9,21 +11,21 @@ use std::iter::Sum;
 use std::ops::{Mul, Sub};
 
 /// Represents distance matrix
-pub type DistanceMatrix = Vec<Vec<f64>>;
+pub type DissimilarityMatrix = Vec<Vec<f64>>;
 
-/// Calculates distance matrix between elements using given metric
-pub fn distance_matrix<Element>(
+/// Calculates dissimilarity matrix between elements using given measure
+pub fn dissimilarity_matrix<Element>(
     elements: &Vec<Element>,
-    metric: &dyn DistanceMetric<Element>,
-) -> ExquisitorResult<DistanceMatrix> {
+    metric: &dyn DissimilarityMeasure<Element>,
+) -> ExquisitorResult<DissimilarityMatrix> {
     let size = elements.len();
     let mut matrix = vec![vec![0.0; size]; size];
 
     for i in 0..size {
         for j in 0..size {
-            let distance = metric.distance(&elements[i], &elements[j])?;
-            matrix[i][j] = distance;
-            matrix[j][i] = distance;
+            let dissimilarity = metric.dissimilarity(&elements[i], &elements[j])?;
+            matrix[i][j] = dissimilarity;
+            matrix[j][i] = dissimilarity;
         }
     }
 
@@ -33,13 +35,13 @@ pub fn distance_matrix<Element>(
 /// Calculates Euclidean distance between elements
 pub struct EuclideanDistance;
 
-impl<T> DistanceMetric<Vec<T>> for EuclideanDistance
+impl<T> DissimilarityMeasure<Vec<T>> for EuclideanDistance
 where
     T: Clone + One + Mul<T, Output = T>,
     for<'a> &'a T: Sub<&'a T, Output = T>,
     f64: Sum<T>,
 {
-    fn distance(&self, a: &Vec<T>, b: &Vec<T>) -> ExquisitorResult<f64> {
+    fn dissimilarity(&self, a: &Vec<T>, b: &Vec<T>) -> ExquisitorResult<f64> {
         if a.len() != b.len() {
             return Err(ExquisitorError::new(
                 ExquisitorErrorKind::UnequalSequenceLengths,
@@ -72,7 +74,7 @@ impl NeedlemanWunsch {
         }
     }
 
-    pub fn build_matrix(&self, a: &Sequence, b: &Sequence) -> DistanceMatrix {
+    pub fn build_matrix(&self, a: &Sequence, b: &Sequence) -> DissimilarityMatrix {
         let mut matrix = vec![vec![0f64; a.length() + 1]; b.length() + 1];
 
         for row in 1..b.length() + 1 {
@@ -117,8 +119,8 @@ impl NeedlemanWunsch {
     }
 }
 
-impl DistanceMetric<Sequence> for NeedlemanWunsch {
-    fn distance(&self, a: &Sequence, b: &Sequence) -> ExquisitorResult<f64> {
+impl DissimilarityMeasure<Sequence> for NeedlemanWunsch {
+    fn dissimilarity(&self, a: &Sequence, b: &Sequence) -> ExquisitorResult<f64> {
         if a.length() < 1 || b.length() < 1 {
             return Ok(0f64);
         }
@@ -128,8 +130,10 @@ impl DistanceMetric<Sequence> for NeedlemanWunsch {
     }
 }
 
+/// K-Mer embedding type
 pub type KMerEmbedding = HashMap<String, usize>;
 
+/// K-mer embedding method
 pub struct KMer {
     k: usize,
 }
@@ -157,8 +161,8 @@ impl KMer {
     }
 }
 
-impl DistanceMetric<Sequence> for KMer {
-    fn distance(&self, a: &Sequence, b: &Sequence) -> ExquisitorResult<f64> {
+impl DissimilarityMeasure<Sequence> for KMer {
+    fn dissimilarity(&self, a: &Sequence, b: &Sequence) -> ExquisitorResult<f64> {
         let a_embedding = &self.embed(a);
         let b_embedding = &self.embed(b);
 
@@ -179,15 +183,16 @@ impl DistanceMetric<Sequence> for KMer {
     }
 }
 
-pub struct CosineDistance;
+/// Cosine dissimilarity
+pub struct CosineDissimilarity;
 
-impl<T> DistanceMetric<Vec<T>> for CosineDistance
+impl<T> DissimilarityMeasure<Vec<T>> for CosineDissimilarity
 where
     T: Clone + One + Mul<T, Output = T> + Into<f64>,
     for<'a> &'a T: Sub<&'a T, Output = T>,
     for<'a> &'a T: Mul<&'a T, Output = T>,
 {
-    fn distance(&self, a: &Vec<T>, b: &Vec<T>) -> ExquisitorResult<f64> {
+    fn dissimilarity(&self, a: &Vec<T>, b: &Vec<T>) -> ExquisitorResult<f64> {
         if a.len() != b.len() {
             return Err(ExquisitorError::new(
                 ExquisitorErrorKind::UnequalSequenceLengths,
@@ -230,10 +235,10 @@ mod tests {
     use float_cmp::{approx_eq, assert_approx_eq};
     use std::collections::HashMap;
 
-    // region distance_matrix()
+    // region dissimilarity_matrix()
 
     #[test]
-    fn test_distance_matrix() {
+    fn test_dissimilarity_matrix() {
         let elements = vec![vec![0f64, 0f64], vec![3f64, 0f64], vec![0f64, 4f64]];
         let expected = vec![
             vec![0f64, 3f64, 4f64],
@@ -241,7 +246,7 @@ mod tests {
             vec![4f64, 5f64, 0f64],
         ];
 
-        let matrix = distance_matrix(&elements, &EuclideanDistance {});
+        let matrix = dissimilarity_matrix(&elements, &EuclideanDistance {});
 
         assert!(matrix.is_ok());
         let matrix = matrix.unwrap();
@@ -265,7 +270,7 @@ mod tests {
         let a = vec![4f64, 6f64, 12f64];
         let b = vec![1f64, 0f64, 3f64];
 
-        let distance = EuclideanDistance.distance(&a, &b);
+        let distance = EuclideanDistance.dissimilarity(&a, &b);
         assert!(distance.is_ok());
         approx_eq!(f64, distance.unwrap(), 9f64);
     }
@@ -275,7 +280,7 @@ mod tests {
         let a = vec![4f64, 6f64, 12f64];
         let b = vec![1f64, 0f64];
 
-        let distance = EuclideanDistance.distance(&a, &b);
+        let distance = EuclideanDistance.dissimilarity(&a, &b);
         assert!(distance.is_err());
         assert_eq!(
             distance.unwrap_err().kind(),
@@ -300,7 +305,7 @@ mod tests {
     }
 
     #[test]
-    fn test_needleman_wunsch_distance_build_matrix() {
+    fn test_needleman_wunsch_dissimilarity_build_matrix() {
         /*
            Expected matrix:
            --------------------------
@@ -325,21 +330,21 @@ mod tests {
     }
 
     #[test]
-    fn test_needleman_wunsch_distance() {
+    fn test_needleman_wunsch_dissimilarity() {
         let a = Sequence::new("ACTG");
         let b = Sequence::new("ATTG");
 
         let similarity_matrix = create_simple_similarity_matrix();
         let metric = NeedlemanWunsch::new(-8f64, similarity_matrix);
-        let distance = metric.distance(&a, &b);
+        let dissimilarity = metric.dissimilarity(&a, &b);
 
-        assert!(distance.is_ok());
-        assert_approx_eq!(f64, distance.unwrap(), -64f64);
+        assert!(dissimilarity.is_ok());
+        assert_approx_eq!(f64, dissimilarity.unwrap(), -64f64);
     }
 
     // endregion
 
-    // region K-Mer Distance
+    // region K-Mer Dissimilarity
 
     #[test]
     fn test_k_mer_embedding() {
@@ -363,44 +368,44 @@ mod tests {
     }
 
     #[test]
-    fn test_k_mer_distance() {
+    fn test_k_mer_dissimilarity() {
         let a = Sequence::new("ACTACG");
         let b = Sequence::new("ACTAGG");
 
         let metric = KMer::new(2);
-        let distance = metric.distance(&a, &b);
+        let dissimilarity = metric.dissimilarity(&a, &b);
 
-        assert!(distance.is_ok());
-        assert_approx_eq!(f64, distance.unwrap(), 2f64);
+        assert!(dissimilarity.is_ok());
+        assert_approx_eq!(f64, dissimilarity.unwrap(), 2f64);
     }
 
     // endregion
 
-    // region Cosine Distance
+    // region Cosine Dissimilarity
 
     #[test]
-    fn test_cosine_distance_unequal_lengths() {
-        let distance = CosineDistance.distance(&vec![0.0f64, 0.0f64], &vec![1.0f64]);
+    fn test_cosine_dissimilarity_unequal_lengths() {
+        let dissimilarity = CosineDissimilarity.dissimilarity(&vec![0.0f64, 0.0f64], &vec![1.0f64]);
 
-        assert!(distance.is_err());
+        assert!(dissimilarity.is_err());
         assert_eq!(
-            distance.unwrap_err().kind(),
+            dissimilarity.unwrap_err().kind(),
             &ExquisitorErrorKind::UnequalSequenceLengths
         );
     }
 
     #[test]
-    fn test_cosine_distance_zero_magnitude() {
-        let distance = CosineDistance.distance(&vec![0.0f64, 0.0f64], &vec![1.0f64, 2.0f64]);
+    fn test_cosine_dissimilarity_zero_magnitude() {
+        let dissimilarity = CosineDissimilarity.dissimilarity(&vec![0.0f64, 0.0f64], &vec![1.0f64, 2.0f64]);
 
-        assert_eq!(distance, Ok(0.0f64));
+        assert_eq!(dissimilarity, Ok(0.0f64));
     }
 
     #[test]
-    fn test_cosine_distance() {
-        let distance = CosineDistance.distance(&vec![0.0f64, 1.0f64], &vec![1.0f64, 0.0f64]);
+    fn test_cosine_dissimilarity() {
+        let dissimilarity = CosineDissimilarity.dissimilarity(&vec![0.0f64, 1.0f64], &vec![1.0f64, 0.0f64]);
 
-        assert_eq!(distance, Ok(1.0f64));
+        assert_eq!(dissimilarity, Ok(1.0f64));
     }
 
     // endregion

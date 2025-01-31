@@ -1,8 +1,7 @@
 pub mod cluster;
-pub mod distance;
+pub mod dissimilarity;
 pub mod neural;
-
 pub mod traits;
 
-/// Nucleotide alphabet
+/// Nucleotide alphabet for DNA sequences
 pub const ALPHABET: &'static [char] = &['A', 'C', 'T', 'G'];

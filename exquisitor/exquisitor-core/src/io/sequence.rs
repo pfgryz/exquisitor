@@ -1,5 +1,5 @@
+//! Module containing abstraction over DNA sequence.
 use serde::{Deserialize, Serialize};
-/// Module containing abstraction over DNA sequence.
 use std::fmt;
 use std::fmt::Formatter;
 

@@ -1,4 +1,4 @@
-/// Implementation of FASTA format writer.
+//! Implementation of FASTA format writer.
 use crate::io::fasta::record::FastaRecord;
 use crate::io::record::validate_record;
 use crate::io::traits::{Record, Writer};

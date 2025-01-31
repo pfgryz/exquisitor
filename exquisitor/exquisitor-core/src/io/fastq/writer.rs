@@ -1,4 +1,4 @@
-/// Implementation of FASTQ format writer.
+//! Implementation of FASTQ format writer.
 use crate::io::fastq::record::FastqRecord;
 use crate::io::record::validate_record;
 use crate::io::sequence::Sequence;

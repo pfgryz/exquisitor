@@ -1,3 +1,5 @@
+//! Module implements sequence search using BLASTn.
+
 use crate::io::fasta::record::FastaRecord;
 use crate::io::fasta::writer::FastaWriter;
 use crate::io::sequence::Sequence;
@@ -11,6 +13,7 @@ use std::path::Path;
 use std::process::{Command, Stdio};
 use tempfile::NamedTempFile;
 
+/// Paths for BLASTn program and it's database
 pub struct Blast {
     program_path: String,
     database_path: String,
@@ -24,6 +27,7 @@ impl Blast {
         }
     }
 
+    /// Saves the sequences to file
     pub(crate) fn save_sequences_to_file(
         &self,
         sequences: &mut Vec<Sequence>,
@@ -43,6 +47,7 @@ impl Blast {
         Ok(())
     }
 
+    /// Runs the BLASTn program
     pub fn run(&self, input_filepath: &Path, output_filepath: &Path) -> std::io::Result<()> {
         let mut child = Command::new(&self.program_path)
             .env("BLASTDB", &self.database_path)
@@ -62,6 +67,7 @@ impl Blast {
         Ok(())
     }
 
+    /// Parses the results from BLASTn program and returns the list of matched organisms
     pub(crate) fn parse_results_file(&self, path: &Path) -> io::Result<Vec<OrganismMatch>> {
         let file = File::open(path)?;
         let reader = io::BufReader::new(file);
@@ -96,6 +102,7 @@ impl Blast {
         Ok(organisms)
     }
 
+    /// Searches the sequences given in file by BLASTn
     pub fn search_file(
         &self,
         input_file: &Path,

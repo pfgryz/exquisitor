@@ -1,3 +1,5 @@
+//! Module for I/O related functionalities
+
 pub mod fasta;
 pub mod fastq;
 pub mod record;
