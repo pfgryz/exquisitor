@@ -1,7 +1,7 @@
 use crate::clustering::ALPHABET;
 use burn::data::dataloader::batcher::Batcher;
 use burn::data::dataloader::Dataset;
-use burn::data::dataset::{InMemDataset, SqliteDataset};
+use burn::data::dataset::SqliteDataset;
 use burn::prelude::{Backend, Tensor};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
@@ -44,7 +44,6 @@ pub fn encode_sequence<B: Backend>(device: &B::Device, s: &str, alphabet: &[char
 }
 impl SequencesDataset {
     pub fn new(path: &str) -> IoResult<Self> {
-        let reader = csv::ReaderBuilder::new();
         let dataset = SqliteDataset::from_db_file(path, "data").unwrap();
 
         Ok(Self { dataset })

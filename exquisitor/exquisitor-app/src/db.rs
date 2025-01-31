@@ -12,7 +12,9 @@ pub struct Order {
 
 #[derive(Debug, sqlx::FromRow)]
 pub struct OrderResult {
+    #[allow(dead_code)] // Note: this field is not used in solution, but is present in database
     pub result_id: i64,
+    #[allow(dead_code)] // Note: this field is not used in solution, but is present in database
     pub success: i64,
     pub filepath: Option<String>,
 }

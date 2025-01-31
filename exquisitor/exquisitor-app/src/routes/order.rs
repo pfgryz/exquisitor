@@ -1,5 +1,5 @@
 use crate::db;
-use crate::db::{get_result_by_id, Order, OrderResult, OrderStatus};
+use crate::db::{get_result_by_id, Order, OrderStatus};
 use crate::routes::errors::{create_code_response, handle_not_found, InternalServerError};
 use crate::templates::HTMLTemplate;
 use crate::Arc;
@@ -8,13 +8,12 @@ use axum::extract::{Multipart, Path};
 use axum::http::{header, HeaderMap, HeaderValue, StatusCode};
 use axum::response::{IntoResponse, Response};
 use axum::Extension;
-use sqlx::{Error, SqlitePool};
-use std::future::Future;
+use sqlx::SqlitePool;
 use std::io;
 use std::io::Write;
 use tempfile::{Builder, NamedTempFile};
 use tokio::fs::File;
-use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::io::AsyncReadExt;
 
 #[derive(Template)]
 #[template(path = "order.html")]
@@ -105,13 +104,13 @@ pub async fn add_submit(
         }
     }
 
-    let mut file = create_file("input-", ".fasta", "exquisitor-fs").await;
-    if let Err(e) = file {
+    let file = create_file("input-", ".fasta", "exquisitor-fs").await;
+    if file.is_err() {
         return create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response();
     }
     let mut file = file.unwrap();
     let path = { file.path().to_string_lossy().to_string() };
-    if let Err(e) = file.as_file_mut().write_all(&file_data) {
+    if file.as_file_mut().write_all(&file_data).is_err() {
         return create_code_response(StatusCode::BAD_REQUEST, "Bad Request").into_response();
     }
 
@@ -169,7 +168,7 @@ pub async fn download(
     match File::open(path).await {
         Ok(mut file) => {
             let mut buffer = Vec::new();
-            if let Err(err) = file.read_to_end(&mut buffer).await {
+            if file.read_to_end(&mut buffer).await.is_err() {
                 return create_code_response(StatusCode::BAD_REQUEST, "Bad Request")
                     .into_response();
             }

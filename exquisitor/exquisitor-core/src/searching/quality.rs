@@ -1,7 +1,7 @@
 use crate::searching::organism::OrganismFound;
 use std::collections::{HashMap, HashSet};
 
-fn calculate_search_quality(
+pub fn calculate_search_quality(
     reference: Vec<OrganismFound>,
     probe: Vec<OrganismFound>,
 ) -> (f64, f64) {

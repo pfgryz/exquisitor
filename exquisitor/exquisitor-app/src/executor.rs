@@ -1,6 +1,5 @@
 use crate::db::{
-    create_result, query_orders_by_status, update_order_result, update_order_status, OrderResult,
-    OrderStatus,
+    create_result, query_orders_by_status, update_order_result, update_order_status, OrderStatus,
 };
 use crate::routes::order::create_file;
 use sqlx::SqlitePool;
@@ -64,7 +63,9 @@ pub async fn executor_task(pool: Arc<SqlitePool>) {
             .expect("Failed to create result");
 
         if result_id.is_some() {
-            update_order_result(&pool, order.order_id, result_id.unwrap());
+            update_order_result(&pool, order.order_id, result_id.unwrap())
+                .await
+                .expect("Failed to update order result");
         }
     }
 }
@@ -73,7 +74,7 @@ pub async fn run_exquisitor_analysis(
     input_filename: &str,
     output_filename: &str,
 ) -> Result<bool, ()> {
-    let mut program = env::current_exe().map_err(|e| ())?;
+    let mut program = env::current_exe().map_err(|_| ())?;
     if let Some(extension) = program.extension() {
         let filename = format!("exquisitor-cli.{}", extension.to_string_lossy());
         program.set_file_name(filename);
@@ -81,9 +82,9 @@ pub async fn run_exquisitor_analysis(
         program.set_file_name("exquisitor-cli");
     }
 
-    let blast = get_env("BLAST").map_err(|e| ())?;
-    let blast_db = get_env("BLASTDB").map_err(|e| ())?;
-    let model = get_env("MODEL").map_err(|e| ())?;
+    let blast = get_env("BLAST").map_err(|_| ())?;
+    let blast_db = get_env("BLASTDB").map_err(|_| ())?;
+    let model = get_env("MODEL").map_err(|_| ())?;
 
     let args = vec![
         "run",
@@ -118,7 +119,7 @@ pub async fn run_exquisitor_cli(program: PathBuf, arguments: Vec<&str>) -> Resul
         .args(&arguments)
         .output()
         .await
-        .map_err(|e| ())?;
+        .map_err(|_| ())?;
 
     Ok(output.status.success())
 }

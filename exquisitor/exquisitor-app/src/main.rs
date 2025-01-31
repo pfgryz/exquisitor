@@ -1,9 +1,8 @@
-use crate::db::OrderStatus;
 use crate::executor::executor_task;
 use crate::routes::errors;
 use axum::middleware::Next;
 use axum::response::IntoResponse;
-use axum::routing::{get, post};
+use axum::routing::get;
 use axum::{extract, middleware, Extension, Router};
 use dotenv::dotenv;
 use sqlx::SqlitePool;

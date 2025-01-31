@@ -1,9 +1,7 @@
 use crate::neural::data::SequencesBatch;
 use crate::neural::loss::{ContrastiveLoss, ContrastiveLossConfig};
 use burn::nn::conv::{Conv1d, Conv1dConfig};
-use burn::nn::{
-    BatchNorm, BatchNormConfig, Dropout, DropoutConfig, Gelu, Linear, LinearConfig, Relu,
-};
+use burn::nn::{BatchNorm, BatchNormConfig, Dropout, DropoutConfig, Gelu, Linear, LinearConfig};
 use burn::prelude::{Backend, Config, Module, Tensor};
 use burn::tensor::backend::AutodiffBackend;
 use burn::tensor::ops::conv::calculate_conv_output_size;
