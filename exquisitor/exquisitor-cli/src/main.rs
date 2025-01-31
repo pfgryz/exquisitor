@@ -1,3 +1,9 @@
+//! Console application for taxonomic classification
+//!
+//! Uses exquisitor-core under hood.
+//!
+//! Implements standard commands with great configurability.
+
 mod commands;
 
 use crate::commands::clusters::{compare_clusters, CompareClustersCommand};
@@ -38,6 +44,7 @@ enum Commands {
     Search(SearchCommand),
 }
 
+/// Entry point of CLI application
 fn main() {
     let cli = Cli::parse();
 

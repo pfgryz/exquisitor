@@ -1,3 +1,5 @@
+//! Compares the clusters created by the taxonomic classification pipeline
+
 use burn::serde::Serialize;
 use clap::Parser;
 use exquisitor_core::clustering::cluster::{
@@ -36,7 +38,9 @@ fn load_clusters(path: &Path) -> IoResult<Vec<Cluster>> {
     load_clustering_data(&mut file)
 }
 
-/// Compare two sets of clusters with FMI and NMI scores
+/// Executes the commands
+///
+/// Prints NMI and FMI score between clusters
 pub(crate) fn compare_clusters(args: CompareClustersCommand) -> IoResult<()> {
     let first = load_clusters(args.reference.as_path())?;
     let second = load_clusters(args.second.as_path())?;

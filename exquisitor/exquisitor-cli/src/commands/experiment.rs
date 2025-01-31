@@ -1,3 +1,5 @@
+//! Module contains command for running other commands as experiments
+
 use clap::Parser;
 use csv::Writer;
 use std::io::Error as IoError;
@@ -28,6 +30,8 @@ pub(crate) struct ExperimentCommand {
 }
 
 /// Run command as experiment with measuring performance
+///
+/// Saves CPU usage, memory usage with timestamps to file in CSV format
 pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
     let mut writer = Writer::from_path(args.output)?;
     writer.write_record(&["timestamp", "cpu", "memory"])?;
@@ -101,6 +105,7 @@ pub(crate) fn experiment(args: ExperimentCommand) -> IoResult<()> {
     Ok(())
 }
 
+/// Calculates the cpu and memory usage by given process including usage by children
 fn calculate_cpu_and_memory_usage(system: &System, pid: Pid) -> (f32, u64) {
     let mut total_cpu = 0.0;
     let mut total_memory = 0u64;

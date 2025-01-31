@@ -26,6 +26,7 @@ pub(crate) fn compare(args: CompareCommand) -> IoResult<()> {
     Ok(())
 }
 
+/// Loads the results of taxonomic classification from file
 fn load(path: PathBuf) -> IoResult<Vec<OrganismFound>> {
     let mut file = File::open(path)?;
     load_found_organisms(&mut file)
