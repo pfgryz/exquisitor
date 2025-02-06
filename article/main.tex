@@ -492,78 +492,41 @@
 
                 The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset. Indices of sequences used in the training and validation sets of the ANN were excluded from the sampling. 
 
-        \subsection{Performance Metrics}
+        \subsection{Performance Measures}
 
-            \temporary{
-                Jako miarę jakości klasyfikacji taksonomicznej wykorzystano zmodyfikowany indeks Jaccarda, wyrażony za pomocą wzoru~\ref{Equation:Quality}.
+            Quality of taxonomic classification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}. The measure was used to compare the quality of taxonomic classification performed using the implemented methods against taxonomic classification without the use of a processing pipeline.
 
-                \begin{equation}
-                    \text{Q} = \frac{
-                        \sum_{r \in (O(R) \cap O(E))} R_{r}
-                    }{
-                        \sum_{r \in (O(R) \cup O(E))} R_{r}
-                    }
-                    \label{Equation:Quality}
-                \end{equation}
-        
-                gdzie:
-                \begin{align*}
-                    R &- \text{zbiór wyników referencyjnych,} \\
-                    E &- \text{zbiór wyników otrzymanych,} \\
-                    R_{r} &- \text{liczba wyników w zbiorze referencyjnym przypisanych do organizmu $r$,} \\
-                    O(X) &- \text{zbiór unikalnych organizmów, dla których przypisano wyniki w zbiorze X. }
-                \end{align*}
-        
-                Miara została wykorzystana do porównania jakości klasyfikacji taksonomicznej przeprowadzanej z wykorzystaniem zaimplementowanych metod względem klasyfikacji taksonomicznej bez użycia potoku przetwarzania.
-        
-                Do porównywania jakości wielu przebiegów klasyfikacji taksonomicznej wykorzystano średnią jakość ważoną zdefiniowaną za pomocą wzoru~\ref{Equation:WeightedAverageQuality}.
-        
-                \begin{equation}
-                    Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
-                    \label{Equation:WeightedAverageQuality}
-                \end{equation}
-        
-                gdzie:
-                \begin{align*}
-                  C &- \text{zbiór wszystkich przebiegów klasyfikacji taksonomicznych,} \\
-                  Q_c &- \text{jakość klasyfikacji taksonomicznej $c$,} \\
-                  n_c &- \text{liczba sekwencji wejściowych do klasyfikacji taksonomicznej $c$,}\\
-                  n   &- \text{liczba sekwencji wejściowych $n = \sum_{c \in C} n_{c}.$}
-                \end{align*}
-        
-                Wykorzystano również dodatkowe miary jakości, które zostały zastosowane do oceny jakości utworzonych grup przez potok przetwarzania. Pierwszą wykorzystaną miarą jest znormalizowana informacja wzajemna (ang. \textit{Normalized mutual information, NMI}) i służy do oceny jakości grup, drugą jest czułość (ang. \textit{sensitivity}), która wykorzystana jest do oceny reprezentantów grup. Miary zostały zdefiniowane odpowiednio wzorami \eqref{Equation:NMI} i \eqref{Equation:Sensitivity}.
-        
-                \begin{equation}
-                    NMI(X, Y) = \frac{I(X, Y)}{\sqrt{H(X) \cdot H(Y)}}
-                    \label{Equation:NMI}
-                \end{equation}
-        
-                gdzie:
-                \begin{align*}
-                    I(X, Y) &= \sum_{y \in Y}{ \sum_{x \in X}{p(x, y) \log_{2}{\frac{p(x, y)}{p(x) p(y)}}}}, \\
-                    H(X) &= - \sum_{x \in X}{ p(x) \log_{2}{p(x)}}, \\
-                    I(X, Y) &- \text{informacja wzajemna między zbiorami $X$ oraz $Y$}, \\
-                    H(X) &- \text{entropia zbioru $X$}, \\
-                    H(Y) &- \text{entropia zbioru $Y$}, \\
-                    p(x) &- \text{prawdopodobieństwo zajścia zdarzenia $x$}, \\
-                    p(x, y) &- \text{wspólny rozkład prawdopodobieństwa $X$ oraz $Y$ }.
-                \end{align*}
-        
-                \begin{equation}
-                    sensitivity = \frac{\text{TP}}{
-                        \text{TP} + \text{TN}
-                    }
-                    \label{Equation:Sensitivity}
-                \end{equation}
-        
-                gdzie:
-                \begin{align*}
-                    TP &- \text{liczba wyników prawdziwie dodatnich,} \\
-                    TN &- \text{liczba wyników fałszywie ujemnych.}
-                \end{align*}
-        
-                Dodatkowe miary jakości zostały wykorzystane do oceny jakości względnej między zaimplementowanymi metodami.
-            }
+            \begin{equation}
+                \text{Q} = \frac{
+                    \sum_{r \in (O(R) \cap O(E))} R_{r}
+                }{
+                    \sum_{r \in (O(R) \cup O(E))} R_{r}
+                }
+                \label{Equation:Quality}
+            \end{equation}
+
+            where:
+            \begin{align*}
+                R &- \text{set of reference results,} \\
+                E &- \text{set of obtained results,} \\
+                R_{r} &- \text{number of results in reference set assigned to the organism $r$} \\
+                O(X) &- \text{set of unique organisms, for which results were assigned in the set $X$}
+            \end{align*}
+
+            To compare the quality of multiple taxonomic clasisfication runs, the weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used.
+            
+            \begin{equation}
+                Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
+                \label{Equation:WeightedAverageQuality}
+            \end{equation}
+    
+            where:
+            \begin{align*}
+              C &- \text{set of taxonomic classification runs,} \\
+              Q_c &- \text{quality of taxonomic classification $c$,} \\
+              n_c &- \text{number of input sequences for taxonomic classification $c$,}\\
+              n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
+            \end{align*}
 
         \subsection{Results and Analysis}
 
