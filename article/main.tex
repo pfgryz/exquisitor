@@ -1,16 +1,66 @@
 \documentclass{article}
 
 \usepackage{xcolor}
-\usepackage{tcolorbox}
+\usepackage{tcolorbox}     % Color boxes
+\usepackage{amsmath}       % Basic mathematical typesetting
+\usepackage{amssymb}       % Advanced math symbols
+\usepackage{amsthm}        % Theorems typesetting
+\usepackage{array}         % Advanced table column formats
+\usepackage{enumitem}      % Itemize/enumrate
+\usepackage{fancyhdr}      % Custom header/footer styles
+\usepackage{fourier}       % Adobe Utopia font
+\usepackage{graphicx}      % Enhanced images support
+\usepackage{ifluatex}      % LuaTeX-specific options
+\usepackage{kantlipsum}    % English kantian-style lipsum
+\usepackage{lipsum}        % Lorem ipsum
+\usepackage{listings}      % Code listings
+\usepackage{longtable}     % Multi-page tables
+\usepackage{multirow}      % Advanced table cells
+\usepackage{setspace}      % Set space between lines
+\usepackage{scrextend}     % Allows \addmargin environment
+\usepackage{tablefootnote} % Table footnotes
+\usepackage{tocloft}       % Custom ToC/LoF/LoT
+\usepackage{url}           % URL-sensitive line breaks
+\usepackage{xspace}        % Remove duplicated spaces
+
+\setstretch{1.15}
+\setlength{\parindent}{5mm}
+\counterwithin{equation}{section}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+% List formatting
+\setlist[itemize,1]{topsep=2pt,label=\large$\bullet$, leftmargin=28pt}
+\setlist[itemize,2]{topsep=2pt,leftmargin=18pt}
+\setlist[itemize,3]{topsep=2pt,leftmargin=18pt}
+\setlist[enumerate,1]{topsep=2pt,leftmargin=24pt}
+\setlist[enumerate,2]{topsep=2pt,leftmargin=16pt}
+\setlist[enumerate,3]{topsep=2pt,leftmargin=16pt}
+
+% List of figures
+\renewcommand*\l@figure{\@dottedtocline{1}{0.5em}{2.25em}}
+\newcommand{\listoffigurestoc}{
+    \listoffigures
+    \addcontentsline{toc}{section}{\listfigurename}
+}
+
+% List of tables
+\renewcommand*\l@table{\@dottedtocline{1}{0.5em}{2.25em}}
+\newcommand{\listoftablestoc}{
+    \listoftables
+    \addcontentsline{toc}{section}{\listtablename}
+}
 
 % region LuaLatex Scripts
 
 % Script from: https://github.com/ArturB/WUT-Thesis
-\RequirePackage{ifluatex}      % LuaTeX-specific options
+\usepackage{ifluatex}      % LuaTeX-specific options
 \ifluatex
-    \RequirePackage[T1]{fontenc}
-    \RequirePackage[utf8]{luainputenc}
-    \RequirePackage{luacode}
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{luainputenc}
+    \usepackage{luacode}
     % In LuaTeX, we can prevent one-letter words
     % from beging at the end of the line.
     \begin{luacode}
@@ -62,13 +112,12 @@
 
 \begin{document}
 
-    % region Article Metadata
     \title{Title of article}
     \author{Patryk Filip Gryz}
-    % endregion
 
     \maketitle
 
+    \clearpage
     \section{Introduction}
 
         \subsection{Background}
@@ -85,35 +134,23 @@
     Wraz z rozwojem metod sekwencjonowania nowej generacji\cite{Reinartz:2002}, koszty sekwencjonowania znacząco spadły, a liczba analizowanych sekwencji DNA znacznie wzrosła\cite{Muir:2016}. Dalsze gromadzenie danych sekwencyjnych oraz wzrost przepustowości technologii sekwencjonowania prowadzą do zwiększonego zapotrzebowania na zasoby obliczeniowe.
             }
         
-        \subsection{Problem Statement}
+        \subsection{Motivation}
 
-            \temporary{
-                Czas potrzebny do klasyfikacji taksonomicznej wielu sekwencji za pomocą klasycznych narzędzi typu BLASTn wymaga wielu godzin dla nawet relatywnie małych zbiorów sekwencji (4096)
-            }
+            The time required for taxonomic classification of large sequence datasets using traditional tools, such as BLAST, can span several hours, even for relatively small collections of sequences e.g. 4096 sequences. In many fields, artificial neural networks (ANN) have demonstrated the ability to outperform classical heuristic algorithms, offering faster and more accurate results. By leveraging the capabilities of ANN, this works aims to accelerate taxonomic clasisfication process while maintaining at least the same level of quality as traditional methods.
 
         \subsection{Objectives}
+    
+            The primary objective of this study is to leverage an artificial neural network to support the selection of representative genetic sequences for taxonomic classification. Instead of classifying entire environmental genetic sequences sample, the proposed approach focuses on identifying a subset of sequences that best represent the sample. These selected representatives are then classified, reducing computational complexity while maintaining classification accuracy.
 
-            \temporary{
-                Cel to przyśpieszenie klasyfikacji taksonomicznej próbki sekwencji genetycznych z środowiska poprzez klasyfikację tylko części sekwencji genetycznych.
-            }
+        \subsection{Main Contributions}
 
-        \subsection{Contributions of the Paper}
+            This paper introduces a novel artificial neural network model for calculating dissimilarities between genetic sequences, which can be used in clustering algorithm to select representative sequences for taxonomic classification. We provide all the necessary components for training the model, including dataset preparation, batch process, a loss function, and a training loop. The paper also includes an application that can perform taxonomic classification with specified parameters. Furthermore, we develope a library that allows users to compose the taxonomic classification pipelines.
 
-            \temporary{
-                Model sztucznej sieci neuronowej, który pozwala określać niepodobieństwo między sekwencjami, które później może zostać użyte w algorytmie grupowania, dzięki któremu możliwy jest wybór reprezentantów wykorzystywanych w klasyfikacji taksonomciznej.
-            }
-        
         \subsection{Structure of the Paper}
 
-            \temporary{
-                Pierwszy rozdział zawiera wprowadzenie.
-                Drugi zawiera opis powiązanych prac.
-                Trzeci metodologię.
-                Czwarty Eksperymenty i wyniki.
-                Piąty dyskusję
-                Szósty wnioski oraz dalsze kierunki rozwoju.
-            }
+            The rest of the paper is organized as follows. Section 2 provides a description of related work, reviewing previous research on taxonomic classification and highlights a research gap. Section 3 defines the problem, presents the proposed approach, and provides detailed implementation details. Section 4 describes the experimental setup, including used datasets, the performance metrics for evaluation, and the results obtained from experiments with analysis. Section 5 interprets the results, discusses the limtiations of proposed approach, and explores possible improvements for future work. Finally, Section 6 concludes the paper by summarizing the main findings and suggesting potential directions for future research.
 
+    \clearpage
     \section{Related Work}
 
         \subsection{Overview of Existing Approaches}
@@ -141,6 +178,7 @@
                 Choć w ostatnich latach pojawiły się badania dotyczące klasyfikacji taksonomicznej z wykorzystaniem metod uczenia maszynowego, to wciąż brakuje prac skupiających się na zastosowaniu sztucznych sieci neuronowych z uczeniem kontrastowym do efektywnego grupowania sekwencji, co mogłoby znacząco przyspieszyć proces klasyfikacji przy użyciu dostępnych narzędzi.
             }
 
+    \clearpage
     \section{Methodology}
 
         \subsection{Problem Definition}
@@ -414,50 +452,45 @@
                 Efektywność rozwiązania będzie badana w eksperymentach.
             }
 
+    \clearpage
     \section{Experiments and Results}
 
         \subsection{Experimental Setup}
 
-            \temporary{
-                Eksperymenty zostały przeprowadzone na maszynie wirtualnej wykorzystującej technologię KVM o specyfikacji podanej poniżej:
+            Experiments were conducted on the KVM based virtual machine with the specification given below:
 
-                % \subsubsection{Specyfikacja techniczna}\
-        
-                    \begin{itemize}
-                        \item {
-                            \textbf{System operacyjny:} Ubuntu 22.04 LTS;
-                        }
-                        \item {
-                            \textbf{Procesor:} 4 rdzenie wirtualne procesora Intel Core i7-6850K;
-                        }
-                        \item {
-                            \textbf{Pamięć RAM:} 40GB;
-                        }
-                        \item {
-                            \textbf{Karta graficzna:} Nvidia GeForce GTX 1080 TI;
-                        }
-                        \item {
-                            \textbf{Dysk:} dysk sieciowy 1 TB z prędkością odczytu 1 Gbps;
-                        }
-                        \item {
-                            \textbf{Oprogramowanie:} pakiet \texttt{BLAST} w wersji 2.16.0 oraz sterowniki karty graficznej.
-                        }
-                    \end{itemize}
-            }
+            \begin{itemize}
+                \item{
+                    \textbf{Operating System:} Ubuntu 22.04 LTS;
+                }
+                \item{
+                    \textbf{Processor:} 4 virtual cores of Intel Core i7-6850K;
+                }
+                \item{
+                    \textbf{RAM Memory:} 40 GB;
+                }
+                \item{
+                    \textbf{Graphics Card:} Nvidia GeForce GTX 1080 TI;
+                }
+                \item{
+                    \textbf{Disk:} 1 TB network drive with a read speed of 1 Gbps;
+                }
+                \item{
+                    \textbf{Software:} \texttt{BLAST} package version 2.16.0 and graphics card drivers.
+                }
+            \end{itemize}
 
         \subsection{Datasets / Benchmarks}
 
-            \temporary{
-                \subsubsection{Opis zbioru danych}
+            \subsubsection{Dataset Description}
 
-            W eksperymentach wykorzystano ten sam zbiór sekwencji genetycznych, co w uczeniu modelu sztucznej sieci neuronowej. Zbiór \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019} został wybrany, ponieważ został stworzony w celu oceny wydajności algorytmów bioinformatycznych oraz zawiera znaczną liczbę sekwencji genetycznych, co umożliwiło jego wykorzystanie go zarówno w eksperymentach, jak i w uczeniu modelu sztucznej sieci neuronowej.
+                In the experiments, the \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019} dataset was used, which is the same dataset used for training the artificial neural network model. Dataset was chosen, because it was created for benchmarking bioinformatics tools and contains a large number of sequences, enabling its use both in experiments and in the learning process.
 
-            Na podstawie zbioru stworzono podzbiory sekwencji o rozmiarach wyrażonych wzorem $2^k$ dla $k \in [0, 12]$. Zbiory są rozłączne, a do ich budowy wykorzystano wyłącznie te sekwencje, które nie zostały użyte do uczenia modelu sztucznej sieci neuronowej.
+                Subsets of sequences were created from the dataset with sizes expressed by the formula $2^k$ for $k \in [0, 12]$. Subsets are disjoint, and only those sequences that were not used for training the ANN model were employed in their construction.
 
-        \subsubsection{Przygotowanie zbioru danych}
+            \subsubsection{Dataset Preparation}
 
-            Podzbiory powstały poprzez losowanie bez zwracania indeksów sekwencji genetycznych ze zbioru referencyjnego, które powinny trafić do podzbioru. W losowaniu wykorzystano informację o indeksach sekwencji wykorzystanych w zbiorze uczącym oraz walidacyjnym sztucznej sieci neuronowej. W celu umożliwienia dalszego wykorzystania zbioru danych zapisano do pliku indeksy sekwencji wykorzystanych w procesie budowy zbioru eksperymentalnego. Podzbiory sekwencji zostały zapisane do plików w formacie FASTA.
-            }
+                The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset. Indices of sequences used in the training and validation sets of the ANN were excluded from the sampling. 
 
         \subsection{Performance Metrics}
 
@@ -748,6 +781,7 @@
             Wyniki eksperymentów częściowo potwierdziły oczekiwania postawione na początku badań. Wszystkie metody osiągnęły zadowalającą jakość klasyfikacji taksonomicznej. Szczególnie dobrze wypadła metoda wykorzystująca sztuczną sieć neuronową, która osiągnęła najlepszą średnią ważoną jakość klasyfikacji jednocześnie zachowując czas wykonania porównywalny z metodą opartą na zanurzeniach $k$-merów. Metoda Needlemana-Wunscha nie spełniła oczekiwań, będąc najwolniejszą metodą i osiągając wbrew oczekiwaniom jednocześnie najgorsze wyniki jakości klasyfikacji. Niska jakość klasyfikacji taksonomicznej przy małej liczbie sekwencji wejściowych może wynikać z nieodpowiedniego wyboru reprezentantów grup, co jest spowodowane zbyt małą liczbą dostępnych sekwencji. Zaimplementowane metody powinny być więc stosowane jedynie w przypadkach, gdy liczba sekwencji wejściowych przekracza pewien próg i ich wykorzystanie realnie skraca czas procesu klasyfikacji taksonomicznej. Dla badanych danych warunek ten jest osiągnięty dla $128$ sekwencji, gdzie jakość klasyfikacji taksonomicznej wynosiła nie mniej niż $0,87$, a wykorzystanie dowolnej metody grupowania skraca czas o co najmniej 5 minut, co stanowi przyśpieszenie o $5\%$ względem klasyfikacji taksonomicznej wszystkich sekwencji.
             }
 
+    \clearpage
     \section{Discussion}
 
         \subsection{Interpretation of Results}
@@ -796,6 +830,7 @@
             Obecne podejście wymaga doboru liczby tworzonych grup przez algorytm grupowania. Liczba grup bezpośrednio determinuje liczbę reprezentantów, którzy będą poddani klasyfikacji taksonomicznej i ma wpływ na jakość oraz czas wykonania całego procesu. Możliwe byłoby zastosowanie lub stworzenie algorytmu, który automatycznie dobierałby liczbę tworzonych grup na podstawie macierzy niepodobieństwa oraz miar jakości tworzonych grup. Automatyczne dostosowanie liczby grup pozwoliłoby na zwiększenie jakości klasyfikacji w przypadku bardzo różnych sekwencji wejściowych bez spowalniania procesu dla zbiorów sekwencji bardzo podobnych.
             }
 
+    \clearpage
     \section{Conclusions and Future Work}
 
         \subsection{Summary of Findings}

@@ -7,6 +7,18 @@ import subprocess
 from typing import Dict, List, Optional
 import matplotlib.pyplot as plt
 
+# region Translation
+
+class Language(Enum):
+    PL = "PL"
+    EN = "EN"
+
+LANG = Language.EN
+
+def translate(language: Language, polish, english):
+    return polish if language == Language.PL else english
+
+# endregion
 
 class ESearchType(Enum):
     Base = 0
@@ -369,9 +381,9 @@ def plot_execution_duration(plot, methods, count, experiments: Experiments):
 
     # plot.title("Czas wykonania klasyfikacji taksonomicznej")
     plot.legend()
-    plot.xlabel("Liczba sekwencji")
+    plot.xlabel(translate(LANG, "Liczba sekwencji", "Number of sequences"))
     plot.xticks(x, x_labels)
-    plot.ylabel("Czas wykonania [s]")
+    plot.ylabel(translate(LANG, "Czas wykonania [s]", "Execution time [s]"))
     # plot.show()
 
     return plot
@@ -552,9 +564,9 @@ def plot_quality(plot, methods, count, experiments: Experiments, reference: str)
 
     # plot.title("Jakość klasyfikacji taksonomicznej względem wykonania bez potoku przetwarzania")
     plot.legend()
-    plot.xlabel("Liczba sekwencji")
+    plot.xlabel(translate(LANG, "Liczba sekwencji", "Number of sequences"))
     plot.xticks(x, x_labels)
-    plot.ylabel("Jakość względna")
+    plot.ylabel(translate(LANG, "Jakość względna", "Relative quality"))
     # plot.show()
 
     return plot, qualities
@@ -593,7 +605,7 @@ def generate_quality_latex_table(qualities):
     
     return result
 
-def plot_relative_quality_latex_table(plot, count, experiments, nmi: bool = True):
+def plot_relative_quality_latex_table(plot, count, experiments, nmi_flag: bool = True):
     plot.figure(figsize=FIGSIZE)
     x, x_labels = generate_xs(count)
     jitter = generate_jitter(-0.02, 0.02)
@@ -610,7 +622,7 @@ def plot_relative_quality_latex_table(plot, count, experiments, nmi: bool = True
         nmi2 = NMI(nw, neural)
         nmi3 = NMI(kmer, neural)
 
-        idx = 0 if nmi else 1
+        idx = 0 if nmi_flag else 1
 
         nmi1_s.append(nmi1[idx])
         nmi2_s.append(nmi2[idx])
@@ -628,9 +640,10 @@ def plot_relative_quality_latex_table(plot, count, experiments, nmi: bool = True
 
     # plot.title("Jakość względna grup wykorzystywanych w klasyfikacji taksonomicznej.")
     plot.legend()
-    plot.xlabel("Liczba sekwencji")
+    plot.xlabel(translate(LANG, "Liczba sekwencji", "Number of sequences"))
     plot.xticks(x, x_labels)
-    plot.ylabel("NMI" if nmi else "Czułość")
+    print(nmi_flag)
+    plot.ylabel("NMI" if nmi_flag else translate(LANG, "Czułość", "Sensitivity"))
 
     return plot
 
@@ -664,24 +677,27 @@ def generate_relative_quality_latex_table(count, experiments, nmi: bool = True):
 # region Main
 
 def main():
+    print(LANG.value)
+    os.makedirs(LANG.value, exist_ok=True)
+
     experiments = read_experiments("C:\\Users\\Komputer\\Desktop\\results_1\\results", METHODS, N)
     
     save_plot(
         plot_execution_duration(plt, METHODS, N, experiments),
-        "experiment_duration.png",
+        f"{LANG.value}/experiment_duration.png",
         dpi = 500
     )
     plot, qualities = plot_quality(plt, METHODS, N, experiments, "bs")
     save_plot(
         plot,
-        "experiment_quality.png",
+        f"{LANG.value}/experiment_quality.png",
         dpi = 500
     )
     resources, duration = generate_resource_usage_latex_table(N, experiments)
     
-    with open("resources_usage.tex", "w") as handle:
+    with open(f"{LANG.value}/resources_usage.tex", "w") as handle:
         handle.write(resources)
-    with open("duration.tex", "w") as handle:
+    with open(f"{LANG.value}/duration.tex", "w") as handle:
         handle.write(duration)
     
     quality = generate_quality_latex_table(qualities)
@@ -689,22 +705,22 @@ def main():
     relative_quality_sensitivity = generate_relative_quality_latex_table(N, experiments, False)
     save_plot(
         plot_relative_quality_latex_table(plt, N, experiments),
-        "experiment_relative_quality_nmi.png",
+        f"{LANG.value}/experiment_relative_quality_nmi.png",
         dpi = 500
     )
     save_plot(
         plot_relative_quality_latex_table(plt, N, experiments, False),
-        "experiment_relative_quality_sensitivity.png",
+        f"{LANG.value}/experiment_relative_quality_sensitivity.png",
         dpi = 500
     )
     
-    with open("quality.tex", "w") as handle:
+    with open(f"{LANG.value}/quality.tex", "w") as handle:
         handle.write(quality)
 
-    with open("rel_quality_nmi.tex", "w") as handle:
+    with open(f"{LANG.value}/rel_quality_nmi.tex", "w") as handle:
         handle.write(relative_quality_nmi)
 
-    with open("rel_quality_sensitivity.tex", "w") as handle:
+    with open(f"{LANG.value}/rel_quality_sensitivity.tex", "w") as handle:
         handle.write(relative_quality_sensitivity)
 
 # endregion
