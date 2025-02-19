@@ -22,6 +22,7 @@
 \usepackage{tocloft}       % Custom ToC/LoF/LoT
 \usepackage{url}           % URL-sensitive line breaks
 \usepackage{xspace}        % Remove duplicated spaces
+\usepackage{tabularx}
 
 \setstretch{1.15}
 \setlength{\parindent}{5mm}
@@ -39,19 +40,8 @@
 \setlist[enumerate,2]{topsep=2pt,leftmargin=16pt}
 \setlist[enumerate,3]{topsep=2pt,leftmargin=16pt}
 
-% List of figures
-\renewcommand*\l@figure{\@dottedtocline{1}{0.5em}{2.25em}}
-\newcommand{\listoffigurestoc}{
-    \listoffigures
-    \addcontentsline{toc}{section}{\listfigurename}
-}
-
-% List of tables
-\renewcommand*\l@table{\@dottedtocline{1}{0.5em}{2.25em}}
-\newcommand{\listoftablestoc}{
-    \listoftables
-    \addcontentsline{toc}{section}{\listtablename}
-}
+% TabularX columns
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
 
 % region LuaLatex Scripts
 
@@ -111,6 +101,19 @@
 % endregion
 
 \begin{document}
+    % List of figures
+    \renewcommand*\l@figure{\@dottedtocline{1}{0.5em}{2.25em}}
+    \newcommand{\listoffigurestoc}{
+        \listoffigures
+        \addcontentsline{toc}{section}{\listfigurename}
+    }
+
+    % List of tables
+    \renewcommand*\l@table{\@dottedtocline{1}{0.5em}{2.25em}}
+    \newcommand{\listoftablestoc}{
+        \listoftables
+        \addcontentsline{toc}{section}{\listtablename}
+    }
 
     \title{Title of article}
     \author{Patryk Filip Gryz}
@@ -122,17 +125,7 @@
 
         \subsection{Background}
 
-            \temporary{
-                Odkrycie DNA zapoczątkowało nową erę w biologii oraz medycynie, umożliwiając badania nad molekularnymi podstawami życia oraz precyzyjną diagnostykę wielu chorób\cite{Louie:2000}. Pierwsze kroki na tej drodze uczynił w 1869 roku Friedrich Miescher, który po raz pierwszy wyizolował z jądra komórkowego substancję nazwaną przez niego ,,nukleiną''\cite{Dahm:2005}, później zidentyfikowaną jako kwas deoksyrybonukleinowy. W latach 1895 - 1901 Albrecht Kossel wyizolował oraz nazwał cztery podstawowe zasady azotowe budujące kwas deoksyrybonukleinowy — adeninę, tyminę, cytozynę oraz guaninę\cite{Kossel:1893}. Przełomowe znaczenie DNA w przenoszeniu informacji genetycznej wykazano jednak dopiero w 1944 roku dzięki eksperymentowi Avery'ego-MacLeoda-McCarty'ego\cite{Avery:1944}, w którym udowodnili, że to DNA, a nie białka są nośnikiem informacji. W 1951 Erwin Chargaff odkrył prawidłowość, że ilość adeniny w DNA jest porównywalna do ilości tyminy, a ilość guaniny do ilości cytozyny\cite{Chargaff:1952}. Prawidłowość ta, nazwa później na cześć odkrywcy zasadami Chargaffa, stała się jedną z kluczowych przesłanek do odkrycia struktury podwójnej helisy DNA przez Watsona i Cricka w 1953 roku\cite{Watson:1953}.
-
-    W 1970 Francis Crick sformułował centralny dogmat biologii molekularnej\cite{Crick:1970}, który głosi, że informacja genetyczna przepływa z DNA do RNA, a następnie do białek tworząc fundament współczesnej biologii molekularnej. Dalsze przełomowe odkrycia metod sekwencjonowania, opracowane w 1976 roku przez Allana Maxima oraz Waltera Gilberta\cite{Maxam:1977}, a także w 1977 roku przez Fredericka Sangera\cite{Sanger:1977}, pozwoliły na odczytywanie sekwencji DNA dowolnych organizmów, otwierając nowe możliwości badań nad DNA oraz przepływem informacji genetycznej. W tym samym czasie zespołowi Fredericka Sangera za pomocą nowej metody udało się po raz pierwszy przeprowadzić sekwencjonowanie całości materiału genetycznego  wirusa DNA — bakteriofaga $\phi{}$X174\cite{Sanger:1977:2}. Odkrycie to uwypukliło ograniczenia tradycyjnych metod analizy i wykazało konieczność zastosowania komputerów do przetwarzania sekwencji DNA\cite{Staden:1979}.
-
-    W miarę postępu badań nad sekwencjami DNA, zespoły badawcze rozpoczęły gromadzenie sekwencji, w celu dalszych analiz i porównań. Pod koniec lat 70. XX wieku pojawiła się potrzeba stworzenia bazy danych, która umożliwiałaby gromadzenie sekwencji w celu ich późniejszego wykorzystania oraz redukcji kosztów badań. Odpowiedzią na to zapotrzebowanie było sfinansowanie bazy danych ,,GenBank'' w 1982 roku w Stanach Zjednoczonych\cite{Bilofsky:1986} oraz europejskiej bazy danych ,,EBML Data Library'' w 1980 roku\cite{Higgins:1992}. W 1983 roku Johnowi Wilburowi oraz Davidowi Lipmanowi udało się opracować algorytm wyszukiwania sekwencji podobnych w bazach danych\cite{Wilbur:1983}, co pozwoliło na szybkie porównywanie sekwencji genetycznych. W 1990 roku wprowadzono narzędzie BLAST\cite{Altschul:1990}, które przyśpieszyło ten proces.
-
-    Pierwszy pomysł analizy materiału genetycznego wielu organizmów jednocześnie bez konieczności ich hodowli został zaproponowany w 1998 roku przez Jo Handlesmana i jego zespół\cite{Handelsman:1998}. Zespół badał organizmy obecne w glebie. Wykorzystanie informacji o materiale genetycznym znalezionym w środowisku, w połączeniu z bazami danych sekwencji, umożliwia  identyfikację organizmów obecnych w badanej próbce. Proces analizy dużej liczby sekwencji DNA oraz ich porównywanie z bazami danych wymaga jednak znacznych zasobów obliczeniowych.
-
-    Wraz z rozwojem metod sekwencjonowania nowej generacji\cite{Reinartz:2002}, koszty sekwencjonowania znacząco spadły, a liczba analizowanych sekwencji DNA znacznie wzrosła\cite{Muir:2016}. Dalsze gromadzenie danych sekwencyjnych oraz wzrost przepustowości technologii sekwencjonowania prowadzą do zwiększonego zapotrzebowania na zasoby obliczeniowe.
-            }
+            The discovery of DNA marked the beginning of a new era in biology and medicine, enabling research into the molecular foundations of life and the precise diagnosis of many diseases\cite{Louie:2000}. In 1953, the structure of the DNA double helix was discovered by Watson and Crick\cite{Watson:1953}. In 1970, Francis Crick formulated the central dogma of molecular biology\cite{Crick:1970}, which states that genetic information flows from DNA to RNA and then to proteins, forming the foundation of modern molecular biology. In 1977, the complete genetic material of the DNA virus — bacteriophage $\phi{}$X174 was sequenced\cite{Sanger:1977:2}. This discovery highlighted the limitations of traditional analysis methods and demonstrated the need for computers to process DNA sequences\cite{Staden:1979}. In the 1980s, the European "EBML Data Library" was funded\cite{Higgins:1992}, and in 1982, the United States launched "GenBank"\cite{Bilofsky:1986}. In 1998, Jo Handelsman proposed the analysis of genetic material from many organisms simultaneously, without the need for cultivation, with his team studying organisms present in soil\cite{Handelsman:1998}. The use of information about genetic material found in the environment, combined with sequence databases, enables the identification of organisms present in a given sample. However, the process of analyzing large numbers of DNA sequences and comparing them to databases requires significant computational resources. With the development of next-generation sequencing methods\cite{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analyzed has increased\cite{Muir:2016}. Further accumulation of sequence data and increasing sequencing throughput lead to a growing demand for computational resources.
         
         \subsection{Motivation}
 
@@ -480,7 +473,7 @@
                 }
             \end{itemize}
 
-        \subsection{Datasets / Benchmarks}
+        \subsection{Datasets}
 
             \subsubsection{Dataset Description}
 
@@ -530,43 +523,39 @@
 
         \subsection{Results and Analysis}
 
-            \temporary{
-                \subsubsection{Eksperyment 1: Czas wykonania klasyfikacji taksonomicznej}
+            \subsubsection{Experiment 1: Taxonomic classification execution time}
 
-            \paragraph{Cel}
-                Celem eksperymentu jest sprawdzanie czasu wykonania klasyfikacji taksonomicznej przy użyciu różnych metod grupowaniu sekwencji genetycznych.
+                \paragraph{Objective} 
+                Measuring the execution time of taxonomic classification using different genetic sequence clustering methods.
 
-            \paragraph{Założenia}
+                \paragraph{Assumptions}
                 \begin{enumerate}
                     \item {
-                        Proces tworzenia grup przebiega deterministycznie.
+                        Sequences clustering is deterministic.
                     }
                     \item {
-                        Klasyfikacja taksonomiczna jest jedynym zadaniem wykonywanym na maszynie eksperymentalnej.
-                    }
-                    \item {
-                        Rozdzielczość monitorowania ustawiono na 5 sekund, co skutkuje dokładnością raportowanych czasów na $\pm 5$ sekund.
+                        Taxonomic classification is the only task running on the machine.
                     }
                 \end{enumerate}
 
-            \paragraph{Wyniki}
-                W wyniku przeprowadzonych eksperymentów otrzymano czas wykonania klasyfikacji taksonomicznej dla wszystkich metod. W przypadku metody wykorzystującej zmodyfikowany algorytm Needlemana-Wunscha nie udało się otrzymać wyników dla klasyfikacji taksonomicznej $4096$ sekwencji z powodu przekroczenia czasu wykonania. Na rysunku~\ref{Picture:Experiment:Duration} przedstawiono wykres czasu wykonania klasyfikacji taksonomicznej w zależności od ilości sekwencji wejściowych dla: metody ze zmodyfikowanym algorytmem Needlemana-Wunscha (NW), metody wykorzystującej zanurzenia $k$-merów ($k$-mer), metody wykorzystującej sztuczne sieci neuronowe (SSN) oraz dla klasyfikacji taksonomicznej wszystkich sekwencji bez wykorzystania potoku (BZ). Szczegółowe czasy wykonania zostały zawarte w tabeli~\ref{Table:Experiment:Duration}. Ze względu na monitorowanie wykorzystania procesora oraz pamięci RAM przez klasyfikację, zgromadzono także dane o średnim wykorzystaniu procesora oraz maksymalnej użytej pamięci. Wyniki te zostały przedstawione w tabeli~\ref{Table:Experiment:Resources}.
+                \paragraph{Results}
+                As a result of the experiment, the execution time for taxonomic classification was obtained for all methods. In the case of the method using the modified Needleman-Wunsch algorithm, results for taxonomic classification of 4096 sequences could not be obtained due to exceeding the execution time. Figure~\ref{Picture:Experiment:Duration} shows a graph of the taxonomic classification execution time as a function of the number of input sequences for: the method with the modified Needleman-Wunsch algorithm (NW), the method using $k$-mer embeddings ($k$-mer), the method using artificial neural networks (ANN), and for taxonomic classification of all sequences without using a pipeline (NP). Detailed execution times are provided in Table~\ref{Table:Experiment:Duration}.
 
                 \begin{figure}[!htb]
                     \begin{center}
-                        \includegraphics[width=\textwidth]{tex/pictures/exp/experiment_duration.png}
+                        \includegraphics[width=\textwidth]{pictures/experiment_duration.png}
                     \end{center}
                     \caption{
-                        Czas wykonania klasyfikacji taksonomicznej.
+                        Taxonomic classification execution time.
                     }\label{Picture:Experiment:Duration}
                 \end{figure}
 
                 \begin{table}\centering
-                    \caption{Czas trwania eksperymentów.}\label{Table:Experiment:Duration}
+                    \caption{Taxonomic classification execution time.}\label{Table:Experiment:Duration}
                     \begin{tabularx}{\textwidth}{|c||R|R|R|R|}
                         \hline
-                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c|}{\textbf{Czas trwania eksperymentu}} \\ \cline{2-5}
-                                        & \textbf{BZ} & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} \\ \hline \hline
+                        \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{4}{|c|}{\textbf{Execution time [s]}} \\ \cline{2-5}
+                                        & \textbf{NP} & \textbf{NW} & \textbf{$k$-mer} & \textbf{ANN} \\ \hline \hline
                                         1 & 7107 & \textbf{6025} & 6087 & 6077\\ \hline
                                         2 & 6129 & 5994 & \textbf{5988} & 6035\\ \hline
                                         4 & 6108 & \textbf{5983} & 6024 & 6019\\ \hline
@@ -584,214 +573,100 @@
                     \end{tabularx}
                 \end{table}
 
-                \begin{table}\centering
-                    \caption{Wykorzystanie procesora oraz pamięci.}\label{Table:Experiment:Resources}
-                    \begin{tabularx}{\textwidth}{|c||R|R|R|R||R|R|R|R|}
-                        \hline
-                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{4}{|c||}{\textbf{Wykorzystanie procesora [proc.]}} & \multicolumn{4}{|c|}{\textbf{Wykorzystanie pamięci [MB]}} \\ \cline{2-9}
-                                        & \textbf{BZ} & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} & \textbf{BZ} & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} \\ \hline \hline
-                                        1 & \textbf{14} & \textbf{14} & \textbf{14} & \textbf{14} & 37954 & 37451 & 39191 & \textbf{41120}\\ \hline
-                                        2 & \textbf{15} & 14 & 14 & 14 & 37584 & 37493 & 38081 & \textbf{40567}\\ \hline
-                                        4 & \textbf{16} & 14 & 14 & 14 & 37632 & 37510 & 38150 & \textbf{40701}\\ \hline
-                                        8 & \textbf{18} & 14 & 15 & 13 & 37590 & 37545 & 38119 & \textbf{40685}\\ \hline
-                                        16 & \textbf{22} & 15 & 16 & 17 & 37596 & 37509 & 38133 & \textbf{40781}\\ \hline
-                                        32 & \textbf{21} & 15 & 16 & 15 & 37846 & 37589 & 38115 & \textbf{40766}\\ \hline
-                                        64 & \textbf{21} & 17 & 17 & 17 & 37798 & 37604 & 37963 & \textbf{40706}\\ \hline
-                                        128 & \textbf{26} & 21 & 20 & 19 & 37476 & 37638 & 37973 & \textbf{40396}\\ \hline
-                                        256 & \textbf{32} & 25 & 22 & 20 & 37539 & 37667 & 37957 & \textbf{40385}\\ \hline
-                                        512 & \textbf{38} & 33 & 25 & 23 & 37465 & 37590 & 37929 & \textbf{40414}\\ \hline
-                                        1024 & \textbf{53} & 44 & 21 & 19 & 37462 & 37591 & 37876 & \textbf{40490}\\ \hline
-                                        2048 & 61 & \textbf{70} & 24 & 22 & 37424 & 37607 & \textbf{37907} & 33674\\ \hline
-                                        4096 & 68 & \textbf{96} & 29 & 24 & 37463 & 37504 & \textbf{37900} & 17106\\ \hline
-                    \end{tabularx}
-                \end{table}
+                \paragraph{Conclusions}
+                The method using the modified Needleman-Wunsch algorithm exhibited the fastest increase in execution time for taxonomic classification. The sharp rise is due to the time-consuming process of comparing sequences with each other. Despite reducing the number of sequences being classified, the execution time using this method exceeded that of taxonomic classification for all sequences.
 
-            \paragraph{Wnioski}
-                Metoda z wykorzystaniem zmodyfikowanego algorytmu Needlemana-Wunscha zgodnie z oczekiwaniami cechowała się najszybszym wzrostem czasu wykonania klasyfikacji taksonomicznej. Gwałtowny wzrost spowodowany jest porównywanie sekwencji każda z każdą przez budowę macierzy podobieństwa. Pomimo redukcji ilości sekwencji, które poddawane są klasyfikacji, czas wykonania tą metodą przekroczył klasyfikację taksonomiczną wszystkich sekwencji bez wykorzystania potoku przetwarzania.
+                The methods using $k$-mer embeddings and ANNs showed comparable execution times, with a slight advantage for the former. Both methods use sequence representations for comparison, resulting in a slower increase in the time needed to build the dissimilarity matrix. These methods performed faster than taxonomic classification for all sequences. In the case of the ANN, the shorter execution time for $4096$ sequences could be due to the simultaneous computation of embeddings for all sequences using the GPU.
 
-                Metody z wykorzystaniem zanurzeń $k$-merów oraz sztucznej sieci neuronowej cechowały się porównywalnymi czasami wykonania z lekką przewagą dla pierwszej metody. Obie metody działały szybciej od klasyfikacji taksonomicznej bez wykorzystania potoku przetwarzania. Metody do porównywania wykorzystują reprezentacje sekwencji, co spowodowało powolniejszy wzrost czasu wykonania klasyfikacji taksonomicznej. W przypadku metody ze sztuczną siecią neuronową krótszy czas wykonania dla $4096$ sekwencji może być spowodowany obliczaniem zanurzeń dla wszystkich sekwencji jednocześnie za pomocą karty graficznej.
+            \subsubsection{Experiment 2: Taxonomic classification quality}
 
-                W przypadku wykorzystania zasobów zauważono wzrost średniego wykorzystania procesora przez klasyfikację taksonomiczną z wykorzystaniem zaimplementowanych metod w miarę wzrostu czasu wykonania klasyfikacji, co jest związane ze znacznym nakładem obliczeniowym podczas tworzenia macierzy niepodobieństwa, której złożoność tworzenia rośnie kwadratowo wraz z liczbą sekwencji.
+                \paragraph{Objective}
+                Examining the quality of taxonomic classification using the implemented methods in comparison to the taxonomic classification of all sequences.
 
-                Zauważalne również jest większe wykorzystanie pamięci RAM przez metodę ze sztuczną siecią neuronową, co spowodowane jest koniecznością wczytania modelu sztucznej sieci neuronowej do pamięci.
-
-        \subsubsection{Eksperyment 2: Jakość klasyfikacji taksonomicznej}
-
-            \paragraph{Cel}
-                Celem drugiego eksperymentu było zbadanie jakości klasyfikacji taksonomicznej z wykorzystaniem zaimplementowanych metod względem klasyfikacji taksonomicznej wszystkich sekwencji. Zbadano również tworzone grupy przez zaimplementowane metody.
-
-            \paragraph{Założenia}
-
+                \paragraph{Assumptions}
                 \begin{enumerate}
                     \item {
-                        Proces tworzenia grup przebiega deterministycznie.
+                        Sequences clustering is deterministic.
                     }
                     \item {
-                        Program \texttt{BLASTn} działa deterministycznie, zwracając dla danej sekwencji i zadanych parametrów zawsze te same wyniki.
+                        \texttt{BLASTn} is deterministic and always returns the same results for a given sequence and specified parameters.
                     }
                     \item {
-                        W przypadku braku możliwości obliczenia jakości dla danego przebiegu klasyfikacji taksonomicznej za wartość jakości przyjęto $0$, wartość ta nie jest brana pod uwagę w przypadku obliczania średniej jakości ważonej.
+                        In the case where it is not possible to compute the quality for a given taxonomic classification run, a quality value of $0$ is assumed. This value is not considered when calculating the weighted average quality.
                     }
                 \end{enumerate}
 
-            \paragraph{Wyniki}
-                Obliczono jakość klasyfikacji za pomocą miary wyrażonej wzorem~\ref{Equation:Quality} dla zaimplementowanych metod względem pełnej klasyfikacji taksonomicznej. Na rysunku~\ref{Picture:Experiment:Quality} przedstawiono wykres jakości klasyfikacji w zależności od ilości sekwencji wejściowych, szczegółowe wyniki jakości umieszczono w tabeli~\ref{Table:Experiment:Quality}. Średnia ważona jakość obliczona za pomocą wzoru~\ref{Equation:WeightedAverageQuality} dla metody ze zmodyfikowanym algorytmem Needlemana-Wunscha wyniosła $0,899$, dla metody z zanurzeniami $k$-merów wyniosła $0,921$, natomiast dla metody z wykorzystaniem sztucznej sieci neuronowej $0,944$. Na rysunku~\ref{Picture:Experiment:RelativeQualityNMI} przedstawiono wykres jakości względnej grup obliczony za pomocą wzoru~\ref{Equation:NMI}, natomiast na rysunku~\ref{Picture:Experiment:RelativeQualitySensitivity} przedstawiono wykres czułości obliczonej za pomocą wzoru~\ref{Equation:Sensitivity} reprezentantów grup. Szczegółowe wyniki znajdują się odpowiednio w tabeli~\ref{Table:Experiment:RelativeQualityNMI} oraz tabeli~\ref{Table:Experiment:RelativeQualitySensitivity}.
+                \paragraph{Results}
+                The quality of the classification was calculated using the measure expressed by equation~\ref{Equation:Quality} for the implemented methods in comparison to the full taxonomic classification. Figure~\ref{Picture:Experiment:Quality} shows a graph of classification quality as a function of the number of input sequences, with detailed quality results provided in Table~\ref{Table:Experiment:Quality}. The weighted average quality calculated using equation~\ref{Equation:WeightedAverageQuality} for the method with the modified Needleman-Wunsch algorithm was $0.899$, for the $k$-mer embedding method it was $0.921$, and for the method using the artificial neural network, it was $0.944$.
 
                 \begin{figure}[!htb]
                     \begin{center}
-                        \includegraphics[width=\textwidth]{tex/pictures/exp/experiment_quality.png}
+                        \includegraphics[width=\textwidth]{pictures/experiment_quality.png}
                     \end{center}
                     \caption{
-                        Jakość klasyfikacji taksonomicznej.
+                        Taxonomic classification quality.
                     }\label{Picture:Experiment:Quality}
                 \end{figure}
 
                 \begin{table}\centering
-                    \caption{Jakość klasyfikacji taksonomicznej.}\label{Table:Experiment:Quality}
+                    \caption{Taxonomic classification quality.}\label{Table:Experiment:Quality}
 
                     \begin{tabularx}{\textwidth}{|c|R|R|R|}
                         \hline
-                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{3}{|c|}{\textbf{Metoda}} \\ \cline{2-4}
-                        & \textbf{NW} & \textbf{$k$-mer} & \textbf{SSN} \\ \hline \hline
-                        1 & \textbf{1,0} & \textbf{1,0} & \textbf{1,0}\\ \hline
-                        2 & 0,27 & \textbf{0,73} & \textbf{0,73}\\ \hline
-                        4 & \textbf{0,8} & 0,2 & 0,2\\ \hline
-                        8 & \textbf{0,94} & 0,88 & 0,12\\ \hline
-                        16 & 0,82 & 0,82 & \textbf{0,94}\\ \hline
-                        32 & 0,88 & \textbf{0,92} & 0,87\\ \hline
-                        64 & 0,93 & \textbf{0,94} & 0,93\\ \hline
-                        128 & 0,89 & 0,87 & \textbf{0,91}\\ \hline
-                        256 & 0,89 & 0,89 & \textbf{0,93}\\ \hline
-                        512 & 0,73 & 0,76 & \textbf{0,94}\\ \hline
-                        1024 & \textbf{0,95} & 0,93 & \textbf{0,95}\\ \hline
-                        2048 & 0,92 & \textbf{0,95} & 0,92\\ \hline
-                        4096 & 0,0 & 0,93 & \textbf{0,96}\\ \hline
+                        \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{3}{|c|}{\textbf{Method}} \\ \cline{2-4}
+                        & \textbf{NW} & \textbf{$k$-mer} & \textbf{ANN} \\ \hline \hline
+                        1 & \textbf{1.0} & \textbf{1.0} & \textbf{1.0}\\ \hline
+                        2 & 0.27 & \textbf{0.73} & \textbf{0.73}\\ \hline
+                        4 & \textbf{0.8} & 0.2 & 0.2\\ \hline
+                        8 & \textbf{0.94} & 0.88 & 0.12\\ \hline
+                        16 & 0.82 & 0.82 & \textbf{0.94}\\ \hline
+                        32 & 0.88 & \textbf{0.92} & 0.87\\ \hline
+                        64 & 0.93 & \textbf{0.94} & 0.93\\ \hline
+                        128 & 0.89 & 0.87 & \textbf{0.91}\\ \hline
+                        256 & 0.89 & 0.89 & \textbf{0.93}\\ \hline
+                        512 & 0.73 & 0.76 & \textbf{0.94}\\ \hline
+                        1024 & \textbf{0.95} & 0.93 & \textbf{0.95}\\ \hline
+                        2048 & 0.92 & \textbf{0.95} & 0.92\\ \hline
+                        4096 & 0.0 & 0.93 & \textbf{0.96}\\ \hline
                     \end{tabularx}
                 \end{table}
 
-                \begin{figure}[!htb]
-                    \begin{center}
-                        \includegraphics[width=\textwidth]{tex/pictures/exp/experiment_relative_quality_nmi.png}
-                    \end{center}
-                    \caption{
-                       Jakość względna grup wykorzystywanych w klasyfikacji taksonomicznej.
-                    }\label{Picture:Experiment:RelativeQualityNMI}
-                \end{figure}
+                \paragraph{Conclusions}
+                All implemented methods achieved very good classification quality results, exceeding $0.7$ in cases where the number of groups was significantly larger than the number of input sequences. The weighted average quality for all methods also reached a high value.
 
-                \begin{figure}[!htb]
-                    \begin{center}
-                        \includegraphics[width=\textwidth]{tex/pictures/exp/experiment_relative_quality_sensitivity.png}
-                    \end{center}
-                    \caption{
-                       Czułość między reprezentantami grup wykorzystanych w klasyfikacji taksonomicznej.
-                    }\label{Picture:Experiment:RelativeQualitySensitivity}
-                \end{figure}
-
-                \begin{table}\centering
-                    \caption{Jakość względna grup wykorzystywanych w klasyfikacji taksonomicznej.}\label{Table:Experiment:RelativeQualityNMI}
-
-                    \begin{tabularx}{\textwidth}{|c|R|R||R|}
-                        \hline
-                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{3}{|c|}{\textbf{Metoda}} \\ \cline{2-4}
-                        & \textbf{NW - $k$-mer} & \textbf{NW - SSN} & \textbf{$k$-mer - SSN} \\ \hline \hline
-                        1 & 1 & 1 & 1\\ \hline
-                        2 & 1 & 1 & 1\\ \hline
-                        4 & 0,346 & 0,151 & 0,346\\ \hline
-                        8 & 0,128 & 1,0 & 0,128\\ \hline
-                        16 & 0,46 & 0,405 & 0,531\\ \hline
-                        32 & 0,328 & 0,449 & 0,429\\ \hline
-                        64 & 0,331 & 0,32 & 0,409\\ \hline
-                        128 & 0,346 & 0,309 & 0,296\\ \hline
-                        256 & 0,301 & 0,288 & 0,32\\ \hline
-                        512 & 0,284 & 0,255 & 0,283\\ \hline
-                        1024 & 0,262 & 0,25 & 0,251\\ \hline
-                        2048 & 0,242 & 0,218 & 0,227\\ \hline
-                        4096 & 0,234 & 0,202 & 0,217\\ \hline
-                    \end{tabularx}
-                \end{table}
-
-                \begin{table}\centering
-                    \caption{Czułość między reprezentantami grup wykorzystanych w klasyfikacji taksonomicznej.}\label{Table:Experiment:RelativeQualitySensitivity}
-
-                    \begin{tabularx}{\textwidth}{|c|R|R||R|}
-                        \hline
-                        \multirow{2}{*}{\textbf{Liczba sekwencji}} & \multicolumn{3}{|c|}{\textbf{Metoda}} \\ \cline{2-4}
-                        & \textbf{NW - $k$-mer} & \textbf{NW - SSN} & \textbf{$k$-mer - SSN} \\ \hline \hline
-                        1 & 1,0 & 1,0 & 1,0\\ \hline
-                        2 & 0,0 & 0,0 & 1,0\\ \hline
-                        4 & 0,5 & 0,0 & 0,5\\ \hline
-                        8 & 0,0 & 0,5 & 0,0\\ \hline
-                        16 & 0,75 & 0,0 & 0,0\\ \hline
-                        32 & 0,0 & 0,2 & 0,0\\ \hline
-                        64 & 0,25 & 0,125 & 0,125\\ \hline
-                        128 & 0,0 & 0,0 & 0,091\\ \hline
-                        256 & 0,125 & 0,062 & 0,062\\ \hline
-                        512 & 0,136 & 0,0 & 0,0\\ \hline
-                        1024 & 0,031 & 0,0 & 0,031\\ \hline
-                        2048 & 0,067 & 0,0 & 0,022\\ \hline
-                        4096 & 0,031 & 0,0 & 0,0\\ \hline
-                    \end{tabularx}
-                \end{table}
-
-            \paragraph{Wnioski}
-                Wszystkie zaimplementowane metody osiągnęły bardzo dobre wyniki jakości klasyfikacji, przekraczając $0,7$, w przypadkach, gdy liczba grup była znacznie większa od ilości sekwencji wejściowych. Średnia jakość ważona dla wszystkich metod również osiągnęła wysoką wartość.
-                Metoda z wykorzystaniem sztucznej sieci neuronowej osiągnęła najlepszy wynik średniej jakości ważonej, wyprzedzając nieznacznie metodę z zanurzeniami $k$-merów oraz metodę ze zmodyfikowanym algorytmem Needlamana-Wunscha. Wbrew oczekiwaniom, metoda Needlemana-Wunscha osiągnęła najniższy wynik spośród zaimplementowanych metod.
-                Metoda z wykorzystaniem sztucznej sieci neuronowej zawdzięcza swój wynik uwzględnieniu pełnej struktury sekwencji przez model, co pozwoliło na lepsze określenie niepodobieństwa między sekwencjami.
-                Powolny spadek znormalizowanej informacji wzajemnej wraz ze wzrostem ilości sekwencji wejściowych świadczy o tworzeniu coraz mniej podobnych grup przez algorytm grupowania w wyniku zastosowania różnych metod do wyznaczania niepodobieństwa. Najbardziej podobne zbiory grup były tworzone między metodą ze zmodyfikowanym algorytmem Needlemana-Wunscha a metodą z zanurzeniami $k$-merów.
-
-        \subsubsection{Analiza wyników}
-
-            Wyniki eksperymentów częściowo potwierdziły oczekiwania postawione na początku badań. Wszystkie metody osiągnęły zadowalającą jakość klasyfikacji taksonomicznej. Szczególnie dobrze wypadła metoda wykorzystująca sztuczną sieć neuronową, która osiągnęła najlepszą średnią ważoną jakość klasyfikacji jednocześnie zachowując czas wykonania porównywalny z metodą opartą na zanurzeniach $k$-merów. Metoda Needlemana-Wunscha nie spełniła oczekiwań, będąc najwolniejszą metodą i osiągając wbrew oczekiwaniom jednocześnie najgorsze wyniki jakości klasyfikacji. Niska jakość klasyfikacji taksonomicznej przy małej liczbie sekwencji wejściowych może wynikać z nieodpowiedniego wyboru reprezentantów grup, co jest spowodowane zbyt małą liczbą dostępnych sekwencji. Zaimplementowane metody powinny być więc stosowane jedynie w przypadkach, gdy liczba sekwencji wejściowych przekracza pewien próg i ich wykorzystanie realnie skraca czas procesu klasyfikacji taksonomicznej. Dla badanych danych warunek ten jest osiągnięty dla $128$ sekwencji, gdzie jakość klasyfikacji taksonomicznej wynosiła nie mniej niż $0,87$, a wykorzystanie dowolnej metody grupowania skraca czas o co najmniej 5 minut, co stanowi przyśpieszenie o $5\%$ względem klasyfikacji taksonomicznej wszystkich sekwencji.
-            }
+                The method using the artificial neural network achieved the best weighted average quality, slightly outperforming the $k$-mer embedding method and the method with the modified Needleman-Wunsch algorithm. The artificial neural network method owes its result to the model's consideration of the full sequence structure, which allowed for a better determination of dissimilarity between sequences.
 
     \clearpage
     \section{Discussion}
 
         \subsection{Interpretation of Results}
 
-            \temporary{
-                Wyniki eksperymentów częściowo potwierdziły oczekiwania postawione na początku badań. Wszystkie metody osiągnęły zadowalającą jakość klasyfikacji taksonomicznej. Szczególnie dobrze wypadła metoda wykorzystująca sztuczną sieć neuronową, która osiągnęła najlepszą średnią ważoną jakość klasyfikacji jednocześnie zachowując czas wykonania porównywalny z metodą opartą na zanurzeniach $k$-merów. Metoda Needlemana-Wunscha nie spełniła oczekiwań, będąc najwolniejszą metodą i osiągając wbrew oczekiwaniom jednocześnie najgorsze wyniki jakości klasyfikacji. Niska jakość klasyfikacji taksonomicznej przy małej liczbie sekwencji wejściowych może wynikać z nieodpowiedniego wyboru reprezentantów grup, co jest spowodowane zbyt małą liczbą dostępnych sekwencji. Zaimplementowane metody powinny być więc stosowane jedynie w przypadkach, gdy liczba sekwencji wejściowych przekracza pewien próg i ich wykorzystanie realnie skraca czas procesu klasyfikacji taksonomicznej. Dla badanych danych warunek ten jest osiągnięty dla $128$ sekwencji, gdzie jakość klasyfikacji taksonomicznej wynosiła nie mniej niż $0,87$, a wykorzystanie dowolnej metody grupowania skraca czas o co najmniej 5 minut, co stanowi przyśpieszenie o $5\%$ względem klasyfikacji taksonomicznej wszystkich sekwencji.
-            }
-
-            \temporary{
-                Wykorzystanie sztucznej sieci neuronowej pozwoliło na poprawienie jakości klasyfikacji względem innych zastosowanych metod. Oprócz osiągnięcia dobrej jakości klasyfikacji nie odstaje ona od metod klasycznych.
-            }
+            The results of the experiments partially confirmed the expectations set at the beginning of the research. All methods achieved satisfactory taxonomic classification quality. The method utilizing the artificial neural network performed particularly well, achieving the best weighted average classification quality while maintaining execution time comparable to the method based on $k$-mer embeddings. The low taxonomic classification quality with a small number of input sequences may be due to the inappropriate selection of group representatives, caused by too few available sequences. Therefore, the implemented methods should only be used in cases where the number of input sequences exceeds a certain threshold, and their use significantly reduces the time required for the taxonomic classification process. For the data tested, this condition is met for $128$ sequences, where the taxonomic classification quality was no less than $0.87$, and the use of any grouping method reduced the time by at least 5 minutes, resulting in a $5\%$ acceleration compared to the taxonomic classification of all sequences. The use of the artificial neural network allowed for an improvement in classification quality compared to other methods. In addition to achieving good classification quality, it does not lag behind classical methods.
 
         \subsection{Limitations}
 
-            \temporary{
-                \subsubsection{Czasochłonność eksperymentów}
+            \subsubsection{Experiments Duration}
+                The full process of taxonomic classification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of number of experiments to single run and subset size to $4096$ sequences.
 
-            Przeprowadzenie całego procesu klasyfikacji taksonomicznej sekwencji DNA z wykorzystaniem narzędzia \texttt{BLASTn} w ramach eksperymentów dla każdej metody i każdego podzbioru eksperymentalnego było procesem czasochłonnym. Łączny czas wykonania eksperymentów opisanych w pracy wyniósł około 5 dni, co spowodowało ograniczenie liczby eksperymentów do jednego przebiegu i rozmiaru podzbioru eksperymentalnego do maksymalnie $4096$ sekwencji.
+            \subsubsection{Single Dataset}  
+                In work, only one sample from the chosen dataset was used. The selection of a sample containing DNA sequences from the human skin microbiome might have limited the space of analyzed sequences, which could have influenced the experimental results, as the both the artificial neural network and the experiments used DNA sequences from the same microbiome.
 
-        \subsubsection{Wykorzystanie jednego zbioru danych}
-
-            W pracy wykorzystano jedynie część dostępnego zbioru danych, ograniczając się do jednej próbki ze względu na jej duży rozmiar. Wybór próbki zawierającej sekwencje DNA pochodzące z mikrobiomu skóry człowieka mógł ograniczyć przestrzeń analizowanych sekwencji, co mogło wpłynąć na wyniki eksperymentów, ponieważ w eksperymentach również wykorzystano sekwencje DNA pochodzące z tego samego mikrobiomu.
-            
-            subsubsection{Złożoność obliczeniowa macierzy niepodobieństwa}
-
-            Czas budowy macierzy niepodobieństwa rośnie wprost proporcjonalnie do kwadratu liczby sekwencji, które zostały użyte do jej budowy. Macierz niepodobieństwa wykorzystywana przez algorytm grupowania w pracy była budowana dla wszystkich sekwencji wejściowych. Zastosowane podejście znacznie ogranicza liczbę możliwych sekwencji wejściowych ze względu na szybki wzrost czasu potrzebnego na tworzenie macierzy niepodobieństwa.
-            }
+            \subsubsection{Single Dissimilarity Matrix}
+                The use of a single dissimilarity matrix for all sequences limits the number of input sequences, as the matrix build time of matrix scales quadratically with the number of sequences.
 
         \subsection{Possible Improvements}
 
-            \temporary{
-                \subsubsection{Zmiana architektury modelu sztucznej sieci neuronowej}
+            \subsubsection{Architecture of Artificial Neural Network}
 
-            Stworzony model sztucznej sieci neuronowej wymaga sekwencji o stałej długości, co ogranicza elastyczność modelu w analizie sekwencji o różnych długościach i wymaga tworzenia nowego modelu dostosowanego do dłuższych sekwencji w przypadku znacznej różnicy między długościami sekwencji wejściowych a oczekiwanych przez model. Dodatkowo sekwencje krótsze niż wymagane wymagają wydłużenia do zadanej długości przez wypełnienie wybraną zasadą. W przyszłości można rozważyć zmianę architektury modelu sztucznej sieci neuronowej, dostosowując ją do analizy sekwencji o zmiennych długościach poprzez zastosowanie sieci rekurencyjnych lub typu LSTM w pierwszych warstwach modelu.
+                The proposed artificial neural network architecture is not flexible and is only suitable for analyzing sequences of similar lengths. It would be possible to modify the model's architecture to incorporate recurrent neural networks (RNNs) and transformers, enabling the processing of sequences with varying lengths. RNNs and transformers could replace the first part of the model, which currently relies on convolutional layers. They would be used to create embeddings, which would later be processed by linear layers to generate an embedding that preserves dissimilarity properties.
 
-        \subsubsection{Grupowanie sekwencji w paczkach}
+            \subsubsection{Batching sequences}
 
-            Ze względu na czasochłonność procesu budowy macierzy niepodobieństwa, na wstęp\-nym etapie sekwencje wejściowe mogłyby zostać poddane losowemu grupowaniu w paczki. Następnie, w ramach każdej paczki, przeprowadzony zostałby proces wyboru reprezentantów, tak jak ma to miejsce w obecnym podejściu. Zastosowanie wstępnego grupowania umożliwiłoby ominięcie budowy jednej dużej macierzy niepodobieństwa, co pozwoliłoby na analizę większej liczby sekwencji.
+                Creating a single dissimilarity matrix for very large samples is not optimal, as it significantly impacts the performance of the method. To address this issue, pre-clustering the sequences into batches can provide a solution. Processing in batches may reduce quality but allows for maintaining a short execution time.
 
-        \subsubsection{Wykonywanie obliczeń równolegle}
+            \subsubsection{Automatated Determination Of The Number of Groups}
 
-            Możliwa jest optymalizacja niektórych operacji wykonywanych w potoku przetwarzania poprzez zastosowanie obliczeń równoległych. Pierwszym elementem, w którym można wykorzystać obliczenia równoległe, jest budowa macierzy niepodobieństwa. Macierz tą można podzielić na fragmenty, które będą budowane równolegle i niezależnie. Drugą zmianą jest modyfikacja potoku przetwarzania, która pozwalałaby na równoczesne wykonywanie niektórych etapów, bez konieczności oczekiwania na zakończenie obliczeń w innych częściach potoku. Przykładem takiego etapu jest wyliczanie zanurzeń, które mogłoby być wykorzystywane bezpośrednio do budowy macierzy niepodobieństwa bez oczekiwania na obliczenie wszystkich zanurzeń.
-
-        \subsubsection{Automatyczny dobór liczby grup}
-
-            Obecne podejście wymaga doboru liczby tworzonych grup przez algorytm grupowania. Liczba grup bezpośrednio determinuje liczbę reprezentantów, którzy będą poddani klasyfikacji taksonomicznej i ma wpływ na jakość oraz czas wykonania całego procesu. Możliwe byłoby zastosowanie lub stworzenie algorytmu, który automatycznie dobierałby liczbę tworzonych grup na podstawie macierzy niepodobieństwa oraz miar jakości tworzonych grup. Automatyczne dostosowanie liczby grup pozwoliłoby na zwiększenie jakości klasyfikacji w przypadku bardzo różnych sekwencji wejściowych bez spowalniania procesu dla zbiorów sekwencji bardzo podobnych.
-            }
+                Current approach takes the number of created groups as a parameter, which can influence the quality of the results. For very similar sequences, a large number of groups is excessive and does not improve the results. Conversely, for highly diverse sequences, a low number of groups can reduce quality. Automating the determination of the optimal number of grousp could solve the issue and minimize the need for fine-tuning 
 
     \clearpage
     \section{Conclusions and Future Work}
