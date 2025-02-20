@@ -148,84 +148,103 @@
 
         \subsection{Overview of Existing Approaches}
 
-            \temporary{
-                Badania nad klasyfikacją taksonomiczną sekwencji DNA cechują się dynamicznym rozwojem w ciągu ostatnich 25 lat. Wprowadzenie metod sekwencjonowania nowej generacji pozwoliło na analizę dużych ilości materiału genetycznego pochodzącego z różnych środowisk. Optymalizacja procesu klasyfikacji taksonomicznej stała się głównym kierunkiem rozwoju narzędzi do klasyfikacji, szczególnie w przypadku narzędzi opartych na bazach danych sekwencji genetycznych, ponieważ liczba sekwencji w tych bazach podwaja się średnio co 30 miesięcy~\cite{Benson:2008}.
+            Historically, one of the first algorithms that enabled taxonomic classification was the Needleman-Wunsch algorithm \cite{Needleman:1970}, developed in 1970, which allowed for the comparison of genetic sequences. However, the first solution that enabled taxonomic classification within a reasonable time frame was a tool created in 1983 by D. Lipman and W. Wilbur \cite{Wilbur:1983}. This method was based on dividing sequences into $k$-tuples, a generalization of $k$-mers, and comparing them. An advancement of this approach was the BLAST algorithm, introduced in 1990 \cite{Altschul:1990}, which also relied on $k$-mers and allowed for the efficient search of similar sequences in NCBI databases.
 
-        Historycznie jednym z pierwszych algorytmów, który umożliwił klasyfikację taksonomiczną był algorytm Needlemana-Wunscha\cite{Needleman:1970} opracowany w 1970 roku, który pozwalał na porównywanie sekwencji genetycznych. Jednak pierwszym rozwiązaniem, które pozwalało na klasyfikację taksonomiczną w rozsądnym czasie, było narzędzie stworzone w 1983 roku przez D. Lipmana i W. Wilbura\cite{Wilbur:1983}. Bazowało ono na podziale sekwencji na $k$-krotki, które są uogólnieniem $k$-merów i ich porównywaniu. Rozwinięciem tego rozwiązania był algorytm ,,BLAST'' przedstawiony w 1990 roku\cite{Altschul:1990} bazujący na $k$-merach oraz umożliwiający wyszukiwanie sekwencji podobnych w bazach NCBI. Innym podejściem powstałym w podobnym okresie było narzędzie ,,Clustal''\cite{Higgins:1988} stworzone w 1988 roku, które pozwalało na wyrównywanie wielu sekwencji genetycznych.
+            The most significant progress in research, however, has occurred over the past 15 years. A notable example is the development of the MetaPhlAn tool in 2012 \cite{Segata:2012}, which uses marker genes to compare the species composition of metagenomic samples. Another marker gene-based approach is mOTUs2 \cite{Milanese:2019}, which identifies and analyzes markers unique to specific microbial strains. A different technique was employed in Centrifuge \cite{Kim:2016}, developed in 2016, which utilizes sequence indexing based on the Burrows-Wheeler transform \cite{Burrows:1994} and the Ferragina-Manzini index \cite{Ferragina:2000} for efficient sequence retrieval.
+        
+            A more classical approach is used in Kraken \cite{Wood:2014}, introduced in 2014, which combines $k$-mers with an indexed sequence database. An unconventional method for taxonomic classification was proposed in 2022 with BERTax \cite{Mock:2022}, which applies a transformer model \cite{Transformers} to DNA sequence analysis, treating DNA as a specialized language and allowing for classification without the need for reference databases. Another machine learning-based solution is CGRclust \cite{Alipour:2024}, which clusters DNA sequences using a two-dimensional chaos game representation and integrates unsupervised contrastive learning with convolutional neural networks.
 
-        Największy postęp w badaniach nastąpił jednak w ciągu ostatnich 15 lat, czego przykładem jest utworzenie w 2012 roku narzędzia ,,MetaPhlAn''\cite{Segata:2012}, które wykorzystuje geny wskaźnikowe do porównywania składu gatunkowego próbek metagenomicznych. Kolejnym podejściem opartym na genach wskaźnikowych jest narzędzie ,,mOTUs2''\cite{Milanese:2019}, które bazuje na identyfikacji i analizie markerów unikalnych dla specyficznych szczepów mikroorganizmów. Inne podejście zostało zastosowane w narzędziu ,,Centrifuge''\cite{Kim:2016} opracowanym w 2016 roku, które wykorzystuje indeksowanie sekwencji za pomocą transformacji Burrowsa-Wheelera\cite{Burrows:1994} oraz indeksu Ferraginy-Manziniego\cite{Ferragina:2000} w celu efektywne wyszukiwania sekwencji podobnych. Bardziej klasyczne podejście zostało zastosowane w narzędziu ,,Kraken''\cite{Wood:2014} przedstawionym w 2014 roku, które wykorzystuje $k$-mery wraz z indeksowaną bazą sekwencji.
+        \subsection{Comparative Analysis}
 
-        Inną metodę optymalizacji procesu klasyfikacji taksonomicznej przedstawili Gautier i Lund w 2013 roku\cite{Gautier:2013}. Ich metoda opierała się na rozproszonej architekturze, w której serwer zwracał wskazówki dotyczące możliwych sekwencji do analizy na podstawie losowo wybranych sekwencji wejściowych, co pozwoliło na redukcję przesyłanych danych przez sieć. Nietypowe podejście do zadania klasyfikacji taksonomicznej przedstawiono w 2022 roku w narzędziu ,,BERTax''\cite{Mock:2022}. Narzędzie to wykorzystuje model typu transformer\cite{Transformers} do analizy sekwencji DNA, traktując je jako specyficzny język, na podstawie którego można dokonać przypisania bez potrzeby korzystania z baz referencyjnych. Kolejnym rozwiązaniem wykorzystującym modele uczenia maszynowego jest narzędzie ,,CGRclust''\cite{Alipour:2024}, które grupuje sekwencje DNA za pomocą dwuwymiarowej reprezentacji gier chaosu, łącząc nienadzorowane uczenie kontrastowe ze splotowymi sieciami neuronowymi.
-            }
-
-        \subsection{Comparatie Analysis}
-
-            \temporary{
-                Algorytmy bazujące na jakości wyrównania dają dobre wyniki, ale działają bardzo wolno.
-                Algorytmy bazujące na $k$-merach działają szybko, ale nie uwzgledniają ukrytych wzorów w sekwencjach genetycznych
-            }
+            Algorithms based on $k$-mers are very fast, but they do not take into account all the information about the structure of the input genetic sequences, which reduces their quality. Solutions using marker genes are characterized by good quality, but they allow analysis only for subsets of organisms for which marker genes are known. Alignment-based tools should yield the best results, but they require significant computational resources.
 
         \subsection{Research Gaps}
 
-            \temporary{
-                Choć w ostatnich latach pojawiły się badania dotyczące klasyfikacji taksonomicznej z wykorzystaniem metod uczenia maszynowego, to wciąż brakuje prac skupiających się na zastosowaniu sztucznych sieci neuronowych z uczeniem kontrastowym do efektywnego grupowania sekwencji, co mogłoby znacząco przyspieszyć proces klasyfikacji przy użyciu dostępnych narzędzi.
-            }
+            Although recent years have seen studies on taxonomic classification using machine learning methods, there is still a lack of research focusing on the application of artificial neural networks with contrastive learning for efficient sequence clustering. Such an approach could significantly accelerate the classification process using available tools.
 
     \clearpage
     \section{Methodology}
 
-        \subsection{Problem Definition}
+        \subsection{Proposed Approach}
+
+            The proposed method involves reducing the dimensionality of input DNA sequences to a feature vector in the form of $\mathbb{R}^{64}$ using an artificial neural network. The neural network employs contrastive learning, which enables the learning of representations while preserving dissimilarity between sequences. The dissimilarity between sequence representations will be calculated using cosine dissimilarity, expressed by the formula in equation \eqref{Equation:CosineDissimilarity}.
+
+            Additionally, two classical approaches will be implemented in the work, which will be used for comparison with the neural network.
+
+            \subsubsection{Modified Needleman-Wunshc Algorithm}
+
+                The first classical approach is the Needleman-Wunsch algorithm. This algorithm allows for global alignment of genetic sequences. It uses a similarity matrix between sequences, which is constructed according to the rules given in equation~\eqref{Equation:NeedlemanWunsch}. A modification of the approach presented in equation~\eqref{Equation:NeedlemanWunschModified} is applied in the work.
+
+                \begin{equation}
+                    \begin{aligned}
+                        D_{i,0} &= i \cdot g, & \text{dla } & i \in [1, n + 1] \\
+                        D_{0,j} &= j \cdot g, & \text{dla } & j \in [2, m + 1] \\
+                        D_{i,j} &= \max
+                        \begin{cases}
+                            D_{i - 1, j} + g \\
+                            D_{i, j - 1} + g \\
+                            D_{i - 1, j - 1} + s(A_i, B_j)
+                        \end{cases}, & \text{dla } & i \in (1, n + 1] \text{ oraz } j \in (1, m + 1]
+                    \end{aligned}
+                    \label{Equation:NeedlemanWunsch}
+                \end{equation}
+    
+                where:
+                \begin{align*}
+                    A, B -& \text{compared sequences}, \\
+                    n, m -& \text{lengths of sequences } A \text{ and } B, \\
+                    D -& \text{similarity matrix of size } n + 1 \text{ x } m + 1, \\
+                    g \in \mathbb{R} -& \text{penalty for a gap}, \\
+                    s(A_i, B_j) \in \mathbb{R} -& \text{similarity between the } i\text{-th element in sequence A and the } j\text{-th element in sequence B}.
+                \end{align*}
+
+                \begin{equation}
+                    \begin{aligned}
+                        D_{i,j} &= \min
+                        \begin{cases}
+                        D_{i - 1, j} + g \\
+                        D_{i, j - 1} + g \\
+                        D_{i - 1, j - 1} + s(A_{i - 1}, B_{j - 1})
+                        \end{cases}, & \text{dla } & i \in \left(1, n + 1\right] \text{ oraz } j \in \left(1, m + 1\right] \\
+                    \end{aligned}
+                    \label{Equation:NeedlemanWunschModified}
+                \end{equation}
+    
+                In the solution, the following parameter values were adopted:
+                \begin{align*}
+                    g &= 2, \\
+                    s(a, b) &= \begin{cases}
+                        0, & \text{dla } a = b, \\
+                        1, & \text{dla } a \neq b.
+                    \end{cases}
+                \end{align*}
+
+            \subsubsection{$k$-mer embeddings}
+
+                The second approach will be the use of $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. These vectors will then be compared using Euclidean distance.
+                
+            \subsubsection{Artificial Neural Network}
+
+                \paragraph{Architecture}
+
+                \paragraph{Input data}
+
+                \paragraph{Dataset}
+
+                \paragraph{Loss function}
+
+                \paragraph{Learning}
+
+                \paragraph{Quality}
+
+                \paragraph{Results of Learning}
+
 
             \temporary{
-                Klasyfikacja taksonomiczna:
+                    
+                \subsubsection{Sztuczna sieć neuronowa}
 
-                Dla zbioru sekwencji A, szukamy takiego zbioru organizmów, że 
-
-                \[
-                    \forall a \in A \exists b \in B \text{ takie, że } a \text{ jest lokalnie podobne do } b_{sequence}
-                \]
-            }
-
-        \subsection{Proposed Approach / Algorithm / Model}
-
-            \temporary{
-                W pracy zostaną wykorzystane dwa klasyczne podejścia do klasyfikacji taksonomicznej sekwencji genetycznych. Pierwsze z nich opiera się na wyrównaniu sekwencji, przy czym zostanie wykorzystany zmodyfikowany algorytm Needlemana-Wunscha. Drugie podejście wykorzystuje $k$-mery, w którym do obliczeń zostana zastosowane proste zanurzenia oraz odległość euklidesowa.
-
-                \subsubsection{Algorytm Needlemana-Wunscha}
-        
-                    Algorytm Needlemana-Wunscha jest klasycznym algorytmem do wyrównywania globalnego sekwencji genetycznych. Metoda ta polega na zbudowaniu macierzy podobieństwa między sekwencjami zgodnie z ustalonymi regułami, które zostały przedstawione w równaniu~\eqref{Equation:NeedlemanWunsch}. W przypadku klasyfikacji taksonomicznej do dalszych obliczeń wystarczy wartość jakości dopasowania zawarta w $D_{n + 1, m + 1}$.
-        
-                    \begin{equation}
-                        \begin{aligned}
-                            D_{i,0} &= i \cdot g, & \text{dla } & i \in [1, n + 1] \\
-                            D_{0,j} &= j \cdot g, & \text{dla } & j \in [2, m + 1] \\
-                            D_{i,j} &= \max
-                            \begin{cases}
-                                D_{i - 1, j} + g \\
-                                D_{i, j - 1} + g \\
-                                D_{i - 1, j - 1} + s(A_i, B_j)
-                            \end{cases}, & \text{dla } & i \in (1, n + 1] \text{ oraz } j \in (1, m + 1]
-                        \end{aligned}
-                        \label{Equation:NeedlemanWunsch}
-                    \end{equation}
-        
-                    gdzie:
-                    \begin{align*}
-                        A, B -& \text{porównywane sekwencje}, \\
-                        n, m -& \text{długości sekwencji } A \text{ oraz } B, \\
-                        D -& \text{macierz podobieństwa o rozmiarach } n + 1 \text{ x } m + 1, \\
-                        g \in \mathbb{R} -& \text{kara za przerwę}, \\
-                        s(A_i, B_j) \in \mathbb{R} -& \text{podobieństwo między } i \text{-tym elementem w sekwencji A,} \\
-                        & \text{a } j \text{-tym elementem w sekwencji B}. \\
-                    \end{align*}
-        
-                \subsubsection{Zanurzenia $k$-merów}
-        
-                    Wykorzystanie $k$-merów w roli zanurzeń pozwala na reprezentację sekwencji DNA w postaci wektorów liczbowych, które można porównywać za pomocą różnych miar, takich jak na przykład odległość euklidesowa. Wektory liczbowe pozwalają na kompaktową reprezentację długich sekwencji, co znacznie przyśpiesza procesy grupowania sekwencji oraz klasyfikacji taksonomicznej. Metoda ta jest obecnie jedną z najpopularniejszych metod stosowanych do klasyfikacji taksonomicznej z wykorzystaniem baz danych, ponieważ cechuje się wysoką prędkością działania oraz pozwala uzyskać dobre wyniki. Obecne narzędzia wykorzystują różne miary, parametry $k$ oraz dodatkowe mechanizmy do dalszej optymalizacji tej metody.
-
-                    \subsubsection{Sztuczna sieć neuronowa}
-
-            Nową zaproponowaną metodą jest wykorzystanie sztucznej sieci neuronowej do redukcji wymiarowości wejściowych sekwencji DNA do postaci wektora cech o wymiarze $\mathbb{R}^{64}$. Sztuczna sieć neuronowa wykorzystuje uczenie kontrastowe, które umożliwia naukę reprezentacji danych wejściowych z zachowaniem własności podobieństwa oraz niepodobieństwa między wejściowymi sekwencjami. Niepodobieństwo między sekwencjami zostanie obliczone poprzez obliczenie niepodobieństwa kosinusowego wyrażonego wzorem~\eqref{Equation:CosineDissimilarity} między wektorami cech sekwencji DNA.
+            
 
             \paragraph{Architektura}
                 Architektura modelu sztucznej sieci neuronowej składa się z dwóch bloków splotowych oraz bloku perceptronów wielowarstwowych. Każdy z bloków splotowych zawiera warstwę splotową oraz warstwę normalizacji wsadowej i jest odpowiedzialny za ekstrakcję niskopoziomowych cech sekwencji. Ostatni blok splotowy jest połączony z blokiem perceptronów wielowarstwowych za pomocą warstwy spłaszczającej. Blok perceptronów wielowarstwowych odpowiada za tworzenie reprezentacji sekwencji, składa się z trzech warstw, które wykorzystują funkcję aktywacji GELU\cite{Hendrycks:2016}, z wyjątkiem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$.
@@ -404,47 +423,22 @@
 
         \subsection{Implementation Details}
 
-            \temporary{
-                \subsubsection{Języki programowania}
+            The work used the Python programming language\cite{Python} in scripts that automate some tasks related to neural network learning, and the Rust programming language\cite{Rust}, which was used to implement the solution.
 
-            W pracy wykorzystano języki programowania Rust\cite{Rust} oraz Python\cite{Python}.
+            The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of taxonomic classification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.  
 
-            Język Python był wykorzystywany w początkowych fazach rozwoju pracy jako narzędzie do prototypowania rozwiązania oraz w ostatecznej wersji pracy do stworzenia skryptów automatyzujących niektóre czynności związane z nauką sieci neuronowej, oraz do generowania wykresów. Został on wybrany ze względu na bogatą bibliotekę standardową, dostępność wielu bibliotek zewnętrznych oraz uniwersalność.
-
-            Język Rust został użyty do stworzenia wszystkich aplikacji oraz programów. Wybrany został ze względu na wysokość wydajność, bezpieczne zarządzanie pamięcią oraz dużą dostępność bibliotek programistycznych, które można zainstalować za pomocą menedżera pakietów \textit{cargo}\cite{Rust:cargo} dołączonego wraz ze środowiskiem języka Rust. Dodatkowymi atutami, które przyczyniły się do wyboru języka, jest bogaty system typów oraz kompilacja do kodu maszynowego.
-
-        \subsubsection{Biblioteki programistyczne}
-
-            Aplikację internetową zrealizowano z wykorzystaniem biblioteki \textit{axum}\cite{Rust:axum} opartej na asynchronicznym środowisku wykonawczym \textit{tokio}\cite{Rust:tokio} języka Rust.
-            Do generowania zawartości stron w formacie HTML wykorzystano silnik szablonów \textit{askama}\cite{Rust:askama}. Komunikację z bazą danych zapewniła biblioteka \textit{sqlx}\cite{Rust:sqlx}. Użyto dodatkowo biblioteki \textit{dotenv}\cite{Rust:dotenv} w celu załadowania zmiennych środowiskowych z pliku, które niezbędne są do prawidłowego działania aplikacji.
-
-            Aplikacja konsolowa została oparta na bibliotece \textit{clap}\cite{Rust:clap}, która pozwoliła na zdefiniowanie interfejsu użytkownika, w postaci dostępnych poleceń wraz z parametrami.
-
-            Biblioteka \textit{exquisitor-core} korzysta z biblioteki \textit{kmedoids}\cite{Schubert:2022}, która implementuje grupowanie $k$-medoidów oraz bibliotek pomocniczych \textit{num-traits}, \textit{tempfiles} oraz \textit{float-cmp}, które wykorzystywane są w testach jednostkowych.
-
-            Model sieci neuronowej został zbudowany przy użyciu biblioteki \textit{burn}\cite{Rust:burn} oraz silnika obliczeniowego \textit{wgpu}.
-
-            Ponadto w obu aplikacjach oraz bibliotece wykorzystywana jest biblioteka \textit{serde}\cite{Rust:serde} umożliwiającą kodowanie i dekodowanie danych do różnych formatów, oraz biblioteka \textit{rand}\cite{Rust:rand} zapewniająca generator liczb pseudolosowych.
-
-        \subsubsection{Narzędzia}
-
-            W pracy zostały wykorzystane następujące narzędzia:
+            The console application was implemented using the \textit{clap} library\cite{Rust:clap}. In library the $k$-medoid algorithm was provided by the \textit{kmedoids} library\cite{Rust:kmedoids}, and the neural network was built using the \textit{burn} library\cite{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library\cite{Rust:axum} with \textit{tokio}\cite{Rust:axum} async environment.
+                
+            Additionally, the following tools were used in the work:
             \begin{itemize}
-                \item \textit{cargo} jako menedżer pakietów i system budowania w Rust;
-                \item \textit{rustup} do automatycznego zarządzania wersjami Rust;
-                \item \textit{clippy} do statycznej analizy kodu w Rust;
-                \item \textit{rustfmt} do automatycznego formatowania kodu źródłowego w Rust;
-                \item \textit{cargo test} do przeprowadzania testów jednostkowych;
-                \item \textit{git} jako system kontroli wersji, umożliwiający śledzenie zmian oraz zarządzanie historią kodu.
+                \item \textit{cargo} as the package manager and build system in Rust;
+                \item \textit{rustup} for automatic management of Rust versions;
+                \item \textit{clippy} for static code analysis in Rust;
+                \item \textit{rustfmt} for automatic formatting of Rust source code;
+                \item \textit{cargo test} for conducting unit tests;
+                \item \textit{git} as the version control system, enabling change tracking and code history management.
             \end{itemize}
-            }
-
-        \subsection{Complexity Analysis}
-
-            \temporary{
-                Efektywność rozwiązania będzie badana w eksperymentach.
-            }
-
+        
     \clearpage
     \section{Experiments and Results}
 
@@ -576,7 +570,7 @@
                 \paragraph{Conclusions}
                 The method using the modified Needleman-Wunsch algorithm exhibited the fastest increase in execution time for taxonomic classification. The sharp rise is due to the time-consuming process of comparing sequences with each other. Despite reducing the number of sequences being classified, the execution time using this method exceeded that of taxonomic classification for all sequences.
 
-                The methods using $k$-mer embeddings and ANNs showed comparable execution times, with a slight advantage for the former. Both methods use sequence representations for comparison, resulting in a slower increase in the time needed to build the dissimilarity matrix. These methods performed faster than taxonomic classification for all sequences. In the case of the ANN, the shorter execution time for $4096$ sequences could be due to the simultaneous computation of embeddings for all sequences using the GPU.
+                The methods using $k$-mer embeddings and ANN showed comparable execution times, with a slight advantage for the former. Both methods use sequence representations for comparison, resulting in a slower increase in the time needed to build the dissimilarity matrix. These methods performed faster than taxonomic classification for all sequences. In the case of the ANN, the shorter execution time for $4096$ sequences could be due to the simultaneous computation of embeddings for all sequences using the GPU.
 
             \subsubsection{Experiment 2: Taxonomic classification quality}
 
@@ -666,7 +660,7 @@
 
             \subsubsection{Automatated Determination Of The Number of Groups}
 
-                Current approach takes the number of created groups as a parameter, which can influence the quality of the results. For very similar sequences, a large number of groups is excessive and does not improve the results. Conversely, for highly diverse sequences, a low number of groups can reduce quality. Automating the determination of the optimal number of grousp could solve the issue and minimize the need for fine-tuning 
+                Current approach takes the number of created groups as a parameter, which can influence the quality of the results. For very similar sequences, a large number of groups is excessive and does not improve the results. Conversely, for highly diverse sequences, a low number of groups can reduce quality. Automating the determination of the optimal number of groups could solve the issue and minimize the need for fine-tuning 
 
     \clearpage
     \section{Conclusions and Future Work}
