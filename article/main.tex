@@ -101,24 +101,14 @@
 % endregion
 
 \begin{document}
-    % List of figures
-    \renewcommand*\l@figure{\@dottedtocline{1}{0.5em}{2.25em}}
-    \newcommand{\listoffigurestoc}{
-        \listoffigures
-        \addcontentsline{toc}{section}{\listfigurename}
-    }
-
-    % List of tables
-    \renewcommand*\l@table{\@dottedtocline{1}{0.5em}{2.25em}}
-    \newcommand{\listoftablestoc}{
-        \listoftables
-        \addcontentsline{toc}{section}{\listtablename}
-    }
 
     \title{Title of article}
     \author{Patryk Filip Gryz}
 
     \maketitle
+
+    \textbf{Abstract}
+    The discovery of DNA revolutionized biology and medicine, enabling molecular research and disease diagnosis. Key milestones include the 1953 discovery of the DNA double helix by Watson and Crick, and the 1977 sequencing of bacteriophage X174, which highlighted the need for computational analysis of DNA sequences. As sequencing costs decreased with next-generation methods, computational demands increased. This study explores using artificial neural networks (ANN) for taxonomic classification of large DNA sequence datasets. The proposed ANN model identifies representative sequences for classification, reducing computational complexity while maintaining accuracy. Experiments show that the ANN model improves classification quality and efficiency compared to traditional methods. This research demonstrates the potential of ANNs to enhance taxonomic classification, reducing time and increasing result quality. Future work may involve integrating ANNs for dimensionality reduction in genetic sequence analysis, further advancing bioinformatics.
 
     \clearpage
     \section{Introduction}
@@ -226,30 +216,11 @@
             \subsubsection{Artificial Neural Network}
 
                 \paragraph{Architecture}
+                The ANN model consists of two parts. The first part comprises two convolutional blocks with batch normalization and is responsible for feature extraction from the sequence. The second part utilizes fully connected layers with dropout and the GELU activation function \cite{Hendrycks:2016} and is connected to the first part of the model via a flattening layer.
 
-                \paragraph{Input data}
+                The model output is the output of the final linear layer, which is a feature vector of dimension \( \mathbb{R}^{64} \).
 
-                \paragraph{Dataset}
-
-                \paragraph{Loss function}
-
-                \paragraph{Learning}
-
-                \paragraph{Quality}
-
-                \paragraph{Results of Learning}
-
-
-            \temporary{
-                    
-                \subsubsection{Sztuczna sieć neuronowa}
-
-            
-
-            \paragraph{Architektura}
-                Architektura modelu sztucznej sieci neuronowej składa się z dwóch bloków splotowych oraz bloku perceptronów wielowarstwowych. Każdy z bloków splotowych zawiera warstwę splotową oraz warstwę normalizacji wsadowej i jest odpowiedzialny za ekstrakcję niskopoziomowych cech sekwencji. Ostatni blok splotowy jest połączony z blokiem perceptronów wielowarstwowych za pomocą warstwy spłaszczającej. Blok perceptronów wielowarstwowych odpowiada za tworzenie reprezentacji sekwencji, składa się z trzech warstw, które wykorzystują funkcję aktywacji GELU\cite{Hendrycks:2016}, z wyjątkiem ostatniej warstwy. Wyjściem całego modelu jest wektor cech o wymiarze $\mathbb{R}^{64}$.
-
-                Schematycznie architektura została przedstawiona na rysunku~\ref{Picture:NeuralModel}.
+                Schematically, the architecture is presented in Figure~\ref{Picture:NeuralModel}.
 
                 \begin{figure}[!htb]
                     \begin{center}
@@ -324,102 +295,57 @@
                         }
                     \end{center}
                     \caption{
-                        Schemat architektury sieci neuronowej.
+                        Diagram of ANN architecture.
                     }\label{Picture:NeuralModel}
                 \end{figure}
 
-            \paragraph{Dane wejściowe}
-                Wejściem modelu są sekwencje DNA o długości $150$, które są zakodowane do postaci wektora o wymiarach $1$ x $600$ za pomocą kodu 1 z n\cite{HarrisDavid:2007}.
+                \paragraph{Input}
+                The input to the model consists of DNA sequences of length $150$, which are encoded into a vector of dimensions $1 \times 600$ using one-hot encoding \cite{HarrisDavid:2007}.
 
-            \paragraph{Przykłady uczące}
-                Przykłady uczące oraz walidacyjne składają się z kotwicy (ang. \textit{anchor}), sekwencji pozytywnej (ang. \textit{positive}), czyli podobnej do kotwicy oraz sekwencji negatywnej (ang. \textit{negative}) niepodobnej do kotwicy.
+                \paragraph{Training Examples}
+                The training and validation examples consist of an anchor, a positive sequence that is similar to the anchor, and a negative sequence that is dissimilar to the anchor.
 
-            \paragraph{Zbiór danych}
+                \paragraph{Dataset}
                 Zbiór danych uczących oraz walidacyjnych został stworzony na podstawie pierwszej próbki sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019}. Próbka zawiera symulowane dane metagenomiczne z mikrobiomu skóry człowieka. Przykłady zostały uzyskane poprzez losowanie kotwic ze zbioru oraz modyfikację tych kotwic w celu stworzenia sekwencji pozytywnej i negatywnej. Modyfikacja polegała na zamianie punktowej danego nukleotydu na inny. W przypadku sekwencji pozytywnej zmiana obejmowała od $0\%$ do $20\%$ długości kotwicy, natomiast w przypadku sekwencji negatywnej od $20\%$ do $80\%$ długości kotwicy.
 
-            \paragraph{Funkcja straty}
-                Wykorzystano funkcję straty zdefiniowaną jako:
+                \paragraph{Loss function}
+                The loss function used is defined as:
 
                 \begin{equation}
                     \text{Strata kontrastowa} = [m_{pos} - s_{pos}]_{+} + [s_{neg} - m_{neg}]_{+}
                 \end{equation}
 
-                gdzie:
+                where:
                 \begin{align*}
-                    m_{pos} &- \text{margines podobieństwa między sekwencją pozytywną a kotwicą,} \\
-                    m_{neg} &- \text{margines podobieństwa między sekwencją negatywną a kotwicą,} \\
-                    s_{pos} &- \text{podobieństwo kosinusowe sekwencji pozytywnej do kotwic,} \\
-                    s_{pos} &- \text{podobieństwo kosinusowe sekwencji negatywnej do kotwic.} \\
+                    m_{pos} &- \text{similarity margin between the positive sequence and the anchor,} \\
+                    m_{neg} &- \text{similarity margin between the negative sequence and the anchor,} \\
+                    s_{pos} &- \text{cosine similarity of the positive sequence to the anchor,} \\
+                    s_{pos} &- \text{cosine similarity of the negative sequence to the anchor.} \\
                 \end{align*}
+                
+                \paragraph{Learning}
+                The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimizer used was \textit{AdamW}\cite{Loshchilov2017DecoupledWD}.
 
-            \paragraph{Proces uczenia}
-                Proces uczenia modelu sieci neuronowej został przeprowadzony na zbiorze $10^{6}$ przykładów uczących oraz $10^{4}$ przykładów walidacyjnych.
-                W procesie wykorzystano optymalizator \textit{AdamW}\cite{Loshchilov2017DecoupledWD} z wykładniczym spadkiem współczynnika uczenia oraz zanikiem wag (ang. \textit{weight decay}).
+                \paragraph{Quality}
+                As a measure of model quality, the contrastive loss of the model was computed on the validation set.
 
-            \paragraph{Miara jakości}
-                Jako miarę jakości modelu wykorzystano stratę kontrastową modelu obliczoną na zbiorze walidacyjnym.
+                \paragraph{Parameters}
+                Experiments were conducted to determine the optimal training parameters for the artificial neural network model. The tested parameters included the learning rate coefficient \( \lambda \), weight decay \( w \), the coefficient \( \gamma \) used in the exponential learning rate decay, the dropout rate, and the effectiveness of using three perceptron layers.
 
-            \paragraph{Parametry procesu uczenia}
-                Przeprowadzono eksperymenty w celu określenia optymalnych parametrów uczenia modelu sztucznej sieci neuronowej. Sprawdzono parametry współczynnika uczenia $\lambda$, zaniku wag $w$, współczynnika $\gamma$ stosowanego w wykładniczym spadku współczynnika uczenia, parametr wyłączania neuronów oraz stosowność trzech warstw perceptronów. W wyniku eksperymentów wybrano najlepsze parametry: $\lambda = 10^{-6}$, $w = $, $\gamma=0.99999$, współczynnik wyłączenia neuronów na poziomie $0.5$ oraz stwierdzono pozytywny wpływ zastosowania trzech warstw perceptronów.
-                Wykorzystano również funkcję straty z parametrami: $m_{pos} = 1.0$, $m_{neg} = 0.25$.
+                As a result of these experiments, the best parameters were selected:
+                \[
+                \lambda = 10^{-6}, \quad w = , \quad \gamma = 0.99999
+                \]
+                a dropout rate of \( 0.5 \), and a confirmed positive impact of using three perceptron layers.
 
-            \paragraph{Wyniki procesu uczenia}
+                Additionally, the loss function was used with the following parameters:
+                \[
+                m_{pos} = 1.0, \quad m_{neg} = 0.25.
+                \]
 
-                W wyniku procesu uczenia modelu sztucznej sieci neuronowej, po 3 epokach uzyskano model, który osiągnął stratę równą $0.117$ na zbiorze walidacyjnym. Liczba epok została wybrana na podstawie analizy procesu uczenia, w którym po tej liczbie epok zaobserwowano nadmierne dopasowywanie się modelu (ang. \textit{overfitting}).
 
-
-            Pełne wykorzystanie sztucznej sieci neuronowej w grupowaniu sekwencji zostało przedstawione na rysunku~\ref{Picture:Cluster:Neural}. Czerwonym obramowaniem oznaczono element wykorzystujący sztuczną sieć neuronową.
-
-            \begin{figure}[!htb]
-                \begin{center}
-                    {
-                    % ===== BEGIN =====
-                    % ----- -----
-                    % COLORS
-                    % ----- -----
-                    \definecolor{Green}{HTML}{1dd1a1}
-                    \definecolor{Blue}{HTML}{54a0ff}
-                    \definecolor{Yellow}{HTML}{feca57}
-                    \definecolor{Purple}{HTML}{5f27cd}
-                    \definecolor{Grey}{HTML}{576574}
-                    \definecolor{Red}{HTML}{ff6b6b}
-                    \definecolor{Pink}{HTML}{ff9ff3}
-                    \definecolor{Background}{HTML}{c8d6e5}
-
-                    % ----- -----
-                    % ELEMENTS
-                    % ----- -----
-                    \tikzstyle{Circle} = [circle, minimum size=1cm, line width=2pt, draw=black]
-                    \tikzstyle{Box} = [rectangle, minimum width=10cm, minimum height=1.5cm, line width=2pt, text centered, inner sep=10pt, draw=black]
-                    \tikzstyle{Arrow} = [very thick, -Triangle]
-                    \tikzstyle{Arrow:Text} = [pos=0.5, right, font=\footnotesize]
-
-                    % ----- -----
-                    % PICTURE
-                    % ----- -----
-                    \begin{tikzpicture}[node distance=3cm]
-                        \node (input) [Circle] { Wejście };
-                        \node (embed) [Box, below of=input, align=center, draw=Red] { 1. Otrzymanie wektorów cech \\ \textbf{za pomocą sieci neuronowej} };
-                        \node (distance) [Box, below of=embed, align=center] { 2. Obliczenie niepodobieństwa \\ między wektorami cech };
-                        \node (matrix) [Box, below of=distance] { 3. Stworzenie macierzy niepodobieństwa };
-                        \node (cluster) [Box, below of=matrix, align=center] { 4. Grupowanie sekwencji \\ \textbf{za pomocą algorytmu k-medoidów}};
-                        \node (output) [Circle, below of=cluster] { Wyjście };
-
-                        \draw [Arrow] (input) -- (embed) node [Arrow:Text] {Zbiór sekwencji DNA};
-                        \draw [Arrow] (embed) -- (distance) node [Arrow:Text] {Wektory cech};
-                        \draw [Arrow] (distance) -- (matrix) node [Arrow:Text] {Niepodobieństwo sekwencji};
-                        \draw [Arrow] (matrix) -- (cluster) node [Arrow:Text] {Macierz niepodobieństwa};
-                        \draw [Arrow] (cluster) -- (output) node [Arrow:Text] {Grupy};
-                    \end{tikzpicture}
-
-                    % ===== END =====
-                    }
-                \end{center}
-                \caption{
-                    Schemat architektury sztucznej sieci neuronowej.
-                }\label{Picture:Cluster:Neural}
-            \end{figure}
-            }
+                \paragraph{Results of Learning}
+                As a result of training the neural network, the model achieved a validation set loss of $0.17$.
 
         \subsection{Implementation Details}
 
@@ -667,19 +593,10 @@
 
         \subsection{Summary of Findings}
 
-            \temporary{
-                Stworzone rozwiązanie zostało zaimplementowane przy użyciu języka Rust, a jego struktura została odpowiednio zorganizowana w moduły, które realizują poszczególne funkcjonalności i umożliwiają łatwe rozszerzanie aplikacji. Aplikacja konsolowa pozwala w bardzo prosty sposób na uruchomienie procesu analizy oraz ustawienie wszystkich parametrów dostępnych dla zaimplementowanych metod. Aplikacja przeglądarkowa umożliwia uruchomienie analizy przy użyciu najlepszego zestawu parametrów oraz wyświetlenie wyników w czytelnej dla użytkownika postaci.
-
-                Przeprowadzone eksperymenty wykazały, że nowa metoda oparta na sztucznych sieciach neuronowych pozwala na osiągnięcie wyższej jakości od metod klasycznych, jednocześnie zachowując czas wykonania porównywalny z metodą klasyczną wykorzystującą $k$-mery.
-            }
+            The experiments demonstrated that the method based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method. This highlights the potential of neural networks for improving performance without significant computational overhead.
 
         \subsection{Future Research Directions}
 
-            \temporary{
-                \subsubsection{Narzędzie do klasyfikacji taksonomicznej oparte o model sztucznej sieci neuronowej}
-
-                Narzędzia do klasyfikacji taksonomicznej w większości opierają się na obliczaniu podobieństwa między sekwencjami wejściowymi a sekwencjami znajdującymi się w bazie danych sekwencji w celu znalezienia sekwencji, które są podobne. Wykorzystane w eksperymentach narzędzie \texttt{BLASTn} wykorzystuje $k$-mery do określenia podobieństwa między sekwencjami. 
-                Grupowanie sekwencji, które zostało wykorzystane w pracy, wykonuje podobne operacje, do tych, które są wykonywane przez narzędzia do klasyfikacji taksonomicznej. Możliwe byłoby zatem stworzenie własnego narzędzia, które wykorzystywałoby bezpośrednio model sztucznej sieci neuronowej do określenia podobieństwa między sekwencjami i klasyfikacji taksonomicznej. Wykorzystanie sztucznych sieci neuronowych w przypadku wydajnej implementacji mogłoby pozwolić na osiągnięcie akceptowalnego czasu działania przy wyższej jakości.
-            }
+            Future research could focus on utilizing artificial neural networks as an independent tool for taxonomic classification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses.
 
 \end{document}
