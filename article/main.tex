@@ -244,48 +244,7 @@
                 \paragraph{Results of Learning}
                 As a result of training the neural network, the model achieved a validation set loss of $0.17$.
 
-        \subsection{Implementation Details}
-            The work used the Python programming language\cite{Python} in scripts that automate some tasks related to neural network learning, and the Rust programming language\cite{Rust}, which was used to implement the solution.
-
-            The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of taxonomic classification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.  
-
-            The console application was implemented using the \textit{clap} library\cite{Rust:clap}. In library the $k$-medoid algorithm was provided by the \textit{kmedoids} library\cite{Rust:kmedoids}, and the neural network was built using the \textit{burn} library\cite{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library\cite{Rust:axum} with \textit{tokio}\cite{Rust:axum} async environment.
-                
-            Additionally, the following tools were used in the work:
-            \begin{itemize}
-                \item \textit{cargo} as the package manager and build system in Rust;
-                \item \textit{rustup} for automatic management of Rust versions;
-                \item \textit{clippy} for static code analysis in Rust;
-                \item \textit{rustfmt} for automatic formatting of Rust source code;
-                \item \textit{cargo test} for conducting unit tests;
-                \item \textit{git} as the version control system, enabling change tracking and code history management.
-            \end{itemize}
-
     \section{Results}
-
-        \subsection{Experimental Setup}
-            Experiments were conducted on the KVM based virtual machine with the specification given below:
-
-            \begin{itemize}
-                \item{
-                    \textbf{Operating System:} Ubuntu 22.04 LTS;
-                }
-                \item{
-                    \textbf{Processor:} 4 virtual cores of Intel Core i7-6850K;
-                }
-                \item{
-                    \textbf{RAM Memory:} 40 GB;
-                }
-                \item{
-                    \textbf{Graphics Card:} Nvidia GeForce GTX 1080 TI;
-                }
-                \item{
-                    \textbf{Disk:} 1 TB network drive with a read speed of 1 Gbps;
-                }
-                \item{
-                    \textbf{Software:} \texttt{BLAST} package version 2.16.0 and graphics card drivers.
-                }
-            \end{itemize}
 
         \subsection{Datasets}
             \subsubsection{Dataset Description}
