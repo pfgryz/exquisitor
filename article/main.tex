@@ -1,172 +1,107 @@
-\documentclass{article}
+\documentclass[pdflatex,referee,lineno,sn-vancouver-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+
+
+\usepackage{amsfonts}%
+\usepackage{mathrsfs}%
+\usepackage[title]{appendix}%
+\usepackage{textcomp}%
+\usepackage{manyfoot}%
+\usepackage{booktabs}%
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
 
 \usepackage{xcolor}
-\usepackage{tcolorbox}     % Color boxes
+%\usepackage{tcolorbox}     % Color boxes
 \usepackage{amsmath}       % Basic mathematical typesetting
 \usepackage{amssymb}       % Advanced math symbols
 \usepackage{amsthm}        % Theorems typesetting
-\usepackage{array}         % Advanced table column formats
-\usepackage{enumitem}      % Itemize/enumrate
-\usepackage{fancyhdr}      % Custom header/footer styles
-\usepackage{fourier}       % Adobe Utopia font
+%\usepackage{array}         % Advanced table column formats
+%\usepackage{enumitem}      % Itemize/enumrate
+%\usepackage{fancyhdr}      % Custom header/footer styles
+%\usepackage{fourier}       % Adobe Utopia font
 \usepackage{graphicx}      % Enhanced images support
-\usepackage{ifluatex}      % LuaTeX-specific options
-\usepackage{kantlipsum}    % English kantian-style lipsum
-\usepackage{lipsum}        % Lorem ipsum
+%\usepackage{ifluatex}      % LuaTeX-specific options
+%\usepackage{kantlipsum}    % English kantian-style lipsum
+%\usepackage{lipsum}        % Lorem ipsum
 \usepackage{listings}      % Code listings
-\usepackage{longtable}     % Multi-page tables
-\usepackage{multirow}      % Advanced table cells
-\usepackage{setspace}      % Set space between lines
-\usepackage{scrextend}     % Allows \addmargin environment
-\usepackage{tablefootnote} % Table footnotes
-\usepackage{tocloft}       % Custom ToC/LoF/LoT
-\usepackage{url}           % URL-sensitive line breaks
-\usepackage{xspace}        % Remove duplicated spaces
+%\usepackage{longtable}     % Multi-page tables
+%\usepackage{multirow}      % Advanced table cells
+%\usepackage{setspace}      % Set space between lines
+%\usepackage{scrextend}     % Allows \addmargin environment
+%\usepackage{tablefootnote} % Table footnotes
+%\usepackage{tocloft}       % Custom ToC/LoF/LoT
+%\usepackage{url}           % URL-sensitive line breaks
+%\usepackage{xspace}        % Remove duplicated spaces
 \usepackage{tabularx}
 
-\setstretch{1.15}
-\setlength{\parindent}{5mm}
-\counterwithin{equation}{section}
-\counterwithin{figure}{section}
-\counterwithin{table}{section}
-\setcounter{tocdepth}{3}
-\setcounter{secnumdepth}{3}
-
-% List formatting
-\setlist[itemize,1]{topsep=2pt,label=\large$\bullet$, leftmargin=28pt}
-\setlist[itemize,2]{topsep=2pt,leftmargin=18pt}
-\setlist[itemize,3]{topsep=2pt,leftmargin=18pt}
-\setlist[enumerate,1]{topsep=2pt,leftmargin=24pt}
-\setlist[enumerate,2]{topsep=2pt,leftmargin=16pt}
-\setlist[enumerate,3]{topsep=2pt,leftmargin=16pt}
-
-% TabularX columns
-\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
-
-% Biber
-\usepackage[
-    backend=biber,
-    style=ieee
-]{biblatex}
-\addbibresource{bibliography.bib}
-
-% Tikz
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning}
-
-% region LuaLatex Scripts
-
-% Script from: https://github.com/ArturB/WUT-Thesis
-\usepackage{ifluatex}      % LuaTeX-specific options
-\ifluatex
-    \usepackage[T1]{fontenc}
-    \usepackage[utf8]{luainputenc}
-    \usepackage{luacode}
-    % In LuaTeX, we can prevent one-letter words
-    % from beging at the end of the line.
-    \begin{luacode}
-    local debug = false
-    local glyph_id = node.id "glyph"
-    local glue_id  = node.id "glue"
-    local hlist_id = node.id "hlist"
-
-    local prevent_single_letter = function (head)
-        while head do
-            if head.id == glyph_id then
-                if unicode.utf8.match(unicode.utf8.char(head.char),"%a") then     -- is a letter
-                    if head.prev.id == glue_id and head.next.id == glue_id then   -- is one letter word
-
-                        local p = node.new("penalty")
-                        p.penalty = 10000
-
-                        if debug then
-                            local w = node.new("whatsit","pdf_literal")
-                            w.data = "q 1 0 1 RG 1 0 1 rg 0 0 m 0 5 l 2 5 l 2 0 l b Q"
-                            node.insert_after(head,head,w)
-                            node.insert_after(head,w,p)
-                        else
-                            node.insert_after(head,head,p)
-                        end
-                    end
-                end
-            end
-            head = head.next
-        end
-        return true
-    end
-
-    luatexbase.add_to_callback("pre_linebreak_filter",prevent_single_letter,"~")
-    \end{luacode}
-\fi
-
-% endregion
-
-% region Custom Tags
-
-\newcommand{\temporary}[1]{
-    \begin{tcolorbox}[colframe=red, colback=white, title={\textbf{WERSJA PO POLSKU}}, sharp corners=south]
-        #1
-    \end{tcolorbox}
-}
-
-% endregion
 
 \begin{document}
 
-    \title{Title of article}
-    \author{Patryk Filip Gryz}
+    %%=============================================================%%
+    %% TITLE
+    %%=============================================================%%
+
+    \title[Article Title]{Article Title}
+
+    %%=============================================================%%
+    %% AUTHOR(S)
+    %%=============================================================%%
+
+    \author*[1]{\fnm{Patryk Filip} \sur{Gryz}}\email{patryk.gryz.stud@pw.edu.pl}
+    
+    \affil*[1]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{100190}, \state{State}, \country{Country}}}
+
+    %%=============================================================%%
+    %% ABSTRACT
+    %%=============================================================%%
+
+    \abstract{Up to 350 words: background, results, conclusions}
+
+    %%=============================================================%%
+    %% KEYWORDS
+    %%=============================================================%%
+
+    \keywords{Key1, Key2, Key3}
 
     \maketitle
 
-    \textbf{Abstract}
-    The discovery of DNA revolutionized biology and medicine, enabling molecular research and disease diagnosis. Key milestones include the 1953 discovery of the DNA double helix by Watson and Crick, and the 1977 sequencing of bacteriophage X174, which highlighted the need for computational analysis of DNA sequences. As sequencing costs decreased with next-generation methods, computational demands increased. This study explores using artificial neural networks (ANN) for taxonomic classification of large DNA sequence datasets. The proposed ANN model identifies representative sequences for classification, reducing computational complexity while maintaining accuracy. Experiments show that the ANN model improves classification quality and efficiency compared to traditional methods. This research demonstrates the potential of ANNs to enhance taxonomic classification, reducing time and increasing result quality. Future work may involve integrating ANNs for dimensionality reduction in genetic sequence analysis, further advancing bioinformatics.
+    %%=============================================================%%
+    %% SECTIONS
+    %%=============================================================%%
 
-    % \clearpage
-    \section{Introduction}
+    \section{Background}
+        The discovery of DNA marked the beginning of a new era in biology and medicine, enabling research into the molecular foundations of life and the precise diagnosis of many diseases\cite{Louie:2000}. In 1953, the structure of the DNA double helix was discovered by Watson and Crick\cite{Watson:1953}. In 1970, Francis Crick formulated the central dogma of molecular biology\cite{Crick:1970}, which states that genetic information flows from DNA to RNA and then to proteins, forming the foundation of modern molecular biology. In 1977, the complete genetic material of the DNA virus — bacteriophage $\phi{}$X174 was sequenced\cite{Sanger:1977:2}. This discovery highlighted the limitations of traditional analysis methods and demonstrated the need for computers to process DNA sequences\cite{Staden:1979}. In the 1980s, the European "EBML Data Library" was funded\cite{Higgins:1992}, and in 1982, the United States launched "GenBank"\cite{Bilofsky:1986}. In 1998, Jo Handelsman proposed the analysis of genetic material from many organisms simultaneously, without the need for cultivation, with his team studying organisms present in soil\cite{Handelsman:1998}. The use of information about genetic material found in the environment, combined with sequence databases, enables the identification of organisms present in a given sample. However, the process of analyzing large numbers of DNA sequences and comparing them to databases requires significant computational resources. With the development of next-generation sequencing methods\cite{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analyzed has increased\cite{Muir:2016}. Further accumulation of sequence data and increasing sequencing throughput lead to a growing demand for computational resources.
 
-        \subsection{Background}
-
-            The discovery of DNA marked the beginning of a new era in biology and medicine, enabling research into the molecular foundations of life and the precise diagnosis of many diseases\cite{Louie:2000}. In 1953, the structure of the DNA double helix was discovered by Watson and Crick\cite{Watson:1953}. In 1970, Francis Crick formulated the central dogma of molecular biology\cite{Crick:1970}, which states that genetic information flows from DNA to RNA and then to proteins, forming the foundation of modern molecular biology. In 1977, the complete genetic material of the DNA virus — bacteriophage $\phi{}$X174 was sequenced\cite{Sanger:1977:2}. This discovery highlighted the limitations of traditional analysis methods and demonstrated the need for computers to process DNA sequences\cite{Staden:1979}. In the 1980s, the European "EBML Data Library" was funded\cite{Higgins:1992}, and in 1982, the United States launched "GenBank"\cite{Bilofsky:1986}. In 1998, Jo Handelsman proposed the analysis of genetic material from many organisms simultaneously, without the need for cultivation, with his team studying organisms present in soil\cite{Handelsman:1998}. The use of information about genetic material found in the environment, combined with sequence databases, enables the identification of organisms present in a given sample. However, the process of analyzing large numbers of DNA sequences and comparing them to databases requires significant computational resources. With the development of next-generation sequencing methods\cite{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analyzed has increased\cite{Muir:2016}. Further accumulation of sequence data and increasing sequencing throughput lead to a growing demand for computational resources.
-        
         \subsection{Motivation}
-
             The time required for taxonomic classification of large sequence datasets using traditional tools, such as BLAST, can span several hours, even for relatively small collections of sequences e.g. 4096 sequences. In many fields, artificial neural networks (ANN) have demonstrated the ability to outperform classical heuristic algorithms, offering faster and more accurate results. By leveraging the capabilities of ANN, this works aims to accelerate taxonomic clasisfication process while maintaining at least the same level of quality as traditional methods.
 
         \subsection{Objectives}
-    
             The primary objective of this study is to leverage an artificial neural network to support the selection of representative genetic sequences for taxonomic classification. Instead of classifying entire environmental genetic sequences sample, the proposed approach focuses on identifying a subset of sequences that best represent the sample. These selected representatives are then classified, reducing computational complexity while maintaining classification accuracy.
 
         \subsection{Main Contributions}
-
             This paper introduces a novel artificial neural network model for calculating dissimilarities between genetic sequences, which can be used in clustering algorithm to select representative sequences for taxonomic classification. We provide all the necessary components for training the model, including dataset preparation, batch process, a loss function, and a training loop. The paper also includes an application that can perform taxonomic classification with specified parameters. Furthermore, we develope a library that allows users to compose the taxonomic classification pipelines.
 
         \subsection{Structure of the Paper}
-
             The rest of the paper is organized as follows. Section 2 provides a description of related work, reviewing previous research on taxonomic classification and highlights a research gap. Section 3 defines the problem, presents the proposed approach, and provides detailed implementation details. Section 4 describes the experimental setup, including used datasets, the performance metrics for evaluation, and the results obtained from experiments with analysis. Section 5 interprets the results, discusses the limtiations of proposed approach, and explores possible improvements for future work. Finally, Section 6 concludes the paper by summarizing the main findings and suggesting potential directions for future research.
 
-    % \clearpage
-    \section{Related Work}
+        \subsection{Related Work}
+            \subsection{Overview of Existing Approaches}
+                Historically, one of the first algorithms that enabled taxonomic classification was the Needleman-Wunsch algorithm \cite{Needleman:1970}, developed in 1970, which allowed for the comparison of genetic sequences. However, the first solution that enabled taxonomic classification within a reasonable time frame was a tool created in 1983 by D. Lipman and W. Wilbur \cite{Wilbur:1983}. This method was based on dividing sequences into $k$-tuples, a generalization of $k$-mers, and comparing them. An advancement of this approach was the BLAST algorithm, introduced in 1990 \cite{Altschul:1990}, which also relied on $k$-mers and allowed for the efficient search of similar sequences in NCBI databases.
 
-        \subsection{Overview of Existing Approaches}
+                The most significant progress in research, however, has occurred over the past 15 years. A notable example is the development of the MetaPhlAn tool in 2012 \cite{Segata:2012}, which uses marker genes to compare the species composition of metagenomic samples. Another marker gene-based approach is mOTUs2 \cite{Milanese:2019}, which identifies and analyzes markers unique to specific microbial strains. A different technique was employed in Centrifuge \cite{Kim:2016}, developed in 2016, which utilizes sequence indexing based on the Burrows-Wheeler transform \cite{Burrows:1994} and the Ferragina-Manzini index \cite{Ferragina:2000} for efficient sequence retrieval.
+            
+                A more classical approach is used in Kraken \cite{Wood:2014}, introduced in 2014, which combines $k$-mers with an indexed sequence database. An unconventional method for taxonomic classification was proposed in 2022 with BERTax \cite{Mock:2022}, which applies a transformer model \cite{Transformers} to DNA sequence analysis, treating DNA as a specialized language and allowing for classification without the need for reference databases. Another machine learning-based solution is CGRclust \cite{Alipour:2024}, which clusters DNA sequences using a two-dimensional chaos game representation and integrates unsupervised contrastive learning with convolutional neural networks.
 
-            Historically, one of the first algorithms that enabled taxonomic classification was the Needleman-Wunsch algorithm \cite{Needleman:1970}, developed in 1970, which allowed for the comparison of genetic sequences. However, the first solution that enabled taxonomic classification within a reasonable time frame was a tool created in 1983 by D. Lipman and W. Wilbur \cite{Wilbur:1983}. This method was based on dividing sequences into $k$-tuples, a generalization of $k$-mers, and comparing them. An advancement of this approach was the BLAST algorithm, introduced in 1990 \cite{Altschul:1990}, which also relied on $k$-mers and allowed for the efficient search of similar sequences in NCBI databases.
+            \subsection{Comparative Analysis}
+                Algorithms based on $k$-mers are very fast, but they do not take into account all the information about the structure of the input genetic sequences, which reduces their quality. Solutions using marker genes are characterized by good quality, but they allow analysis only for subsets of organisms for which marker genes are known. Alignment-based tools should yield the best results, but they require significant computational resources.
 
-            The most significant progress in research, however, has occurred over the past 15 years. A notable example is the development of the MetaPhlAn tool in 2012 \cite{Segata:2012}, which uses marker genes to compare the species composition of metagenomic samples. Another marker gene-based approach is mOTUs2 \cite{Milanese:2019}, which identifies and analyzes markers unique to specific microbial strains. A different technique was employed in Centrifuge \cite{Kim:2016}, developed in 2016, which utilizes sequence indexing based on the Burrows-Wheeler transform \cite{Burrows:1994} and the Ferragina-Manzini index \cite{Ferragina:2000} for efficient sequence retrieval.
-        
-            A more classical approach is used in Kraken \cite{Wood:2014}, introduced in 2014, which combines $k$-mers with an indexed sequence database. An unconventional method for taxonomic classification was proposed in 2022 with BERTax \cite{Mock:2022}, which applies a transformer model \cite{Transformers} to DNA sequence analysis, treating DNA as a specialized language and allowing for classification without the need for reference databases. Another machine learning-based solution is CGRclust \cite{Alipour:2024}, which clusters DNA sequences using a two-dimensional chaos game representation and integrates unsupervised contrastive learning with convolutional neural networks.
+            \subsection{Research Gaps}
+                Although recent years have seen studies on taxonomic classification using machine learning methods, there is still a lack of research focusing on the application of artificial neural networks with contrastive learning for efficient sequence clustering. Such an approach could significantly accelerate the classification process using available tools.
 
-        \subsection{Comparative Analysis}
-
-            Algorithms based on $k$-mers are very fast, but they do not take into account all the information about the structure of the input genetic sequences, which reduces their quality. Solutions using marker genes are characterized by good quality, but they allow analysis only for subsets of organisms for which marker genes are known. Alignment-based tools should yield the best results, but they require significant computational resources.
-
-        \subsection{Research Gaps}
-
-            Although recent years have seen studies on taxonomic classification using machine learning methods, there is still a lack of research focusing on the application of artificial neural networks with contrastive learning for efficient sequence clustering. Such an approach could significantly accelerate the classification process using available tools.
-
-    % \clearpage
-    \section{Methodology}
+    \section{Methods}
 
         \subsection{Proposed Approach}
-
             The proposed method involves reducing the dimensionality of input DNA sequences to a feature vector in the form of $\mathbb{R}^{64}$ using an artificial neural network. The neural network employs contrastive learning, which enables the learning of representations while preserving dissimilarity between sequences. The dissimilarity between sequence representations will be calculated using cosine dissimilarity, expressed by the formula in equation \eqref{Equation:CosineDissimilarity}.
 
             \begin{equation}
@@ -195,23 +130,22 @@
             Additionally, two classical approaches will be implemented in the work, which will be used for comparison with the neural network.
 
             \subsubsection{Modified Needleman-Wunshc Algorithm}
-
                 The first classical approach is the Needleman-Wunsch algorithm. This algorithm allows for global alignment of genetic sequences. It uses a similarity matrix between sequences, which is constructed according to the rules given in equation~\eqref{Equation:NeedlemanWunsch}. A modification of the approach presented in equation~\eqref{Equation:NeedlemanWunschModified} is applied in the work.
 
                 \begin{equation}
                     \begin{aligned}
-                        D_{i,0} &= i \cdot g, & \text{dla } & i \in [1, n + 1] \\
-                        D_{0,j} &= j \cdot g, & \text{dla } & j \in [2, m + 1] \\
+                        D_{i,0} &= i \cdot g, & \text{for } & i \in [1, n + 1] \\
+                        D_{0,j} &= j \cdot g, & \text{for } & j \in [2, m + 1] \\
                         D_{i,j} &= \max
                         \begin{cases}
                             D_{i - 1, j} + g \\
                             D_{i, j - 1} + g \\
                             D_{i - 1, j - 1} + s(A_i, B_j)
-                        \end{cases}, & \text{dla } & i \in (1, n + 1] \text{ oraz } j \in (1, m + 1]
+                        \end{cases}, & \text{for } & i \in (1, n + 1] \text{ and } j \in (1, m + 1]
                     \end{aligned}
                     \label{Equation:NeedlemanWunsch}
                 \end{equation}
-    
+
                 where:
                 \begin{align*}
                     A, B -& \text{compared sequences}, \\
@@ -228,26 +162,24 @@
                         D_{i - 1, j} + g \\
                         D_{i, j - 1} + g \\
                         D_{i - 1, j - 1} + s(A_{i - 1}, B_{j - 1})
-                        \end{cases}, & \text{dla } & i \in \left(1, n + 1\right] \text{ oraz } j \in \left(1, m + 1\right] \\
+                        \end{cases}, & \text{for } & i \in \left(1, n + 1\right] \text{ and } j \in \left(1, m + 1\right] \\
                     \end{aligned}
                     \label{Equation:NeedlemanWunschModified}
                 \end{equation}
-    
+
                 In the solution, the following parameter values were adopted:
                 \begin{align*}
                     g &= 2, \\
                     s(a, b) &= \begin{cases}
-                        0, & \text{dla } a = b, \\
-                        1, & \text{dla } a \neq b.
+                        0, & \text{for } a = b, \\
+                        1, & \text{for } a \neq b.
                     \end{cases}
                 \end{align*}
 
             \subsubsection{$k$-mer embeddings}
-
                 The second approach will be the use of $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. These vectors will then be compared using Euclidean distance.
                 
             \subsubsection{Artificial Neural Network}
-
                 \paragraph{Architecture}
                 The ANN model consists of two parts. The first part comprises two convolutional blocks with batch normalization and is responsible for feature extraction from the sequence. The second part utilizes fully connected layers with dropout and the GELU activation function \cite{Hendrycks:2016} and is connected to the first part of the model via a flattening layer.
 
@@ -257,75 +189,7 @@
 
                 \begin{figure}[!htb]
                     \begin{center}
-                        {
-                        % ===== BEGIN =====
-                        % ----- -----
-                        % COLORS
-                        % ----- -----
-                        \definecolor{Green}{HTML}{1dd1a1}   % Input
-                        \definecolor{Blue}{HTML}{54a0ff}    % Linear
-                        \definecolor{Yellow}{HTML}{feca57}  % Convolution
-                        \definecolor{Purple}{HTML}{5f27cd}  % Batch Norm
-                        \definecolor{Grey}{HTML}{576574}    % Dropout
-                        \definecolor{Red}{HTML}{ff6b6b}     % Output
-                        \definecolor{Pink}{HTML}{ff9ff3}    % Activation
-                        \definecolor{Background}{HTML}{c8d6e5}
-
-                        % ----- -----
-                        % ELEMENTS
-                        % ----- -----
-                        \tikzstyle{box} = [rectangle, rounded corners, minimum width=5cm, minimum height=1cm, text centered, draw=black, align=center]
-                        \tikzstyle{input} = [box, fill=Green!30]
-                        \tikzstyle{linear} = [box, fill=Blue!30]
-                        \tikzstyle{conv} = [box, fill=Yellow!30]
-                        \tikzstyle{bn} = [box, fill=Purple!30]
-                        \tikzstyle{activation} = [box, fill=Pink!30]
-                        \tikzstyle{dropout} = [box, fill=Grey!30]
-                        \tikzstyle{output} = [box, fill=Red!30]
-
-                        \tikzstyle{arrow} = [very thick, -Triangle]
-                        \tikzstyle{arrow:text} = [pos=0.5, right, font=\footnotesize]
-
-                        % ----- -----
-                        % PICTURE
-                        % ----- -----
-                        \begin{tikzpicture}[node distance=2cm]
-                            \node (input) [input] { Wejście };
-                            \node (conv1) [conv, below of=input] { Splot 1D \\ \textbf{16@1x16, krok: 4} };
-                            \node (bn1) [bn, below of=conv1] { Normalizacja wsadowa };
-                            \node (conv2) [conv, below of=bn1] { Splot 1D \\ \textbf{32@1x8} };
-                            \node (bn2) [bn, below of=conv2] { Normalizacja wsadowa };
-                            \node (flatten) [linear, below of=bn2] { Warstwa spłaszczająca };
-                            \node (flatten-right) [right of=flatten, xshift=2cm] {};
-
-                            \node (fc1-left) [right of=input, xshift=2cm] {};
-                            \node (fc1) [linear, right of=input, xshift=6cm] { Warstwa gęsta };
-                            \node (act1) [activation, below of=fc1] { Aktywacja \\ \textbf{GELU} };
-                            \node (drop1) [dropout, below of=act1] { Wyłączenie neuronów };
-                            \node (fc2) [linear, below of=drop1] { Warstwa gęsta };
-                            \node (act2) [activation, below of=fc2] { Aktywacja \\ \textbf{GELU} };
-                            \node (drop2) [dropout, below of=act2] { Wyłączenie neuronów };
-                            \node (fc3) [linear, below of=drop2] { Warstwa gęsta };
-                            \node (output) [output, below of=fc3] { Wyjście };
-
-                            \draw [arrow] (input) -- (conv1) node [arrow:text] {1x600};
-                            \draw [arrow] (conv1) -- (bn1) node [arrow:text] {16x147};
-                            \draw [arrow] (bn1) -- (conv2) node [arrow:text] {16x147};
-                            \draw [arrow] (conv2) -- (bn2) node [arrow:text] {32x140};
-                            \draw [arrow] (bn2) -- (flatten) node [arrow:text] {32x140};
-
-                            \draw [arrow] (flatten.east) -- (flatten-right) -- node [arrow:text] {1x4480} (fc1-left) -- (fc1.west);
-                            \draw [arrow] (fc1) -- (act1) node [arrow:text] {1x4096};
-                            \draw [arrow] (act1) -- (drop1) node [arrow:text] {1x4096};
-                            \draw [arrow] (drop1) -- (fc2) node [arrow:text] {1x4096};
-                            \draw [arrow] (fc2) -- (act2) node [arrow:text] {1x512};
-                            \draw [arrow] (act2) -- (drop2) node [arrow:text] {1x512};
-                            \draw [arrow] (drop2) -- (fc3) node [arrow:text] {1x512};
-                            \draw [arrow] (fc3) -- (output) node [arrow:text] {1x64};
-                        \end{tikzpicture}
-
-                        % ===== END =====
-                        }
+                        \includegraphics[width=\textwidth]{picture_ann_network.png}
                     \end{center}
                     \caption{
                         Diagram of ANN architecture.
@@ -381,7 +245,6 @@
                 As a result of training the neural network, the model achieved a validation set loss of $0.17$.
 
         \subsection{Implementation Details}
-
             The work used the Python programming language\cite{Python} in scripts that automate some tasks related to neural network learning, and the Rust programming language\cite{Rust}, which was used to implement the solution.
 
             The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of taxonomic classification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.  
@@ -397,12 +260,10 @@
                 \item \textit{cargo test} for conducting unit tests;
                 \item \textit{git} as the version control system, enabling change tracking and code history management.
             \end{itemize}
-        
-    % \clearpage
-    \section{Experiments and Results}
+
+    \section{Results}
 
         \subsection{Experimental Setup}
-
             Experiments were conducted on the KVM based virtual machine with the specification given below:
 
             \begin{itemize}
@@ -427,19 +288,15 @@
             \end{itemize}
 
         \subsection{Datasets}
-
             \subsubsection{Dataset Description}
-
                 In the experiments, the \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019} dataset was used, which is the same dataset used for training the artificial neural network model. Dataset was chosen, because it was created for benchmarking bioinformatics tools and contains a large number of sequences, enabling its use both in experiments and in the learning process.
 
                 Subsets of sequences were created from the dataset with sizes expressed by the formula $2^k$ for $k \in [0, 12]$. Subsets are disjoint, and only those sequences that were not used for training the ANN model were employed in their construction.
 
             \subsubsection{Dataset Preparation}
-
                 The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset. Indices of sequences used in the training and validation sets of the ANN were excluded from the sampling. 
 
         \subsection{Performance Measures}
-
             Quality of taxonomic classification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}. The measure was used to compare the quality of taxonomic classification performed using the implemented methods against taxonomic classification without the use of a processing pipeline.
 
             \begin{equation}
@@ -465,19 +322,17 @@
                 Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
                 \label{Equation:WeightedAverageQuality}
             \end{equation}
-    
+
             where:
             \begin{align*}
-              C &- \text{set of taxonomic classification runs,} \\
-              Q_c &- \text{quality of taxonomic classification $c$,} \\
-              n_c &- \text{number of input sequences for taxonomic classification $c$,}\\
-              n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
+            C &- \text{set of taxonomic classification runs,} \\
+            Q_c &- \text{quality of taxonomic classification $c$,} \\
+            n_c &- \text{number of input sequences for taxonomic classification $c$,}\\
+            n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
             \end{align*}
 
         \subsection{Results and Analysis}
-
             \subsubsection{Experiment 1: Taxonomic classification execution time}
-
                 \paragraph{Objective} 
                 Measuring the execution time of taxonomic classification using different genetic sequence clustering methods.
 
@@ -496,7 +351,7 @@
 
                 \begin{figure}[!htb]
                     \begin{center}
-                        \includegraphics[width=\textwidth]{pictures/experiment_duration.png}
+                        \includegraphics[width=\textwidth]{picture_experiment_duration.png}
                     \end{center}
                     \caption{
                         Taxonomic classification execution time.
@@ -532,7 +387,6 @@
                 The methods using $k$-mer embeddings and ANN showed comparable execution times, with a slight advantage for the former. Both methods use sequence representations for comparison, resulting in a slower increase in the time needed to build the dissimilarity matrix. These methods performed faster than taxonomic classification for all sequences. In the case of the ANN, the shorter execution time for $4096$ sequences could be due to the simultaneous computation of embeddings for all sequences using the GPU.
 
             \subsubsection{Experiment 2: Taxonomic classification quality}
-
                 \paragraph{Objective}
                 Examining the quality of taxonomic classification using the implemented methods in comparison to the taxonomic classification of all sequences.
 
@@ -554,7 +408,7 @@
 
                 \begin{figure}[!htb]
                     \begin{center}
-                        \includegraphics[width=\textwidth]{pictures/experiment_quality.png}
+                        \includegraphics[width=\textwidth]{picture_experiment_quality.png}
                     \end{center}
                     \caption{
                         Taxonomic classification quality.
@@ -589,15 +443,11 @@
 
                 The method using the artificial neural network achieved the best weighted average quality, slightly outperforming the $k$-mer embedding method and the method with the modified Needleman-Wunsch algorithm. The artificial neural network method owes its result to the model's consideration of the full sequence structure, which allowed for a better determination of dissimilarity between sequences.
 
-    % \clearpage
     \section{Discussion}
-
         \subsection{Interpretation of Results}
-
             The results of the experiments partially confirmed the expectations set at the beginning of the research. All methods achieved satisfactory taxonomic classification quality. The method utilizing the artificial neural network performed particularly well, achieving the best weighted average classification quality while maintaining execution time comparable to the method based on $k$-mer embeddings. The low taxonomic classification quality with a small number of input sequences may be due to the inappropriate selection of group representatives, caused by too few available sequences. Therefore, the implemented methods should only be used in cases where the number of input sequences exceeds a certain threshold, and their use significantly reduces the time required for the taxonomic classification process. For the data tested, this condition is met for $128$ sequences, where the taxonomic classification quality was no less than $0.87$, and the use of any grouping method reduced the time by at least 5 minutes, resulting in a $5\%$ acceleration compared to the taxonomic classification of all sequences. The use of the artificial neural network allowed for an improvement in classification quality compared to other methods. In addition to achieving good classification quality, it does not lag behind classical methods.
 
         \subsection{Limitations}
-
             \subsubsection{Experiments Duration}
                 The full process of taxonomic classification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of number of experiments to single run and subset size to $4096$ sequences.
 
@@ -608,30 +458,26 @@
                 The use of a single dissimilarity matrix for all sequences limits the number of input sequences, as the matrix build time of matrix scales quadratically with the number of sequences.
 
         \subsection{Possible Improvements}
-
             \subsubsection{Architecture of Artificial Neural Network}
-
                 The proposed artificial neural network architecture is not flexible and is only suitable for analyzing sequences of similar lengths. It would be possible to modify the model's architecture to incorporate recurrent neural networks (RNNs) and transformers, enabling the processing of sequences with varying lengths. RNNs and transformers could replace the first part of the model, which currently relies on convolutional layers. They would be used to create embeddings, which would later be processed by linear layers to generate an embedding that preserves dissimilarity properties.
 
             \subsubsection{Batching sequences}
-
                 Creating a single dissimilarity matrix for very large samples is not optimal, as it significantly impacts the performance of the method. To address this issue, pre-clustering the sequences into batches can provide a solution. Processing in batches may reduce quality but allows for maintaining a short execution time.
 
             \subsubsection{Automatated Determination Of The Number of Groups}
-
                 Current approach takes the number of created groups as a parameter, which can influence the quality of the results. For very similar sequences, a large number of groups is excessive and does not improve the results. Conversely, for highly diverse sequences, a low number of groups can reduce quality. Automating the determination of the optimal number of groups could solve the issue and minimize the need for fine-tuning 
 
-    % \clearpage
-    \section{Conclusions and Future Work}
-
+    \section{Conclusions}
         \subsection{Summary of Findings}
-
             The experiments demonstrated that the method based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method. This highlights the potential of neural networks for improving performance without significant computational overhead.
 
         \subsection{Future Research Directions}
-
             Future research could focus on utilizing artificial neural networks as an independent tool for taxonomic classification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses.
 
-    \printbibliography
+    %%=============================================================%%
+    %% BIBLIOGRAPHY
+    %%=============================================================%%
+
+    \bibliography{bibliography}
 
 \end{document}
