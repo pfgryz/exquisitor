@@ -1,4 +1,4 @@
-\documentclass[pdflatex,referee,lineno,sn-vancouver-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+\documentclass[pdflatex,sn-vancouver-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
 
 
 \usepackage{amsfonts}%
@@ -42,7 +42,7 @@
     %% TITLE
     %%=============================================================%%
 
-    \title[Article Title]{Article Title}
+    \title[Article Title]{Accelerating Taxonomic Classification of DNA Sequences Using Artificial Neural Networks}
 
     %%=============================================================%%
     %% AUTHOR(S)
@@ -62,7 +62,7 @@
     %% KEYWORDS
     %%=============================================================%%
 
-    \keywords{Key1, Key2, Key3}
+    \keywords{DNA sequencing, taxonomic classification, artificial neural networks, contrastive learning, sequence clustering}
 
     \maketitle
 
@@ -203,7 +203,7 @@
                 The training and validation examples consist of an anchor, a positive sequence that is similar to the anchor, and a negative sequence that is dissimilar to the anchor.
 
                 \paragraph{Dataset}
-                Zbiór danych uczących oraz walidacyjnych został stworzony na podstawie pierwszej próbki sekwencji genetycznych ze zbioru \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019}. Próbka zawiera symulowane dane metagenomiczne z mikrobiomu skóry człowieka. Przykłady zostały uzyskane poprzez losowanie kotwic ze zbioru oraz modyfikację tych kotwic w celu stworzenia sekwencji pozytywnej i negatywnej. Modyfikacja polegała na zamianie punktowej danego nukleotydu na inny. W przypadku sekwencji pozytywnej zmiana obejmowała od $0\%$ do $20\%$ długości kotwicy, natomiast w przypadku sekwencji negatywnej od $20\%$ do $80\%$ długości kotwicy.
+                The training and validation datasets were created based on the first sample of genetic sequences from the CAMI II Toy Human Microbiome Project dataset \cite{Fritz:2019}. The sample contains simulated metagenomic data from the human skin microbiome. Examples were obtained by randomly selecting anchors from the dataset and modifying these anchors to create positive and negative sequences. The modification involved a point mutation of a given nucleotide to another one. In the case of positive sequences, the change affected between 0\% and 20\% of the anchor length, whereas for negative sequences, the change ranged from 20\% to 80\% of the anchor length.
 
                 \paragraph{Loss function}
                 The loss function used is defined as:
@@ -473,6 +473,12 @@
 
         \subsection{Future Research Directions}
             Future research could focus on utilizing artificial neural networks as an independent tool for taxonomic classification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses.
+
+    %%=============================================================%%
+    %% BACKMATTER
+    %%=============================================================%%
+
+    \backmatter
 
     %%=============================================================%%
     %% BIBLIOGRAPHY
