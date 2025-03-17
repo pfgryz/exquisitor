@@ -26,14 +26,14 @@
 %\usepackage{lipsum}        % Lorem ipsum
 \usepackage{listings}      % Code listings
 %\usepackage{longtable}     % Multi-page tables
-%\usepackage{multirow}      % Advanced table cells
+\usepackage{multirow}      % Advanced table cells
 %\usepackage{setspace}      % Set space between lines
 %\usepackage{scrextend}     % Allows \addmargin environment
 %\usepackage{tablefootnote} % Table footnotes
 %\usepackage{tocloft}       % Custom ToC/LoF/LoT
 %\usepackage{url}           % URL-sensitive line breaks
 %\usepackage{xspace}        % Remove duplicated spaces
-\usepackage{tabularx}
+%\usepackage{tabularx}
 
 
 \begin{document}
@@ -56,7 +56,13 @@
     %% ABSTRACT
     %%=============================================================%%
 
-    \abstract{Up to 350 words: background, results, conclusions}
+    \abstract{The rapid increase in the availability of DNA sequence data necessitates efficient and scalable methods for taxonomic classification. Traditional tools like BLAST, although accurate, often require significant computational resources and time, limiting their applicability to large datasets. Recent advances in artificial neural networks (ANNs) demonstrate their potential to address this issue by offering faster and more accurate solutions.
+
+    This study introduces a novel ANN-based approach for the efficient taxonomic classification of DNA sequences. The proposed method reduces the complexity of large datasets by leveraging contrastive learning within an ANN to select representative sequences. This approach enhances computational efficiency by focusing classification efforts on these representatives rather than on the entire dataset. Comparative experiments were conducted on a benchmark dataset, evaluating the proposed ANN method alongside classical techniques such as k-mer embeddings and the Needleman-Wunsch algorithm.
+    
+    Experimental results revealed that the ANN-based approach achieves the highest weighted average classification quality among all tested methods, outperforming both classical approaches. Additionally, the ANN method demonstrates competitive execution times, benefiting from parallelized computations enabled by GPU processing.
+    
+    In conclusion, the study highlights the potential of ANN-based methods to bridge the gap between precision and scalability in genetic taxonomy. Future research directions include enhancing the network’s flexibility for varying sequence lengths and exploring its application for dimensionality reduction in broader bioinformatics tasks.}
 
     %%=============================================================%%
     %% KEYWORDS
@@ -74,16 +80,34 @@
         The discovery of DNA marked the beginning of a new era in biology and medicine, enabling research into the molecular foundations of life and the precise diagnosis of many diseases\cite{Louie:2000}. In 1953, the structure of the DNA double helix was discovered by Watson and Crick\cite{Watson:1953}. In 1970, Francis Crick formulated the central dogma of molecular biology\cite{Crick:1970}, which states that genetic information flows from DNA to RNA and then to proteins, forming the foundation of modern molecular biology. In 1977, the complete genetic material of the DNA virus — bacteriophage $\phi{}$X174 was sequenced\cite{Sanger:1977:2}. This discovery highlighted the limitations of traditional analysis methods and demonstrated the need for computers to process DNA sequences\cite{Staden:1979}. In the 1980s, the European "EBML Data Library" was funded\cite{Higgins:1992}, and in 1982, the United States launched "GenBank"\cite{Bilofsky:1986}. In 1998, Jo Handelsman proposed the analysis of genetic material from many organisms simultaneously, without the need for cultivation, with his team studying organisms present in soil\cite{Handelsman:1998}. The use of information about genetic material found in the environment, combined with sequence databases, enables the identification of organisms present in a given sample. However, the process of analyzing large numbers of DNA sequences and comparing them to databases requires significant computational resources. With the development of next-generation sequencing methods\cite{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analyzed has increased\cite{Muir:2016}. Further accumulation of sequence data and increasing sequencing throughput lead to a growing demand for computational resources.
 
         \subsection{Motivation}
-            The time required for taxonomic classification of large sequence datasets using traditional tools, such as BLAST, can span several hours, even for relatively small collections of sequences e.g. 4096 sequences. In many fields, artificial neural networks (ANN) have demonstrated the ability to outperform classical heuristic algorithms, offering faster and more accurate results. By leveraging the capabilities of ANN, this works aims to accelerate taxonomic clasisfication process while maintaining at least the same level of quality as traditional methods.
+            The time required for taxonomic classification of large sequence datasets using traditional tools, such as BLAST, can span several hours, even for relatively small collections of sequences e.g. 4096 sequences. In many fields, artificial neural networks (ANN) have demonstrated the ability to outperform classical heuristic algorithms, offering faster and more accurate results. By leveraging the capabilities of ANN, this works aims to accelerate taxonomic classification process while maintaining at least the same level of quality as traditional methods.
 
         \subsection{Objectives}
             The primary objective of this study is to leverage an artificial neural network to support the selection of representative genetic sequences for taxonomic classification. Instead of classifying entire environmental genetic sequences sample, the proposed approach focuses on identifying a subset of sequences that best represent the sample. These selected representatives are then classified, reducing computational complexity while maintaining classification accuracy.
 
-        \subsection{Main Contributions}
-            This paper introduces a novel artificial neural network model for calculating dissimilarities between genetic sequences, which can be used in clustering algorithm to select representative sequences for taxonomic classification. We provide all the necessary components for training the model, including dataset preparation, batch process, a loss function, and a training loop. The paper also includes an application that can perform taxonomic classification with specified parameters. Furthermore, we develope a library that allows users to compose the taxonomic classification pipelines.
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        %   BEGIN REMOVED
+        %       REASON: UNNECESSARY
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-        \subsection{Structure of the Paper}
-            The rest of the paper is organized as follows. Section 2 provides a description of related work, reviewing previous research on taxonomic classification and highlights a research gap. Section 3 defines the problem, presents the proposed approach, and provides detailed implementation details. Section 4 describes the experimental setup, including used datasets, the performance metrics for evaluation, and the results obtained from experiments with analysis. Section 5 interprets the results, discusses the limtiations of proposed approach, and explores possible improvements for future work. Finally, Section 6 concludes the paper by summarizing the main findings and suggesting potential directions for future research.
+        % \subsection{Main Contributions}
+        %     This paper introduces a novel artificial neural network model for calculating dissimilarities between genetic sequences, which can be used in clustering algorithm to select representative sequences for taxonomic classification. We provide all the necessary components for training the model, including dataset preparation, batch process, a loss function, and a training loop. The paper also includes an application that can perform taxonomic classification with specified parameters. Furthermore, we developed a library that allows users to compose the taxonomic classification pipelines.
+
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        %   END REMOVED
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        %   BEGIN REMOVED
+        %       REASON: UNNECESSARY
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+        % \subsection{Structure of the Paper}
+        %     The rest of the paper is organized as follows. Section 2 provides a description of related work, reviewing previous research on taxonomic classification and highlights a research gap. Section 3 defines the problem, presents the proposed approach, and provides detailed implementation details. Section 4 describes the experimental setup, including used datasets, the performance metrics for evaluation, and the results obtained from experiments with analysis. Section 5 interprets the results, discusses the limtiations of proposed approach, and explores possible improvements for future work. Finally, Section 6 concludes the paper by summarizing the main findings and suggesting potential directions for future research.
+
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        %   END REMOVED
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
         \subsection{Related Work}
             \subsection{Overview of Existing Approaches}
@@ -152,7 +176,8 @@
                     n, m -& \text{lengths of sequences } A \text{ and } B, \\
                     D -& \text{similarity matrix of size } n + 1 \text{ x } m + 1, \\
                     g \in \mathbb{R} -& \text{penalty for a gap}, \\
-                    s(A_i, B_j) \in \mathbb{R} -& \text{similarity between the } i\text{-th element in sequence A and the } j\text{-th element in sequence B}.
+                    s(A_i, B_j) \in \mathbb{R} -& \text{similarity between the } i\text{-th element in sequence A} \\ 
+                                                & \text{ and the } j\text{-th element in sequence B}.
                 \end{align*}
 
                 \begin{equation}
@@ -244,7 +269,64 @@
                 \paragraph{Results of Learning}
                 As a result of training the neural network, the model achieved a validation set loss of $0.17$.
 
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        %   BEGIN REMOVED
+        %       REASON: UNNECESSARY
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        
+        % \subsection{Implementation Details}
+        %     The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of taxonomic classification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.  
+
+        %     The console application was implemented using the \textit{clap} library\cite{Rust:clap}. In library the $k$-medoid algorithm was provided by the \textit{kmedoids} library\cite{Rust:kmedoids}, and the neural network was built using the \textit{burn} library\cite{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library\cite{Rust:axum} with \textit{tokio}\cite{Rust:axum} async environment.
+                
+        %     Additionally, the following tools were used in the work:
+        %     \begin{itemize}
+        %         \item \textit{cargo} as the package manager and build system in Rust;
+        %         \item \textit{rustup} for automatic management of Rust versions;
+        %         \item \textit{clippy} for static code analysis in Rust;
+        %         \item \textit{rustfmt} for automatic formatting of Rust source code;
+        %         \item \textit{cargo test} for conducting unit tests;
+        %         \item \textit{git} as the version control system, enabling change tracking and code history management.
+        %     \end{itemize}
+
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        %   END REMOVED
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
     \section{Results}
+
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        %   BEGIN REMOVED
+        %       REASON: UNNECESSARY
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+
+        % \subsection{Experimental Setup}
+        %     Experiments were conducted on the KVM based virtual machine with the specification given below:
+
+        %     \begin{itemize}
+        %         \item{
+        %             \textbf{Operating System:} Ubuntu 22.04 LTS;
+        %         }
+        %         \item{
+        %             \textbf{Processor:} 4 virtual cores of Intel Core i7-6850K;
+        %         }
+        %         \item{
+        %             \textbf{RAM Memory:} 40 GB;
+        %         }
+        %         \item{
+        %             \textbf{Graphics Card:} Nvidia GeForce GTX 1080 TI;
+        %         }
+        %         \item{
+        %             \textbf{Disk:} 1 TB network drive with a read speed of 1 Gbps;
+        %         }
+        %         \item{
+        %             \textbf{Software:} \texttt{BLAST} package version 2.16.0 and graphics card drivers.
+        %         }
+        %     \end{itemize}
+
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+        %   END REMOVED
+        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
         \subsection{Datasets}
             \subsubsection{Dataset Description}
@@ -275,7 +357,7 @@
                 O(X) &- \text{set of unique organisms, for which results were assigned in the set $X$}
             \end{align*}
 
-            To compare the quality of multiple taxonomic clasisfication runs, the weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used.
+            To compare the quality of multiple taxonomic classification runs, the weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used.
             
             \begin{equation}
                 Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
@@ -319,9 +401,9 @@
 
                 \begin{table}\centering
                     \caption{Taxonomic classification execution time.}\label{Table:Experiment:Duration}
-                    \begin{tabularx}{\textwidth}{|c||R|R|R|R|}
+                    \begin{tabular}{|c||c|c|c|c|}
                         \hline
-                        \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{4}{|c|}{\textbf{Execution time [s]}} \\ \cline{2-5}
+                        \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{4}{|c|}{\textbf{Execution time [s]}} \\
                                         & \textbf{NP} & \textbf{NW} & \textbf{$k$-mer} & \textbf{ANN} \\ \hline \hline
                                         1 & 7107 & \textbf{6025} & 6087 & 6077\\ \hline
                                         2 & 6129 & 5994 & \textbf{5988} & 6035\\ \hline
@@ -337,7 +419,7 @@
                                         2048 & 8517 & 16461 & 6472 & \textbf{6332}\\ \hline
                                         4096 & 9433 & \textbf{-1} & 7003 & 6550\\ \hline
 
-                    \end{tabularx}
+                    \end{tabular}
                 \end{table}
 
                 \paragraph{Conclusions}
@@ -377,9 +459,9 @@
                 \begin{table}\centering
                     \caption{Taxonomic classification quality.}\label{Table:Experiment:Quality}
 
-                    \begin{tabularx}{\textwidth}{|c|R|R|R|}
+                    \begin{tabular}{|c|c|c|c|}
                         \hline
-                        \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{3}{|c|}{\textbf{Method}} \\ \cline{2-4}
+                        \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{3}{|c|}{\textbf{Method}} \\
                         & \textbf{NW} & \textbf{$k$-mer} & \textbf{ANN} \\ \hline \hline
                         1 & \textbf{1.0} & \textbf{1.0} & \textbf{1.0}\\ \hline
                         2 & 0.27 & \textbf{0.73} & \textbf{0.73}\\ \hline
@@ -394,7 +476,7 @@
                         1024 & \textbf{0.95} & 0.93 & \textbf{0.95}\\ \hline
                         2048 & 0.92 & \textbf{0.95} & 0.92\\ \hline
                         4096 & 0.0 & 0.93 & \textbf{0.96}\\ \hline
-                    \end{tabularx}
+                    \end{tabular}
                 \end{table}
 
                 \paragraph{Conclusions}
@@ -408,7 +490,7 @@
 
         \subsection{Limitations}
             \subsubsection{Experiments Duration}
-                The full process of taxonomic classification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of number of experiments to single run and subset size to $4096$ sequences.
+                The full process of taxonomic classification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of experiments to single run and subset size to $4096$ sequences.
 
             \subsubsection{Single Dataset}  
                 In work, only one sample from the chosen dataset was used. The selection of a sample containing DNA sequences from the human skin microbiome might have limited the space of analyzed sequences, which could have influenced the experimental results, as the both the artificial neural network and the experiments used DNA sequences from the same microbiome.
