@@ -35,6 +35,10 @@
 %\usepackage{xspace}        % Remove duplicated spaces
 %\usepackage{tabularx}
 
+\usepackage{todonotes}
+\setuptodonotes{inline}
+
+
 
 \begin{document}
 
@@ -42,7 +46,9 @@
     %% TITLE
     %%=============================================================%%
 
-    \title[Article Title]{Accelerating Taxonomic Classification of DNA Sequences Using Artificial Neural Networks}
+\title[Article Title]{Accelerating Taxonomic Classification
+    \todo{lepszy termin: Metagenomic identification}
+  of DNA Sequences Using Artificial Neural Networks}
 
     %%=============================================================%%
     %% AUTHOR(S)
@@ -54,7 +60,10 @@
 
     %%=============================================================%%
     %% ABSTRACT
-    %%=============================================================%%
+    %% =============================================================%%
+
+
+
 
     \abstract{The rapid increase in the availability of DNA sequence data necessitates efficient and scalable methods for taxonomic classification. Traditional tools like BLAST, although accurate, often require significant computational resources and time, limiting their applicability to large datasets. Recent advances in artificial neural networks (ANNs) demonstrate their potential to address this issue by offering faster and more accurate solutions.
 
