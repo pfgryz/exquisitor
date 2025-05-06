@@ -47,7 +47,6 @@
     %%=============================================================%%
 
 \title[Metagenomic Identification using Neural Networks]{Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks
-\todo{Taxonomic Classification znaczy coś innego}
   }
 
     %%=============================================================%%
@@ -113,7 +112,7 @@
     treating DNA as a specialized language and allowing for classification without the need for reference databases.
     Another machine learning-based solution is CGRclust \cite{Alipour:2024}, which clusters DNA sequences using a two-dimensional chaos game representation and integrates unsupervised contrastive learning with convolutional neural networks.
 
-    Currently we can propose three types of methods developed for metagenomic identification: methods using alignment, methods based on $k$-mers and methods using merker genes.
+    Currently we can propose three types of methods developed for metagenomic identification: methods using alignment, methods based on $k$-mers and methods using marker genes.
     Alignment-based tools should yield the best results, but they require significant computational resources.
     Algorithms based on $k$-mers are very fast, but they do not take into account all the information about the structure of the input genetic sequences, which reduces their quality.
     Solutions using marker genes are characterized by good quality, but they allow analysis only for subsets of organisms for which marker genes are known.
@@ -236,7 +235,7 @@
         % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
         \subsection{Implementation Details}
-            The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of taxonomic classification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.  
+            The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of metagenomic identification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.  
 
             The console application was implemented using the \textit{clap} library\cite{Rust:clap}. In library the $k$-medoid algorithm was provided by the \textit{kmedoids} library\cite{Rust:kmedoids}, and the neural network was built using the \textit{burn} library\cite{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library\cite{Rust:axum} with \textit{tokio}\cite{Rust:axum} async environment.
 
@@ -360,9 +359,9 @@
                 The second approach will be the use of $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. These vectors will then be compared using Euclidean distance.
 
         \subsection{Results and Analysis}
-            \subsubsection{Experiment 1: Taxonomic classification execution time}
+            \subsubsection{Experiment 1: Metagenomic identification execution time}
                 \paragraph{Objective} 
-                Measuring the execution time of taxonomic classification using different genetic sequence clustering methods.
+                Measuring the execution time of metagenomic identification using different genetic sequence clustering methods.
 
                 \paragraph{Assumptions}
                 \begin{enumerate}
@@ -370,24 +369,24 @@
                         Sequences clustering is deterministic.
                     }
                     \item {
-                        Taxonomic classification is the only task running on the machine.
+                        Metagenomic identification is the only task running on the machine.
                     }
                 \end{enumerate}
 
                 \paragraph{Results}
-                As a result of the experiment, the execution time for taxonomic classification was obtained for all methods. In the case of the method using the modified Needleman-Wunsch algorithm, results for taxonomic classification of 4096 sequences could not be obtained due to exceeding the execution time. Figure~\ref{Picture:Experiment:Duration} shows a graph of the taxonomic classification execution time as a function of the number of input sequences for: the method with the modified Needleman-Wunsch algorithm (NW), the method using $k$-mer embeddings ($k$-mer), the method using artificial neural networks (ANN), and for taxonomic classification of all sequences without using a pipeline (NP). Detailed execution times are provided in Table~\ref{Table:Experiment:Duration}.
+                As a result of the experiment, the execution time for metagenomic identification was obtained for all methods. In the case of the method using the modified Needleman-Wunsch algorithm, results for metagenomic identification of 4096 sequences could not be obtained due to exceeding the execution time. Figure~\ref{Picture:Experiment:Duration} shows a graph of the metagenomic identification execution time as a function of the number of input sequences for: the method with the modified Needleman-Wunsch algorithm (NW), the method using $k$-mer embeddings ($k$-mer), the method using artificial neural networks (ANN), and for metagenomic identification of all sequences without using a pipeline (NP). Detailed execution times are provided in Table~\ref{Table:Experiment:Duration}.
 
                 \begin{figure}[!htb]
                     \begin{center}
                         \includegraphics[width=\textwidth]{picture_experiment_duration.png}
                     \end{center}
                     \caption{
-                        Taxonomic classification execution time.
+                        Metagenomic identification execution time.
                     }\label{Picture:Experiment:Duration}
                 \end{figure}
 
                 \begin{table}\centering
-                    \caption{Taxonomic classification execution time.}\label{Table:Experiment:Duration}
+                    \caption{Metagenomic identification execution time.}\label{Table:Experiment:Duration}
                     \begin{tabular}{|c||c|c|c|c|}
                         \hline
                         \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{4}{|c|}{\textbf{Execution time [s]}} \\
@@ -410,13 +409,13 @@
                 \end{table}
 
                 \paragraph{Conclusions}
-                The method using the modified Needleman-Wunsch algorithm exhibited the fastest increase in execution time for taxonomic classification. The sharp rise is due to the time-consuming process of comparing sequences with each other. Despite reducing the number of sequences being classified, the execution time using this method exceeded that of taxonomic classification for all sequences.
+                The method using the modified Needleman-Wunsch algorithm exhibited the fastest increase in execution time for metagenomic identification. The sharp rise is due to the time-consuming process of comparing sequences with each other. Despite reducing the number of sequences being classified, the execution time using this method exceeded that of metagenomic identification for all sequences.
 
-                The methods using $k$-mer embeddings and ANN showed comparable execution times, with a slight advantage for the former. Both methods use sequence representations for comparison, resulting in a slower increase in the time needed to build the dissimilarity matrix. These methods performed faster than taxonomic classification for all sequences. In the case of the ANN, the shorter execution time for $4096$ sequences could be due to the simultaneous computation of embeddings for all sequences using the GPU.
+                The methods using $k$-mer embeddings and ANN showed comparable execution times, with a slight advantage for the former. Both methods use sequence representations for comparison, resulting in a slower increase in the time needed to build the dissimilarity matrix. These methods performed faster than metagenomic identification for all sequences. In the case of the ANN, the shorter execution time for $4096$ sequences could be due to the simultaneous computation of embeddings for all sequences using the GPU.
 
-            \subsubsection{Experiment 2: Taxonomic classification quality}
+            \subsubsection{Experiment 2: Metagenomic identification quality}
                 \paragraph{Objective}
-                Examining the quality of taxonomic classification using the implemented methods in comparison to the taxonomic classification of all sequences.
+                Examining the quality of metagenomic identification using the implemented methods in comparison to the metagenomic identification of all sequences.
 
                 \paragraph{Assumptions}
                 \begin{enumerate}
@@ -427,13 +426,13 @@
                         \texttt{BLASTn} is deterministic and always returns the same results for a given sequence and specified parameters.
                     }
                     \item {
-                        In the case where it is not possible to compute the quality for a given taxonomic classification run, a quality value of $0$ is assumed. This value is not considered when calculating the weighted average quality.
+                        In the case where it is not possible to compute the quality for a given metagenomic identification run, a quality value of $0$ is assumed. This value is not considered when calculating the weighted average quality.
                     }
                   \end{enumerate}
 
 
         \subsection{Performance Measures}
-            Quality of taxonomic classification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}. The measure was used to compare the quality of taxonomic classification performed using the implemented methods against taxonomic classification without the use of a processing pipeline.
+            Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without the use of a processing pipeline.
 
             \begin{equation}
                 \text{Q} = \frac{
@@ -452,7 +451,7 @@
                 O(X) &- \text{set of unique organisms, for which results were assigned in the set $X$}
             \end{align*}
 
-            To compare the quality of multiple taxonomic classification runs, the weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used.
+            To compare the quality of multiple metagenomic identification runs, the weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used.
             
             \begin{equation}
                 Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
@@ -461,28 +460,28 @@
 
             where:
             \begin{align*}
-            C &- \text{set of taxonomic classification runs,} \\
-            Q_c &- \text{quality of taxonomic classification $c$,} \\
-            n_c &- \text{number of input sequences for taxonomic classification $c$,}\\
+            C &- \text{set of metagenomic identification runs,} \\
+            Q_c &- \text{quality of metagenomic identificationn $c$,} \\
+            n_c &- \text{number of input sequences for metagenomic identification $c$,}\\
             n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
             \end{align*}
 
                   
 
                 \paragraph{Results}
-                The quality of the classification was calculated using the measure expressed by equation~\ref{Equation:Quality} for the implemented methods in comparison to the full taxonomic classification. Figure~\ref{Picture:Experiment:Quality} shows a graph of classification quality as a function of the number of input sequences, with detailed quality results provided in Table~\ref{Table:Experiment:Quality}. The weighted average quality calculated using equation~\ref{Equation:WeightedAverageQuality} for the method with the modified Needleman-Wunsch algorithm was $0.899$, for the $k$-mer embedding method it was $0.921$, and for the method using the artificial neural network, it was $0.944$.
+                The quality of the classification was calculated using the measure expressed by equation~\ref{Equation:Quality} for the implemented methods in comparison to the full metagenomic identification. Figure~\ref{Picture:Experiment:Quality} shows a graph of classification quality as a function of the number of input sequences, with detailed quality results provided in Table~\ref{Table:Experiment:Quality}. The weighted average quality calculated using equation~\ref{Equation:WeightedAverageQuality} for the method with the modified Needleman-Wunsch algorithm was $0.899$, for the $k$-mer embedding method it was $0.921$, and for the method using the artificial neural network, it was $0.944$.
 
                 \begin{figure}[!htb]
                     \begin{center}
                         \includegraphics[width=\textwidth]{picture_experiment_quality.png}
                     \end{center}
                     \caption{
-                        Taxonomic classification quality.
+                        Metagenomic identification quality.
                     }\label{Picture:Experiment:Quality}
                 \end{figure}
 
                 \begin{table}\centering
-                    \caption{Taxonomic classification quality.}\label{Table:Experiment:Quality}
+                    \caption{Metagenomic identificationn quality.}\label{Table:Experiment:Quality}
 
                     \begin{tabular}{|c|c|c|c|}
                         \hline
@@ -511,11 +510,11 @@
 
     \section{Discussion}
         \subsection{Interpretation of Results}
-            The results of the experiments partially confirmed the expectations set at the beginning of the research. All methods achieved satisfactory taxonomic classification quality. The method utilizing the artificial neural network performed particularly well, achieving the best weighted average classification quality while maintaining execution time comparable to the method based on $k$-mer embeddings. The low taxonomic classification quality with a small number of input sequences may be due to the inappropriate selection of group representatives, caused by too few available sequences. Therefore, the implemented methods should only be used in cases where the number of input sequences exceeds a certain threshold, and their use significantly reduces the time required for the taxonomic classification process. For the data tested, this condition is met for $128$ sequences, where the taxonomic classification quality was no less than $0.87$, and the use of any grouping method reduced the time by at least 5 minutes, resulting in a $5\%$ acceleration compared to the taxonomic classification of all sequences. The use of the artificial neural network allowed for an improvement in classification quality compared to other methods. In addition to achieving good classification quality, it does not lag behind classical methods.
+            The results of the experiments partially confirmed the expectations set at the beginning of the research. All methods achieved satisfactory metagenomic identification quality. The method utilizing the artificial neural network performed particularly well, achieving the best weighted average classification quality while maintaining execution time comparable to the method based on $k$-mer embeddings. The low metagenomic identification quality with a small number of input sequences may be due to the inappropriate selection of group representatives, caused by too few available sequences. Therefore, the implemented methods should only be used in cases where the number of input sequences exceeds a certain threshold, and their use significantly reduces the time required for the metagenomic identification process. For the data tested, this condition is met for $128$ sequences, where the metagenomic identification quality was no less than $0.87$, and the use of any grouping method reduced the time by at least 5 minutes, resulting in a $5\%$ acceleration compared to the metagenomic identification of all sequences. The use of the artificial neural network allowed for an improvement in classification quality compared to other methods. In addition to achieving good classification quality, it does not lag behind classical methods.
 
         \subsection{Limitations}
             \subsubsection{Experiments Duration}
-                The full process of taxonomic classification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of experiments to single run and subset size to $4096$ sequences.
+                The full process of metagenomic identification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of experiments to single run and subset size to $4096$ sequences.
 
             \subsubsection{Single Dataset}  
                 In work, only one sample from the chosen dataset was used. The selection of a sample containing DNA sequences from the human skin microbiome might have limited the space of analyzed sequences, which could have influenced the experimental results, as the both the artificial neural network and the experiments used DNA sequences from the same microbiome.
@@ -538,7 +537,7 @@
             The experiments demonstrated that the method based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method. This highlights the potential of neural networks for improving performance without significant computational overhead.
 
         \subsection{Future Research Directions}
-        Future research could focus on utilizing artificial neural networks as an independent tool for taxonomic classification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses.
+        Future research could focus on utilizing artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses.
 
 
 \subsubsection*{Author contributions}
@@ -548,6 +547,7 @@ P.G and R.N. identified the problem, P.G. designed the approach, downloaded the 
 \subsubsection*{Funding}
 
 A statutory Research Grant from the Institute of Computer Science, Warsaw University of Technology, supports this work.
+
 
 
     %%=============================================================%%
