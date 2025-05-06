@@ -65,7 +65,7 @@
 
 
 
-    \abstract{\todo{do przejrzenia, nie wszedzie poprawiony}The rapid increase in the availability of DNA sequence data necessitates efficient and scalable methods for metagenomic identification. Traditional tools like BLAST, although accurate, often require significant computational resources and time, limiting their applicability to large datasets. Recent advances in artificial neural networks (ANNs) demonstrate their potential to address this issue by offering faster and more accurate solutions.
+    \abstract{The rapid increase in the availability of DNA sequence data necessitates efficient and scalable methods for metagenomic identification. Traditional tools like BLAST, although accurate, often require significant computational resources and time, limiting their applicability to large datasets. Recent advances in artificial neural networks (ANNs) demonstrate their potential to address this issue by offering faster and more accurate solutions.
 
     This study introduces a novel ANN-based approach for the efficient metagenomic identification of DNA sequences. The proposed method reduces the complexity of large datasets by leveraging contrastive learning within an ANN to select representative sequences. This approach enhances computational efficiency by focusing classification efforts on these representatives rather than on the entire dataset. Comparative experiments were conducted on a benchmark dataset, evaluating the proposed ANN method alongside classical techniques such as k-mer embeddings and the Needleman-Wunsch algorithm.
     
@@ -255,8 +255,7 @@
 
                 \section{Results}
 
-                \todo{wstep do badan, cel - zwiekszenie wydajnosci przy zachowaniu jakosci;
-                  badania wymagaly 2 metod klasycznych; byly przeprowadzone na tych samych danych;}
+                This sections presents the results of the experiments conducted to evaluate the proposed solution, which aims to improve performance while maintaining the quality of metagenomic identifacation. The study involved comparing the new approach with two classical methods using the same dataset. The evaluation focused on execution time and identification quality to assess the effectiveness of the proposed approach.
 
         % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
         %   BEGIN REMOVED
@@ -303,11 +302,11 @@
 
         \subsection{Base-line algorithms}
 
-                \todo{tutaj metody klasyczne, porownawcze}
+                \todo{tutaj metody klasyczne, porownawcze. PG: czy trzeba coś tutaj jeszcze dodawać?}
 
             Two classical approaches were implemented and used for comparison with the proposed neural network.
 
-            \subsubsection{Modified Needleman-Wunshc Algorithm}
+            \subsubsection{Modified Needleman-Wunsch Algorithm}
                 The first classical approach is the Needleman-Wunsch algorithm. This algorithm allows for global alignment of genetic sequences. It uses a similarity matrix between sequences, which is constructed according to the rules given in equation~\eqref{Equation:NeedlemanWunsch}. A modification of the approach presented in equation~\eqref{Equation:NeedlemanWunschModified} is applied in the work.
 
                 \begin{equation}
@@ -358,7 +357,7 @@
             \subsubsection{$k$-mer embeddings}
                 The second approach will be the use of $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. These vectors will then be compared using Euclidean distance.
 
-        \subsection{Results and Analysis}
+        \subsection{Experiments}
             \subsubsection{Experiment 1: Metagenomic identification execution time}
                 \paragraph{Objective} 
                 Measuring the execution time of metagenomic identification using different genetic sequence clustering methods.
@@ -403,7 +402,7 @@
                                         512 & 7091 & 6972 & \textbf{6326} & 6347\\ \hline
                                         1024 & 8059 & 8743 & \textbf{6248} & 6269\\ \hline
                                         2048 & 8517 & 16461 & 6472 & \textbf{6332}\\ \hline
-                                        4096 & 9433 & \textbf{-1} & 7003 & 6550\\ \hline
+                                        4096 & 9433 & \textbf{timeout} & 7003 & 6550\\ \hline
 
                     \end{tabular}
                 \end{table}
