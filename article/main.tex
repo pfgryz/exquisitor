@@ -129,11 +129,106 @@
 
     \section{Methods}
 
-    \todo{opisać potok, jest tekst w pracy inżynierskiej;
-      tutaj trzeba dac ogolny opis metody, moze rysunek, gdzie jest pokazane grupowanie, pytanie bazy danych itd}
+        The core component of the proposed solution is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Figure~\ref{Picture:Pipeline}, where input and output data are represented by circles, and each processing step is represented by a rectangle. The pipeline is composed of the following five steps:
 
-    \todo{tutaj elementy systemu}
+        \begin{enumerate}
+            \item {
+                \textbf{Preparation of DNA Sequences}
+        
+                This step is responsible for verifying the correctness of the provided DNA sequences and aligning them to a required length, which may be necessary for subsequent processing.
+            }
+            \item {
+                \textbf{Dissimilarity Calculation}
+        
+                In this step, the dissimilarity between DNA sequences is calculated using one of three available algorithms: two classical methods and one custom-developed approach. The resulting dissimilarity matrix serves as the basis for clustering.
+            }
+            \item {
+                \textbf{Sequence Clustering}
+        
+                Based on the previously computed dissimilarities, sequences are grouped into clusters. Each cluster consists of one representative sequence and several member sequences. The main objective of this step is to reduce the number of sequences processed in later stages by selecting the most informative representatives.
+            }
+            \item {
+                \textbf{Database Search}
+        
+                In this step, the representative sequences are queried against a reference database to identify similar sequences. This allows the system to infer the likely origin of the sequences and determine the organisms they may belong to.
+            }
+            \item {
+                \textbf{Postprocessing}
+        
+                In this final step, information from the clusters is integrated with the database search results.
+            }
+        \end{enumerate}
+        
+        \begin{figure}[!htb]
+            \begin{center}
+                \includegraphics[width=0.8\textwidth]{picture_pipeline.png}
+            \end{center}
+            \caption{
+                Diagram of the pipeline.
+            }\label{Picture:Pipeline}
+        \end{figure}
 
+            % \begin{figure}[!htb]
+            %     \begin{center}
+            %         {
+            %         % ===== BEGIN =====
+            %         % ----- -----
+            %         % COLORS
+            %         % ----- -----
+            %         \definecolor{Green}{HTML}{1dd1a1}   % Results
+            %         \definecolor{Blue}{HTML}{54a0ff}    % Sequences
+            %         \definecolor{Yellow}{HTML}{feca57}
+            %         \definecolor{Purple}{HTML}{5f27cd}
+            %         \definecolor{Grey}{HTML}{576574}
+            %         \definecolor{Red}{HTML}{ff6b6b}     % Organisms
+            %         \definecolor{Pink}{HTML}{ff9ff3}
+            %         \definecolor{Background}{HTML}{c8d6e5}
+
+            %         % ----- -----
+            %         % ELEMENTS
+            %         % ----- -----
+            %         \tikzstyle{Circle} = [circle, minimum size = 1cm, line width = 2pt, draw=black]
+            %         \tikzstyle{Box} = [rectangle, minimum width = 10cm, minimum height = 1.5cm, line width=2pt, text centered, inner sep=10pt, draw=black]
+            %         \tikzstyle{Arrow} = [very thick, -Triangle]
+            %         \tikzstyle{Arrow:Text} = [pos=0.5, right, font=\footnotesize]
+
+            %         \tikzstyle{seq} = [draw=Blue]
+            %         \tikzstyle{db} = [draw=Red]
+            %         \tikzstyle{res} = [draw=Green]
+
+            %         % ----- -----
+            %         % PICTURE
+            %         % ----- -----
+            %         \begin{tikzpicture}[node distance=3cm]
+            %             \node (input) [Circle, seq] {Input};
+            %             \node (preprocess) [Box, seq, below of=input, align=center] { 1. Preparation of DNA Sequences \\ \textbf{(optional)} };
+            %             \node (dissimilarity) [Box, seq, below of=preprocess] { 2. Dissimilarity Calculation };
+            %             \node (cluster) [Box, seq, below of=dissimilarity] {3. Sequence Clustering};
+            %             \node (search) [Box, db, below of=cluster] {4. Database Search};
+            %             \node (postprocess) [Box, res, below of=search] {5. Postprocessing};
+            %             \node (output) [Circle, res, below of=postprocess] {Output};
+
+            %             \node (cluster-right) [right of=cluster, xshift=3cm] {};
+            %             \node (postprocess-right) [right of=postprocess, xshift=3cm] { };
+
+            %             \draw [Arrow, seq] (input) -- (preprocess) node [Arrow:Text] {DNA Sequences};
+            %             \draw [Arrow, seq] (preprocess) -- (dissimilarity) node [Arrow:Text] {DNA Sequences};
+            %             \draw [Arrow, seq] (dissimilarity) -- (cluster) node [Arrow:Text] {DNA Sequences / Dissimilarity Matrix};
+            %             \draw [Arrow, seq] (cluster) -- (search) node [Arrow:Text] {Clusters representatives (DNA sequences)};
+            %             \draw [Arrow, db] (search) -- (postprocess) node [Arrow:Text] {Matches};
+            %             \draw [Arrow, seq] (cluster.east) -- (cluster-right) -- node [Arrow:Text] {Clusters} (postprocess-right) -- (postprocess.east);
+            %             \draw [Arrow, res] (postprocess) -- (output) node [Arrow:Text] {Results};
+            %         \end{tikzpicture}
+
+            %         % ===== END =====
+            %         }
+            %     \end{center}
+            %     \caption{
+            %         Schemat potoku przetwarzania.
+            %     }\label{Picture:Pipeline}
+            % \end{figure}
+
+    % END TO DELETE
 
     \subsection{\todo{czy to nie jest wybor reprezentanta?} Proposed Approach}
 
