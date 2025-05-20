@@ -68,10 +68,13 @@
     \abstract{The rapid increase in the availability of DNA sequence data necessitates efficient and scalable methods for metagenomic identification. Traditional tools like BLAST, although accurate, often require significant computational resources and time, limiting their applicability to large datasets. Recent advances in artificial neural networks (ANNs) demonstrate their potential to address this issue by offering faster and more accurate solutions.
 
     This study introduces a novel ANN-based approach for the efficient metagenomic identification of DNA sequences. The proposed method reduces the complexity of large datasets by leveraging contrastive learning within an ANN to select representative sequences. This approach enhances computational efficiency by focusing classification efforts on these representatives rather than on the entire dataset. Comparative experiments were conducted on a benchmark dataset, evaluating the proposed ANN method alongside classical techniques such as k-mer embeddings and the Needleman-Wunsch algorithm.
-    
+
     Experimental results revealed that the ANN-based approach achieves the highest weighted average classification quality among all tested methods, outperforming both classical approaches. Additionally, the ANN method demonstrates competitive execution times, benefiting from parallelized computations enabled by GPU processing.
-    
-    In conclusion, the study highlights the potential of ANN-based methods to bridge the gap between precision and scalability in genetic taxonomy. Future research directions include enhancing the network’s flexibility for varying sequence lengths and exploring its application for dimensionality reduction in broader bioinformatics tasks.}
+
+    In conclusion, the study highlights the potential of ANN-based methods to bridge the gap between precision and scalability in genetic taxonomy.
+    \todo{ We developed a tool with command-line interface, called Exquisitor that implements presented method.}
+
+    Future research directions include enhancing the network’s flexibility for varying sequence lengths and exploring its application for dimensionality reduction in broader bioinformatics tasks.}
 
     %%=============================================================%%
     %% KEYWORDS
@@ -123,42 +126,42 @@
     By leveraging the capabilities of ANN, this works aims to accelerate metagenomic identification process while maintaining at least the same level of quality as traditional methods.
     Such an approach could significantly accelerate the classification process using available tools.
 
-    The rest of the paper is organized as follows. Section 2 defines the problem, presents the proposed approach, and provides detailed implementation details.
+    The rest of the paper is organized as follows. Section 2 defines the problem, presents the proposed approach, and provides detailed implementation details \todo{of new tool called Exquisitor}.
     Section 3 describes the experimental setup, including used datasets, the performance metrics for evaluation, and the results obtained from experiments with analysis.
     Finally, section 4 concludes the paper by summarizing the main findings, discuss on the limtiations of proposed approach and suggesting potential directions for future research.
 
     \section{Methods}
 
-        The core component of the proposed solution is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Figure~\ref{Picture:Pipeline}, where input and output data are represented by circles, and each processing step is represented by a rectangle. The pipeline is composed of the following five steps:
+        The core component of \todo{the Exquisitor (proposed solution)} is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Figure~\ref{Picture:Pipeline}, where input and output data are represented by circles, and each processing step is represented by a rectangle. The pipeline is composed of the following five steps:
 
         \begin{enumerate}
             \item {
                 \textbf{Preparation of DNA Sequences}
-        
+
                 This step is responsible for verifying the correctness of the provided DNA sequences and aligning them to a required length, which may be necessary for subsequent processing.
             }
             \item {
                 \textbf{Dissimilarity Calculation}
-        
+
                 In this step, the dissimilarity between DNA sequences is calculated using one of three available algorithms: two classical methods and one custom-developed approach. The resulting dissimilarity matrix serves as the basis for clustering.
             }
             \item {
                 \textbf{Sequence Clustering}
-        
+
                 Based on the previously computed dissimilarities, sequences are grouped into clusters. Each cluster consists of one representative sequence and several member sequences. The main objective of this step is to reduce the number of sequences processed in later stages by selecting the most informative representatives.
             }
             \item {
                 \textbf{Database Search}
-        
+
                 In this step, the representative sequences are queried against a reference database to identify similar sequences. This allows the system to infer the likely origin of the sequences and determine the organisms they may belong to.
             }
             \item {
                 \textbf{Postprocessing}
-        
+
                 In this final step, information from the clusters is integrated with the database search results.
             }
         \end{enumerate}
-        
+
         \begin{figure}[!htb]
             \begin{center}
                 \includegraphics[width=1.0\textwidth]{picture_pipeline.png}
@@ -230,7 +233,7 @@
 
     % END TO DELETE
 
-    \subsection{\todo{czy to nie jest wybor reprezentanta?} Proposed Approach}
+    \subsection{\todo{Exquisitor method description}}
 
     The proposed method involves reducing the dimensionality of input DNA sequences to a feature vector in the form of $\mathbb{R}^{64}$ using an artificial neural network.
     The neural network employs contrastive learning, which enables the learning of representations while preserving dissimilarity between sequences.
@@ -299,7 +302,7 @@
                     s_{pos} &- \text{cosine similarity of the positive sequence to the anchor,} \\
                     s_{pos} &- \text{cosine similarity of the negative sequence to the anchor.} \\
                 \end{align*}
-                
+
                 \paragraph{Learning}
                 The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimizer used was \textit{AdamW}\cite{Loshchilov2017DecoupledWD}.
 
@@ -329,8 +332,8 @@
         %       REASON: UNNECESSARY
         % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-        \subsection{Implementation Details}
-            The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of metagenomic identification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.  
+        \subsection{Exquisitor implementation details}
+            The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of metagenomic identification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.
 
             The console application was implemented using the \textit{clap} library\cite{Rust:clap}. In library the $k$-medoid algorithm was provided by the \textit{kmedoids} library\cite{Rust:kmedoids}, and the neural network was built using the \textit{burn} library\cite{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library\cite{Rust:axum} with \textit{tokio}\cite{Rust:axum} async environment.
 
@@ -350,7 +353,7 @@
 
                 \section{Results}
 
-                This sections presents the results of the experiments conducted to evaluate the proposed solution, which aims to improve performance while maintaining the quality of metagenomic identifacation. The study involved comparing the new approach with two classical methods using the same dataset. The evaluation focused on execution time and identification quality to assess the effectiveness of the proposed approach.
+                This sections presents the results of the experiments conducted to evaluate the proposed solution (Exquisitor), which aims to improve performance while maintaining the quality of metagenomic identifacation. The study involved comparing the new approach with two classical methods using the same dataset. The evaluation focused on execution time and identification quality to assess the effectiveness of the proposed approach.
 
         % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
         %   BEGIN REMOVED
@@ -392,7 +395,7 @@
                 Subsets of sequences were created from the dataset with sizes expressed by the formula $2^k$ for $k \in [0, 12]$. Subsets are disjoint, and only those sequences that were not used for training the ANN model were employed in their construction.
 
             \subsubsection{Dataset Preparation}
-                The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset. Indices of sequences used in the training and validation sets of the ANN were excluded from the sampling. 
+                The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset. Indices of sequences used in the training and validation sets of the ANN were excluded from the sampling.
 
 
         \subsection{Base-line algorithms}
@@ -424,7 +427,7 @@
                     n, m -& \text{lengths of sequences } A \text{ and } B, \\
                     D -& \text{similarity matrix of size } n + 1 \text{ x } m + 1, \\
                     g \in \mathbb{R} -& \text{penalty for a gap}, \\
-                    s(A_i, B_j) \in \mathbb{R} -& \text{similarity between the } i\text{-th element in sequence A} \\ 
+                    s(A_i, B_j) \in \mathbb{R} -& \text{similarity between the } i\text{-th element in sequence A} \\
                                                 & \text{ and the } j\text{-th element in sequence B}.
                 \end{align*}
 
@@ -453,8 +456,8 @@
                 The second approach will be the use of $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. These vectors will then be compared using Euclidean distance.
 
         \subsection{Experiments}
-            \subsubsection{Experiment 1: Metagenomic identification execution time}
-                \paragraph{Objective} 
+            \subsubsection{Metagenomic identification execution time \todo{using Exquisitor}}
+                \paragraph{Objective}
                 Measuring the execution time of metagenomic identification using different genetic sequence clustering methods.
 
                 \paragraph{Assumptions}
@@ -507,7 +510,7 @@
 
                 The methods using $k$-mer embeddings and ANN showed comparable execution times, with a slight advantage for the former. Both methods use sequence representations for comparison, resulting in a slower increase in the time needed to build the dissimilarity matrix. These methods performed faster than metagenomic identification for all sequences. In the case of the ANN, the shorter execution time for $4096$ sequences could be due to the simultaneous computation of embeddings for all sequences using the GPU.
 
-            \subsubsection{Experiment 2: Metagenomic identification quality}
+            \subsubsection{Metagenomic identification quality}
                 \paragraph{Objective}
                 Examining the quality of metagenomic identification using the implemented methods in comparison to the metagenomic identification of all sequences.
 
@@ -525,7 +528,7 @@
                   \end{enumerate}
 
 
-        \subsection{Performance Measures}
+        \subsection{Exquisitor Performance Measures}
             Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without the use of a processing pipeline.
 
             \begin{equation}
@@ -546,7 +549,7 @@
             \end{align*}
 
             To compare the quality of multiple metagenomic identification runs, the weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used.
-            
+
             \begin{equation}
                 Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
                 \label{Equation:WeightedAverageQuality}
@@ -560,7 +563,7 @@
             n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
             \end{align*}
 
-                  
+
 
                 \paragraph{Results}
                 The quality of the classification was calculated using the measure expressed by equation~\ref{Equation:Quality} for the implemented methods in comparison to the full metagenomic identification. Figure~\ref{Picture:Experiment:Quality} shows a graph of classification quality as a function of the number of input sequences, with detailed quality results provided in Table~\ref{Table:Experiment:Quality}. The weighted average quality calculated using equation~\ref{Equation:WeightedAverageQuality} for the method with the modified Needleman-Wunsch algorithm was $0.899$, for the $k$-mer embedding method it was $0.921$, and for the method using the artificial neural network, it was $0.944$.
@@ -610,7 +613,7 @@
             \subsubsection{Experiments Duration}
                 The full process of metagenomic identification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of experiments to single run and subset size to $4096$ sequences.
 
-            \subsubsection{Single Dataset}  
+            \subsubsection{Single Dataset}
                 In work, only one sample from the chosen dataset was used. The selection of a sample containing DNA sequences from the human skin microbiome might have limited the space of analyzed sequences, which could have influenced the experimental results, as the both the artificial neural network and the experiments used DNA sequences from the same microbiome.
 
             \subsubsection{Single Dissimilarity Matrix}
@@ -624,14 +627,14 @@
                 Creating a single dissimilarity matrix for very large samples is not optimal, as it significantly impacts the performance of the method. To address this issue, pre-clustering the sequences into batches can provide a solution. Processing in batches may reduce quality but allows for maintaining a short execution time.
 
             \subsubsection{Automatated Determination Of The Number of Groups}
-                Current approach takes the number of created groups as a parameter, which can influence the quality of the results. For very similar sequences, a large number of groups is excessive and does not improve the results. Conversely, for highly diverse sequences, a low number of groups can reduce quality. Automating the determination of the optimal number of groups could solve the issue and minimize the need for fine-tuning 
+                Current approach takes the number of created groups as a parameter, which can influence the quality of the results. For very similar sequences, a large number of groups is excessive and does not improve the results. Conversely, for highly diverse sequences, a low number of groups can reduce quality. Automating the determination of the optimal number of groups could solve the issue and minimize the need for fine-tuning
 
     \section{Conclusions}
         \subsection{Summary of Findings}
-            The experiments demonstrated that the method based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method. This highlights the potential of neural networks for improving performance without significant computational overhead.
+            The experiments demonstrated that \todo{the proposed method} based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method. This highlights the potential of neural networks for improving performance without significant computational overhead.
 
         \subsection{Future Research Directions}
-        Future research could focus on utilizing artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses.
+        Future research could focus on utilizing artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses. \todo{zdanie: Planowane prace wdrożeniowe są skierowane w dostarczeniu interefsejsów do programu Exquisitor, pozwalając na jego integrację z istniejącymi popularnymi potokami (pipeline)}
 
 
 \subsubsection*{Author contributions}
