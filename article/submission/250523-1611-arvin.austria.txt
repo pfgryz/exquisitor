@@ -1,0 +1,39 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: "BMC Bioinformatics" <arvin.austria@springernature.com>
+Subject: You started a submission to BMC Bioinformatics
+To: robert.nowak@pw.edu.pl
+Date: Fri, 23 May 2025 14:11:36 +0000 (9 minutes, 43 seconds ago)
+
+Ref: Submission ID 01106336-ff96-426f-9190-43eb21407216
+
+Dear Dr Nowak,
+
+Thank you for starting your submission to BMC Bioinformatics. We’re looking forward to receiving your manuscript.
+
+We check manuscripts for common issues before we send them to the
+editor. If we find any problems, we’ll ask you to make changes.
+
+We do not want anything to be delayed, so here are some tips to make sure your submission goes smoothly:
+
+• add in permissions or credit if you include images that are not your own
+• make sure you know the details of your contributing authors, including affiliated institutions
+• if you are reporting experiments on live subjects, make sure you include an ethics or approval statement
+• competing interests need to include financial and non-financial interests, for example, business or family interests
+• make sure there are no differences between the manuscript file and the information you provide in the submission system
+
+Log in to complete your submission: https://submission.springernature.com/submission/01106336-ff96-426f-9190-43eb21407216
+
+If you need help with your submission, contact us
+(https://support.springernature.com/en/support/home), including your
+submission ID.
+
+Ref: Submission ID 01106336-ff96-426f-9190-43eb21407216
+
+Kind regards,
+
+Editorial Assistant
+BMC Bioinformatics
+
+
+
