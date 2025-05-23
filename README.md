@@ -1,6 +1,5 @@
 <div align="center">
-Exquisitor
-==============================
+<h1>Exquisitor</h1>
 
 Exquisitor involves identifying organisms based on DNA sequences.
 </div>
