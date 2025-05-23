@@ -72,7 +72,7 @@
     Experimental results revealed that the ANN-based approach achieves the highest weighted average classification quality among all tested methods, outperforming both classical approaches. Additionally, the ANN method demonstrates competitive execution times, benefiting from parallelized computations enabled by GPU processing.
 
     In conclusion, the study highlights the potential of ANN-based methods to bridge the gap between precision and scalability in genetic taxonomy.
-    \todo{ We developed a tool with command-line interface, called Exquisitor that implements presented method.}
+    We developed Exquisitor, a command-line tool implementing proposed method.
 
     Future research directions include enhancing the network’s flexibility for varying sequence lengths and exploring its application for dimensionality reduction in broader bioinformatics tasks.}
 
@@ -126,13 +126,13 @@
     By leveraging the capabilities of ANN, this works aims to accelerate metagenomic identification process while maintaining at least the same level of quality as traditional methods.
     Such an approach could significantly accelerate the classification process using available tools.
 
-    The rest of the paper is organized as follows. Section 2 defines the problem, presents the proposed approach, and provides detailed implementation details \todo{of new tool called Exquisitor}.
+    The rest of the paper is organized as follows. Section 2 defines the problem, presents the proposed approach, and provides implementation details of developed tool Exquisitor.
     Section 3 describes the experimental setup, including used datasets, the performance metrics for evaluation, and the results obtained from experiments with analysis.
     Finally, section 4 concludes the paper by summarizing the main findings, discuss on the limtiations of proposed approach and suggesting potential directions for future research.
 
     \section{Methods}
 
-        The core component of \todo{the Exquisitor (proposed solution)} is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Figure~\ref{Picture:Pipeline}, where input and output data are represented by circles, and each processing step is represented by a rectangle. The pipeline is composed of the following five steps:
+        The core component of proposed tool, Exquisitor is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Figure~\ref{Picture:Pipeline}, where input and output data are represented by circles, and each processing step is represented by a rectangle. The pipeline is composed of the following five steps:
 
         \begin{enumerate}
             \item {
@@ -233,7 +233,7 @@
 
     % END TO DELETE
 
-    \subsection{\todo{Exquisitor method description}}
+    \subsection{Exquisitor: Method Description}
 
     The proposed method involves reducing the dimensionality of input DNA sequences to a feature vector in the form of $\mathbb{R}^{64}$ using an artificial neural network.
     The neural network employs contrastive learning, which enables the learning of representations while preserving dissimilarity between sequences.
@@ -332,7 +332,7 @@
         %       REASON: UNNECESSARY
         % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
-        \subsection{Exquisitor implementation details}
+        \subsection{Exquisitor: Implementation Details}
             The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of metagenomic identification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.
 
             The console application was implemented using the \textit{clap} library\cite{Rust:clap}. In library the $k$-medoid algorithm was provided by the \textit{kmedoids} library\cite{Rust:kmedoids}, and the neural network was built using the \textit{burn} library\cite{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library\cite{Rust:axum} with \textit{tokio}\cite{Rust:axum} async environment.
@@ -398,9 +398,7 @@
                 The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset. Indices of sequences used in the training and validation sets of the ANN were excluded from the sampling.
 
 
-        \subsection{Base-line algorithms}
-
-                \todo{tutaj metody klasyczne, porownawcze. PG: czy trzeba coś tutaj jeszcze dodawać?}
+        \subsection{Base-line Algorithms}
 
             Two classical approaches were implemented and used for comparison with the proposed neural network.
 
@@ -452,11 +450,11 @@
                     \end{cases}
                 \end{align*}
 
-            \subsubsection{$k$-mer embeddings}
+            \subsubsection{$k$-mer Embeddings}
                 The second approach will be the use of $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. These vectors will then be compared using Euclidean distance.
 
         \subsection{Experiments}
-            \subsubsection{Metagenomic identification execution time \todo{using Exquisitor}}
+            \subsubsection{Execution Time of Metagenomic Identification with Exquisitor}
                 \paragraph{Objective}
                 Measuring the execution time of metagenomic identification using different genetic sequence clustering methods.
 
@@ -510,7 +508,7 @@
 
                 The methods using $k$-mer embeddings and ANN showed comparable execution times, with a slight advantage for the former. Both methods use sequence representations for comparison, resulting in a slower increase in the time needed to build the dissimilarity matrix. These methods performed faster than metagenomic identification for all sequences. In the case of the ANN, the shorter execution time for $4096$ sequences could be due to the simultaneous computation of embeddings for all sequences using the GPU.
 
-            \subsubsection{Metagenomic identification quality}
+            \subsubsection{Quality of Metagenomic Identification with Exquisitor}
                 \paragraph{Objective}
                 Examining the quality of metagenomic identification using the implemented methods in comparison to the metagenomic identification of all sequences.
 
@@ -623,7 +621,7 @@
             \subsubsection{Architecture of Artificial Neural Network}
                 The proposed artificial neural network architecture is not flexible and is only suitable for analyzing sequences of similar lengths. It would be possible to modify the model's architecture to incorporate recurrent neural networks (RNNs) and transformers, enabling the processing of sequences with varying lengths. RNNs and transformers could replace the first part of the model, which currently relies on convolutional layers. They would be used to create embeddings, which would later be processed by linear layers to generate an embedding that preserves dissimilarity properties.
 
-            \subsubsection{Batching sequences}
+            \subsubsection{Batching Sequences}
                 Creating a single dissimilarity matrix for very large samples is not optimal, as it significantly impacts the performance of the method. To address this issue, pre-clustering the sequences into batches can provide a solution. Processing in batches may reduce quality but allows for maintaining a short execution time.
 
             \subsubsection{Automatated Determination Of The Number of Groups}
@@ -631,10 +629,10 @@
 
     \section{Conclusions}
         \subsection{Summary of Findings}
-            The experiments demonstrated that \todo{the proposed method} based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method. This highlights the potential of neural networks for improving performance without significant computational overhead.
+            The experiments demonstrated that the proposed method based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method. This highlights the potential of neural networks for improving performance without significant computational overhead.
 
         \subsection{Future Research Directions}
-        Future research could focus on utilizing artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses. \todo{zdanie: Planowane prace wdrożeniowe są skierowane w dostarczeniu interefsejsów do programu Exquisitor, pozwalając na jego integrację z istniejącymi popularnymi potokami (pipeline)}
+        Future research could focus on utilizing artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses. Planned development efforts are focused on providing interfaces for the Exquisitor tool, enabling its integration with existing popular metagenomic pipelines.
 
 
 \subsubsection*{Author contributions}
