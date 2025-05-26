@@ -1,0 +1,55 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: Springer Nature Submissions <arvin.austria@springernature.com>
+Subject: Re: BMC Bioinformatics-Amendment required
+To: robert.nowak@pw.edu.pl
+Date: Mon, 26 May 2025 08:33:00 +0000 (3 hours, 48 minutes, 9 seconds ago)
+Reply-To: Springer Nature Submissions <arvin.austria@springernature.com>
+
+Dear Prof. Nowak,
+
+Manuscript Title: Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks 
+Manuscript ID: 01106336-ff96-426f-9190-43eb21407216 v1.0
+
+Technical Check of your submission has now taken place. As a result, we need you to address the following points before your manuscript
+can progress any further:
+
+1. Please provide a Funding Declaration in the manuscript. If there was no Funding, please state so.
+2. 
+Declarations - Please update the order of Declarations section. Must be placed after the Abbreviation section along with all its
+subheadings. Ensure that subheading matches for format below.
+ 
+**SEE FORMAT BELOW**
+ 
+Declarations
+ 
+Ethics approval and consent to participate
+Consent for publication
+Availability of data and material
+Competing interests
+Funding
+Authors' contributions - ALL AUTHORS INITIALS MUST BE MENTIONED ON THIS SECTION – use the author initials such as IE, ACE, XZ and so
+on.
+Acknowledgements
+Authors' information (optional – No need to add this word in the subsection header)
+ 
+If any of the sections are not relevant to your manuscript, please include the heading and write 'Not applicable' for that section. 
+
+Your paper has been placed back in the menu of the submitting author. We hope to receive your revised manuscript within 2 days from
+the receipt of this email. To access it, please use the following link, making sure you log in with the same email address you registered
+with:
+https://submission.springernature.com/submission/845b1dbf-8287-4f70-8693-75308544b7ee 
+
+(Press/Click on the above link to be automatically sent to the web page.)
+
+Please make the requested amendments carefully, before selecting the Submit manuscript button on the Review page. Do not change
+anything else in your manuscript.
+
+Meanwhile, if you have any questions, please feel free to contact me.
+
+Best regards,
+Arvin Austria
+Editorial Support at BMC Bioinformatics
+47600809:1196208 
+
+
