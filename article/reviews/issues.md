@@ -1,0 +1,230 @@
+Dear Dr Gryz,
+
+Your manuscript, "Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks
+", has now been assessed.
+
+We invite you to revise your paper, carefully addressing the comments from the reviewers and the editor. When your revision is ready, please submit the updated manuscript and a point-by-point response. This will help us move to a swift decision.
+
+Editor Comments
+---------------
+
+"After carefully considering the reviewers’ feedback, we recommend a major revision of the manuscript. The reviewers concur that the work introduces a potentially valuable approach to sequence clustering and metagenomic identification by combining contrastive learning with neural network embeddings. The topic is timely, the approach could be of interest to the audience, and the availability of a prototype tool is appreciated.
+
+However, in its current form, the manuscript does not meet the standards required for publication. It requires substantial rewriting and expansion, with methodological clarifications, more rigorous evaluation, and clearer presentation. Please refer to the reviewers' comments for more details."
+
+
+-Santiago Marco-Sola
+
+We recommend submitting all revisions within the mentioned deadline.
+
+If you need more time, please contact us and include your submission ID.
+
+Kind regards,
+
+Evan Smithson
+Editor
+BMC Bioinformatics
+
+
+Reviewer 1
+----------
+Reviewer 1
+
+# Rev1, preliminary
+
+Gryz and Nowak present Exquisitor, a pipeline to accelerate fixed-length DNA sequence clustering using an artificial neural network (ANN). Their title suggests how this can be used to enhance metagenomic identification (downstream via BLASTn or similar methods), but their contribution is mostly upstream of this final classification task – identifying key cluster representatives via contrastive learning to quickly and accurately assign (taxonomic) labels. This is an important contribution, as the work of metagenomic classification is widely performed, computationally intensive, and the rate of DNA sequence contribution to public repositories continues to grow rapidly.
+
+## Answer
+
+Thank you for appreciating our work
+
+# Rev1, issue 1
+
+I do think the method contribution is more general and not necessarily limited to metagenomics. For example, genome assembly (read binning, de-duplication, etc.) might benefit from this approach.
+
+## Answer
+
+Thank you, extend the discussion by the mentioned areas
+
+# Rev1, issue 2
+
+Overall, the paper is clearly written and easy to follow for readers. They also make their code publicly available, which is good practice and will make it more widely used by the community. I do think some key details need to be expanded to justify some model choices and how well their method might generalize on new, unseen data.
+
+## Answer
+
+Thank you for appreciate our work
+
+# Rev1, issue 3
+
+Minor Concerns:
+
+- There are some minor grammatical errors that still remain (e.g., "This process require significant…" → "This process requires significant…", etc.)
+
+# Rev1, issue 4
+
+- Why was the Needleman-Wunsch algorithm modified as presented? Simply for speed-up? It appears to function more as an edit-distance algorithm now.
+
+# Rev1, issue 5
+
+- How does the k-mer embedding method employed here compare to popular tools like Centrifuge, Kraken, etc.? Does it represent how this might work against state-of-the-art?
+
+# Rev1, issue 6
+
+- I think the figures and tables could benefit from more descriptive titles to stand on their own. I often had to refer to the main text to fully understand them.
+
+# Rev1, issue 7
+
+Major Concerns:
+
+- The term “classification quality” should be more clearly defined for readers here – especially those less familiar with the CAMI Classification Challenges. Can the authors also present performance – perhaps on an additional dataset if easier – to represent classification and speed performance? In the metagenomics use case, this could be done using standard machine learning metrics such as precision, recall, F1-score, accuracy, etc. If just focusing on clustering accuracy, alignment scores, bit scores, percent identity, etc. may be more appropriate. The use of the Jaccard index here is helpful but a bit harder to interpret, as details on the type of error (number of false positives vs. false negatives) are lost.
+
+# Rev1, issue 8
+
+- The authors assume in 3.3.1 that “sequence clustering is deterministic” – please elaborate here. Is this because the method actually is deterministic? Or due to the time constraints you could only perform each experimental setting once? If the latter, it would be nice to see some confidence intervals, standard error, etc. for at least a few of the mid-range sample sizes to understand how much each run might differ.
+
+# Rev1, issue 9
+
+- I would like to see performance on an external validation set used with the method. The CAMI II dataset used only comes from the human skin microbiome and was further modified by the authors to create the positive and negative sequences. What specific steps were performed to prevent data leakage here? How does the method perform on a different type of sample, and are there biologically validated data that could be used to assess accuracy? If this isn’t possible, it would be good for readers to know why.
+
+# Rev1, issue 10
+
+- The sequences are trimmed to 150 bp – how is the trimming performed? Always from the 5’ or 3’ end? Randomly? What if a key motif is cleaved off – how does this impact performance? More detail is needed here on how this is performed, why 150 bp was selected, and what this means in terms of impacts on downstream classification. Further details on the k-mer size and embedding parameter choices should also be included.
+
+# Rev1, issue 11
+
+- It’s still unclear to me if it is better to use this method or something else like Kraken or Centrifuge for a given metagenomics classification task – it would be nice to see a direct comparison (accuracy and speed) with the final pipeline against popular methods in the field on a standardized dataset.
+
+Reviewer 2
+----------
+Manuscript Review: "Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks"
+
+# Rev2, preliminary
+
+The paper is generally well-structured. This manuscript presents a promising approach for metagenomic identification using ANNs. However, several issues and experiment results require clarification.
+
+## Answer
+
+Thank you for appreciating our work.
+
+thank you for effort and valuable comments, below detailed answer for issues
+
+# Rev2, issue 1
+
+1. The contrastive learning framework needs more detailed explanation, particularly regarding how representative sequences are selected and how sequences are clustered. The description about these two parts is not very clear.
+
+# Rev2, issue 2
+
+2. Why do the authors use cosine dissimilarity to calculate the dissimilarity between sequence representations?
+
+# Rev2, issue 3
+
+3. The training procedure, including hyperparameter selection, optimization algorithm, and convergence criteria, requires elaboration.
+
+# Rev2, issue 4	
+
+4. The rationale for specific design choices should be justified with supporting evidence or theoretical foundations.
+
+# Rev2, issue 5	
+
+5. The performance evaluation metrics mainly focus on execution time and “quality”. However, the quality is not very well-defined. To evaluate metagenomic profiling, the core evaluation metrics include:
+- precision: The proportion of correctly identified taxa among all predicted taxa.
+- recall/sensitivity: The proportion of true taxa that were successfully identified.
+- L1 Norm Error: Measure the absolute difference between predicted and true relative abundances.
+More importantly, the authors should compare their method with existing well-known methods, such as kraken2, MetaPhlAn, Centrifuge, and QIIME2. And there are several ANN-based approaches, such as VAMB, MetaDecoder, and DeepBin. Please also include these methods for performance comparison.
+
+# Rev2, issue 6
+
+6. Code Availability: The authors mention developing "ENpquizitor," a command-line tool implementing the proposed method. However, no clear information is provided about public access to the code repository. There is no reference to reproducibility materials like configuration files or trained models. I strongly recommend making the code publicly available with comprehensive documentation.
+
+Reviewer 3
+----------
+Reviewer 3
+
+# Rev3, preliminary
+
+The authors proposed a new method to calculate the similarity between two DNA sequences based on the embedding output of an ANN, incorporating this step into a metagenomic identification problem. They benchmarked it against two baseline methods and showed improvement. However, the manuscript does not meet the standard of BMC Bioinformatics for the following reasons.
+
+# Rev3, issue 1
+
+The proposed method aims to convert sequences into embedding vectors. There are many existing related packages, such as DNABERT. The authors should benchmark against these tools to demonstrate that their CNN model offers an advantage.
+
+# Rev3, issue 2
+
+There is also a problem in model training, specifically in the preparation of training data. The procedure for generating positive and negative sequences is unclear and lacks biological justification: why 0–20% mutation for positives and 20–80% for negatives, which type of DNA is used (CDS or non-coding), and whether synonymous or non-synonymous mutations are considered, since mutation rates differ among these regions. The authors need to redesign the mutation model with consideration of appropriate biological factors.
+
+# Rev3, issue 3
+
+It is also unclear what the sizes of the training, validation, and test datasets are (Section 3.1.2).
+
+# Rev3, issue 4
+
+There is a problem in benchmarking. First, the baseline methods are too simple and do not consider two types of gap penalties (Gotoh algorithm) or the two types of nucleotide substitutions, transition and transversion.
+
+# Rev3, issue 5
+
+The authors might consider using MAFFT instead of the NW algorithm, as MAFFT applies the Fourier transform and is faster.
+
+# Rev3, issue 6
+In the performance measurement, it is unclear how the reference metagenomic identification was obtained—was it determined by BLASTn? 
+
+# Rev3, issue 7
+
+Most importantly, state-of-the-art methods are not included in the benchmark.
+
+# Rev3, issue 8
+Minor:
+The proposed training process is similar to the triplet neural network framework (Hoffer & Ailon, 2015, Deep metric learning using triplet network, in Similarity-Based Pattern Recognition, pp. 84–92), which classifies the data with the rule: anchor, a negative, and a positive sequence.
+
+# Rev3, issue 9
+The authors might revise the network structure accordingly. An intuitive explanation for Equation (2) is needed, e.g., why “margin – cosine” is used for positives but “negative – margin” for negatives.
+
+# Rev3, issue 10
+On page 7, the value of the hyperparameter weight decay w is missing.
+
+# Rev3, issue 11
+
+Although it is good to have the GitHub link, detailed usage instructions for the package are needed.
+
+Reviewer 4
+----------
+Reviewer 4
+
+# Rev4, issue 1
+
+1. The abstract could be made more concise and sharply focused on the core contributions namely the use of contrastive learning within an ANN for representative sequence selection, its performance gains over classical methods, and the development of the Exquisitor tool.
+
+# Rev4, issue 2
+2. The manuscript does not sufficiently address the potential limitations of the proposed ANN-based system (e.g., generalizability to diverse datasets, dependence on GPU acceleration, or adaptability to varying sequence lengths). These should be discussed to present a balanced and transparent view.
+
+# Rev4, issue 3
+3. The authors should provide more details on computational complexity, including time and memory requirements, and clarify the reliance on specific benchmark datasets during evaluation.
+
+# Rev4, issue 4
+4. The literature review should be expanded to compare the proposed method with recent studies using bioinformatics datasets for classification problems, such as s13040-024-00415-8, s12859-024-05917-0, and s12859-024-05978-1. This will help situate the contribution within the current state-of-the-art.
+
+# Rev4, issue 5
+5. While the manuscript’s language is generally understandable, there are grammatical and stylistic issues that should be corrected to improve readability and ensure technical clarity.
+
+# Rev4, issue 6
+6. The paper would benefit from strengthening its technical depth. Currently, some sections are presented in a more theoretical or descriptive style; these should be rewritten to include more technical detail, experimental reasoning, and methodological rigor.
+
+# Rev4, issue 7
+7. A dedicated “Model Limitations” subsection is recommended to ensure an unbiased evaluation of the work. This should highlight both the strengths and constraints of the proposed approach.
+
+# Rev4, issue 8
+8. The “Future Work” section could be enriched by discussing how the method might be extended to large-scale bioinformatics tasks using parallel computing for big data in gene regulatory networks. For instance, parallel deep learning approaches described in s00607-025-01441-y could be considered.
+
+
+
+Ending
+------
+How to submit your revision
+The original submitting author must upload a point-by-point response to the comments as a PDF file. This must include a description of any additional experiments that were carried out and a detailed rebuttal of any criticisms or requested revisions that you disagreed with.
+
+Any files (including the manuscript) that have changed based on the comments will also need to be uploaded again. Do not include tracked changes in your manuscript file. If you need to upload a marked-up version of the revised manuscript with the changes highlighted you can upload it on the related file section.
+
+Please note the original submitting author may be different from the corresponding author.
+
+Do you need more time to submit your revision?
+
+If you need an extension, please contact us and include your submission ID. You can find this ID in the revision request email or on the right-hand side of this page.

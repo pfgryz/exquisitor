@@ -1,0 +1,38 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: "BMC Bioinformatics" <do-not-reply@springernature.com>
+Subject: BMC Bioinformatics: Decision on "Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks " 
+To: robert.nowak@pw.edu.pl
+Date: Thu, 21 Aug 2025 09:27:33 +0000 (1 day, 2 hours, 13 minutes ago)
+
+Dear Dr Nowak,
+
+Re: "Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks
+  "
+
+The corresponding author has been asked to revise the above submission
+on which you are listed as a contributing author. Meanwhile, we would
+be grateful if you would carefully check the author details, including
+spelling and sequence of given and family names; email and
+affiliation:
+
+Corresponding author:
+Patryk Filip Gryz
+patryk.gryz.stud@pw.edu.pl
+Warsaw University of Technology PL
+
+Robert Nowak
+robert.nowak@pw.edu.pl
+Warsaw University of Technology PL
+
+If you spot any errors, please contact the corresponding author
+directly to ensure the revision moves smoothly through the submission
+process.
+
+Kind regards,
+
+Editorial Assistant
+BMC Bioinformatics
+
+
+
