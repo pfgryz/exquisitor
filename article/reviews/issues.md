@@ -42,10 +42,14 @@ Thank you for appreciating our work
 
 I do think the method contribution is more general and not necessarily limited to metagenomics. For example, genome assembly (read binning, de-duplication, etc.) might benefit from this approach.
 
-## Answer, RN
+## Answer, RN, +
 
 Thank you, extend the discussion by the mentioned areas
-We added the following;
+We added the following sentence to the 'Discussion'
+
+The presented method is not limited to metagenomics analysis; generally, it replaces BLAST in tasks when clusters of sequences are analysed. Therefore, genome assembly, identifying cell subtypes, and phylogenetic trees might benefit from the presented approach.
+
+TODO: dodać do artykułu
 
 # Rev1, issue 2
 
@@ -336,13 +340,15 @@ Reviewer 4
 ----------
 Reviewer 4
 
-# Rev4, issue 1, RN
+# Rev4, issue 1, RN, +
 
 1. The abstract could be made more concise and sharply focused on the core contributions namely the use of contrastive learning within an ANN for representative sequence selection, its performance gains over classical methods, and the development of the Exquisitor tool.
 
 ## answer
 
 przejrzeć abstrakt, zaproponować zmiany
+
+zmieniony abstrakt, 4 poprawki z grammarly, przeniosłem zdanie o implementacji, uwzględnione wskazówki.
 
 # Rev4, issue 2, PG
 
@@ -360,13 +366,28 @@ opisać problemy i ograniczenia, w 'discussion'
 
 jest w pr. inzynierskiej, dodać akapit do artykułu
 
-# Rev4, issue 4, RN
+# Rev4, issue 4, RN, +
 
 4. The literature review should be expanded to compare the proposed method with recent studies using bioinformatics datasets for classification problems, such as s13040-024-00415-8, s12859-024-05917-0, and s12859-024-05978-1. This will help situate the contribution within the current state-of-the-art.
 
 ## answer
 
 popatrzeć na te prace, dodać jak są związane
+
+s12859-024-05917-0.pdf - Salman Khan1, Salman A. AlQahtani2, Sumaiya Noor3 and Nijad Ahmad4*, PSSM‑Sumo: deep learning based intelligent model for prediction of sumoylation sites using discriminative features
+
+znajdowanie białek, gdzie występują post-translational modifications, bazując procesie 'sumoylation', sieci neuronowe, znajduje pseudo-position-specific scoring matrix, który pomaga znaleźć
+
+s13040-024-00415-8.pdf - Salman Khan1, Sumaiya Noor2, Tahir Javed3, Afshan Naseem4, Fahad Aslam4, Salman A. AlQahtani1 and
+Nijad Ahmad5, XGBoost-enhanced ensemble model using discriminative hybrid features for the prediction of sumoylation sites
+
+Post-translational modifications (PTMs), sumoylation, problem jak wcześniej, ale tutaj word embeddings, SHAP (tak jak później),
+na koniec XGBoost.
+
+s12859-024-05978-1.pdf - Sumaiya Noor1, Afshan Naseem2, Hamid Hussain Awan3, Wasiq Aslam3, Salman Khan4, Salman A. AlQahtani4 and Nijad Ahmad5*, Deep‑m5U: a deep learning‑based approach for RNA 5‑methyluridine modification prediction using optimized feature integration
+
+znajdowanie modyfikacji w RNA (m5U), metoda 'Deep-m5U', K-tuple, pozniej SHAP -- istotność każdego atrybutu definiowana jako ilość wnoszonej informacji, jakość na podzbiorach bez cechy i z cechą znormalizowana ilością podzbiorów, tutaj Boruta SHAP, później sieć neuronowa DNN (gęsta).
+
 
 # Rev4, issue 5, RN
 5. While the manuscript’s language is generally understandable, there are grammatical and stylistic issues that should be corrected to improve readability and ensure technical clarity.
@@ -390,13 +411,18 @@ byly wczeniej u kazdego Rev1, Rev2, Rev3
 
 pojawiało się wcześniej u innych Rev
 
-# Rev4, issue 8, RN
+# Rev4, issue 8, RN, +
 
 8. The “Future Work” section could be enriched by discussing how the method might be extended to large-scale bioinformatics tasks using parallel computing for big data in gene regulatory networks. For instance, parallel deep learning approaches described in s00607-025-01441-y could be considered.
 
 ## answer
 
 przjrzeć papier, zobaczyć czycoś wnosi
+
+s00607-025-01441-y.pdf Sumaiya Noor, Hamid Hussain Awan, Amber Sarwar Hashmi, Aamir Saeed, Salman Khan & Salman A. AlQahtani, Optimizing performance of parallel computing platforms for large-scale genome data analysis
+
+nowy algorytm, 'Spark-Pi-DNN', do klasyfikacji dużych RNA, używa distributed computing and cluster computing platforms,
+porównany do Apache Hadoop, Apache Spark (czas obliczeń) i różne miary jakości.
 
 
 Ending
