@@ -58,7 +58,7 @@ Overall, the paper is clearly written and easy to follow for readers. They also 
 ## Answer, PG
 
 Thank you for appreciate our work
-Porównać różne podejścia, ale nie robiąc badań, 
+Porównać różne podejścia, ale nie robiąc badań,
 Można tak, inaczej, np. GRU, LSTM, ale są wolniejsze,
 
 Dla danych które nie są z dystrybucji, należałoby zrobić oddzielną pracę, z wstępnych badań wynika,
@@ -389,6 +389,9 @@ s12859-024-05978-1.pdf - Sumaiya Noor1, Afshan Naseem2, Hamid Hussain Awan3, Was
 znajdowanie modyfikacji w RNA (m5U), metoda 'Deep-m5U', K-tuple, pozniej SHAP -- istotność każdego atrybutu definiowana jako ilość wnoszonej informacji, jakość na podzbiorach bez cechy i z cechą znormalizowana ilością podzbiorów, tutaj Boruta SHAP, później sieć neuronowa DNN (gęsta).
 
 
+Background - dodać to gdzieś, obszary.
+
+
 # Rev4, issue 5, RN
 5. While the manuscript’s language is generally understandable, there are grammatical and stylistic issues that should be corrected to improve readability and ensure technical clarity.
 
@@ -424,6 +427,7 @@ s00607-025-01441-y.pdf Sumaiya Noor, Hamid Hussain Awan, Amber Sarwar Hashmi, Aa
 nowy algorytm, 'Spark-Pi-DNN', do klasyfikacji dużych RNA, używa distributed computing and cluster computing platforms,
 porównany do Apache Hadoop, Apache Spark (czas obliczeń) i różne miary jakości.
 
+Skalowalność;
 
 Ending
 ------
