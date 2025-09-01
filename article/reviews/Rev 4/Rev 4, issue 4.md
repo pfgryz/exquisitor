@@ -1,13 +1,17 @@
 ---
 tags:
-  - ongoing
+  - done
   - citation
   - description
 owner: RN
 ---
 ## Issue
 The literature review should be expanded to compare the proposed method with recent studies using bioinformatics datasets for classification problems, such as s13040-024-00415-8, s12859-024-05917-0, and s12859-024-05978-1. This will help situate the contribution within the current state-of-the-art.
-## Answer (draft)
+
+## Answer
+We cited the proposed work in 'Future Research Directions' section, we now mention the feature selection techniques. We cited also the work from issue 8.
+
+## Notes
 popatrzeć na te prace, dodać jak są związane
 
 s12859-024-05917-0.pdf - Salman Khan1, Salman A. AlQahtani2, Sumaiya Noor3 and Nijad Ahmad4*, PSSM‑Sumo: deep learning based intelligent model for prediction of sumoylation sites using discriminative features
