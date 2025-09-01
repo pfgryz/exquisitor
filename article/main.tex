@@ -277,6 +277,9 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                     }\label{Picture:NeuralModel}
                 \end{figure}
 
+                \paragraph{Design Rationale}
+                Convolutional Neural Networks (CNNs) were chosen over Recurrent Neural Networks (RNNs) for faster training and inference. Contrastive learning allows the model to measure sequence similarity, which supports clustering.
+
                 \paragraph{Input}
                 The input to the model consists of DNA sequences of length $150$, which are encoded into a vector of dimensions $1 \times 600$ using one-hot encoding \cite{HarrisDavid:2007}.
 
@@ -302,25 +305,24 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \end{align*}
 
                 \paragraph{Learning}
-                The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimizer used was \textit{AdamW}\cite{Loshchilov2017DecoupledWD}.
+                The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimizer used was \textit{AdamW}\cite{Loshchilov2017DecoupledWD}, and the training was performed for 100 epochs. To mitigate the risk of overfitting, both weight decay and the exponential learning rate schedule were employed. The convergence criterion was defined as the absence of further improvement in the validation loss.
 
                 \paragraph{Quality}
                 As a measure of model quality, the contrastive loss of the model was computed on the validation set.
 
                 \paragraph{Parameters}
-                Experiments were conducted to determine the optimal training parameters for the artificial neural network model. The tested parameters included the learning rate coefficient \( \lambda \), weight decay \( w \), the coefficient \( \gamma \) used in the exponential learning rate decay, the dropout rate, and the effectiveness of using three perceptron layers.
+                Experiments were conducted to determine the optimal training parameters for the artificial neural network model. The tested parameters included the learning rate coefficient \( \lambda \), weight decay \( w \), the coefficient \( \gamma \) used in the exponential learning rate decay, the dropout rate, and the effectiveness of using three perceptron layers. The parameter search was performed using grid search.
 
                 As a result of these experiments, the best parameters were selected:
                 \[
-                \lambda = 10^{-6}, \quad w = , \quad \gamma = 0.99999
+                \lambda = 10^{-6}, \quad w = 10^{-4}, \quad \gamma = 0.99999
                 \]
-                a dropout rate of \( 0.5 \), and a confirmed positive impact of using three perceptron layers.
+                a dropout rate of \( 0.5 \), a batch size of 256, and a confirmed positive impact of using three perceptron layers.
 
                 Additionally, the loss function was used with the following parameters:
                 \[
                 m_{pos} = 1.0, \quad m_{neg} = 0.25.
                 \]
-
 
                 \paragraph{Results of Learning}
                 As a result of training the neural network, the model achieved a validation set loss of $0.17$.
@@ -393,8 +395,10 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 Subsets of sequences were created from the dataset with sizes expressed by the formula $2^k$ for $k \in [0, 12]$. Subsets are disjoint, and only those sequences that were not used for training the ANN model were employed in their construction.
 
             \subsubsection{Dataset Preparation}
-                The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset. Indices of sequences used in the training and validation sets of the ANN were excluded from the sampling.
+                The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset. Indices of sequences used in the training and validation sets of the ANN were excluded from the sampling. The sizes of the subsets were as follows: training set - 1,000,000 sequences, validation set - 10,000 sequences, and test set - 8,192 sequences.
 
+        \subsection{Clustering Algorithm}
+            In the experiments, we used an external k-medoids clustering algorithm \cite{Rust:kmedoids}. The medoids identified by this algorithm were used as cluster representatives and used in subsequent steps.
 
         \subsection{Base-line Algorithms}
 
@@ -449,7 +453,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \end{align*}
 
             \subsubsection{$k$-mer Embeddings}
-                The second approach will be the use of $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. These vectors will then be compared using Euclidean distance.
+                The second approach will be the use of $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. Embedding is created by constructing a vector of size $4^k$, where each $k$-mer corresponds to a specific position in the vector. The number of occurrences of each $k$-mer in the sequence is then recorded at its corresponding position. These vectors will then be compared using Euclidean distance.
 
         \subsection{Experiments}
             \subsubsection{Execution Time of Metagenomic Identification with Exquisitor}
@@ -459,7 +463,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \paragraph{Assumptions}
                 \begin{enumerate}
                     \item {
-                        Sequences clustering is deterministic.
+                        Sequences clustering is deterministic with a fixed seed.
                     }
                     \item {
                         Metagenomic identification is the only task running on the machine.
@@ -513,7 +517,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \paragraph{Assumptions}
                 \begin{enumerate}
                     \item {
-                        Sequences clustering is deterministic.
+                        Sequences clustering is deterministic with a fixed seed.
                     }
                     \item {
                         \texttt{BLASTn} is deterministic and always returns the same results for a given sequence and specified parameters.
@@ -525,7 +529,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
 
         \subsection{Exquisitor Performance Measures}
-            Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without the use of a processing pipeline.
+            Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without the use of a processing pipeline, i.e., using raw BLAST results.
 
             \begin{equation}
                 \text{Q} = \frac{
@@ -614,6 +618,13 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
             \subsubsection{Single Dissimilarity Matrix}
                 The use of a single dissimilarity matrix for all sequences limits the number of input sequences, as the matrix build time of matrix scales quadratically with the number of sequences.
+
+            \subsubsection{Baseline Methods Limitations}
+                We used simplified baseline methods, which do not account for different gap penalties as implemented in algorithms such as Gotoh \cite{Gotoh1982}, nor do they distinguish between different types of nucleotide subsitutions, such as transitions and transversions.
+
+            \subsubsection{Model Limitations}
+                The model has several limitations. Its generalization is currently restricted to human skin microbiome data due to othe specifity of the training dataset; evaluation on other sample types would require additional studies. Being ANN-based, the method benefits from GPU acceleration, while CPU-only execution results in slower processing and longer pipeline runtime. This approach is optimized for sequences of similar length and show limited adaptability to sequences of substantially different lengths. Finally, the use of CNNs rather than RNNs or transformers may limit architectural flexibility and potentially affect performance, albeit providing faster training and inference times.
+                
 
         \subsection{Possible Improvements}
             \subsubsection{Architecture of Artificial Neural Network}
