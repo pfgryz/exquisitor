@@ -1,6 +1,5 @@
 ---
 tags:
-  - description
   - done
 owner: RN
 ---
@@ -11,5 +10,5 @@ Thank you, extend the discussion by the mentioned areas
 
 We added the following sentence to the 'Discussion'
 ```
-The presented method is not limited to metagenomics analysis; generally, it replaces BLAST in tasks when clusters of sequences are analysed. Therefore, genome assembly, identifying cell subtypes, and phylogenetic trees might benefit from the presented approach.
+Our pipeline increases the speed of BLAST by using a single sequence that represents a cluster and it uses the BLAST internally. The presented method is not limited to metagenomics analysis; generally, it replaces BLAST in tasks when clusters of sequences are analysed. Therefore, genome assembly, identifying cell subtypes, and phylogenetic trees might benefit from the presented approach.
 ```
