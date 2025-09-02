@@ -165,7 +165,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \includegraphics[width=1.0\textwidth]{picture_pipeline.png}
             \end{center}
             \caption{
-                Diagram of the pipeline.
+                Overview of the pipeline: preparation of DNA sequences, dissimilarity calculation, sequence clustering, database search and postprocessing.
             }\label{Picture:Pipeline}
         \end{figure}
 
@@ -273,7 +273,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                         \includegraphics[width=\textwidth]{picture_ann_network.png}
                     \end{center}
                     \caption{
-                        Diagram of ANN architecture.
+                        Diagram of ANN architecture. Two parts were depicted: the convolutional blocks (on the left) are responsible for feature extraction, and fully connected layers with dropout to generate the results.
                     }\label{Picture:NeuralModel}
                 \end{figure}
 
@@ -478,12 +478,12 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                         \includegraphics[width=\textwidth]{picture_experiment_duration.png}
                     \end{center}
                     \caption{
-                        Metagenomic identification execution time.
+                        The comparision of the metagenomic identification execution time by presented solution (NP) and benchmark methods: modified Needleman-Wunsch algorithm (NW), $k$-mer embeddings ($k$-mer), method using artificial neural network (ANN).
                     }\label{Picture:Experiment:Duration}
                 \end{figure}
 
                 \begin{table}\centering
-                    \caption{Metagenomic identification execution time.}\label{Table:Experiment:Duration}
+                    \caption{Metagenomic identification execution time comparison of presented solution (NP) and benchmar methods (NW, $k$-mer, ANN).}\label{Table:Experiment:Duration}
                     \begin{tabular}{|c||c|c|c|c|}
                         \hline
                         \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{4}{|c|}{\textbf{Execution time [s]}} \\
@@ -573,12 +573,12 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                         \includegraphics[width=\textwidth]{picture_experiment_quality.png}
                     \end{center}
                     \caption{
-                        Metagenomic identification quality.
+                      Comparison of metagenomic identification quality returned by presented method with the benchmark methods.
                     }\label{Picture:Experiment:Quality}
                 \end{figure}
 
                 \begin{table}\centering
-                    \caption{Metagenomic identificationn quality.}\label{Table:Experiment:Quality}
+                    \caption{Comparison of metagenomic identification quality returned by presented method with the benchmark methods.}\label{Table:Experiment:Quality}
 
                     \begin{tabular}{|c|c|c|c|}
                         \hline
