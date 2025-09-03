@@ -1,6 +1,5 @@
 ---
 tags:
-  - review
   - ongoing
 owner: PFG
 ---

@@ -1,7 +1,6 @@
 ---
 tags:
-  - review
-  - ongoing
+  - done
 owner: PFG
 ---
 ## Issue
@@ -13,7 +12,4 @@ Thank you for bringing this to our attention.
 
 The proposed training formula is similar to the triplet neural network framework, but it is adapted to use cosine dissimilarity. 
 
-We have added a reference to the indicated work in the article.
-## Review
-- gdzie dodać tą referencję?
-- do dyskusji gdzieś wpisać
+We have added a reference to the indicated work in the article in Section 2.1.1.

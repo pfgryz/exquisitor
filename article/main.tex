@@ -307,6 +307,8 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                     s_{pos} &- \text{cosine similarity of the negative sequence to the anchor.} \\
                 \end{align*}
 
+                The proposed loss function is similar to the triplet neural network framework\cite{hoffer2018deepmetriclearningusing}, but it is adapted to use cosine dissimilarity. 
+
                 \paragraph{Learning}
                 The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimizer used was \textit{AdamW}\cite{Loshchilov2017DecoupledWD}, and the training was performed for 100 epochs. To mitigate the risk of overfitting, both weight decay and the exponential learning rate schedule were employed. The convergence criterion was defined as the absence of further improvement in the validation loss.
 
@@ -531,40 +533,40 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                   \end{enumerate}
 
 
-        \subsection{Exquisitor Performance Measures}
-            Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}, as standard classification metrics relying on false positives/negatives are not well-defined when BLAST results serve as the reference.. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without the use of a processing pipeline, i.e., using raw BLAST results.
+                \paragraph{Exquisitor Performance Measures}
+                    Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}, as standard classification metrics relying on false positives/negatives are not well-defined when BLAST results serve as the reference.. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without the use of a processing pipeline, i.e., using raw BLAST results.
 
-            \begin{equation}
-                \text{Q} = \frac{
-                    \sum_{r \in (O(R) \cap O(E))} R_{r}
-                }{
-                    \sum_{r \in (O(R) \cup O(E))} R_{r}
-                }
-                \label{Equation:Quality}
-            \end{equation}
+                    \begin{equation}
+                        \text{Q} = \frac{
+                            \sum_{r \in (O(R) \cap O(E))} R_{r}
+                        }{
+                            \sum_{r \in (O(R) \cup O(E))} R_{r}
+                        }
+                        \label{Equation:Quality}
+                    \end{equation}
 
-            where:
-            \begin{align*}
-                R &- \text{set of reference results,} \\
-                E &- \text{set of obtained results,} \\
-                R_{r} &- \text{number of results in reference set assigned to the organism $r$} \\
-                O(X) &- \text{set of unique organisms, for which results were assigned in the set $X$}
-            \end{align*}
+                    where:
+                    \begin{align*}
+                        R &- \text{set of reference results,} \\
+                        E &- \text{set of obtained results,} \\
+                        R_{r} &- \text{number of results in reference set assigned to the organism $r$} \\
+                        O(X) &- \text{set of unique organisms, for which results were assigned in the set $X$}
+                    \end{align*}
 
-            To compare the quality of multiple metagenomic identification runs, the weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used.
+                    To compare the quality of multiple metagenomic identification runs, the weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used.
 
-            \begin{equation}
-                Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
-                \label{Equation:WeightedAverageQuality}
-            \end{equation}
+                    \begin{equation}
+                        Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
+                        \label{Equation:WeightedAverageQuality}
+                    \end{equation}
 
-            where:
-            \begin{align*}
-            C &- \text{set of metagenomic identification runs,} \\
-            Q_c &- \text{quality of metagenomic identificationn $c$,} \\
-            n_c &- \text{number of input sequences for metagenomic identification $c$,}\\
-            n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
-            \end{align*}
+                    where:
+                    \begin{align*}
+                    C &- \text{set of metagenomic identification runs,} \\
+                    Q_c &- \text{quality of metagenomic identificationn $c$,} \\
+                    n_c &- \text{number of input sequences for metagenomic identification $c$,}\\
+                    n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
+                    \end{align*}
 
 
 
@@ -607,6 +609,8 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 All implemented methods achieved very good classification quality results, exceeding $0.7$ in cases where the number of groups was significantly larger than the number of input sequences. The weighted average quality for all methods also reached a high value.
 
                 The method using the artificial neural network achieved the best weighted average quality, slightly outperforming the $k$-mer embedding method and the method with the modified Needleman-Wunsch algorithm. The artificial neural network method owes its result to the model's consideration of the full sequence structure, which allowed for a better determination of dissimilarity between sequences.
+
+            \subsection{Performance on an external dataset}
 
     \section{Discussion}
         \subsection{Interpretation of Results}
