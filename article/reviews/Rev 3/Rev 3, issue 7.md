@@ -1,9 +1,6 @@
 ---
 tags:
   - todo
-  - description
-  - experiment
-  - large
 owner: PFG
 ---
 ## Issue

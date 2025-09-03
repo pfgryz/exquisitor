@@ -5,6 +5,11 @@ authors = ["Patryk Filip Gryz"]
 edition = "2021"
 license = "MIT"
 
+[[bin]]
+name = "group-assign"
+path = "src/group_assign.rs"
+
+
 [dependencies]
 clap = { version = "4.5.20", features = ["derive"] }
 exquisitor-core = { path = "../exquisitor-core" }

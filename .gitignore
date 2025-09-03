@@ -5,6 +5,12 @@ __pycache__/
 # C extensions
 *.so
 
+exquisitor\scripts\PL/
+exquisitor\scripts\EN/
+article\venv\bin/
+thesis\venv\bin/
+exquisitor\scripts\grouping\.venv/
+
 # Distribution / packaging
 .Python
 env/

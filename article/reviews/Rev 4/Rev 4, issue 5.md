@@ -1,7 +1,6 @@
 ---
 tags:
   - todo
-  - description
 owner: RN
 ---
 ## Issue

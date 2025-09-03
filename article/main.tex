@@ -281,7 +281,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 Convolutional Neural Networks (CNNs) were chosen over Recurrent Neural Networks (RNNs) for faster training and inference. Contrastive learning allows the model to measure sequence similarity, which supports clustering.
 
                 \paragraph{Input}
-                The input to the model consists of DNA sequences of length $150$, which are encoded into a vector of dimensions $1 \times 600$ using one-hot encoding \cite{HarrisDavid:2007}.
+                The input to the model consists of DNA sequences of length $150$\footnote{The sequence length of 150 is a method parameter and can be adjusted depending on the application.}, which are encoded into a vector of dimensions $1 \times 600$ using one-hot encoding \cite{HarrisDavid:2007}.
 
                 \paragraph{Training Examples}
                 The training and validation examples consist of an anchor, a positive sequence that is similar to the anchor, and a negative sequence that is dissimilar to the anchor.
@@ -299,7 +299,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 where:
                 \begin{align*}
                     m_{pos} &- \text{similarity margin between the positive sequence and the anchor,} \\
-                    m_{neg} &- \text{similarity margin between the negative sequence and the anchor,} \\
+                    m_{neg} &- \text{similarity margin between the negative sequence and the anchor,} \footnote{The positive margin controls the minimum similarity between similar sequences, whereas the negative margin controls the maximum similarity between dissimilar sequences.} \\
                     s_{pos} &- \text{cosine similarity of the positive sequence to the anchor,} \\
                     s_{pos} &- \text{cosine similarity of the negative sequence to the anchor.} \\
                 \end{align*}
@@ -529,7 +529,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
 
         \subsection{Exquisitor Performance Measures}
-            Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without the use of a processing pipeline, i.e., using raw BLAST results.
+            Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}, as standard classification metrics relying on false positives/negatives are not well-defined when BLAST results serve as the reference.. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without the use of a processing pipeline, i.e., using raw BLAST results.
 
             \begin{equation}
                 \text{Q} = \frac{
@@ -615,7 +615,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 The full process of metagenomic identification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of experiments to single run and subset size to $4096$ sequences.
 
             \subsubsection{Single Dataset}
-                In work, only one sample from the chosen dataset was used. The selection of a sample containing DNA sequences from the human skin microbiome might have limited the space of analyzed sequences, which could have influenced the experimental results, as the both the artificial neural network and the experiments used DNA sequences from the same microbiome.
+                In work, only one sample from the chosen dataset was used. The selection of a sample containing DNA sequences from the human skin microbiome might have limited the space of analyzed sequences, which could have influenced the experimental results, as the both the artificial neural network and the experiments used DNA sequences from the same microbiome. Additionally, the absence of duplicate checking could have resulted in data leakage, potentially biasing the evaluation.
 
             \subsubsection{Single Dissimilarity Matrix}
                 The use of a single dissimilarity matrix for all sequences limits the number of input sequences, as the matrix build time of matrix scales quadratically with the number of sequences.

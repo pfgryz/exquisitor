@@ -1,7 +1,5 @@
 ---
 tags:
-  - description
-  - medium
   - todo
 owner: PFG
 ---

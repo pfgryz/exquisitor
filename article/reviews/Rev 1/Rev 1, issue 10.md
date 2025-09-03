@@ -1,10 +1,6 @@
 ---
 tags:
-  - description
-  - documentation
-  - small
   - done
-  - review
 owner: PFG
 ---
 ## Issue
@@ -19,9 +15,11 @@ The description in the article is a bit redundant. In our study, we used an inpu
 
 The k-mer embedding is created by constructing a vector of size $4^k$, where each k-mer corresponds to a specific position in the vector. The number of occurrences of each k-mer in the sequence is then recorded at its corresponding position.
 
-We have modified the article, section 3.2.2, page 10, by adding the following text:
+We have modified the article, section 3.2.2 (p. 10) by adding the following text:
 ```
 Embedding is created by constructing a vector of size $4^k$, where each $k$-mer corresponds to a specific position in the vector. The number of occurences of each $k$-mer in the sequence is then recorded at its corresponding position. 
 ```
-## Review
-- czy dodać w tekście, że rozmiar 150bp może być zmieniony na dowolny inny? dodać, że to parametr (przy pierwszym użyciu wyjaśnić) może być footnote
+and Section 2.1.1 (p. 6), with following footnote:
+```
+The sequence length of 150 is a method parameter and can be adjusted depending on the application.
+```

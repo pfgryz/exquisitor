@@ -1,10 +1,6 @@
 ---
 tags:
-  - description
-  - experiment
-  - large
   - ongoing
-  - extend
 owner: PFG
 ---
 ## Issue
@@ -17,10 +13,10 @@ Thank you for bringing this to our attention.
 
 During the study, we ensured that the data were split into training, validation and tet sets. Homever, data leakage may have occurred because we did not verify the presence of duplicate records in the input data.
 
-We have modified the article, section X, page Y, by adding the following text
+We have modified the article, Section 4.2.2 (p. 15), by adding the following text
 ```
-// Added text
+Additionally, the absence of duplicate checking could have resulted in data leakage, potentially biasing the evaluation.
 ```
 ## Review
 - dodać informacje o przeprowadzonym eksperymencie
-- dodać tekst do `Limitations`, w którym wskazane jest brak sprawdzenia duplikatów, co mogło prowadzić do data leakage + zaktualizować odpowiedź do recenzenta o to
+- zaktualizować odpowiedź do recenzenta o to

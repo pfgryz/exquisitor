@@ -1,8 +1,5 @@
 ---
 tags:
-  - description
-  - documentation
-  - medium
   - done
 owner: PFG
 ---
