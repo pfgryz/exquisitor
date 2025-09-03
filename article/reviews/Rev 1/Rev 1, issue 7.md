@@ -1,7 +1,6 @@
 ---
 tags:
-  - review
-  - ongoing
+  - done
 owner: PFG
 ---
 ## Issue
@@ -14,6 +13,8 @@ Thank you for bringing this to our attention.
 We decided to use the Jaccard index instead of standard machine learning metrics, because it is not straightforward to obtain a confusion matrix with respect to a ground truth, as the reference is the BLAST result.
 
 Reporting false positives or false negatives would be misleading, since FPs or FNs do not make sense in this context - what appears as a false positive relative to BLAST could actually be a true positive with respect to the real ground truth. Our goal was primarily to approximate BLAST results.
-## Review
-- czy coś dodawać do tekstu?
-- dodać informacje o tej metryce (gdzieś)
+
+We have modified the article, Section 3.5 (p. 12), by adding the following text
+```
+as standard classification metrics relying on false positives/negatives are not well-defined when BLAST results serve as the reference.
+```
