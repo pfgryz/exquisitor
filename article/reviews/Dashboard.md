@@ -3,6 +3,10 @@
 - posprawdzać czy się nie zmieniły numery sekcji
 - posprawdzać czy się nie zmieniły strony
 
+## TODO
+[[Rev 4, issue 6]] [[Rev 2, issue 4]] - lista ze zmianami
+[[Rev 3, issue 7]] [[Rev 3, issue 1]] [[Rev 2, issue 5b]] - podziękować
+
 # Statuses: PFG
 ```dataview 
 TABLE 

@@ -18,5 +18,5 @@ We have modified the article, Section 4.2.2 (p. 15), by adding the following tex
 Additionally, the absence of duplicate checking could have resulted in data leakage, potentially biasing the evaluation.
 ```
 ## Review
-- dodać informacje o przeprowadzonym eksperymencie
-- zaktualizować odpowiedź do recenzenta o to
+- zaktualizować main.tex o przeprowadzony eksperyment (sekcja 3.5)
+- wkleić ten sam tekst tutaj w odpowiedź

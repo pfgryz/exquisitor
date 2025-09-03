@@ -1,7 +1,6 @@
 ---
 tags:
-  - ongoing
-  - review
+  - done
 owner: PFG
 ---
 ## Issue
@@ -14,7 +13,3 @@ Uruchomiliśmy jedno przykładowe badanie ze zmienionymi rozkładami, tak jak za
 Thank you for bringing this to our attention.
 
 The model was trained on high-quality simulated data, and the data augmentation applied was not directly biologically motivated. Although the probabilities of the generated mutations do not strictly reflect biological reality, the model was still able to perform well in our experiments. Nevertheless, the lack of incorporation of biological information may have influenced the results and potentially limited the model's overall effectiveness.
-## Review
-- dodać informacje o przerpwadzonych eksperymencie
-- przeprowadzić eksperyment
-- czy dodawać jakiś tekst do artykułu? jak bedzie eksperyment

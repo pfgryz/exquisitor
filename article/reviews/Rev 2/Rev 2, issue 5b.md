@@ -8,4 +8,10 @@ More importantly, the authors should compare their method with existing well-kno
 ## Answer (draft)  
 podobne do Rev1, issue 5
 ## Answer
-// dopisać odpowiedź 
+Dziękujemy za zwrócenie uwagi,
+
+Our pipeline increases the speed of BLAST by using a single sequence that represents a cluster and it uses the BLAST internally. 
+
+Porównaliśmy z ?, ?, ?, faktycznie warto byłoby porównać z kraken, metaphi, ..., Jest to działanie planowane w kolejnych etapach rozwoju projektu, ponieważ eksperyment wymaga dużo czasu (setup, przeprowadzenie etc.). Nie zrobiliśmy tego w tej wersji.
+
+Homewer, we think ..., że te doświadczenia przeprowadzone pokazują użyteczność naszej metody.
