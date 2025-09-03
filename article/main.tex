@@ -88,45 +88,48 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
     \section{Background}
     The use of information about genetic material found in the environment, combined with sequence databases, enables metagenomic identification -- the identification of organisms present in a given sample.
-    With the development of next-generation sequencing methods\cite{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analyzed has increased\cite{Muir:2016}.
-    The time required for metagenomic identification using traditional tools, such as BLAST, is unacceptable in many applications -- can span several hours, even for relatively small collections of analyzed sequences (for example 4096 sequences),
-    due to huge size and explosive growth of sequencing databases \cite{10.1093/nar/gkr854}.
-    This process require significant computational resources. It is necessary to create new methods to allow analyzing new samples of data in acceptable time using available resources.
+    With the development of next-generation sequencing methods\cite{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analysed has increased\cite{Muir:2016}.
+    The time required for metagenomic identification using traditional tools, such as BLAST, is unacceptable in many applications -- it can span several hours, even for relatively small collections of analysed sequences (for example, 4096 sequences),
+    due to the huge size and explosive growth of sequencing databases \cite{10.1093/nar/gkr854}.
+    This process requires significant computational resources. It is necessary to create new methods to allow for the analysis of new samples of data in an acceptable time using available resources.
 
-    The primary objective of this study is to propose fast and high quality metagenomic identification method. We propose usage an artificial neural network to support the selection of representative genetic sequences.
-    Instead of classifying entire environmental genetic sequences sample, the proposed approach focuses on identifying a subset of sequences that best represent the sample.
-    These selected representatives are then used to identification, reducing computational complexity while maintaining accuracy.
+    The primary objective of this study is to propose a~fast and high-quality metagenomic identification method.
+    We propose using an artificial neural network to support the selection of representative genetic sequences.
+    Instead of classifying all environmental genetic sequences,
+    the proposed approach focuses on identifying a subset of sequences that best represent the sample.
+    These selected representatives are then used for identification,
+    reducing computational complexity while maintaining accuracy.
 
     Historically, one of the first algorithms that enabled metagenomic identification was the Needleman-Wunsch algorithm \cite{Needleman:1970}, developed in 1970, which allowed for the comparison of genetic sequences.
     However, the first solution that enabled this task within a reasonable time frame was a tool created in 1983 by D. Lipman and W. Wilbur \cite{Wilbur:1983}.
-    Their method was based on dividing sequences into $k$-tuples, a generalization of $k$-mers, and comparing them.
+    Their method was based on dividing sequences into $k$-tuples, a generalisation of $k$-mers, and comparing them.
     An advancement of this approach was the BLAST algorithm, introduced in 1990 \cite{Altschul:1990}, which also relied on $k$-mers and allowed for the efficient search of similar sequences in sequence databases.
 
-    The metagenomic ideitification became popular over the past 15 years, due to sequence database growth.
-    A notable example of interesting tool is the development of the MetaPhlAn tool in 2012 \cite{Segata:2012}, which uses marker genes to compare the species composition of metagenomic samples.
-    Another marker gene-based approach is mOTUs2 \cite{Milanese:2019}, which identifies and analyzes markers unique to specific microbial strains.
+    The metagenomic identification became popular over the past 15 years, due to sequence database growth.
+    A notable example of an interesting tool is the development of the MetaPhlAn tool in 2012 \cite{Segata:2012}, which uses marker genes to compare the species composition of metagenomic samples.
+    Another marker gene-based approach is mOTUs2 \cite{Milanese:2019}, which identifies and analyses markers unique to specific microbial strains.
 
     A different technique was employed in Centrifuge \cite{Kim:2016}, developed in 2016,
     which utilizes sequence indexing based on the Burrows-Wheeler transform \cite{Burrows:1994} and the Ferragina-Manzini index \cite{Ferragina:2000} for efficient sequences retrieval.
     A more classical approach is used in Kraken \cite{Wood:2014}, introduced in 2014, which combines $k$-mers with an indexed sequence database.
     An unconventional method for metageonomic identification was proposed in 2022 with BERTax \cite{Mock:2022}, which applies a transformer model \cite{Transformers} to DNA sequence analysis,
-    treating DNA as a specialized language and allowing for classification without the need for reference databases.
+    treating DNA as a specialised language and allowing for classification without the need for reference databases.
     Another machine learning-based solution is CGRclust \cite{Alipour:2024}, which clusters DNA sequences using a two-dimensional chaos game representation and integrates unsupervised contrastive learning with convolutional neural networks.
 
-    Currently we can propose three types of methods developed for metagenomic identification: methods using alignment, methods based on $k$-mers and methods using marker genes.
+    Currently, three types of methods have been developed for metagenomic identification: methods using alignment, methods based on $k$-mers and methods using marker genes.
     Alignment-based tools should yield the best results, but they require significant computational resources.
     Algorithms based on $k$-mers are very fast, but they do not take into account all the information about the structure of the input genetic sequences, which reduces their quality.
-    Solutions using marker genes are characterized by good quality, but they allow analysis only for subsets of organisms for which marker genes are known.
+    Solutions using marker genes are characterised by good quality, but they allow analysis only for subsets of organisms for which marker genes are known.
 
     Although recent years have seen studies on metagenomic identification using machine learning methods, there is still
     a lack of research focusing on the application of artificial neural networks with contrastive learning for efficient sequence clustering.
     In many fields, artificial neural networks (ANN) have demonstrated the ability to outperform classical heuristic algorithms, offering faster and more accurate results.
-    By leveraging the capabilities of ANN, this works aims to accelerate metagenomic identification process while maintaining at least the same level of quality as traditional methods.
+    By leveraging the capabilities of ANN, this work aims to accelerate the metagenomic identification process while maintaining at least the same level of quality as traditional methods.
     Such an approach could significantly accelerate the classification process using available tools.
 
-    The rest of the paper is organized as follows. Section 2 defines the problem, presents the proposed approach, and provides implementation details of developed tool Exquisitor.
-    Section 3 describes the experimental setup, including used datasets, the performance metrics for evaluation, and the results obtained from experiments with analysis.
-    Finally, section 4 concludes the paper by summarizing the main findings, discuss on the limtiations of proposed approach and suggesting potential directions for future research.
+    The rest of the paper is organised as follows. Section 2 defines the problem, presents the proposed approach, and provides implementation details of the developed tool Exquisitor.
+    Section 3 describes the experimental setup, including the datasets used, the performance metrics for evaluation, and the results obtained from experiments with analysis.
+    Finally, section 4 concludes the paper by summarising the main findings, discussing limtiations of the proposed approach and suggesting potential directions for future research.
 
     \section{Methods}
 
@@ -615,7 +618,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 The full process of metagenomic identification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of experiments to single run and subset size to $4096$ sequences.
 
             \subsubsection{Single Dataset}
-                In work, only one sample from the chosen dataset was used. The selection of a sample containing DNA sequences from the human skin microbiome might have limited the space of analyzed sequences, which could have influenced the experimental results, as the both the artificial neural network and the experiments used DNA sequences from the same microbiome. Additionally, the absence of duplicate checking could have resulted in data leakage, potentially biasing the evaluation.
+                In work, only one sample from the chosen dataset was used. The selection of a sample containing DNA sequences from the human skin microbiome might have limited the space of analysed sequences, which could have influenced the experimental results, as the both the artificial neural network and the experiments used DNA sequences from the same microbiome. Additionally, the absence of duplicate checking could have resulted in data leakage, potentially biasing the evaluation.
 
             \subsubsection{Single Dissimilarity Matrix}
                 The use of a single dissimilarity matrix for all sequences limits the number of input sequences, as the matrix build time of matrix scales quadratically with the number of sequences.
@@ -629,7 +632,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
         \subsection{Possible Improvements}
             \subsubsection{Architecture of Artificial Neural Network}
-                The proposed artificial neural network architecture is not flexible and is only suitable for analyzing sequences of similar lengths. It would be possible to modify the model's architecture to incorporate recurrent neural networks (RNNs) and transformers, enabling the processing of sequences with varying lengths. RNNs and transformers could replace the first part of the model, which currently relies on convolutional layers. They would be used to create embeddings, which would later be processed by linear layers to generate an embedding that preserves dissimilarity properties.
+                The proposed artificial neural network architecture is not flexible and is only suitable for analysing sequences of similar lengths. It would be possible to modify the model's architecture to incorporate recurrent neural networks (RNNs) and transformers, enabling the processing of sequences with varying lengths. RNNs and transformers could replace the first part of the model, which currently relies on convolutional layers. They would be used to create embeddings, which would later be processed by linear layers to generate an embedding that preserves dissimilarity properties.
 
             \subsubsection{Batching Sequences}
                 Creating a single dissimilarity matrix for very large samples is not optimal, as it significantly impacts the performance of the method. To address this issue, pre-clustering the sequences into batches can provide a solution. Processing in batches may reduce quality but allows for maintaining a short execution time.
