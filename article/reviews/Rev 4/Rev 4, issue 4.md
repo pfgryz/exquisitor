@@ -1,8 +1,6 @@
 ---
 tags:
   - done
-  - citation
-  - description
 owner: RN
 ---
 ## Issue
