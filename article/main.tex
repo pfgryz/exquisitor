@@ -360,7 +360,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
                 \section{Results}
 
-                This sections presents the results of the experiments conducted to evaluate the proposed solution (Exquisitor), which aims to improve performance while maintaining the quality of metagenomic identifacation. The study involved comparing the new approach with two classical methods using the same dataset. The evaluation focused on execution time and identification quality to assess the effectiveness of the proposed approach.
+                This section presents the results of the experiments conducted to evaluate the proposed solution (Exquisitor), which aims to improve performance while maintaining the quality of metagenomic identification. The study compared the new approach with two classical methods using the same dataset. The evaluation focused on execution time and identification quality to assess the effectiveness of the proposed approach.
 
         % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
         %   BEGIN REMOVED
@@ -397,19 +397,21 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
         \subsection{Datasets}
             \subsubsection{Dataset Description}
-                In the experiments, the \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019} dataset was used, which is the same dataset used for training the artificial neural network model. Dataset was chosen, because it was created for benchmarking bioinformatics tools and contains a large number of sequences, enabling its use both in experiments and in the learning process.
+                In the experiments, the \textit{CAMI II Toy Human Microbiome Project}\cite{Fritz:2019} dataset was used, which is the same dataset used for training the artificial neural network model. The dataset was chosen because it was created for benchmarking bioinformatics tools and contains a large number of sequences, enabling its use both in experiments and in the learning process.
 
-                Subsets of sequences were created from the dataset with sizes expressed by the formula $2^k$ for $k \in [0, 12]$. Subsets are disjoint, and only those sequences that were not used for training the ANN model were employed in their construction.
+                Subsets of sequences were created from the dataset with sizes expressed by the formula $2^k$ for $k \in [0, 12]$. Subsets are disjoint, and only those sequences not used for training the ANN model were employed in their construction.
 
             \subsubsection{Dataset Preparation}
-                The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset. Indices of sequences used in the training and validation sets of the ANN were excluded from the sampling. The sizes of the subsets were as follows: training set - 1,000,000 sequences, validation set - 10,000 sequences, and test set - 8,192 sequences.
+            The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset.
+            Indices of sequences used in the ANN training and validation sets were excluded from the sampling. The sizes of the subsets were as follows: training set - 1,000,000 sequences, validation set - 10,000 sequences, and test set - 8,192 sequences.
 
         \subsection{Clustering Algorithm}
             In the experiments, we used an external k-medoids clustering algorithm \cite{Rust:kmedoids}. The medoids identified by this algorithm were used as cluster representatives and used in subsequent steps.
 
         \subsection{Base-line Algorithms}
 
-            Two classical approaches were implemented and used for comparison with the proposed neural network.
+        Two classical approaches were implemented and used to compare their results
+        with the results of the proposed neural network.
 
             \subsubsection{Modified Needleman-Wunsch Algorithm}
                 The first classical approach is the Needleman-Wunsch algorithm. This algorithm allows for global alignment of genetic sequences. It uses a similarity matrix between sequences, which is constructed according to the rules given in equation~\eqref{Equation:NeedlemanWunsch}. A modification of the approach presented in equation~\eqref{Equation:NeedlemanWunschModified} is applied in the work.
@@ -460,7 +462,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \end{align*}
 
             \subsubsection{$k$-mer Embeddings}
-                The second approach will be the use of $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. Embedding is created by constructing a vector of size $4^k$, where each $k$-mer corresponds to a specific position in the vector. The number of occurrences of each $k$-mer in the sequence is then recorded at its corresponding position. These vectors will then be compared using Euclidean distance.
+                The second approach use $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. Embedding is created by constructing a vector of size $4^k$, where each $k$-mer corresponds to a specific position in the vector. The number of occurrences of each $k$-mer in the sequence is then recorded at its corresponding position. These vectors will then be compared using Euclidean distance.
 
         \subsection{Experiments}
             \subsubsection{Execution Time of Metagenomic Identification with Exquisitor}
@@ -485,12 +487,11 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                         \includegraphics[width=\textwidth]{picture_experiment_duration.png}
                     \end{center}
                     \caption{
-                        The comparision of the metagenomic identification execution time by presented solution (NP) and benchmark methods: modified Needleman-Wunsch algorithm (NW), $k$-mer embeddings ($k$-mer), method using artificial neural network (ANN).
-                    }\label{Picture:Experiment:Duration}
+                        The comparison of the metagenomic identification execution time by the presented solution (NP) and benchmark methods: modified Needleman-Wunsch algorithm (NW), $k$-mer embeddings ($k$-mer), and a~method using an~artificial neural network (ANN).}\label{Picture:Experiment:Duration}
                 \end{figure}
 
                 \begin{table}\centering
-                    \caption{Metagenomic identification execution time comparison of presented solution (NP) and benchmar methods (NW, $k$-mer, ANN).}\label{Table:Experiment:Duration}
+                    \caption{Metagenomic identification execution time comparison of presented solution (NP) and benchmark methods (NW, $k$-mer, ANN).}\label{Table:Experiment:Duration}
                     \begin{tabular}{|c||c|c|c|c|}
                         \hline
                         \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{4}{|c|}{\textbf{Execution time [s]}} \\
@@ -513,7 +514,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \end{table}
 
                 \paragraph{Conclusions}
-                The method using the modified Needleman-Wunsch algorithm exhibited the fastest increase in execution time for metagenomic identification. The sharp rise is due to the time-consuming process of comparing sequences with each other. Despite reducing the number of sequences being classified, the execution time using this method exceeded that of metagenomic identification for all sequences.
+                The method using the modified Needleman-Wunsch algorithm exhibited the fastest increase in execution time for metagenomic identification. The sharp rise is due to the time-consuming process of comparing sequences with each other. Despite reducing the number of classified sequences, the execution time using this method exceeded that of metagenomic identification for all sequences.
 
                 The methods using $k$-mer embeddings and ANN showed comparable execution times, with a slight advantage for the former. Both methods use sequence representations for comparison, resulting in a slower increase in the time needed to build the dissimilarity matrix. These methods performed faster than metagenomic identification for all sequences. In the case of the ANN, the shorter execution time for $4096$ sequences could be due to the simultaneous computation of embeddings for all sequences using the GPU.
 
@@ -536,7 +537,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
 
                 \paragraph{Exquisitor Performance Measures}
-                    Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}, as standard classification metrics relying on false positives/negatives are not well-defined when BLAST results serve as the reference.. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without the use of a processing pipeline, i.e., using raw BLAST results.
+                    Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}, as standard classification metrics relying on false positives/negatives are not well-defined when BLAST results serve as the reference.. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without using a~processing pipeline, i.e., using raw BLAST results.
 
                     \begin{equation}
                         \text{Q} = \frac{
@@ -555,7 +556,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                         O(X) &- \text{set of unique organisms, for which results were assigned in the set $X$}
                     \end{align*}
 
-                    To compare the quality of multiple metagenomic identification runs, the weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used.
+                    The weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used to compare the quality of multiple metagenomic identification runs.
 
                     \begin{equation}
                         Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
@@ -573,21 +574,20 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
 
                 \paragraph{Results}
-                The quality of the classification was calculated using the measure expressed by equation~\ref{Equation:Quality} for the implemented methods in comparison to the full metagenomic identification. Figure~\ref{Picture:Experiment:Quality} shows a graph of classification quality as a function of the number of input sequences, with detailed quality results provided in Table~\ref{Table:Experiment:Quality}. The weighted average quality calculated using equation~\ref{Equation:WeightedAverageQuality} for the method with the modified Needleman-Wunsch algorithm was $0.899$, for the $k$-mer embedding method it was $0.921$, and for the method using the artificial neural network, it was $0.944$.
+                The classification quality was calculated using the measure expressed by equation~\ref{Equation:Quality} for the implemented methods compared to the full metagenomic identification. Figure~\ref{Picture:Experiment:Quality} shows a graph of classification quality as a function of the number of input sequences, with detailed quality results provided in Table~\ref{Table:Experiment:Quality}. The weighted average quality calculated using equation~\ref{Equation:WeightedAverageQuality} for the method with the modified Needleman-Wunsch algorithm was $0.899$, for the $k$-mer embedding method it was $0.921$, and for the method using the artificial neural network, it was $0.944$.
 
                 \begin{figure}[!htb]
                     \begin{center}
                         \includegraphics[width=\textwidth]{picture_experiment_quality.png}
                     \end{center}
                     \caption{
-                      Comparison of metagenomic identification quality returned by presented method with the benchmark methods.
-                    }\label{Picture:Experiment:Quality}
+                      Comparison of the metagenomic identification quality returned by the presented method with the benchmark methods.}\label{Picture:Experiment:Quality}
                 \end{figure}
 
                 \begin{table}\centering
-                    \caption{Comparison of metagenomic identification quality returned by presented method with the benchmark methods.}\label{Table:Experiment:Quality}
+                    \caption{Comparison of the metagenomic identification quality returned by the presented method with the benchmark methods.}\label{Table:Experiment:Quality}
 
-                    \begin{tabular}{|c|c|c|c|}
+                    \begin{tabular}{|c|l|l|l|}
                         \hline
                         \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{3}{|c|}{\textbf{Method}} \\
                         & \textbf{NW} & \textbf{$k$-mer} & \textbf{ANN} \\ \hline \hline
@@ -628,10 +628,10 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                     \item Clusters corresponding to taxa were treated as the ground truth.
                 \end{enumerate}
 
-                The clustering performance was evaluated by computing Adjusted Mutual Information (AMI), Normalized Mutual Information (NMI), and the Fowlkes--Mallows Index (FMI) between the obtained clusters and the ground truth.
+                The clustering performance was evaluated by computing Adjusted Mutual Information (AMI), Normalised Mutual Information (NMI), and the Fowlkes--Mallows Index (FMI) between the obtained clusters and the ground truth.
 
                 \paragraph{Results}
-                The evaluation metrics (AMI, NMI, FMI) for clustering performance are summarized in Table~\ref{Table:Experiment:ClusterQuality}.
+                The evaluation metrics (AMI, NMI, FMI) for clustering performance are summarised in Table~\ref{Table:Experiment:ClusterQuality}.
 
                 \begin{table}\centering
                     \caption{Comparison of clustering quality on seen and unseen data.}\label{Table:Experiment:ClusterQuality}
@@ -645,7 +645,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \end{table}
 
                 \paragraph{Conclusions}
-                Although the clustering performance on the unseen data is not optimal, it remains comparable to the results obtained for the training data. This suggests that the model's generalization capabilities are present but constrained, and that the outcomes are not merely random.
+                Although the clustering performance on the unseen data is not optimal, it remains comparable to the results obtained for the training data. It suggests that the model's generalisation capabilities are present but constrained, and that the outcomes are not merely random.
 
     \section{Discussion}
         \subsection{Interpretation of Results}
