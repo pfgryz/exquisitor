@@ -340,9 +340,9 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
         % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
         \subsection{Exquisitor: Implementation Details}
-            The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of metagenomic identification. The second component is a console application, which uses the library's components to allow for the creation and configuration of processing pipelines. Additionally, a web application was created, which allows users to submit analysis tasks through a web browser.
+            The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of metagenomic identification. The second component is a console application, which uses the library's components to create and configure processing pipelines. A web application was also created, allowing users to submit analysis tasks through a web browser.
 
-            The console application was implemented using the \textit{clap} library\cite{Rust:clap}. In library the $k$-medoid algorithm was provided by the \textit{kmedoids} library\cite{Rust:kmedoids}, and the neural network was built using the \textit{burn} library\cite{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library\cite{Rust:axum} with \textit{tokio}\cite{Rust:axum} async environment.
+            The console application was implemented using the \textit{clap} library\cite{Rust:clap}. In the library the $k$-medoid algorithm was provided by the \textit{kmedoids} library\cite{Rust:kmedoids}, and the neural network was built using the \textit{burn} library\cite{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library\cite{Rust:axum} with \textit{tokio}\cite{Rust:axum} async environment.
 
             Additionally, the following tools were used in the work:
             \begin{itemize}
