@@ -1,9 +1,5 @@
 ---
 tags:
-  - description
-  - justification
-  - citation
-  - small
   - done
 owner: PFG
 ---

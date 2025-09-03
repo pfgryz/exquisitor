@@ -1,9 +1,7 @@
 ---
 tags:
-  - citation
-  - small
-  - done
   - review
+  - ongoing
 owner: PFG
 ---
 ## Issue

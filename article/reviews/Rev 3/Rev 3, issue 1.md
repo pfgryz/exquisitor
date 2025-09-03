@@ -1,10 +1,6 @@
 ---
 tags:
   - todo
-  - description
-  - justification
-  - citation
-  - medium
 owner: PFG
 ---
 ## Issue

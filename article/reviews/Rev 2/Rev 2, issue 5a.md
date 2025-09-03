@@ -1,10 +1,7 @@
 ---
 tags:
-  - description
-  - justification
-  - medium
-  - done
   - review
+  - ongoing
 owner: PFG
 ---
 ## Issue

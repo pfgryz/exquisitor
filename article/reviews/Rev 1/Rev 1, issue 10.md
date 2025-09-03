@@ -1,10 +1,6 @@
 ---
 tags:
-  - description
-  - documentation
-  - small
-  - done
-  - review
+  - ongoing
 owner: PFG
 ---
 ## Issue

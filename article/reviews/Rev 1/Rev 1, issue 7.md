@@ -1,11 +1,7 @@
 ---
 tags:
-  - description
-  - justification
-  - medium
-  - done
   - review
-  - todo
+  - ongoing
 owner: PFG
 ---
 ## Issue
@@ -20,3 +16,4 @@ We decided to use the Jaccard index instead of standard machine learning metrics
 Reporting false positives or false negatives would be misleading, since FPs or FNs do not make sense in this context - what appears as a false positive relative to BLAST could actually be a true positive with respect to the real ground truth. Our goal was primarily to approximate BLAST results.
 ## Review
 - czy coś dodawać do tekstu?
+- dodać informacje o tej metryce (gdzieś)

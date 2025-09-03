@@ -1,7 +1,6 @@
 ---
 tags:
   - done
-  - description
 owner: RN
 ---
 ## Issue

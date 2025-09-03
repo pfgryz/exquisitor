@@ -1,8 +1,5 @@
 ---
 tags:
-  - description
-  - documentation
-  - medium
   - review
   - ongoing
 owner: PFG

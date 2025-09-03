@@ -1,7 +1,5 @@
 ---
 tags:
-  - description
-  - large
   - done
 owner: PFG
 ---

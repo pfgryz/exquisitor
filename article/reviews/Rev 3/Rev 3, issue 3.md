@@ -1,8 +1,5 @@
 ---
 tags:
-  - description
-  - documentation
-  - small
   - done
 owner: PFG
 ---

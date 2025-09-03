@@ -1,8 +1,5 @@
 ---
 tags:
-  - description
-  - citation
-  - small
   - done
 owner: PFG
 ---
@@ -17,5 +14,3 @@ We have modified the article, Section 3.3.1 (p. 10) and Section 3.3.2 (p. 11) by
 ```
 Sequences clustering is deterministic with a fixed seed.
 ```
-## Review
-- Czy podawać jakieś działania o długości działania Blast / k-medoidów w zależności od sekwencji? np. https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-022-05029-7
