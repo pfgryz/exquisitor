@@ -133,7 +133,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
     \section{Methods}
 
-        The core component of proposed tool, Exquisitor is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Figure~\ref{Picture:Pipeline}, where input and output data are represented by circles, and each processing step is represented by a rectangle. The pipeline is composed of the following five steps:
+        The core component of the proposed tool, Exquisitor, is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Figure~\ref{Picture:Pipeline}, where input and output data are represented by circles, and a rectangle represents processing step. The pipeline is composed of the following five steps:
 
         \begin{enumerate}
             \item {
@@ -144,7 +144,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
             \item {
                 \textbf{Dissimilarity Calculation}
 
-                In this step, the dissimilarity between DNA sequences is calculated using one of three available algorithms: two classical methods and one custom-developed approach. The resulting dissimilarity matrix serves as the basis for clustering.
+                This step calculates the dissimilarity between DNA sequences using one of three available algorithms: two classical methods and one custom-developed approach. The resulting dissimilarity matrix serves as the basis for clustering.
             }
             \item {
                 \textbf{Sequence Clustering}
@@ -159,7 +159,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
             \item {
                 \textbf{Postprocessing}
 
-                In this final step, information from the clusters is integrated with the database search results.
+                This final step integrates information from the clusters with the database search results.
             }
         \end{enumerate}
 
@@ -236,8 +236,8 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
     \subsection{Exquisitor: Method Description}
 
-    The proposed method involves reducing the dimensionality of input DNA sequences to a feature vector in the form of $\mathbb{R}^{64}$ using an artificial neural network.
-    The neural network employs contrastive learning, which enables the learning of representations while preserving dissimilarity between sequences.
+    The proposed method  uses an artificial neural network to reduce the dimensionality of input DNA sequences to a feature vector in the form of $\mathbb{R}^{64}$.
+    The neural network employs contrastive learning, enabling representations to be learned while preserving dissimilarity between sequences.
     The dissimilarity between sequence representations will be calculated using cosine dissimilarity, expressed by the formula in equation \eqref{Equation:CosineDissimilarity}.
 
             \begin{equation}
@@ -265,8 +265,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
             \subsubsection{Artificial Neural Network}
                 \paragraph{Architecture}
-                The ANN model consists of two parts. The first part comprises two convolutional blocks with batch normalization and is responsible for feature extraction from the sequence. The second part utilizes fully connected layers with dropout and the GELU activation function \cite{Hendrycks:2016} and is connected to the first part of the model via a flattening layer.
-
+                The ANN model consists of two parts. The first part comprises two convolutional blocks with batch normalisation and is responsible for feature extraction from the sequence. The second part utilises fully connected layers with dropout and the GELU activation function \cite{Hendrycks:2016} and is connected to the first part of the model via a flattening layer.
                 The model output is the output of the final linear layer, which is a feature vector of dimension \( \mathbb{R}^{64} \).
 
                 Schematically, the architecture is presented in Figure~\ref{Picture:NeuralModel}.
@@ -287,7 +286,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 The input to the model consists of DNA sequences of length $150$\footnote{The sequence length of 150 is a method parameter and can be adjusted depending on the application.}, which are encoded into a vector of dimensions $1 \times 600$ using one-hot encoding \cite{HarrisDavid:2007}.
 
                 \paragraph{Training Examples}
-                The training and validation examples consist of an anchor, a positive sequence that is similar to the anchor, and a negative sequence that is dissimilar to the anchor.
+                The training and validation examples consist of an anchor, a positive sequence similar to the anchor, and a negative sequence dissimilar to the anchor.
 
                 \paragraph{Dataset}
                 The training and validation datasets were created based on the first sample of genetic sequences from the CAMI II Toy Human Microbiome Project dataset \cite{Fritz:2019}. The sample contains simulated metagenomic data from the human skin microbiome. Examples were obtained by randomly selecting anchors from the dataset and modifying these anchors to create positive and negative sequences. The modification involved a point mutation of a given nucleotide to another one. In the case of positive sequences, the change affected between 0\% and 20\% of the anchor length, whereas for negative sequences, the change ranged from 20\% to 80\% of the anchor length.
@@ -307,10 +306,13 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                     s_{pos} &- \text{cosine similarity of the negative sequence to the anchor.} \\
                 \end{align*}
 
-                The proposed loss function is similar to the triplet neural network framework\cite{hoffer2018deepmetriclearningusing}, but it is adapted to use cosine dissimilarity. 
+                The proposed loss function is similar to the triplet neural network framework\cite{hoffer2018deepmetriclearningusing}, but it is adapted to use cosine dissimilarity.
 
                 \paragraph{Learning}
-                The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimizer used was \textit{AdamW}\cite{Loshchilov2017DecoupledWD}, and the training was performed for 100 epochs. To mitigate the risk of overfitting, both weight decay and the exponential learning rate schedule were employed. The convergence criterion was defined as the absence of further improvement in the validation loss.
+                The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimiser used was \textit{AdamW}\cite{Loshchilov2017DecoupledWD}, and the training was performed for 100 epochs.
+                Both weight decay and the exponential learning rate schedule were employed
+                to mitigate the risk of overfitting.
+                The convergence criterion was defined as the absence of further improvement in the validation loss.
 
                 \paragraph{Quality}
                 As a measure of model quality, the contrastive loss of the model was computed on the validation set.
