@@ -52,7 +52,7 @@ Thank you for this comment. We modified all figure and table captions to make th
 
 # Issue 7
 The term “classification quality” should be more clearly defined for readers here – especially those less familiar with the CAMI Classification Challenges. Can the authors also present performance – perhaps on an additional dataset if easier – to represent classification and speed performance? In the metagenomics use case, this could be done using standard machine learning metrics such as precision, recall, F1-score, accuracy, etc. If just focusing on clustering accuracy, alignment scores, bit scores, percent identity, etc. may be more appropriate. The use of the Jaccard index here is helpful but a bit harder to interpret, as details on the type of error (number of false positives vs. false negatives) are lost.
-## Anwer
+## Answer
 Thank you for bringing this to our attention.
 
 We decided to use the Jaccard index instead of standard machine learning metrics because it is not straightforward to obtain a confusion matrix with respect to a ground truth, as the reference is the BLAST result.
@@ -137,4 +137,10 @@ It’s still unclear to me if it is better to use this method or something else 
 ## Answer
 Kraken is fast, BLAST is more accurate but slow. Our pipeline increases the speed of BLAST by using a single sequence that represents a cluster. It uses the BLAST internally. The representative sequence allows running BLAST externally, and the searching results and their similarity metrics can be stored.
 
+<<<<<<< HEAD
 Thank you for pointing out this problem with the text. We added a text to the 'Discussion' as depicted in our answer for issue 1.
+=======
+Thank you for pointing out this problem with the text. We added a text to the 'Discussion' as depicted in our answer for issue 1.
+
+// FOOTNOTE
+>>>>>>> dedfe097394761cfad51234811cf0539389b6573
