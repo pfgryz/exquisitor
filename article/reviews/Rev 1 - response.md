@@ -137,10 +137,4 @@ It’s still unclear to me if it is better to use this method or something else 
 ## Answer
 Kraken is fast, BLAST is more accurate but slow. Our pipeline increases the speed of BLAST by using a single sequence that represents a cluster. It uses the BLAST internally. The representative sequence allows running BLAST externally, and the searching results and their similarity metrics can be stored.
 
-<<<<<<< HEAD
 Thank you for pointing out this problem with the text. We added a text to the 'Discussion' as depicted in our answer for issue 1.
-=======
-Thank you for pointing out this problem with the text. We added a text to the 'Discussion' as depicted in our answer for issue 1.
-
-// FOOTNOTE
->>>>>>> dedfe097394761cfad51234811cf0539389b6573
