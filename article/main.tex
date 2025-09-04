@@ -112,7 +112,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
     A different technique was employed in Centrifuge \cite{Kim:2016}, developed in 2016,
     which utilizes sequence indexing based on the Burrows-Wheeler transform \cite{Burrows:1994} and the Ferragina-Manzini index \cite{Ferragina:2000} for efficient sequences retrieval.
     A more classical approach is used in Kraken \cite{Wood:2014}, introduced in 2014, which combines $k$-mers with an indexed sequence database.
-    An unconventional method for metageonomic identification was proposed in 2022 with BERTax \cite{Mock:2022}, which applies a transformer model \cite{Transformers} to DNA sequence analysis,
+    An unconventional method for metagenomic identification was proposed in 2022 with BERTax \cite{Mock:2022}, which applies a transformer model \cite{Transformers} to DNA sequence analysis,
     treating DNA as a specialised language and allowing for classification without the need for reference databases.
     Another machine learning-based solution is CGRclust \cite{Alipour:2024}, which clusters DNA sequences using a two-dimensional chaos game representation and integrates unsupervised contrastive learning with convolutional neural networks.
 
@@ -129,7 +129,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
     The rest of the paper is organised as follows. Section 2 defines the problem, presents the proposed approach, and provides implementation details of the developed tool Exquisitor.
     Section 3 describes the experimental setup, including the datasets used, the performance metrics for evaluation, and the results obtained from experiments with analysis.
-    Finally, section 4 concludes the paper by summarising the main findings, discussing limtiations of the proposed approach and suggesting potential directions for future research.
+    Finally, section 4 concludes the paper by summarising the main findings, discussing limitations of the proposed approach and suggesting potential directions for future research.
 
     \section{Methods}
 
@@ -651,7 +651,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
         \subsection{Interpretation of Results}
             The results of the experiments partially confirmed the expectations set at the beginning of the research. All methods achieved satisfactory metagenomic identification quality. The method utilising the artificial neural network performed particularly well, achieving the best weighted average classification quality while maintaining execution time comparable to the method based on $k$-mer embeddings. The low metagenomic identification quality with a small number of input sequences may be due to the inappropriate selection of group representatives, caused by too few available sequences. Therefore, the implemented methods should only be used in cases where the number of input sequences exceeds a certain threshold, and their use significantly reduces the time required for the metagenomic identification process. For the data tested, this condition is met for $128$ sequences, where the metagenomic identification quality was no less than $0.87$, and the use of any grouping method reduced the time by at least 5 minutes, resulting in a $5\%$ acceleration compared to the metagenomic identification of all sequences. The use of the artificial neural network allowed for an improvement in classification quality compared to other methods. In addition to achieving good classification quality, it does not lag behind classical methods.
 
-            Our pipeline increases the speed of BLAST by using a single sequence that represents a cluster, and it uses BLAST internally. The presented method is not limited to metagenomics analysis; generally, it replaces BLAST in tasks when clusters of sequences are analysed. Therefore, genome assembly, identifying cell subtypes, and phylogenetic trees might benefit from the presented approach.
+            Our pipeline increases the speed of BLAST by using a single sequence that represents a cluster, and it uses BLAST internally. The presented method is not limited to metagenomic analysis; generally, it replaces BLAST in tasks when clusters of sequences are analysed. Therefore, genome assembly, identifying cell subtypes, and phylogenetic trees might benefit from the presented approach.
         \subsection{Limitations}
             \subsubsection{Experiments Duration}
                 The full metagenomic identification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of experiments to a~single run and subset size to $4096$ sequences.
@@ -666,7 +666,7 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 We used simplified baseline methods, which do not account for different gap penalties as implemented in algorithms such as Gotoh \cite{Gotoh1982}, nor do they distinguish between different nucleotide substitutions, such as transitions and transversions.
 
             \subsubsection{Model Limitations}
-                The model has several limitations. Its generalisation is currently restricted to human skin microbiome data due to the specifity of the training dataset; evaluation on other sample types would require additional studies. Being ANN-based, the method benefits from GPU acceleration, while CPU-only execution results in slower processing and longer pipeline runtime. This approach is optimised for sequences of similar length and shows limited adaptability to sequences of substantially different lengths. Finally, using CNNs rather than RNNs or transformers may limit architectural flexibility and affect performance, albeit providing faster training and inference times.
+                The model has several limitations. Its generalisation is currently restricted to human skin microbiome data due to the specificity of the training dataset; evaluation on other sample types would require additional studies. Being ANN-based, the method benefits from GPU acceleration, while CPU-only execution results in slower processing and longer pipeline runtime. This approach is optimised for sequences of similar length and shows limited adaptability to sequences of substantially different lengths. Finally, using CNNs rather than RNNs or transformers may limit architectural flexibility and affect performance, albeit providing faster training and inference times.
 
 
         \subsection{Possible Improvements}
@@ -710,7 +710,7 @@ The source code is available at \url{https://github.com/pfgryz/exquisitor}.
 
 \subsubsection*{Competing interests}
 
-Authors delare no competing interests.
+Authors declare no competing interests.
 
 \subsubsection*{Funding}
 
