@@ -1,4 +1,3 @@
-// HEADER
 # Issue 1
 The contrastive learning framework needs more detailed explanation, particularly regarding how representative sequences are selected and how sequences are clustered. The description about these two parts is not very clear.
 ## Answer
@@ -90,5 +89,3 @@ Code Availability: The authors mention developing "ENpquizitor," a command-line 
 Thank you for bringing this to our attention.
 
 We have added documentation on GitHub, including step-by-step instructions for training the model and running the experiments. Additionally, we uploaded the trained model to a cloud drive and provided the link in the README.md file."
-
-// FOOTNOTE

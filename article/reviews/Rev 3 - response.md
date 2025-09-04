@@ -1,5 +1,3 @@
-// HEADER
-
 # Issue 1
 The proposed method aims to convert sequences into embedding vectors. There are many existing related packages, such as DNABERT. The authors should benchmark against these tools to demonstrate that their CNN model offers an advantage.
 ## Answer
@@ -106,5 +104,3 @@ Although it is good to have the GitHub link, detailed usage instructions for the
 Thank you for bringing this to our attention.
 
 We have added documentation on GitHub, including step-by-step instructions for training the model and running the experiments. Additionally, we uploaded the trained model to a cloud drive and provided the link in the README.md file."
-
-// FOOTNOTE
