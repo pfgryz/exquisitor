@@ -1,5 +1,3 @@
-// HEADER
-
 # Issue 1
 The abstract could be made more concise and sharply focused on the core contributions namely the use of contrastive learning within an ANN for representative sequence selection, its performance gains over classical methods, and the development of the Exquisitor tool.
 ## Answer
@@ -61,6 +59,3 @@ We added a text to Section 4.2.5, as depicted in our answer for issue 2.
 The “Future Work” section could be enriched by discussing how the method might be extended to large-scale bioinformatics tasks using parallel computing for big data in gene regulatory networks. For instance, parallel deep learning approaches described in s00607-025-01441-y could be considered.
 ## Answer
 Yes, we cited the proposed work in 'Future Research Directions' section, because we plan to use our tool in a distributed computing environment. We also cited one work from issue 4.
-
-
-// FOOTNOTE
