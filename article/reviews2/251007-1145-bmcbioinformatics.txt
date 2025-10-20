@@ -1,0 +1,79 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: "BMC Bioinformatics" <bmcbioinformatics@biomedcentral.com>
+Subject: Decision on your submission to BMC Bioinformatics
+To: robert.nowak@pw.edu.pl
+Date: Tue, 07 Oct 2025 09:45:02 +0000 (1 week, 3 days, 2 hours ago)
+
+Ref: Submission ID 01106336-ff96-426f-9190-43eb21407216
+
+Dear Dr Nowak,
+
+Your manuscript "Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks
+  " has now been assessed. If there are any reviewer comments on your manuscript, you can find them at the end of this email.
+
+Regrettably, your manuscript has been rejected for publication in BMC Bioinformatics.
+
+Editor Comments
+
+"After careful consideration of the second-round reviews, we recommend
+rejecting the manuscript. Although the authors have improved the
+clarity and description of the proposed method, the revision does not
+satisfactorily resolve several fundamental concerns raised during the
+first review round. Reviewer 4 acknowledges the progress made and
+considers the study design appropriate; however, they still identify
+important gaps regarding the level of methodological detail, the
+reproducibility of the ANN architecture, evaluation on imbalanced
+datasets, and validation on larger and more diverse
+benchmarks. Reviewer 3 maintains that core issues remain unresolved,
+particularly the absence of benchmarking against state-of-the-art
+sequence embedding tools such as DNABERT, the lack of a biologically
+justified mutation model, and the omission of stronger baseline
+methods and clearly defined reference datasets."
+-Santiago Marco-Sola
+
+Thank you for the opportunity to review your work. I'm sorry that we cannot be more positive on this occasion and hope you will not be deterred from submitting future work to BMC Bioinformatics.
+
+Kind regards,
+
+Evan Smithson
+Editor
+BMC Bioinformatics
+
+Reviewer Comments:
+
+Reviewer 4
+Could the authors provide more details on the specific architecture and hyperparameters of the ANN used, as this information would aid reproducibility?
+
+How does the proposed method perform on highly imbalanced datasets or rare taxa, and were any strategies used to address potential class imbalance?
+
+Have the authors considered benchmarking Exquisitor on larger or more diverse real-world datasets to further validate its scalability and robustness beyond the presented benchmark?
+
+Reviewer 3
+While the authors provided clarifications, many major concerns remain
+unresolved. Several key issues (benchmarking against state-of-the-art
+tools such as DNABERT; redesign of the mutation model with biological
+justification; inclusion of more advanced baseline methods like Gotoh
+or MAFFT; and clearer reference datasets for benchmarking) were
+deferred to future work. Since these points directly affect the rigor
+and competitiveness of the method, the current manuscript still lacks
+sufficient evidence of benefit over existing approaches. The work may
+become suitable for consideration once these improvements are
+implemented and adequately validated.
+
+Reviewer 2
+I appreciate that the authors have addressed the issues raised in the
+previous review. However, a major concern remains: the proposed method
+has not been adequately compared to existing approaches specifically
+designed for metagenomic identification. Benchmarking against relevant
+tools is essential when developing a bioinformatics method. While the
+authors included comparisons with BLAST, Needleman–Wunsch alignment,
+and k-mer embedding-based approaches, these algorithms were not
+originally developed for metagenomic identification. As such, the
+comparisons are not sufficiently convincing. To strengthen the
+manuscript, the authors should provide more robust and targeted
+evaluations demonstrating that their method outperforms existing tools
+designed for the same purpose.
+
+
+
