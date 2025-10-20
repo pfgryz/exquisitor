@@ -1,44 +1,25 @@
-\documentclass[pdflatex,sn-vancouver-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
+\documentclass[lettersize,journal]{IEEEtran}
 
-
-\usepackage{amsfonts}%
+\usepackage{amsmath,amsfonts}
+\usepackage{algorithmicx}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{cite}
 \usepackage{mathrsfs}%
-\usepackage[title]{appendix}%
-\usepackage{textcomp}%
 \usepackage{manyfoot}%
 \usepackage{booktabs}%
-\usepackage{algorithm}%
-\usepackage{algorithmicx}%
 \usepackage{algpseudocode}%
-
 \usepackage{xcolor}
-%\usepackage{tcolorbox}     % Color boxes
-\usepackage{amsmath}       % Basic mathematical typesetting
-\usepackage{amssymb}       % Advanced math symbols
-\usepackage{amsthm}        % Theorems typesetting
-%\usepackage{array}         % Advanced table column formats
-%\usepackage{enumitem}      % Itemize/enumrate
-%\usepackage{fancyhdr}      % Custom header/footer styles
-%\usepackage{fourier}       % Adobe Utopia font
-\usepackage{graphicx}      % Enhanced images support
-%\usepackage{ifluatex}      % LuaTeX-specific options
-%\usepackage{kantlipsum}    % English kantian-style lipsum
-%\usepackage{lipsum}        % Lorem ipsum
-\usepackage{listings}      % Code listings
-%\usepackage{longtable}     % Multi-page tables
-\usepackage{multirow}      % Advanced table cells
-%\usepackage{setspace}      % Set space between lines
-%\usepackage{scrextend}     % Allows \addmargin environment
-%\usepackage{tablefootnote} % Table footnotes
-%\usepackage{tocloft}       % Custom ToC/LoF/LoT
-%\usepackage{url}           % URL-sensitive line breaks
-%\usepackage{xspace}        % Remove duplicated spaces
-%\usepackage{tabularx}
-
-\usepackage{todonotes}
-\setuptodonotes{inline}
-
-
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{listings}
+\usepackage{multirow}
 
 \begin{document}
 
@@ -46,42 +27,47 @@
     %% TITLE
     %%=============================================================%%
 
-\title[Metagenomic Identification using Neural Networks]{Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks
-  }
+    \title{Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks}
 
     %%=============================================================%%
     %% AUTHOR(S)
     %%=============================================================%%
 
-\author*[1]{\fnm{Patryk Filip} \sur{Gryz}}\email{patryk.gryz.stud@pw.edu.pl}
-\author*[1]{\fnm{Robert} \sur{Nowak}}\email{robert.nowak@pw.edu.pl}
+    \author{
+        \IEEEauthorblockN{
+            Patryk Filip Gryz\IEEEauthorrefmark{1},
+            Robert Nowak\IEEEauthorrefmark{2}
+        }
+        \\
+        \IEEEauthorblockA{
+            Institute of Computer Science,
+            Warsaw University of Technology
+            Warsaw, Poland
+        }
+        \\
+        Email:
+        \IEEEauthorrefmark{1}patryk.gryz.stud@pw.edu.pl,
+        \IEEEauthorrefmark{2}robert.nowak@pw.edu.pl
+    }
 
-    \affil*[1]{\orgdiv{Institute of Computer Science}, \orgname{Warsaw University of Technology}, \orgaddress{\street{Nowowiejska 15/19}, \city{Warsaw}, \postcode{00-665}, \country{Poland}}}
+    \maketitle
 
     %%=============================================================%%
     %% ABSTRACT
     %% =============================================================%%
 
-    \abstract{
-The rapid increase in the availability of DNA sequence data necessitates efficient and scalable methods for metagenomic identification. Traditional tools like BLAST, although accurate, often require significant computational resources and time, limiting their applicability to large datasets. Recent advances in artificial neural networks (ANNs) demonstrate their potential to address this issue by offering faster and more accurate solutions.
-
-      This study introduces a novel ANN-based approach for the efficient metagenomic identification of DNA sequences. The proposed method reduces the complexity of large datasets by leveraging contrastive learning within an ANN to select representative sequences. This approach enhances computational efficiency by focusing classification efforts on these representatives rather than the entire dataset.
-    We developed Exquisitor, a command-line tool that implements the proposed method.
-
-      Comparative experiments were conducted on a benchmark dataset, evaluating the proposed ANN method alongside classical techniques such as k-mer embeddings and the Needleman-Wunsch algorithm. The presented results revealed that the ANN-based approach achieves the highest weighted average classification quality among all tested methods, outperforming both classical approaches. Additionally, the ANN method demonstrates competitive execution times, benefiting from parallelised computations enabled by GPU processing.
-
-    In conclusion, the study highlights the potential of ANN-based methods to bridge the gap between precision and scalability in genetic taxonomy.
-
-    Future research directions include enhancing the network’s flexibility for varying sequence lengths and exploring its application for dimensionality reduction in broader bioinformatics tasks.}
+    \begin{abstract}
+    The growing volume of DNA sequence data demands efficient metagenomic identification. We present Exquisitor, an ANN-based tool leveraging contrastive learning to select representative sequences, improving computational efficiency. Benchmarking against classical methods shows superior classification accuracy and competitive execution time, highlighting ANNs scalability and precision for genetic taxonomy.
+    \end{abstract}
 
     %%=============================================================%%
     %% KEYWORDS
     %%=============================================================%%
 
-    \keywords{DNA sequencing, metagenomic identification, artificial neural networks, contrastive learning, sequence clustering}
-
-    \maketitle
-
+    \begin{IEEEkeywords}
+    DNA sequencing, metagenomic identification, artificial neural networks, contrastive learning, sequence clustering.
+    \end{IEEEkeywords}
+        
     %%=============================================================%%
     %% SECTIONS
     %%=============================================================%%
@@ -163,76 +149,14 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
             }
         \end{enumerate}
 
-        \begin{figure}[!htb]
+        \begin{figure}[!t]
             \begin{center}
-                \includegraphics[width=1.0\textwidth]{picture_pipeline.png}
+                \includegraphics[width=0.5\textwidth]{picture_pipeline.png}
             \end{center}
             \caption{
                 Overview of the pipeline: preparation of DNA sequences, dissimilarity calculation, sequence clustering, database search and postprocessing.
             }\label{Picture:Pipeline}
         \end{figure}
-
-            % \begin{figure}[!htb]
-            %     \begin{center}
-            %         {
-            %         % ===== BEGIN =====
-            %         % ----- -----
-            %         % COLORS
-            %         % ----- -----
-            %         \definecolor{Green}{HTML}{1dd1a1}   % Results
-            %         \definecolor{Blue}{HTML}{54a0ff}    % Sequences
-            %         \definecolor{Yellow}{HTML}{feca57}
-            %         \definecolor{Purple}{HTML}{5f27cd}
-            %         \definecolor{Grey}{HTML}{576574}
-            %         \definecolor{Red}{HTML}{ff6b6b}     % Organisms
-            %         \definecolor{Pink}{HTML}{ff9ff3}
-            %         \definecolor{Background}{HTML}{c8d6e5}
-
-            %         % ----- -----
-            %         % ELEMENTS
-            %         % ----- -----
-            %         \tikzstyle{Circle} = [circle, minimum size = 1cm, line width = 2pt, draw=black]
-            %         \tikzstyle{Box} = [rectangle, minimum width = 10cm, minimum height = 1.5cm, line width=2pt, text centered, inner sep=10pt, draw=black]
-            %         \tikzstyle{Arrow} = [very thick, -Triangle]
-            %         \tikzstyle{Arrow:Text} = [pos=0.5, right, font=\footnotesize]
-
-            %         \tikzstyle{seq} = [draw=Blue]
-            %         \tikzstyle{db} = [draw=Red]
-            %         \tikzstyle{res} = [draw=Green]
-
-            %         % ----- -----
-            %         % PICTURE
-            %         % ----- -----
-            %         \begin{tikzpicture}[node distance=3cm]
-            %             \node (input) [Circle, seq] {Input};
-            %             \node (preprocess) [Box, seq, below of=input, align=center] { 1. Preparation of DNA Sequences \\ \textbf{(optional)} };
-            %             \node (dissimilarity) [Box, seq, below of=preprocess] { 2. Dissimilarity Calculation };
-            %             \node (cluster) [Box, seq, below of=dissimilarity] {3. Sequence Clustering};
-            %             \node (search) [Box, db, below of=cluster] {4. Database Search};
-            %             \node (postprocess) [Box, res, below of=search] {5. Postprocessing};
-            %             \node (output) [Circle, res, below of=postprocess] {Output};
-
-            %             \node (cluster-right) [right of=cluster, xshift=3cm] {};
-            %             \node (postprocess-right) [right of=postprocess, xshift=3cm] { };
-
-            %             \draw [Arrow, seq] (input) -- (preprocess) node [Arrow:Text] {DNA Sequences};
-            %             \draw [Arrow, seq] (preprocess) -- (dissimilarity) node [Arrow:Text] {DNA Sequences};
-            %             \draw [Arrow, seq] (dissimilarity) -- (cluster) node [Arrow:Text] {DNA Sequences / Dissimilarity Matrix};
-            %             \draw [Arrow, seq] (cluster) -- (search) node [Arrow:Text] {Clusters representatives (DNA sequences)};
-            %             \draw [Arrow, db] (search) -- (postprocess) node [Arrow:Text] {Matches};
-            %             \draw [Arrow, seq] (cluster.east) -- (cluster-right) -- node [Arrow:Text] {Clusters} (postprocess-right) -- (postprocess.east);
-            %             \draw [Arrow, res] (postprocess) -- (output) node [Arrow:Text] {Results};
-            %         \end{tikzpicture}
-
-            %         % ===== END =====
-            %         }
-            %     \end{center}
-            %     \caption{
-            %         Schemat potoku przetwarzania.
-            %     }\label{Picture:Pipeline}
-            % \end{figure}
-
-    % END TO DELETE
 
     \subsection{Exquisitor: Method Description}
 
@@ -270,9 +194,9 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
 
                 Schematically, the architecture is presented in Figure~\ref{Picture:NeuralModel}.
 
-                \begin{figure}[!htb]
+                \begin{figure}[!t]
                     \begin{center}
-                        \includegraphics[width=\textwidth]{picture_ann_network.png}
+                        \includegraphics[width=0.5\textwidth]{picture_ann_network.png}
                     \end{center}
                     \caption{
                         Diagram of ANN architecture. Two parts were depicted: the convolutional blocks (on the left) are responsible for feature extraction, and fully connected layers with dropout to generate the results.
@@ -334,11 +258,6 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \paragraph{Results of Learning}
                 As a result of training the neural network, the model achieved a validation set loss of $0.17$.
 
-        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-        %   BEGIN REMOVED
-        %       REASON: UNNECESSARY
-        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
         \subsection{Exquisitor: Implementation Details}
             The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of metagenomic identification. The second component is a console application, which uses the library's components to create and configure processing pipelines. A web application was also created, allowing users to submit analysis tasks through a web browser.
 
@@ -354,46 +273,9 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \item \textit{git} as the version control system, enabling change tracking and code history management.
             \end{itemize}
 
-        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-        %   END REMOVED
-        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
                 \section{Results}
 
                 This section presents the results of the experiments conducted to evaluate the proposed solution (Exquisitor), which aims to improve performance while maintaining the quality of metagenomic identification. The study compared the new approach with two classical methods using the same dataset. The evaluation focused on execution time and identification quality to assess the effectiveness of the proposed approach.
-
-        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-        %   BEGIN REMOVED
-        %       REASON: UNNECESSARY
-        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-
-        % \subsection{Experimental Setup}
-        %     Experiments were conducted on the KVM based virtual machine with the specification given below:
-
-        %     \begin{itemize}
-        %         \item{
-        %             \textbf{Operating System:} Ubuntu 22.04 LTS;
-        %         }
-        %         \item{
-        %             \textbf{Processor:} 4 virtual cores of Intel Core i7-6850K;
-        %         }
-        %         \item{
-        %             \textbf{RAM Memory:} 40 GB;
-        %         }
-        %         \item{
-        %             \textbf{Graphics Card:} Nvidia GeForce GTX 1080 TI;
-        %         }
-        %         \item{
-        %             \textbf{Disk:} 1 TB network drive with a read speed of 1 Gbps;
-        %         }
-        %         \item{
-        %             \textbf{Software:} \texttt{BLAST} package version 2.16.0 and graphics card drivers.
-        %         }
-        %     \end{itemize}
-
-        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
-        %   END REMOVED
-        % /\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 
         \subsection{Datasets}
             \subsubsection{Dataset Description}
@@ -482,9 +364,9 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \paragraph{Results}
                 As a result of the experiment, the execution time for metagenomic identification was obtained for all methods. In the case of the method using the modified Needleman-Wunsch algorithm, results for metagenomic identification of 4096 sequences could not be obtained due to exceeding the execution time. Figure~\ref{Picture:Experiment:Duration} shows a graph of the metagenomic identification execution time as a function of the number of input sequences for: the method with the modified Needleman-Wunsch algorithm (NW), the method using $k$-mer embeddings ($k$-mer), the method using artificial neural networks (ANN), and for metagenomic identification of all sequences without using a pipeline (NP). Detailed execution times are provided in Table~\ref{Table:Experiment:Duration}.
 
-                \begin{figure}[!htb]
+                \begin{figure}[!t]
                     \begin{center}
-                        \includegraphics[width=\textwidth]{picture_experiment_duration.png}
+                        \includegraphics[width=0.5\textwidth]{picture_experiment_duration.png}
                     \end{center}
                     \caption{
                         The comparison of the metagenomic identification execution time by the presented solution (NP) and benchmark methods: modified Needleman-Wunsch algorithm (NW), $k$-mer embeddings ($k$-mer), and a~method using an~artificial neural network (ANN).}\label{Picture:Experiment:Duration}
@@ -576,9 +458,9 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 \paragraph{Results}
                 The classification quality was calculated using the measure expressed by equation~\ref{Equation:Quality} for the implemented methods compared to the full metagenomic identification. Figure~\ref{Picture:Experiment:Quality} shows a graph of classification quality as a function of the number of input sequences, with detailed quality results provided in Table~\ref{Table:Experiment:Quality}. The weighted average quality calculated using equation~\ref{Equation:WeightedAverageQuality} for the method with the modified Needleman-Wunsch algorithm was $0.899$, for the $k$-mer embedding method it was $0.921$, and for the method using the artificial neural network, it was $0.944$.
 
-                \begin{figure}[!htb]
+                \begin{figure}[!t]
                     \begin{center}
-                        \includegraphics[width=\textwidth]{picture_experiment_quality.png}
+                        \includegraphics[width=0.5\textwidth]{picture_experiment_quality.png}
                     \end{center}
                     \caption{
                       Comparison of the metagenomic identification quality returned by the presented method with the benchmark methods.}\label{Picture:Experiment:Quality}
@@ -677,64 +559,35 @@ The rapid increase in the availability of DNA sequence data necessitates efficie
                 Creating a single dissimilarity matrix for very large samples is not optimal, as it significantly impacts the method's performance. To address this issue, pre-clustering the sequences into batches can provide a solution. Processing in batches may reduce quality, but allows for maintaining a short execution time.
 
             \subsubsection{Automated Determination Of The Number of Groups}
-            Our approach takes the number of created groups as a parameter, which can influence the quality of the results.
-            For very similar sequences, the results are not improved when a large number of groups is set.
-            Conversely, a low number of groups can reduce quality for highly diverse sequences.
-            Automating the determination of the optimal number of groups could solve the issue and minimize
-            the need for fine-tuning.
+                Our approach takes the number of created groups as a parameter, which can influence the quality of the results.
+                For very similar sequences, the results are not improved when a large number of groups is set.
+                Conversely, a low number of groups can reduce quality for highly diverse sequences.
+                Automating the determination of the optimal number of groups could solve the issue and minimize
+                the need for fine-tuning.
 
     \section{Conclusions}
         \subsection{Summary of Findings}
             The experiments demonstrated that the proposed method based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method. It highlights the potential of neural networks for improving performance without significant computational overhead.
 
-            \subsection{Future Research Directions}
-Future research could focus on utilising artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses. We also plan to apply the feature selection techniques successfully in other bioinformatics pipelines~\cite{noor2024deep}.
-Planned development efforts are focused on providing interfaces for the Exquisitor tool, enabling its integration with existing popular metagenomic pipelines. Moreover, distributed computing and cluster computing platforms will be provided~\cite{noor2025optimizing}.
-We plan to benchmark our method with MAFFT -- the algorithm using Fast Fourier Transform for alignment~\cite{katoh2013mafft}, instead of the NW algorithm.
+        \subsection{Future Research Directions}
+            Future research could focus on utilising artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses. We also plan to apply the feature selection techniques successfully in other bioinformatics pipelines~\cite{noor2024deep}.
+            Planned development efforts are focused on providing interfaces for the Exquisitor tool, enabling its integration with existing popular metagenomic pipelines.
+            We plan to benchmark our method with MAFFT -- the algorithm using Fast Fourier Transform for alignment~\cite{katoh2013mafft}, instead of the NW algorithm.
 
+    \section{Declarations}
 
-\section{Declarations}
+        \subsubsection*{Availability of data and material}
+            Exquisitor is distributed under the terms of the MIT license and the Apache License (Version 2.0).
+            The source code is available at \url{https://github.com/pfgryz/exquisitor}.
 
-\subsubsection*{Ethics approval and consent to participate}
+        \subsubsection*{Funding}
+            A statutory Research Grant from the Institute of Computer Science, Warsaw University of Technology, supports this work.
 
-Not applicable.
+    % %%=============================================================%%
+    % %% BIBLIOGRAPHY
+    % %%=============================================================%%
 
-\subsubsection*{Consent for publication}
-
-Not applicable.
-
-\subsubsection*{Availability of data and material}
-
-Exquisitor is distributed under the terms of the MIT license and the Apache License (Version 2.0).
-The source code is available at \url{https://github.com/pfgryz/exquisitor}.
-
-\subsubsection*{Competing interests}
-
-Authors declare no competing interests.
-
-\subsubsection*{Funding}
-
-A statutory Research Grant from the Institute of Computer Science, Warsaw University of Technology, supports this work.
-
-\subsubsection*{Authors' contributions}
-
-PG and RN identified the problem, PG designed the approach, downloaded the data, implemented the software, performed numerical experiments, PG and RN prepared the draft. All authors have read and agreed to the published version of the manuscript.
-
-\subsubsection*{Acknowledgements}
-
-Not applicable.
-
-
-    %%=============================================================%%
-    %% BACKMATTER
-    %%=============================================================%%
-
-    \backmatter
-
-    %%=============================================================%%
-    %% BIBLIOGRAPHY
-    %%=============================================================%%
-
-    \bibliography{bibliography}
+    \bibliographystyle{IEEEtran}
+    \bibliography{IEEEabrv,bibliography}
 
 \end{document}
