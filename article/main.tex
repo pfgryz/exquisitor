@@ -1,4 +1,4 @@
-\documentclass[lettersize,journal]{IEEEtran}
+\documentclass{ieeeaccess}
 
 \usepackage{amsmath,amsfonts}
 \usepackage{algorithmicx}
@@ -27,30 +27,36 @@
     %% TITLE
     %%=============================================================%%
 
+    \history{Date of publication xxxx 00, 0000, date of current version November 2, 2025.}
+    \doi{}
+
     \title{Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks}
 
     %%=============================================================%%
     %% AUTHOR(S)
     %%=============================================================%%
-
+    
     \author{
-        \IEEEauthorblockN{
-            Patryk Filip Gryz\IEEEauthorrefmark{1},
-            Robert Nowak\IEEEauthorrefmark{2}
-        }
-        \\
-        \IEEEauthorblockA{
-            Institute of Computer Science,
-            Warsaw University of Technology
-            Warsaw, Poland
-        }
-        \\
-        Email:
-        \IEEEauthorrefmark{1}patryk.gryz.stud@pw.edu.pl,
-        \IEEEauthorrefmark{2}robert.nowak@pw.edu.pl
+        \uppercase{Patryk F. Gryz}\authorrefmark{1},
+        \uppercase{Robert Nowak}\authorrefmark{1}
     }
 
-    \maketitle
+    \address[1]{
+        Institute of Computer Science,
+        Warsaw University of Technology,
+        ul. Nowowiejska 15/19, 00-665 Warsaw, Poland
+        (e-mail: patryk.gryz.stud@pw.edu.pl; robert.nowak@pw.edu.pl)
+    }
+
+    \markboth
+    {P. F. Gryz and R. Nowak: Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks}
+    {P. F. Gryz and R. Nowak: Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks}
+
+    \corresp{Corresponding author: Patryk F. Gryz (e-mail: patryk.gryz.stud@pw.edu.pl).}
+
+    \tfootnote{
+        This work is supported by a statutory Research Grant from the Institute of Computer Science, Warsaw University of Technology, Warsaw, Poland.
+    }
 
     %%=============================================================%%
     %% ABSTRACT
@@ -64,9 +70,13 @@
     %% KEYWORDS
     %%=============================================================%%
 
-    \begin{IEEEkeywords}
-    DNA sequencing, metagenomic identification, artificial neural networks, contrastive learning, sequence clustering.
-    \end{IEEEkeywords}
+    \begin{keywords}
+    Artificial neural networks, contrastive learning, DNA sequencing, metagenomic identification, sequence clustering.
+    \end{keywords}
+
+    \titlepgskip=-21pt
+
+    \maketitle
         
     %%=============================================================%%
     %% SECTIONS
@@ -119,7 +129,7 @@
 
     \section{Methods}
 
-        The core component of the proposed tool, Exquisitor, is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Figure~\ref{Picture:Pipeline}, where input and output data are represented by circles, and a rectangle represents processing step. The pipeline is composed of the following five steps:
+        The core component of the proposed tool, Exquisitor, is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Fig.~\ref{Picture:Pipeline}, where input and output data are represented by circles, and a rectangle represents processing step. The pipeline is composed of the following five steps:
 
         \begin{enumerate}
             \item {
@@ -162,7 +172,7 @@
 
     The proposed method  uses an artificial neural network to reduce the dimensionality of input DNA sequences to a feature vector in the form of $\mathbb{R}^{64}$.
     The neural network employs contrastive learning, enabling representations to be learned while preserving dissimilarity between sequences.
-    The dissimilarity between sequence representations will be calculated using cosine dissimilarity, expressed by the formula in equation \eqref{Equation:CosineDissimilarity}.
+    The dissimilarity between sequence representations will be calculated using cosine dissimilarity, expressed by the formula in equation~\eqref{Equation:CosineDissimilarity}.
 
             \begin{equation}
                 dsim(A, B) = 1 - sim(A, B)
@@ -192,11 +202,11 @@
                 The ANN model consists of two parts. The first part comprises two convolutional blocks with batch normalisation and is responsible for feature extraction from the sequence. The second part utilises fully connected layers with dropout and the GELU activation function \cite{Hendrycks:2016} and is connected to the first part of the model via a flattening layer.
                 The model output is the output of the final linear layer, which is a feature vector of dimension \( \mathbb{R}^{64} \).
 
-                Schematically, the architecture is presented in Figure~\ref{Picture:NeuralModel}.
+                Schematically, the architecture is presented in Fig.~\ref{Picture:NeuralModel}.
 
                 \begin{figure}[!t]
                     \begin{center}
-                        \includegraphics[width=0.5\textwidth]{picture_ann_network.png}
+                        \includegraphics[width=0.45\textwidth]{picture_ann_network.png}
                     \end{center}
                     \caption{
                         Diagram of ANN architecture. Two parts were depicted: the convolutional blocks (on the left) are responsible for feature extraction, and fully connected layers with dropout to generate the results.
@@ -224,10 +234,14 @@
 
                 where:
                 \begin{align*}
-                    m_{pos} &- \text{similarity margin between the positive sequence and the anchor,} \\
-                    m_{neg} &- \text{similarity margin between the negative sequence and the anchor,} \footnote{The positive margin controls the minimum similarity between similar sequences, whereas the negative margin controls the maximum similarity between dissimilar sequences.} \\
-                    s_{pos} &- \text{cosine similarity of the positive sequence to the anchor,} \\
-                    s_{pos} &- \text{cosine similarity of the negative sequence to the anchor.} \\
+                    m_{pos} &- \text{similarity margin between the positive sequence} \\
+                            &\text{ and the anchor,}\\
+                    m_{neg} &- \text{similarity margin between the negative sequence} \\
+                            &\text{ and the anchor,} \footnote{The positive margin controls the minimum similarity between similar sequences, whereas the negative margin controls the maximum similarity between dissimilar sequences.} \\
+                    s_{pos} &- \text{cosine similarity of the positive sequence} \\
+                            &\text{to the anchor,}\\
+                    s_{pos} &- \text{cosine similarity of the negative sequence} \\
+                            &\text{to the anchor.}
                 \end{align*}
 
                 The proposed loss function is similar to the triplet neural network framework\cite{hoffer2018deepmetriclearningusing}, but it is adapted to use cosine dissimilarity.
@@ -318,8 +332,9 @@
                     n, m -& \text{lengths of sequences } A \text{ and } B, \\
                     D -& \text{similarity matrix of size } n + 1 \text{ x } m + 1, \\
                     g \in \mathbb{R} -& \text{penalty for a gap}, \\
-                    s(A_i, B_j) \in \mathbb{R} -& \text{similarity between the } i\text{-th element in sequence A} \\
-                                                & \text{ and the } j\text{-th element in sequence B}.
+                    s(A_i, B_j) \in \mathbb{R} -& \text{similarity between the } i\text{-th element} \\
+                                                & \text{ in sequence A and the } j\text{-th element} \\
+                                                & \text{in sequence B}.
                 \end{align*}
 
                 \begin{equation}
@@ -329,7 +344,8 @@
                         D_{i - 1, j} + g \\
                         D_{i, j - 1} + g \\
                         D_{i - 1, j - 1} + s(A_{i - 1}, B_{j - 1})
-                        \end{cases}, & \text{for } & i \in \left(1, n + 1\right] \text{ and } j \in \left(1, m + 1\right] \\
+                        \end{cases}, 
+                        \\ & \text{for } i \in \left(1, n + 1\right] \text{ and } j \in \left(1, m + 1\right] \\
                     \end{aligned}
                     \label{Equation:NeedlemanWunschModified}
                 \end{equation}
@@ -362,7 +378,7 @@
                 \end{enumerate}
 
                 \paragraph{Results}
-                As a result of the experiment, the execution time for metagenomic identification was obtained for all methods. In the case of the method using the modified Needleman-Wunsch algorithm, results for metagenomic identification of 4096 sequences could not be obtained due to exceeding the execution time. Figure~\ref{Picture:Experiment:Duration} shows a graph of the metagenomic identification execution time as a function of the number of input sequences for: the method with the modified Needleman-Wunsch algorithm (NW), the method using $k$-mer embeddings ($k$-mer), the method using artificial neural networks (ANN), and for metagenomic identification of all sequences without using a pipeline (NP). Detailed execution times are provided in Table~\ref{Table:Experiment:Duration}.
+                As a result of the experiment, the execution time for metagenomic identification was obtained for all methods. In the case of the method using the modified Needleman-Wunsch algorithm, results for metagenomic identification of 4096 sequences could not be obtained due to exceeding the execution time. Fig.~\ref{Picture:Experiment:Duration} shows a graph of the metagenomic identification execution time as a function of the number of input sequences for: the method with the modified Needleman-Wunsch algorithm (NW), the method using $k$-mer embeddings ($k$-mer), the method using artificial neural networks (ANN), and for metagenomic identification of all sequences without using a pipeline (NP). Detailed execution times are provided in Table~\ref{Table:Experiment:Duration}.
 
                 \begin{figure}[!t]
                     \begin{center}
@@ -419,7 +435,7 @@
 
 
                 \paragraph{Exquisitor Performance Measures}
-                    Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\ref{Equation:Quality}, as standard classification metrics relying on false positives/negatives are not well-defined when BLAST results serve as the reference. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without using a~processing pipeline, i.e., using raw BLAST results.
+                    Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\eqref{Equation:Quality}, as standard classification metrics relying on false positives/negatives are not well-defined when BLAST results serve as the reference. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without using a~processing pipeline, i.e., using raw BLAST results.
 
                     \begin{equation}
                         \text{Q} = \frac{
@@ -434,11 +450,13 @@
                     \begin{align*}
                         R &- \text{set of reference results,} \\
                         E &- \text{set of obtained results,} \\
-                        R_{r} &- \text{number of results in reference set assigned to the organism $r$} \\
-                        O(X) &- \text{set of unique organisms, for which results were assigned in the set $X$}
+                        R_{r} &- \text{number of results in reference set} \\
+                              &\text{assigned to the organism $r$} \\
+                        O(X) &- \text{set of unique organisms, for which results} \\
+                             &\text{were assigned in the set $X$}
                     \end{align*}
 
-                    The weighted average quality, defined by equation~\ref{Equation:WeightedAverageQuality}, was used to compare the quality of multiple metagenomic identification runs.
+                    The weighted average quality, defined by equation~\eqref{Equation:WeightedAverageQuality}, was used to compare the quality of multiple metagenomic identification runs.
 
                     \begin{equation}
                         Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
@@ -449,14 +467,15 @@
                     \begin{align*}
                     C &- \text{set of metagenomic identification runs,} \\
                     Q_c &- \text{quality of metagenomic identificationn $c$,} \\
-                    n_c &- \text{number of input sequences for metagenomic identification $c$,}\\
+                    n_c &- \text{number of input sequences for metagenomic}\\
+                        &\text{ identification $c$,}\\
                     n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
                     \end{align*}
 
 
 
                 \paragraph{Results}
-                The classification quality was calculated using the measure expressed by equation~\ref{Equation:Quality} for the implemented methods compared to the full metagenomic identification. Figure~\ref{Picture:Experiment:Quality} shows a graph of classification quality as a function of the number of input sequences, with detailed quality results provided in Table~\ref{Table:Experiment:Quality}. The weighted average quality calculated using equation~\ref{Equation:WeightedAverageQuality} for the method with the modified Needleman-Wunsch algorithm was $0.899$, for the $k$-mer embedding method it was $0.921$, and for the method using the artificial neural network, it was $0.944$.
+                The classification quality was calculated using the measure expressed by equation~\eqref{Equation:Quality} for the implemented methods compared to the full metagenomic identification. Fig.~\ref{Picture:Experiment:Quality} shows a graph of classification quality as a function of the number of input sequences, with detailed quality results provided in Table~\ref{Table:Experiment:Quality}. The weighted average quality calculated using equation~\eqref{Equation:WeightedAverageQuality} for the method with the modified Needleman-Wunsch algorithm was $0.899$, for the $k$-mer embedding method it was $0.921$, and for the method using the artificial neural network, it was $0.944$.
 
                 \begin{figure}[!t]
                     \begin{center}
@@ -574,20 +593,31 @@
             Planned development efforts are focused on providing interfaces for the Exquisitor tool, enabling its integration with existing popular metagenomic pipelines.
             We plan to benchmark our method with MAFFT -- the algorithm using Fast Fourier Transform for alignment~\cite{katoh2013mafft}, instead of the NW algorithm.
 
-    \section{Declarations}
-
-        \subsubsection*{Availability of data and material}
-            Exquisitor is distributed under the terms of the MIT license and the Apache License (Version 2.0).
-            The source code is available at \url{https://github.com/pfgryz/exquisitor}.
-
-        \subsubsection*{Funding}
-            A statutory Research Grant from the Institute of Computer Science, Warsaw University of Technology, supports this work.
-
     % %%=============================================================%%
     % %% BIBLIOGRAPHY
     % %%=============================================================%%
 
     \bibliographystyle{IEEEtran}
-    \bibliography{IEEEabrv,bibliography}
+    \bibliography{references}
+
+    % %%=============================================================%%
+    % %% BIOGRAPHIES
+    % %%=============================================================%%
+    
+    \begin{IEEEbiographynophoto}{Patryk F. Gryz} 
+        received the B.S. degree in computer science from the Warsaw University of Technology, Warsaw, Poland in 2025. He is currently pursuing the M.S. degree in computer science at the Warsaw University of Technology, Warsaw, Poland.
+        
+        His research interests include software engineering, artificial intelligence, and bioinformatics.
+    \end{IEEEbiographynophoto}
+
+    \begin{IEEEbiographynophoto}{Professor Robert Nowak, Ph.D, D.Sc.}
+        is a full professor and Deputy Director for Research at Institute of Computer Science, Faculty of Electronics and Information Technology, Warsaw University of Technology, Warsaw, Poland.
+
+        His research areas include software engineering, bioinformatics, artificial intelligence and data fusion. 
+        He is involved in developing 30 software systems with efficient implementation of complex algorithms for WUT, European Defense Agency, Braster Co., mBank Co., Octagonet Co. and others. 
+        He is the author of 190 articles, 4 books, 2 patents. Author of 10 lectures (80 editions), supervised 70 Master's and 5 PhD thesis. Project management (>20 years), Scrum Master, PRINCE2, RUP, TRIZ, UML, C++, SQL, Python, JavaScript, Java, R, Fortran, Pascal, Rust, microprocessors techniques.
+    \end{IEEEbiographynophoto}
+        
+    \EOD
 
 \end{document}
