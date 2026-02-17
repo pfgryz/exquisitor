@@ -1,4 +1,4 @@
-\documentclass[unnumsec,webpdf,contemporary,large,namedate]{oup-authoring-template}
+\documentclass[unnumsec,webpdf,contemporary,large]{oup-authoring-template}
 
 \usepackage{amsmath,amsfonts}
 \usepackage{algorithmicx}
@@ -19,6 +19,7 @@
 \usepackage{amsthm}
 \usepackage{listings}
 \usepackage{multirow}
+\usepackage{float}
 
 \begin{document}
 
@@ -28,8 +29,8 @@
 
     \journaltitle{Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks}
     \DOI{}
-    \copyrightyear{2025}
-    \pubyear{2025}
+    \copyrightyear{2026}
+    \pubyear{2026}
     \access{Advance Access Publication Date: Day Month Year}
     \appnotes{Paper}
     \firstpage{1}
@@ -85,7 +86,7 @@
 
     \section{Background}
     The use of information about genetic material found in the environment, combined with sequence databases, enables metagenomic identification -- the identification of organisms present in a given sample.
-    With the development of next-generation sequencing methods\citep{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analysed has increased\citep{Muir:2016}.
+    With the development of next-generation sequencing methods~\citep{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analysed has increased~\citep{Muir:2016}.
     The time required for metagenomic identification using traditional tools, such as BLAST, is unacceptable in many applications -- it can span several hours, even for relatively small collections of analysed sequences (for example, 4096 sequences),
     due to the huge size and explosive growth of sequencing databases \cite{10.1093/nar/gkr854}.
     This process requires significant computational resources. It is necessary to create new methods to allow for the analysis of new samples of data in an acceptable time using available resources.
@@ -97,21 +98,21 @@
     These selected representatives are then used for identification,
     reducing computational complexity while maintaining accuracy.
 
-    Historically, one of the first algorithms that enabled metagenomic identification was the Needleman-Wunsch algorithm \citep{Needleman:1970}, developed in 1970, which allowed for the comparison of genetic sequences.
-    However, the first solution that enabled this task within a reasonable time frame was a tool created in 1983 by D. Lipman and W. Wilbur \citep{Wilbur:1983}.
+    Historically, one of the first algorithms that enabled metagenomic identification was the Needleman - Wunsch algorithm~\citep{Needleman:1970}, developed in 1970, which allowed for the comparison of genetic sequences.
+    However, the first solution that enabled this task within a reasonable time frame was a tool created in 1983 by D. Lipman and W. Wilbur~\citep{Wilbur:1983}.
     Their method was based on dividing sequences into $k$-tuples, a generalisation of $k$-mers, and comparing them.
-    An advancement of this approach was the BLAST algorithm, introduced in 1990 \citep{Altschul:1990}, which also relied on $k$-mers and allowed for the efficient search of similar sequences in sequence databases.
+    An advancement of this approach was the BLAST algorithm, introduced in 1990~\citep{Altschul:1990}, which also relied on $k$-mers and allowed for the efficient search of similar sequences in sequence databases.
 
     The metagenomic identification became popular over the past 15 years, due to sequence database growth.
-    A notable example of an interesting tool is the development of the MetaPhlAn tool in 2012 \citep{Segata:2012}, which uses marker genes to compare the species composition of metagenomic samples.
-    Another marker gene-based approach is mOTUs2 \citep{Milanese:2019}, which identifies and analyses markers unique to specific microbial strains.
+    A notable example of an interesting tool is the development of the MetaPhlAn tool in 2012~\citep{Segata:2012}, which uses marker genes to compare the species composition of metagenomic samples.
+    Another marker gene-based approach is mOTUs2~\citep{Milanese:2019}, which identifies and analyses markers unique to specific microbial strains.
 
-    A different technique was employed in Centrifuge \citep{Kim:2016}, developed in 2016,
-    which utilizes sequence indexing based on the Burrows-Wheeler transform \citep{Burrows:1994} and the Ferragina-Manzini index \citep{Ferragina:2000} for efficient sequences retrieval.
-    A more classical approach is used in Kraken \citep{Wood:2014}, introduced in 2014, which combines $k$-mers with an indexed sequence database.
-    An unconventional method for metagenomic identification was proposed in 2022 with BERTax \citep{Mock:2022}, which applies a transformer model \citep{Transformers} to DNA sequence analysis,
+    A different technique was employed in Centrifuge~\citep{Kim:2016}, developed in 2016,
+    which utilizes sequence indexing based on the Burrows-Wheeler transform~\citep{Burrows:1994} and the Ferragina-Manzini Index~\citep{Ferragina:2000} for efficient sequences retrieval.
+    A more classical approach is used in Kraken~\citep{Wood:2014}, introduced in 2014, which combines $k$-mers with an indexed sequence database.
+    An unconventional method for metagenomic identification was proposed in 2022 with BERTax~\citep{Mock:2022}, which applies a transformer model~\citep{Transformers} to DNA sequence analysis,
     treating DNA as a specialised language and allowing for classification without the need for reference databases.
-    Another machine learning-based solution is CGRclust \citep{Alipour:2024}, which clusters DNA sequences using a two-dimensional chaos game representation and integrates unsupervised contrastive learning with convolutional neural networks.
+    Another machine learning-based solution is CGRclust~\citep{Alipour:2024}, which clusters DNA sequences using a two-dimensional chaos game representation and integrates unsupervised contrastive learning with convolutional neural networks.
 
     Currently, three types of methods have been developed for metagenomic identification: methods using alignment, methods based on $k$-mers and methods using marker genes.
     Alignment-based tools should yield the best results, but they require significant computational resources.
@@ -160,7 +161,7 @@
             }
         \end{enumerate}
 
-        \begin{figure}[!htb]
+        \begin{figure}[H]
             \begin{center}
                 \includegraphics[width=0.5\textwidth]{picture_pipeline.png}
             \end{center}
@@ -200,7 +201,7 @@
 
             \subsubsection{Artificial Neural Network}
                 \paragraph{Architecture}
-                The ANN model consists of two parts. The first part comprises two convolutional blocks with batch normalisation and is responsible for feature extraction from the sequence. The second part utilises fully connected layers with dropout and the GELU activation function \citep{Hendrycks:2016} and is connected to the first part of the model via a flattening layer.
+                The ANN model consists of two parts. The first part comprises two convolutional blocks with batch normalisation and is responsible for feature extraction from the sequence. The second part utilises fully connected layers with dropout and the GELU activation function~\citep{Hendrycks:2016} and is connected to the first part of the model via a flattening layer.
                 The model output is the output of the final linear layer, which is a feature vector of dimension \( \mathbb{R}^{64} \).
 
                 Schematically, the architecture is presented in Fig.~\ref{Picture:NeuralModel}.
@@ -218,13 +219,13 @@
                 Convolutional Neural Networks (CNNs) were chosen over Recurrent Neural Networks (RNNs) for faster training and inference. Contrastive learning allows the model to measure sequence similarity, which supports clustering.
 
                 \paragraph{Input}
-                The input to the model consists of DNA sequences of length $150$\footnote{The sequence length of 150 is a method parameter and can be adjusted depending on the application.}, which are encoded into a vector of dimensions $1 \times 600$ using one-hot encoding \citep{HarrisDavid:2007}.
+                The input to the model consists of DNA sequences of length $150$\footnote{The sequence length of 150 is a method parameter and can be adjusted depending on the application.}, which are encoded into a vector of dimensions $1 \times 600$ using one-hot encoding~\citep{HarrisDavid:2007}.
 
                 \paragraph{Training Examples}
                 The training and validation examples consist of an anchor, a positive sequence similar to the anchor, and a negative sequence dissimilar to the anchor.
 
                 \paragraph{Dataset}
-                The training and validation datasets were created based on the first sample of genetic sequences from the CAMI II Toy Human Microbiome Project dataset \citep{Fritz:2019}. The sample contains simulated metagenomic data from the human skin microbiome. Examples were obtained by randomly selecting anchors from the dataset and modifying these anchors to create positive and negative sequences. The modification involved a point mutation of a given nucleotide to another one. In the case of positive sequences, the change affected between 0\% and 20\% of the anchor length, whereas for negative sequences, the change ranged from 20\% to 80\% of the anchor length.
+                The training and validation datasets were created based on the first sample of genetic sequences from the CAMI II Toy Human Microbiome Project dataset~\citep{Fritz:2019}. The sample contains simulated metagenomic data from the human skin microbiome. Examples were obtained by randomly selecting anchors from the dataset and modifying these anchors to create positive and negative sequences. The modification involved a point mutation of a given nucleotide to another one. In the case of positive sequences, the change affected between 0\% and 20\% of the anchor length, whereas for negative sequences, the change ranged from 20\% to 80\% of the anchor length.
 
                 \paragraph{Loss function}
                 The loss function used is defined as:
@@ -245,10 +246,10 @@
                             &\text{to the anchor.}
                 \end{align*}
 
-                The proposed loss function is similar to the triplet neural network framework\citep{hoffer2018deepmetriclearningusing}, but it is adapted to use cosine dissimilarity.
+                The proposed loss function is similar to the triplet neural network framework~\citep{hoffer2018deepmetriclearningusing}, but it is adapted to use cosine dissimilarity.
 
                 \paragraph{Learning}
-                The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimiser used was \textit{AdamW}\citep{Loshchilov2017DecoupledWD}, and the training was performed for 100 epochs.
+                The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimiser used was \textit{AdamW}~\citep{Loshchilov2017DecoupledWD}, and the training was performed for 100 epochs.
                 Both weight decay and the exponential learning rate schedule were employed
                 to mitigate the risk of overfitting.
                 The convergence criterion was defined as the absence of further improvement in the validation loss.
@@ -276,7 +277,7 @@
         \subsection{Exquisitor: Implementation Details}
             The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of metagenomic identification. The second component is a console application, which uses the library's components to create and configure processing pipelines. A web application was also created, allowing users to submit analysis tasks through a web browser.
 
-            The console application was implemented using the \textit{clap} library\citep{Rust:clap}. In the library the $k$-medoid algorithm was provided by the \textit{kmedoids} library\citep{Rust:kmedoids}, and the neural network was built using the \textit{burn} library\citep{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library\citep{Rust:axum} with \textit{tokio}\citep{Rust:axum} async environment.
+            The console application was implemented using the \textit{clap} library~\citep{Rust:clap}. In the library the $k$-medoid algorithm was provided by the \textit{kmedoids} library~\citep{Rust:kmedoids}, and the neural network was built using the \textit{burn} library~\citep{Rust:burn} with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library~\citep{Rust:axum} with \textit{tokio}~\citep{Rust:axum} async environment.
 
             Additionally, the following tools were used in the work:
             \begin{itemize}
@@ -294,7 +295,7 @@
 
         \subsection{Datasets}
             \subsubsection{Dataset Description}
-                In the experiments, the \textit{CAMI II Toy Human Microbiome Project}\citep{Fritz:2019} dataset was used, which is the same dataset used for training the artificial neural network model. The dataset was chosen because it was created for benchmarking bioinformatics tools and contains a large number of sequences, enabling its use both in experiments and in the learning process.
+                In the experiments, the \textit{CAMI II Toy Human Microbiome Project}~\citep{Fritz:2019} dataset was used, which is the same dataset used for training the artificial neural network model. The dataset was chosen because it was created for benchmarking bioinformatics tools and contains a large number of sequences, enabling its use both in experiments and in the learning process.
 
                 Subsets of sequences were created from the dataset with sizes expressed by the formula $2^k$ for $k \in [0, 12]$. Subsets are disjoint, and only those sequences not used for training the ANN model were employed in their construction.
 
@@ -303,7 +304,7 @@
             Indices of sequences used in the ANN training and validation sets were excluded from the sampling. The sizes of the subsets were as follows: training set - 1,000,000 sequences, validation set - 10,000 sequences, and test set - 8,192 sequences.
 
         \subsection{Clustering Algorithm}
-            In the experiments, we used an external k-medoids clustering algorithm \citep{Rust:kmedoids}. The medoids identified by this algorithm were used as cluster representatives and used in subsequent steps.
+            In the experiments, we used an external k-medoids clustering algorithm~\citep{Rust:kmedoids}. The medoids identified by this algorithm were used as cluster representatives and used in subsequent steps.
 
         \subsection{Base-line Algorithms}
 
@@ -565,7 +566,7 @@
                 Using a single dissimilarity matrix for all sequences limits the number of input sequences, as the matrix build time scales quadratically with the number of sequences.
 
             \subsubsection{Baseline Methods Limitations}
-                We used simplified baseline methods, which do not account for different gap penalties as implemented in algorithms such as Gotoh \citep{Gotoh1982}, nor do they distinguish between different nucleotide substitutions, such as transitions and transversions.
+                We used simplified baseline methods, which do not account for different gap penalties as implemented in algorithms such as Gotoh~\citep{Gotoh1982}, nor do they distinguish between different nucleotide substitutions, such as transitions and transversions.
 
             \subsubsection{Model Limitations}
                 The model has several limitations. Its generalisation is currently restricted to human skin microbiome data due to the specificity of the training dataset; evaluation on other sample types would require additional studies. Being ANN-based, the method benefits from GPU acceleration, while CPU-only execution results in slower processing and longer pipeline runtime. This approach is optimised for sequences of similar length and shows limited adaptability to sequences of substantially different lengths. Finally, using CNNs rather than RNNs or transformers may limit architectural flexibility and affect performance, albeit providing faster training and inference times.
