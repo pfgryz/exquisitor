@@ -1,0 +1,129 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: <robert.nowak@pw.edu.pl>
+Subject: Re: Feature Paper invitation [Sustainability] (IF 3.3) (CITESCORE 7.7)
+To: sandy.ge <sandy.ge@mdpi.com>, <sustainability@mdpi.com>
+CC: <r.m.nowak@elka.pw.edu.pl>, <robert.nowak@pw.edu.pl>, <patryk.gryz.stud@pw.edu.pl>
+Date: Thu, 9 Jul 2026 10:29:29 +0200 (3 minutes, 23 seconds ago)
+
+Dear Sandy Ge,
+
+thank you for the waiver. I have one work that is now ready and I would
+like to submit it in the next week.
+
+Article Type:
+
+Scientific article in area measuring and monitoring sustainability
+
+Title:
+
+Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks
+
+Abstract:
+
+The growing volume of DNA sequence data demands efficient metagenomic
+identification. It provides the possibility to construct the tools to
+monitor enviromental conditions, risks related to organisms and pathogens
+and sustainability performance. We present Exquisitor, an ANN-based tool
+leveraging contrastive learning
+to select representative sequences, improving computational efficiency.
+Benchmarking against classical methods shows superior classification
+accuracy and competitive execution time, highlighting ANNs
+scalability and precision for genetic taxonomy.
+
+Keywords: artificial neural networks, contrastive learning, DNA
+sequencing, metagenomic identification, sequence clustering, monitor
+enviromental conditions, sustainability
+
+Authorship:
+
+Patryk Gryz, patryk.gryz.stud@pw.edu.pl,
+
+Warsaw University of Technology, Institute of Computer
+System, Nowowiejska 15/19, 00-665 Warsaw, Poland
+
+Robert Nowak, robert.nowak@pw.edu.pl,
+
+Warsaw University of Technology, Institute of Computer
+System, Nowowiejska 15/19, 00-665 Warsaw, Poland
+
+Full Paper Submission date:
+
+Size: 8 - 10 pages
+
+Best regards,
+Robert
+
+"sandy.ge" <sandy.ge@mdpi.com> writes:
+
+> Dear Dr. Robert Nowak,
+>
+> Hope this email finds you well.
+>
+> This is Sandy Ge from the Sustainability editorial office. I would
+> like to extend an invitation for you to submit a paper to our
+> journal. As an expert in the field, your research and expertise would
+> make a valuable contribution to our publication. There's a possibility
+> to get a waiver if you could submit your paper within three months,
+> and your manuscript needs to pass our editorial office check. Please
+> note that you should be the first or the corresponding author of the
+> planned paper. This discount is valid only for future submissions to
+> the journal Sustainability. It does not apply to other MDPI journals
+> or papers currently under processing. We are particularly interested
+> in original research and review articles.
+>
+> Sustainability (IF: 3.3, ISSN 2071-1050) is an international,
+> cross-disciplinary, scholarly, peer-reviewed, and open-access journal
+> of environmental, cultural, economic, and social sustainability of
+> human beings. Sustainability is indexed by the Science Citation Index
+> Expanded and Social Sciences Citation Index (Web of Science), as well
+> as Scopus and other databases. For more information about the journal,
+> you can check it at https://www.mdpi.com/journal/sustainability
+>
+> If you are interested in our invitation, please reply to this email to
+> send us an application, which includes the following detailed
+> information about your manuscript mentioned below, directly to me.
+> I'll check with the office to confirm your free discount.
+> ---------------------------------
+> Article Type:
+> Title (tentative):
+> Abstract:
+> Keywords:
+> Authorship (Name, Email, Affiliation):
+> Full Paper Submission date:
+> --------------------------------
+>
+> Thank you for considering this opportunity. I look forward to hearing back from you.
+>
+> Kind regards,
+> sandy.ge
+> Section Managing Editor
+> MDPI Branch Office, Dalian, China
+> sandy.ge@mdpi.com
+>
+> --
+> Sustainability Editorial Office
+> MDPI, Grosspeteranlage 5
+> 4052 Basel
+> Switzerland
+> Tel.: +41 61 683 77 34
+> https://www.mdpi.com/journal/sustainability
+>
+> Notice: If this message has reached you by mistake, you may ignore
+> it. If you do not wish to receive further information, invitations,
+> or offers from us, you may unsubscribe at any time via the link
+> below or by contacting us at data-protection@mdpi.ch. For more
+> information about how we handle your data, please see our Privacy
+> Policy (https://www.mdpi.com/about/privacy).
+>
+> Unsubscribe:
+> https://www.mdpi.com/unsub/managesubscriptions/mail/ci5tLm5vd2FrQGVsa2EucHcuZWR1LnBs/155939a36432d63ce1a18f4144ae3eadecd42f8d222d8d400644826546f4841a
+>
+
+-- 
+Prof. Robert Nowak PhD, DSc (CS),
+Deputy Director for Research
+
+Institute of Computer Science, Warsaw University of Technology, POLAND
+http://staff.elka.pw.edu.pl/~rnowak2
+
