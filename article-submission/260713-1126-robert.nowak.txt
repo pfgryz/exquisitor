@@ -1,0 +1,341 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: <robert.nowak@pw.edu.pl>
+Subject: Re: Feature Paper invitation [Sustainability] (IF 4.1) (CITESCORE 8.9)
+To: Sandy Ge <sandy.ge@mdpi.com>
+CC: <sustainability@mdpi.com>, Patryk Gryz <patryk.gryz.stud@pw.edu.pl>
+Date: Mon, 13 Jul 2026 11:26:50 +0200 (1 minute, 46 seconds ago)
+
+Dear Sandy Ge,
+
+Thank you for your email. We decided to accept your proposition.
+We agree to submit our article to BioMedInformatics,
+thank you for 100% discount, the details are unchanged.
+
+Article Type:
+
+Scientific article in metagenomic identification.
+
+Title:
+
+Accelerating Metagenomic Identification of DNA Sequences Using
+Artificial Neural Networks
+
+Abstract:
+
+The growing volume of DNA sequence data demands efficient
+metagenomic identification. It provides the possibility to
+construct the tools to monitor enviromental conditions, risks
+related to organisms and pathogens and sustainability
+performance. We present Exquisitor, an ANN-based tool leveraging
+ contrastive learning to select representative sequences,
+improving computational efficiency. Benchmarking against
+classical methods shows superior classification accuracy and
+competitive execution time, highlighting ANNs scalability and
+precision for genetic taxonomy.
+
+Keywords: artificial neural networks, contrastive learning, DNA
+sequencing, metagenomic identification, sequence clustering,
+monitor enviromental conditions, sustainability
+
+Authorship:
+
+Patryk Gryz, patryk.gryz.stud@pw.edu.pl,
+
+Warsaw University of Technology, Institute of Computer System,
+Nowowiejska 15/19, 00-665 Warsaw, Poland
+
+Robert Nowak, robert.nowak@pw.edu.pl,
+
+Warsaw University of Technology, Institute of Computer System,
+Nowowiejska 15/19, 00-665 Warsaw, Poland
+
+Corresponding author: Robert Nowak
+
+Full Paper Submission date:
+
+Size: 8 - 10 pages
+
+
+We will submit without changing 
+Sandy Ge <sandy.ge@mdpi.com> writes:
+
+> Wiadomość pochodzi spoza organizacji. Jeśli nadawca jest nieznany,
+> zalecamy ostrożność przy otwieraniu załączników lub linków.
+>
+> The message comes from outside the organization. If the sender is
+> unknown, we recommend caution when opening attachments or links.
+>
+>
+>
+> Dear Dr. Nowak,
+>
+> Thank you for your information. We truly appreciate the time and effort
+> you have dedicated to your work, as well as your interest in
+> contributing to our journal.
+>
+> The Editorial office has reviewed the abstract, but we are very sorry
+> that the research topic might be a bit out of line with our journal's
+> scope. However, we were impressed with the quality and relevance of your
+> work, and we believe it could be an excellent fit for another
+> journal: BioMedInformatics.
+>
+> BioMedInformatics(IF3.6)(CITESCORE 7.1) is an international,
+> peer-reviewed, open access journal on all areas of biomedical
+> informatics, as well as computational biology and medicine, published
+> bimonthly online by MDPI. BioMedInformatics indexed within ESCI (Web of
+> Science), Scopus, EBSCO, and other databases. For more information about
+> the journal, you can check it at
+> https://www.mdpi.com/journal/biomedinformatics
+>
+> We would like to invite you to consider submitting your manuscript to
+> this journal. To support this transition, we are pleased to offer a 100%
+> discount your paper passes our preliminary check and is accepted in the
+> end. The discount we offered you is based on the current manuscript
+> status and author information. If there are any changes to the topic,
+> article type, authorship, or other relevant details, the discount will
+> be re-evaluated and may not be retained. Please ensure that all
+> information is referenced according to the details you have provided to us.
+>
+> Please let us know if you would be interested in this option. If you
+> have any questions, please feel free to contact us. We look forward to
+> your reply.
+>
+> Kind regards,
+> Ms. Sandy Ge
+> Section Managing Editor
+> Email: sandy.ge@mdpi.com
+>
+> MDPI(Dalian)
+> 13F, Tower A, Posco IT Center,
+> Huangpu Road No.555,
+> Ganjingzi District
+> 116023 Dalian, China
+> Tel.: +86 411 8482 0879
+>
+> www.mdpi.com
+> Data Protection Notes: https://www.mdpi.com/about/data-protection
+>
+> MDPI's headquarters are located in Basel, Switzerland.
+> More information is available here: https://www.mdpi.com/about/contact
+>
+> The information and files contained in this
+> message are confidential and intended solely
+> for the use of the individual or entity to whom
+> they are addressed. If you have received this
+> message in error, please notify me and delete
+> this message from your system. You may not
+> copy this message in its entirety or in part, or
+> disclose its contents to anyone.
+> --
+> The 2025 CiteScore (Scopus) for /Sustainability/ is released: 8.9,
+> ranking Q1 in 7 categories.
+>
+> Welcome to Read:
+> Integrated Renewable Energy Systems for Buildings: An Assessment of the
+> Environmental and Socio-Economic Sustainability
+> <https://www.mdpi.com/2071-1050/17/2/656>
+> Modeling the Effects of Strict Protection of Forest Areas—Part of the
+> Provisions of the EU Biodiversity Strategy 2030
+> <https://www.mdpi.com/2071-1050/17/2/737>
+> Mitigating Land Degradation Through Sustainable Urban Landscapes
+> Planning <https://www.mdpi.com/2071-1050/17/3/967>
+>
+> WSF 2026: The 12th World Sustainability Forum organized by MDPI and
+> /Sustainability/, will take place on 21–24 August 2026, Hong Kong, China
+> https://sciforum.net/event/WSF-12
+> Submit abstract by 1 May 2026:
+> https://sciforum.net/user/submission/create/1460
+>
+> On 2026/7/13 16:14, robert.nowak@pw.edu.pl wrote:
+>> CAUTION - EXTERNAL: This email originated from outside of MDPI
+>> organisation. BE CAUTIOUS especially to click links or open
+>> attachments.
+>>
+>> Dear Ms. Sandy Ge,
+>>
+>> Yes, I will be the corresponding author.
+>>
+>> Best regards, Robert Nowak
+>>
+>> Sandy Ge <sandy.ge@mdpi.com> writes:
+>>
+>>> Wiadomość pochodzi spoza organizacji. Jeśli nadawca jest nieznany,
+>>>  zalecamy ostrożność przy otwieraniu załączników lub linków.
+>>>
+>>> The message comes from outside the organization. If the sender is
+>>> unknown, we recommend caution when opening attachments or links.
+>>>
+>>>
+>>>
+>>> Dear Dr. Nowak,
+>>>
+>>> Thank you for the information.
+>>>
+>>> Before the Editorial office check, may I confirm with you that you
+>>>  will be the corresponding author for this submission?
+>>>
+>>> Thank you for your cooperation and understanding. We look forward
+>>> to your reply.
+>>>
+>>> Kind regards, Ms. Sandy Ge Section Managing Editor Email:
+>>> sandy.ge@mdpi.com
+>>>
+>>> MDPI(Dalian) 13F, Tower A, Posco IT Center, Huangpu Road No.555,
+>>> Ganjingzi District 116023 Dalian, China Tel.: +86 411 8482 0879
+>>>
+>>> www.mdpi.com Data Protection Notes:
+>>> https://www.mdpi.com/about/data-protection
+>>>
+>>> MDPI's headquarters are located in Basel, Switzerland. More
+>>> information is available here: https://www.mdpi.com/about/contact
+>>>
+>>> The information and files contained in this message are
+>>> confidential and intended solely for the use of the individual or
+>>> entity to whom they are addressed. If you have received this
+>>> message in error, please notify me and delete this message from
+>>> your system. You may not copy this message in its entirety or in
+>>> part, or disclose its contents to anyone. -- The 2025 CiteScore
+>>> (Scopus) for /Sustainability/ is released: 8.9, ranking Q1 in 7
+>>> categories.
+>>>
+>>> Welcome to Read: Integrated Renewable Energy Systems for Buildings:
+>>> An Assessment of the Environmental and Socio-Economic
+>>> Sustainability <https://www.mdpi.com/2071-1050/17/2/656> Modeling
+>>> the Effects of Strict Protection of Forest Areas—Part of the
+>>> Provisions of the EU Biodiversity Strategy 2030
+>>> <https://www.mdpi.com/2071-1050/17/2/737> Mitigating Land
+>>> Degradation Through Sustainable Urban Landscapes Planning
+>>> <https://www.mdpi.com/2071-1050/17/3/967>
+>>>
+>>> WSF 2026: The 12th World Sustainability Forum organized by MDPI
+>>> and /Sustainability/, will take place on 21–24 August 2026, Hong
+>>> Kong, China https://sciforum.net/event/WSF-12 Submit abstract by 1
+>>> May 2026: https://sciforum.net/user/submission/create/1460
+>>>
+>>> On 2026/7/9 16:29, robert.nowak@pw.edu.pl wrote:
+>>>> CAUTION - EXTERNAL: This email originated from outside of MDPI
+>>>> organisation. BE CAUTIOUS especially to click links or open
+>>>> attachments.
+>>>>
+>>>> Dear Sandy Ge,
+>>>>
+>>>> thank you for the waiver. I have one work that is now ready and
+>>>> I would like to submit it in the next week.
+>>>>
+>>>> Article Type:
+>>>>
+>>>> Scientific article in area measuring and monitoring
+>>>> sustainability
+>>>>
+>>>> Title:
+>>>>
+>>>> Accelerating Metagenomic Identification of DNA Sequences Using
+>>>> Artificial Neural Networks
+>>>>
+>>>> Abstract:
+>>>>
+>>>> The growing volume of DNA sequence data demands efficient
+>>>> metagenomic identification. It provides the possibility to
+>>>> construct the tools to monitor enviromental conditions, risks
+>>>> related to organisms and pathogens and sustainability
+>>>> performance. We present Exquisitor, an ANN-based tool leveraging
+>>>>  contrastive learning to select representative sequences,
+>>>> improving computational efficiency. Benchmarking against
+>>>> classical methods shows superior classification accuracy and
+>>>> competitive execution time, highlighting ANNs scalability and
+>>>> precision for genetic taxonomy.
+>>>>
+>>>> Keywords: artificial neural networks, contrastive learning, DNA
+>>>> sequencing, metagenomic identification, sequence clustering,
+>>>> monitor enviromental conditions, sustainability
+>>>>
+>>>> Authorship:
+>>>>
+>>>> Patryk Gryz, patryk.gryz.stud@pw.edu.pl,
+>>>>
+>>>> Warsaw University of Technology, Institute of Computer System,
+>>>> Nowowiejska 15/19, 00-665 Warsaw, Poland
+>>>>
+>>>> Robert Nowak, robert.nowak@pw.edu.pl,
+>>>>
+>>>> Warsaw University of Technology, Institute of Computer System,
+>>>> Nowowiejska 15/19, 00-665 Warsaw, Poland
+>>>>
+>>>> Full Paper Submission date:
+>>>>
+>>>> Size: 8 - 10 pages
+>>>>
+>>>> Best regards, Robert
+>>>>
+>>>> "sandy.ge" <sandy.ge@mdpi.com> writes:
+>>>>
+>>>>> Dear Dr. Robert Nowak,
+>>>>>
+>>>>> Hope this email finds you well.
+>>>>>
+>>>>> This is Sandy Ge from the Sustainability editorial office. I
+>>>>> would like to extend an invitation for you to submit a paper to
+>>>>> our journal. As an expert in the field, your research and
+>>>>> expertise would make a valuable contribution to our
+>>>>> publication. There's a possibility to get a waiver if you could
+>>>>> submit your paper within three months, and your manuscript
+>>>>> needs to pass our editorial office check. Please note that you
+>>>>> should be the first or the corresponding author of the planned
+>>>>> paper. This discount is valid only for future submissions to
+>>>>> the journal Sustainability. It does not apply to other MDPI
+>>>>> journals or papers currently under processing. We are
+>>>>> particularly interested in original research and review
+>>>>> articles.
+>>>>>
+>>>>> Sustainability (IF: 3.3, ISSN 2071-1050) is an international,
+>>>>> cross-disciplinary, scholarly, peer-reviewed, and open-access
+>>>>> journal of environmental, cultural, economic, and social
+>>>>> sustainability of human beings. Sustainability is indexed by
+>>>>> the Science Citation Index Expanded and Social Sciences
+>>>>> Citation Index (Web of Science), as well as Scopus and other
+>>>>> databases. For more information about the journal, you can
+>>>>> check it at https://www.mdpi.com/journal/sustainability
+>>>>>
+>>>>> If you are interested in our invitation, please reply to this
+>>>>> email to send us an application, which includes the following
+>>>>> detailed information about your manuscript mentioned below,
+>>>>> directly to me. I'll check with the office to confirm your free
+>>>>> discount. --------------------------------- Article Type: Title
+>>>>> (tentative): Abstract: Keywords: Authorship (Name, Email,
+>>>>> Affiliation): Full Paper Submission date:
+>>>>> --------------------------------
+>>>>>
+>>>>> Thank you for considering this opportunity. I look forward to
+>>>>> hearing back from you.
+>>>>>
+>>>>> Kind regards, sandy.ge Section Managing Editor MDPI Branch
+>>>>> Office, Dalian, China sandy.ge@mdpi.com
+>>>>>
+>>>>> -- Sustainability Editorial Office MDPI, Grosspeteranlage 5
+>>>>> 4052 Basel Switzerland Tel.: +41 61 683 77 34
+>>>>> https://www.mdpi.com/journal/sustainability
+>>>>>
+>>>>> Notice: If this message has reached you by mistake, you may
+>>>>> ignore it. If you do not wish to receive further information,
+>>>>> invitations, or offers from us, you may unsubscribe at any time
+>>>>> via the link below or by contacting us at
+>>>>> data-protection@mdpi.ch. For more information about how we
+>>>>> handle your data, please see our Privacy Policy
+>>>>> (https://www.mdpi.com/about/privacy).
+>>>>>
+>>>>> Unsubscribe:
+>>>>> https://www.mdpi.com/unsub/managesubscriptions/mail/ci5tLm5vd2FrQGVsa2EucHcuZWR1LnBs/155939a36432d63ce1a18f4144ae3eadecd42f8d222d8d400644826546f4841a
+>>>>>
+>>>>
+>>>
+>>
+>
+
+-- 
+Prof. Robert Nowak PhD, DSc (CS),
+Deputy Director for Research
+
+Institute of Computer Science, Warsaw University of Technology, POLAND
+http://staff.elka.pw.edu.pl/~rnowak2
+

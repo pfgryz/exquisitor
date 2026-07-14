@@ -1,0 +1,91 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: Editorial Office <biomedinformatics@mdpi.com>
+Subject: [BioMedInformatics] Manuscript ID: biomedinformatics-4468253 - Submission Received
+To: Robert Nowak <robert.nowak@pw.edu.pl>, Robert Nowak <rbmnowak@gmail.com>
+Cc: Patryk Gryz <patryk.gryz.stud@pw.edu.pl>
+Date: Tue, 14 Jul 2026 14:22:46 +0200 (35 minutes, 40 seconds ago)
+Reply-To: biomedinformatics@mdpi.com
+
+
+Wiadomość pochodzi spoza organizacji. Jeśli nadawca jest nieznany, zalecamy ostrożność przy otwieraniu załączników lub linków.
+
+The message comes from outside the organization. If the sender is unknown, we recommend caution when opening attachments or links.
+
+
+
+Dear Professor Nowak,
+
+Thank you very much for uploading the following manuscript to the MDPI
+submission system. One of our editors will be in touch with you soon.
+
+Journal name: BioMedInformatics
+Manuscript ID: biomedinformatics-4468253
+Type of manuscript: Article
+Title: Accelerating Metagenomic Identification of DNA Sequences Using
+Artificial Neural Networks
+Authors: Patryk Gryz, Robert Nowak *
+Received: 14 Jul 2026
+E-mails: patryk.gryz.stud@pw.edu.pl, robert.nowak@pw.edu.pl
+Applied Biomedical Data Science
+https://www.mdpi.com/journal/biomedinformatics/sections/applied_biomedical_data_science
+
+We encourage you to provide an Author Biography on this publication’s
+webpage. Please click the following link to find the corresponding
+instructions and decide whether to accept our invitation:
+https://susy.mdpi.com/user/manuscript/author_biography/957a5a974f0e76c9dc01e857875dc489
+
+You can follow progress of your manuscript at the following link (login
+required):
+https://susy.mdpi.com/user/manuscripts/review_info/957a5a974f0e76c9dc01e857875dc489
+
+The following points were confirmed during submission:
+1. BioMedInformatics is an open access journal with publishing fees of 1200
+CHF for an accepted paper (see https://www.mdpi.com/about/apc/ for details).
+This manuscript, if accepted, will be published under an open access Creative
+Commons CC BY license (https://creativecommons.org/licenses/by/4.0/), and I
+agree to pay the Article Processing Charges as described on the journal
+webpage (https://www.mdpi.com/journal/biomedinformatics/apc). See
+https://www.mdpi.com/about/openaccess for more information about open access
+publishing.
+
+Please note that you may be entitled to a discount if you have previously
+received a discount code, if your institute is participating in the MDPI
+Institutional Open Access Program (IOAP)(https://www.mdpi.com/about/ioap), or
+if a society you are a member of is part of our affiliation
+program(https://www.mdpi.com/societies_partnership). If you have been granted
+any other special discounts for your submission, please contact the
+BioMedInformatics editorial office.
+
+2. I understand that:
+
+a. If previously published material is reproduced in my manuscript, I will
+provide proof that I have obtained the necessary copyright permission.
+(Please refer to the Rights & Permissions website:
+https://www.mdpi.com/authors/rights).
+
+b. My manuscript is submitted on the understanding that it has not been
+published in or submitted to another peer-reviewed journal. Exceptions to
+this rule are papers containing material disclosed at conferences. I confirm
+that I will inform the journal editorial office if this is the case for my
+manuscript. I confirm that all authors are familiar with and agree with
+submission of the contents of the manuscript. The journal editorial office
+reserves the right to contact all authors to confirm this in case of doubt. I
+will provide email addresses for all authors and an institutional e-mail
+address for at least one of the co-authors, and specify the name, address and
+e-mail for invoicing purposes.
+
+If you have any questions, please do not hesitate to contact the
+BioMedInformatics editorial office at biomedinformatics@mdpi.com
+
+Kind regards,
+BioMedInformatics Editorial Office
+Grosspeteranlage 5, 4052 Basel, Switzerland
+E-Mail: biomedinformatics@mdpi.com
+Tel. +41 61 683 77 34
+Fax: +41 61 302 89 18
+
+*** This is an automatically generated email ***
+
+
+

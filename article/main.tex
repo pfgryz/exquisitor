@@ -1,92 +1,103 @@
-\documentclass[unnumsec,webpdf,contemporary,large]{oup-authoring-template}
+\documentclass[biomedinformatics,article,submit,moreauthors]{Definitions/mdpi}
 
-\usepackage{amsmath,amsfonts}
-\usepackage{algorithmicx}
-\usepackage{algorithm}
-\usepackage{array}
-\usepackage{textcomp}
-\usepackage{stfloats}
-\usepackage{url}
-\usepackage{verbatim}
-\usepackage{graphicx}
-% \usepackage{cite}
-\usepackage{mathrsfs}%
-\usepackage{manyfoot}%
-\usepackage{booktabs}%
-\usepackage{algpseudocode}%
-\usepackage{xcolor}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage{listings}
-\usepackage{multirow}
+%=================================================================
+% MDPI internal commands - do not modify
+\firstpage{1} 
+\makeatletter 
+\setcounter{page}{\@firstpage} 
+\makeatother
+\pubvolume{1}
+\issuenum{1}
+\articlenumber{0}
+\pubyear{2026}
+\copyrightyear{2026}
+%\externaleditor{Firstname Lastname} % More than 1 editor, please add `` and '' before the last editor name
+\datereceived{ } 
+\daterevised{ } % Comment out if no revised date
+\dateaccepted{ } 
+\datepublished{ } 
+%\datecorrected{} % For corrected papers: "Corrected: XXX" date in the original paper.
+%\dateretracted{} % For retracted papers: "Retracted: XXX" date in the original paper.
+%\doinum{} % Used for some special journals, like molbank
+%\pdfoutput=1 % Uncommented for upload to arXiv.org
+%\CorrStatement{yes}  % For updates
+%\longauthorlist{yes} % For many authors that exceed the left citation part
+%\IsAssociation{yes} % For association journals
+
+% \usepackage{amsmath,amsfonts}
+% \usepackage{algorithmicx}
+% \usepackage{algorithm}
+% \usepackage{array}
+% \usepackage{textcomp}
+% \usepackage{stfloats}
+% \usepackage{url}
+% \usepackage{verbatim}
+% \usepackage{graphicx}
+% % \usepackage{cite}
+% \usepackage{mathrsfs}%
+% \usepackage{manyfoot}%
+% \usepackage{booktabs}%
+% \usepackage{algpseudocode}%
+% \usepackage{xcolor}
+% \usepackage{amssymb}
+% \usepackage{amsthm}
+% \usepackage{listings}
+% \usepackage{multirow}
+
+%=================================================================
+% Full title of the paper (Capitalized)
+\Title{Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks}
+
+% Author Orchid ID: enter ID or remove command
+\newcommand{\orcidauthorA}{0009-0002-6357-3079} % Add \orcidA{} behind the author's name
+\newcommand{\orcidauthorB}{0000-0001-7248-6888} % Add \orcidB{} behind the author's name
+
+% Authors, for the paper (add full first names)
+\Author{Patryk Gryz $^{1}$\orcidA{} and Robert Nowak $^{2}$*\orcidB{}}
+
+%\longauthorlist{yes}
+
+% MDPI internal command: Authors, for metadata in PDF
+\AuthorNames{Patryk Gryz and Robert Nowak}
+
+% Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
+\address{%
+$^{1}$ \quad Warsaw University of Technology, Institute of Computer System, Nowowiejska 15/19, 00-665 Warsaw, Poland; patryk.gryz.stud@pw.edu.pl\\
+$^{2}$ \quad Warsaw University of Technology, Institute of Computer System, Nowowiejska 15/19, 00-665 Warsaw, Poland; robert.nowak@pw.edu.pl}
+
+% Contact information of the corresponding author
+\corres{Correspondence: robert.nowak@pw.edu.pl; Tel.: +48 502 659 456}
+
+% Current address and/or shared authorship
+%\firstnote{Current address: Affiliation.}  
+% Current address should not be the same as any items in the Affiliation section.
+
+%\secondnote{These authors contributed equally to this work.}
+% The commands \thirdnote{} till \eighthnote{} are available for further notes.
+
+%\simplesumm{} % Simple summary
+
+%\conference{} % An extended version of a conference paper
+
+% Abstract (Do not insert blank lines, i.e. \\)
+\abstract{The growing volume of DNA sequence data demands efficient
+metagenomic identification. It provides the possibility to
+construct the tools to monitor enviromental conditions, risks
+related to organisms and pathogens and sustainability
+performance. We present Exquisitor, an ANN-based tool leveraging
+ contrastive learning to select representative sequences,
+improving computational efficiency. Benchmarking against
+classical methods shows superior classification accuracy and
+competitive execution time, highlighting ANNs scalability and
+precision for genetic taxonomy.}
+
+% Keywords
+\keyword{artificial neural networks; contrastive learning; DNA sequencing; metagenomic identification; sequence clustering, monitor enviromental conditions, sustainability}
+
 
 \begin{document}
 
-    %%=============================================================%%
-    %% TITLE
-    %%=============================================================%%
-
-    \journaltitle{Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks}
-    \DOI{}
-    \copyrightyear{2026}
-    \pubyear{YEAR}
-    \vol{XX}
-    \issue{x}
-    \access{Published: Date added during production}
-    \appnotes{Paper}
-
-    \firstpage{1}
-
-    \title[Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks]{Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks}
-
-    %%=============================================================%%
-    %% AUTHOR(S)
-    %%=============================================================%%
-    
-    \author[1,$\ast$]{Patryk Filip Gryz}
-    \author[1]{Robert Nowak}
-
-    \corresp[$\ast$]{Corresponding author. \href{email:patryk.gryz.stud@pw.edu.pl}{patryk.gryz.stud@pw.edu.pl}}
-
-    % \authormark{Patryk Filip Gryz and Robert Nowak}
-
-    \address[1]{
-        \orgdiv{Institute of Computer Science}, 
-        \orgname{Warsaw University of Technology}, 
-        \orgaddress{
-            \street{Nowowiejska 15/19}, 
-            \postcode{00-665 Warsaw},
-            \country{Poland}
-        }
-    }
-
-    \received{Date}{0}{Year}
-    \revised{Date}{0}{Year}
-    \accepted{Date}{0}{Year}
-
-    %%=============================================================%%
-    %% ABSTRACT
-    %% =============================================================%%
-
-    \abstract{
-        The growing volume of DNA sequence data demands efficient metagenomic identification. We present Exquisitor, an ANN-based tool leveraging contrastive learning to select representative sequences, improving computational efficiency. Benchmarking against classical methods shows superior classification accuracy and competitive execution time, highlighting ANNs scalability and precision for genetic taxonomy.
-    }
-
-    %%=============================================================%%
-    %% KEYWORDS
-    %%=============================================================%%
-
-    \keywords{
-        Artificial neural networks, contrastive learning, DNA sequencing, metagenomic identification, sequence clustering.
-    }
-
-    \maketitle
-        
-    %%=============================================================%%
-    %% SECTIONS
-    %%=============================================================%%
-
-    \section{Introduction}
+\section{Introduction}
     The use of information about genetic material found in the environment, combined with sequence databases, enables metagenomic identification -- the identification of organisms present in a given sample. With the development of next-generation sequencing methods~\citep{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analysed has increased~\citep{Muir:2016}. Traditional tools like BLAST often require unacceptable time and computational resources due to explosive database growth~\citep{10.1093/nar/gkr854}. Consequently, new methods are needed to enable efficient analysis using available resources.
 
     This study aims to propose a fast, high-quality metagenomic identification method using an artificial neural network (ANN) to select representative genetic sequences. Instead of classifying every environmental sequence, our approach focuses on identifying a representative subset for identification, thereby reducing computational complexity while maintaining accuracy.
