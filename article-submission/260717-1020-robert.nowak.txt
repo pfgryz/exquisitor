@@ -1,3 +1,41 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: <robert.nowak@pw.edu.pl>
+Subject: Re: [BioMedInformatics] Manuscript ID: biomedinformatics-4468253 - Assistant Editor Assigned
+To: Xiangsong Yang <xiangsong.yang@mdpi.com>
+CC: Patryk Gryz <patryk.gryz.stud@pw.edu.pl>
+Date: Fri, 17 Jul 2026 10:20:44 +0200 (1 minute, 4 seconds ago)
+
+Dear Mr. Xiangsong Yang,
+
+Thank you for your support. Please find (1) the re-arranged abstract,
+(2) the tex source for our research article with the back matter part,
+(3) a PDF version of our article with a proper template.
+
+Thank you for allowing this correction. Please upload them to the system.
+
+We will add the graphical abstract later during revisions. Thank you for this opportunity.
+
+Best regards,
+Robert Nowak
+
+Abstract:
+
+Background: The growing volume of DNA sequence data demands efficient
+metagenomic idetification.
+It provides the possibility to construct the tools with sustainability performance
+to monitor environmental conditions, risks related to organisms and pathogens.
+Methods: A Convolutional Neural Network (CNN) leveraging
+contrastive learning is used to select representative sequences,
+which improve computational efficiency.
+Results: We present Exquisitor, a CNN-based tool.
+Benchmarking against classical methods shows superior classification accuracy and
+competitive execution time, highlighting CNNs' scalability and
+precision for genetic taxonomy.
+Conclusion: The presented research highlights the potential of CNNs for improving performance
+of metagenomic identification including taxonomic classification.
+
+[2. text/x-tex; main.tex]
 \documentclass[biomedinformatics,article,submit,moreauthors]{Definitions/mdpi}
 
 %=================================================================
@@ -683,3 +721,189 @@ of metagenomic identification including taxonomic classification.
 \end{adjustwidth}
 %} % If the paper is ``preprints'', please uncomment this parenthesis.
 \end{document}
+
+[3. application/pdf; gryz_nowak.pdf]...
+
+
+
+Xiangsong Yang <xiangsong.yang@mdpi.com> writes:
+
+> Wiadomość pochodzi spoza organizacji. Jeśli nadawca jest nieznany,
+zalecamy ostrożność przy otwieraniu załączników lub linków.
+>
+> The message comes from outside the organization. If the sender is
+> unknown, we recommend caution when opening attachments or links.
+>
+>
+>
+> Dear Professor Nowak,
+>
+> I'm sorry that I forgot to remind you that the abstract also needs to be
+> re-arranged.
+>
+> For a research article, the abstract should be a single paragraph and
+> should follow the style of structured abstracts with the following
+> headings: 1) Background: Place the question addressed in a broad context
+> and highlight the purpose of the study;
+> 2) Methods: Describe briefly the main methods or treatments applied.
+> Include any relevant preregistration numbers and species and strains of
+> any animals used; 3) Results: Summarize the article's main findings; and
+> 4) Conclusion: Indicate the main conclusions or interpretations. The
+> abstract should be an objective representation of the article: it must
+> not contain results that are not presented and substantiated in the main
+> text and should not exaggerate the main conclusions.
+>
+> Please re-arrange your abstract based on these requirements.
+>
+> We look forward to hearing from you.
+>
+> Kind regards,
+>
+> Mr. Xiangsong Yang
+> Assistant Editor
+> Email: xiangsong.yang@mdpi.com
+>
+> MDPI (Dalian)
+> Floor 11 and 13, Unit 1, No. 555 Huangpu Road, Dalian High-tech
+> Industrial Park, 116085 Dalian, Liaoning Province, China
+> Tel.: +86 0411 8482 0879
+> www.mdpi.com
+> https://www.mdpi.com/about/data-protection
+>
+> BioMedInformatics Editorial Office
+> Postfach, CH-4020 Basel, Switzerland
+> Office: Grosspeteranlage 5, 4052 Basel, Switzerland
+> E-mail: biomedinformatics@mdpi.com
+> ----------------------------------------------
+> *BioMedInformatics (ISSN: 2673-7426) received its first Journal Impact
+> Factor: 3.6, ranked 13/67 (Q1) in "Mathematical & Computational Biology". *
+> -------------------------------
+> #To access the most cited and viewed papers:
+> BioMedInformatics | Most Cited & Viewed
+> #To edit a Special Issue in BioMedInformatics:
+> https://www.mdpi.com/journalproposal/sendproposalspecialissue/
+> biomedinformatics
+> #To get the primary news, subscribe BioMedInformatics at:
+> BioMedInformatics | E-Mail Table of Contents Alert
+> --------------------------------
+> Disclaimer: The information and files contained in this message are
+> confidential and intended solely for the use of the individual or entity
+> to whom they are addressed. If you have received this message in error,
+> please notify me and delete this message from your system. You may not
+> copy this message in its entirety or in part, or disclose its contents
+> to anyone.
+>
+> On 2026/7/17 11:41, Xiangsong Yang wrote:
+>> Dear Professor Nowak,
+>>
+>> Thank you very much for your submission.Please check and confirm the
+>> following items so that we can proceed your manuscript further:
+>>
+>> 1. We noticed that the back matter part of your manuscript is
+>> missing, please check the attached our template and add the
+>> highlighted back matter part.
+>>
+>> 2. We noticed that the Graphical Abstract is same with the Figure 1
+>> of manuscript, you cannot use the figure in the body of the
+>> manuscript as GA.
+>>
+>> If you would like to provide a graphic abstract to present your
+>> research, please redesign and send it to us via email, we will help
+>> upload it to the editorial system. You can also upload it with your
+>> revisions during the revised version stage.
+>>
+>> You can use the article in the following link as a template.
+>>
+>> https://www.mdpi.com/2673-7426/5/4/61
+>>
+>> We look forward to hearing from you.
+>>
+>> Kind regards,
+>>
+>> Mr. Xiangsong Yang Assistant Editor Email: xiangsong.yang@mdpi.com
+>>
+>> MDPI (Dalian) Floor 11 and 13, Unit 1, No. 555 Huangpu Road, Dalian
+>> High-tech Industrial Park, 116085 Dalian, Liaoning Province, China
+>> Tel.: +86 0411 8482 0879 www.mdpi.com https://www.mdpi.com/about/
+>> data-protection
+>>
+>> BioMedInformatics Editorial Office Postfach, CH-4020 Basel,
+>> Switzerland Office: Grosspeteranlage 5, 4052 Basel, Switzerland E-
+>> mail: biomedinformatics@mdpi.com
+>> ---------------------------------------------- *BioMedInformatics
+>> (ISSN: 2673-7426) received its first Journal Impact Factor: 3.6,
+>> ranked 13/67 (Q1) in "Mathematical & Computational Biology". *
+>> ------------------------------- #To access the most cited and viewed
+>> papers: BioMedInformatics | Most Cited & Viewed #To edit a Special
+>> Issue in BioMedInformatics: https://www.mdpi.com/journalproposal/
+>> sendproposalspecialissue/ biomedinformatics #To get the primary
+>> news, subscribe BioMedInformatics at: BioMedInformatics | E-Mail
+>> Table of Contents Alert -------------------------------- Disclaimer:
+>> The information and files contained in this message are confidential
+>> and intended solely for the use of the individual or entity to whom
+>> they are addressed. If you have received this message in error,
+>> please notify me and delete this message from your system. You may
+>> not copy this message in its entirety or in part, or disclose its
+>> contents to anyone.
+>>
+>> On 2026/7/16 17:41, Xiangsong Yang wrote:
+>>> Dear Professor Nowak,
+>>>
+>>> Your paper has been assigned to Xiangsong Yang, who will be your
+>>> main point of contact as your paper is processed further.
+>>>
+>>> Journal: BioMedInformatics Manuscript ID:
+>>> biomedinformatics-4468253 Title: Accelerating Metagenomic
+>>> Identification of DNA Sequences Using Artificial Neural Networks
+>>> Authors: Patryk Gryz, Robert Nowak * Received: 14 Jul 2026 E-
+>>> mails: patryk.gryz.stud@pw.edu.pl, robert.nowak@pw.edu.pl
+>>>
+>>> You can find your paper here: https://susy.mdpi.com/user/
+>>> manuscripts/ review_info/957a5a974f0e76c9dc01e857875dc489
+>>>
+>>> Any article processing charge (APC) includes only minor English
+>>> editing and no figure editing. Reviewers may suggest improvements
+>>> to the language or figures. You can request professional English
+>>> and Figure Editing, or add a Graphical Abstract, here: https://
+>>> susy.mdpi.com/user/author_services/new
+>>>
+>>> Please note that emails requesting any payment or collaboration
+>>> with MDPI will be sent exclusively from an “@mdpi.com” address. If
+>>> you receive an email from someone posing as MDPI not sent from an
+>>> “@mdpi.com“ address, please alert us as soon as possible.
+>>>
+>>> More information can be found here: https://www.mdpi.com/authors/
+>>> avoid-phishing-emails
+>>>
+>>> If you have any questions, please contact me in advance.
+>>>
+>>> Best regards, Mr. Xiangsong Yang Assistant Editor E-Mail:
+>>> xiangsong.yang@mdpi.com MDPI (Dalian)
+>>>
+>>> Floor 11 and 13, Unit 1, No. 555 Huangpu Road, Dalian High-tech
+>>> Industrial Park, 116085 Dalian, Liaoning Province, China
+>>>
+>>> Tel. +86 0411 8482 0879 www.mdpi.com
+>>>
+>>> Data Protection Notes
+>>>
+>>> Disclaimer: The information and files contained in this message
+>>> are confidential and intended solely for the use of the individual
+>>> or entity to whom they are addressed. If you have received this
+>>> message in error, please notify me and delete this message from
+>>> your system. You may not copy this message in its entirety or in
+>>> part, or disclose its contents to anyone. MDPI - Publisher of Open
+>>> Access Journals MDPI is a publisher of peer-reviewed, open access
+>>> journals since its establishment in 1996.
+>>>
+>
+>
+
+-- 
+Prof. Robert Nowak PhD, DSc (CS),
+Deputy Director for Research
+
+Institute of Computer Science, Warsaw University of Technology, POLAND
+http://staff.elka.pw.edu.pl/~rnowak2
+
+
