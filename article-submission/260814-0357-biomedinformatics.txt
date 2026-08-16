@@ -1,0 +1,88 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: BioMedInformatics Editorial Office <biomedinformatics@mdpi.com>
+Subject: [BioMedInformatics] Manuscript ID: biomedinformatics-4468253 - Article Processing Charge Confirmation
+To: Robert Nowak <robert.nowak@pw.edu.pl>, Robert Nowak <rbmnowak@gmail.com>
+Cc: Patryk Gryz <patryk.gryz.stud@pw.edu.pl>, Sandy Ge <sandy.ge@mdpi.com>, BioMedInformatics Editorial Office <biomedinformatics@mdpi.com>
+Date: Fri, 14 Aug 2026 03:57:57 +0200 (2 days, 13 hours, 47 minutes ago)
+Reply-To: BioMedInformatics Editorial Office <biomedinformatics@mdpi.com>, Sandy Ge <sandy.ge@mdpi.com>
+
+
+Wiadomość pochodzi spoza organizacji. Jeśli nadawca jest nieznany, zalecamy ostrożność przy otwieraniu załączników lub linków.
+
+The message comes from outside the organization. If the sender is unknown, we recommend caution when opening attachments or links.
+
+
+
+Dear Professor Nowak,
+
+Thank you very much for submitting your manuscript to BioMedInformatics:
+
+Journal name: BioMedInformatics
+Manuscript ID: biomedinformatics-4468253
+Type of manuscript: Article
+Title: Accelerating Metagenomic Identification of DNA Sequences Using
+Artificial Neural Networks
+Authors: Patryk Gryz, Robert Nowak *
+Received: 14 Jul 2026
+E-mails: patryk.gryz.stud@pw.edu.pl, robert.nowak@pw.edu.pl
+Applied Biomedical Data Science
+https://www.mdpi.com/journal/biomedinformatics/sections/applied_biomedical_data_science
+
+We confirm that, if accepted for publication, an APC of CHF 0 will apply.↵
+
+Journal APC: 1200 CHF
+Voucher Discount: 1200 CHF
+Total APC: 0 CHF
+
+Please confirm that the APC is correct at the below link:
+https://susy.mdpi.com/user/manuscripts/apc_info/957a5a974f0e76c9dc01e857875dc489
+
+Thank you in advance for your cooperation. I look forward to hearing from you.
+
+Kind regards,
+Ms. Sandy Ge
+Special Issue Editor
+Email: sandy.ge@mdpi.com
+BioMedInformatics Editorial Office
+Postfach, CH-4020 Basel, Switzerland
+Office: Grosspeteranlage 5, 4052 Basel, Switzerland
+E-mail: biomedinformatics@mdpi.com
+----------------------------------------------
+*BioMedInformatics (ISSN: 2673-7426) received its first Journal Impact
+Factor: 3.6, ranked 13/67 (Q1) in "Mathematical & Computational Biology". *
+-------------------------------
+#To access the most cited and viewed papers:
+BioMedInformatics | Most Cited & Viewed
+#To edit a Special Issue in BioMedInformatics:
+https://www.mdpi.com/journalproposal/sendproposalspecialissue/biomedinformatics
+#To get the primary news, subscribe BioMedInformatics at:
+BioMedInformatics | E-Mail Table of Contents Alert
+--------------------------------
+Disclaimer: The information and files contained in this message are
+confidential and intended solely for the use of the individual or entity to
+whom they are addressed. If you have received this message in error, please
+notify me and delete this message from your system. You may not copy this
+message in its entirety or in part, or disclose its contents to anyone.
+MDPI Dalian Office, 13F, Tower A, Posco IT Center, Huangpu Road No.555,
+Ganjingzi District, 116023 Dalian, China
+Tel.: +86 411 8482 0879
+--
+MDPI BioMedInformatics Editorial Office
+MDPI, Grosspeteranlage 5
+4052 Basel
+Switzerland
+Tel.: +41 61 683 77 34
+http://www.mdpi.com/journal/biomedinformatics
+
+https://www.mdpi.com
+Data Protection Notes: https://www.mdpi.com/about/data-protection
+
+Disclaimer: The information and files contained in this message are
+confidential and intended solely for the use of the individual or entity to
+whom they are addressed. If you have received this message in error, please
+notify me and delete this message from your system. You may not copy this
+message in its entirety or in part, or disclose its contents to anyone.
+
+
+

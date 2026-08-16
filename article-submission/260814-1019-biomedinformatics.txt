@@ -1,0 +1,85 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: BioMedInformatics Editorial Office <biomedinformatics@mdpi.com>
+Subject: [BioMedInformatics] Manuscript ID: biomedinformatics-4468253 - Major Revision-Due to 24 August
+To: Robert Nowak <robert.nowak@pw.edu.pl>, Robert Nowak <rbmnowak@gmail.com>
+Cc: Patryk Gryz <patryk.gryz.stud@pw.edu.pl>, BioMedInformatics Editorial Office <biomedinformatics@mdpi.com>
+Date: Fri, 14 Aug 2026 10:19:57 +0200 (2 days, 7 hours, 26 minutes ago)
+Reply-To: xiangsong.yang@mdpi.com
+
+
+Wiadomość pochodzi spoza organizacji. Jeśli nadawca jest nieznany, zalecamy ostrożność przy otwieraniu załączników lub linków.
+
+The message comes from outside the organization. If the sender is unknown, we recommend caution when opening attachments or links.
+
+
+
+Dear Professor Nowak,
+
+Thank you again for your manuscript submission:
+
+Manuscript ID: biomedinformatics-4468253
+Type of manuscript: Article
+Title: Accelerating Metagenomic Identification of DNA Sequences Using
+Artificial Neural Networks
+Authors: Patryk Gryz, Robert Nowak *
+Received: 14 Jul 2026
+E-mails: patryk.gryz.stud@pw.edu.pl, robert.nowak@pw.edu.pl
+Section:Applied Biomedical Data Science
+
+https://www.mdpi.com/journal/biomedinformatics/sections/applied_biomedical_data_science
+
+Your manuscript has now been reviewed by experts in the field and can be
+found with the review reports at:
+https://susy.mdpi.com/user/manuscripts/resubmit/957a5a974f0e76c9dc01e857875dc489
+
+Please revise the manuscript found at the above link according to the
+reviewers' comments and upload the revised file within 10 days. Note the
+following check-list:
+
+(I) Ensure all references are relevant to the content of the manuscript.
+(II) Highlight any revisions to the manuscript, so editors and reviewers can
+see any changes made.
+(III) Provide a cover letter to respond to the reviewers’ comments and
+explain, point by point, the details of the manuscript revisions.
+(IV) If the reviewer(s) recommended references, critically analyze them to
+ensure that their inclusion would enhance your manuscript. If you believe
+these references are unnecessary, you should not include them.
+(V) If you found it impossible to address certain comments in the review
+reports, include an explanation in your appeal.
+
+Our expert editors offer professional Language and Figure Editing, each
+completed within 1 day. These optional services ensure the high standard
+required to publish your work with clarity and boost its impact. You can
+submit here:
+https://www.mdpi.com/authors/english
+
+Please do not hesitate to contact us if you have any questions regarding the
+revision of your manuscript or if you need more time. We look forward to
+hearing from you soon.
+
+Kind regards,
+Mr. Xiangsong Yang
+Assistant Editor
+E-Mail: xiangsong.yang@mdpi.com
+MDPI (Dalian)
+
+Floor 11 and 13, Unit 1, No. 555 Huangpu Road, Dalian High-tech Industrial
+Park, 116085 Dalian, Liaoning Province, China
+
+Tel. +86 0411 8482 0879
+www.mdpi.com
+
+Data Protection Notes
+
+Disclaimer: The information and files contained in this message are
+confidential and intended solely for the use of the individual or entity to
+whom they are addressed. If you have received this message in error, please
+notify me and delete this message from your system. You may not copy this
+message in its entirety or in part, or disclose its contents to anyone.
+MDPI - Publisher of Open Access Journals
+MDPI is a publisher of peer-reviewed, open access journals since its
+establishment in 1996.
+
+
+
