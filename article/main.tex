@@ -114,7 +114,11 @@ of metagenomic identification including taxonomic classification.
 
     Metagenomic identification currently relies on three main approaches: alignment, $k$-mers and marker genes. Alignment-based tools offer the highest accuracy but are computationally expensive. Algorithms based on $k$-mers provide high speed but lower quality by ignorning structural information. Marker gene solutions deliver good results but are limited to organisms with known reference markers.
 
-    Although recent studies use machine learning for metagenomic identification, research on artificial neural networks (ANN) with contrastive learning for sequence clustering remains limited. ANNs often outperform classical heuristics, offering faster and more accurate results. This works leverages ANN capabilities to accelerate metagenomic identification while maintaining traditional quality levels, significantly streamlining the classification process.
+    Recent studies in genomics use machine learning, especially artificial neural networks (ANNs), to represent sequences and support classification and annotation, using large context lengths ~\citep{nguyen2023hyenadna, yang2026explicit}.
+    ANNs often outperform classical heuristics, offering faster and more accurate results.
+    The use of an ANN with contrastive learning for sequence clustering remains limited in the literature.
+    This works leverages ANN  and contrastive learning capabilities to accelerate metagenomic identification while maintaining traditional quality levels, significantly streamlining the classification process.
+
 
     The rest of the paper is organized as follows: Section 2 defines the problem, the proposed approach, and the Exquisitor tool. Section 3 describes the experimental setup, datasets, performance metrics, and results. Finally, Section 4 summarises the findings, discusses limitations, and suggests future research directions.
 

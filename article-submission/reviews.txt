@@ -36,6 +36,14 @@ Reviewer 2
 
 RN 1. The current wording may suggest that the ANN directly performs taxonomic classification. In fact, it primarily generates sequence representations and supports clustering, whereas the final identification is obtained through BLAST. The method should therefore be consistently described as an ANN-assisted representative-sequence selection framework for accelerating BLAST-based identification. The related-work section could also briefly cover recent double-strand DNA representation learning, such as the latest work CrossDNA (https://www.nature.com/articles/s42256-026-01249-1) and HyenaDNA. (https://arxiv.org/abs/2306.15794).
 
+Thank you for this comment. We modified text as suggested.
+
+    Recent studies in genomics use machine learning, especially artificial neural networks (ANNs), to represent sequences and support classification and annotation, using large context lengths ~\citep{nguyen2023hyenadna, yang2026explicit}.
+    ANNs often outperform classical heuristics, offering faster and more accurate results.
+    The use of an ANN with contrastive learning for sequence clustering remains limited in the literature.
+    This works leverages ANN  and contrastive learning capabilities to accelerate metagenomic identification while maintaining traditional quality levels, significantly streamlining the classification process.
+
+
 2. Please clarify how sequences of different lengths are truncated or padded, how ambiguous nucleotides are encoded, how the number of clusters kkk is selected, and how the BLAST result of a representative sequence is assigned to other cluster members. The BLAST version, database, thread count, and major parameters should also be reported, preferably in a concise parameter table.
 
 
