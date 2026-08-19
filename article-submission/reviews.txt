@@ -5,11 +5,19 @@ Major concerns:
 
 1. The current quality measure shows how closely the reduced pipeline matches the results from running BLAST on all sequences. This is useful, but it is not the same as taxonomic classification accuracy. Since the CAMI dataset has known taxonomic labels, the authors should compare the predictions with these labels at one or two taxonomic levels. If this analysis is not possible, claims such as “superior classification accuracy” should be changed to “better agreement with the full BLAST results.”
 
+- określenie metryk, porównanie etykiet, zestawić środowisko?
+
 2. The number of clusters determines how many representative sequences are sent to BLAST. However, the author does not clearly report the number of clusters, the number of BLAST searches, or the reduction ratio in each experiment. The authors should explain how the number of clusters would be selected for a real sample, where the true number of taxa is unknown. A small sensitivity analysis using two or three cluster settings would be sufficient. Runtime, quality, and the number of BLAST queries should be reported for each setting.
+
+- liczba grup, quality da się podać; trzeba uruchomić pipeline
 
 3. The model was trained and mainly tested using sequences from the same CAMI human skin microbiome sample. Although the test indices were excluded from training, the authors state that duplicate sequences were not checked. This may make the results appear better than they really are. The authors should remove exact duplicates between the training, validation, and test sets and repeat the main ANN and k-mer comparison. They should also run the full Exquisitor pipeline on the unseen sample that is already included in the manuscript, rather than reporting only clustering metrics.
 
+- uruchomić na próbce, której model nie widział, 2 wykonania z różnymi wielkościami grup,
+
 4. The claims about scalability are not fully supported by the current experiments. The largest test contains only 4096 sequences, and the method builds a full pairwise dissimilarity matrix, which may become expensive for larger datasets. The authors should report the runtime and peak memory for the main steps, including embedding, distance calculation, clustering, BLAST, and postprocessing. A somewhat larger test of the steps before BLAST would also be helpful. If larger inputs cannot be tested, the statements about scalability should be made more cautious.
+
+- poprawki w tekście.
 
 Minor：
 
@@ -25,11 +33,13 @@ Reviewer 2
 
 \The manuscript presents a practically relevant framework for selecting representative DNA sequences and reducing the number of BLAST queries. Several revisions would improve the clarity, reproducibility, and accuracy of the presentation.
 
-1. The current wording may suggest that the ANN directly performs taxonomic classification. In fact, it primarily generates sequence representations and supports clustering, whereas the final identification is obtained through BLAST. The method should therefore be consistently described as an ANN-assisted representative-sequence selection framework for accelerating BLAST-based identification. The related-work section could also briefly cover recent double-strand DNA representation learning, such as the latest work CrossDNA (https://www.nature.com/articles/s42256-026-01249-1) and HyenaDNA. (https://arxiv.org/abs/2306.15794).
+
+RN 1. The current wording may suggest that the ANN directly performs taxonomic classification. In fact, it primarily generates sequence representations and supports clustering, whereas the final identification is obtained through BLAST. The method should therefore be consistently described as an ANN-assisted representative-sequence selection framework for accelerating BLAST-based identification. The related-work section could also briefly cover recent double-strand DNA representation learning, such as the latest work CrossDNA (https://www.nature.com/articles/s42256-026-01249-1) and HyenaDNA. (https://arxiv.org/abs/2306.15794).
 
 2. Please clarify how sequences of different lengths are truncated or padded, how ambiguous nucleotides are encoded, how the number of clusters kkk is selected, and how the BLAST result of a representative sequence is assigned to other cluster members. The BLAST version, database, thread count, and major parameters should also be reported, preferably in a concise parameter table.
 
-3. Since the full-BLAST output is used as the reference, the reported metric measures agreement with the full-search baseline rather than classification accuracy against biological ground truth. Statements such as “superior classification accuracy” should be replaced with “higher agreement with the full-BLAST baseline” or “higher relative identification quality.” The explanation that the ANN performs better because it captures the full sequence structure should also be presented as a possible interpretation rather than a demonstrated mechanism.
+
+RN 3. Since the full-BLAST output is used as the reference, the reported metric measures agreement with the full-search baseline rather than classification accuracy against biological ground truth. Statements such as “superior classification accuracy” should be replaced with “higher agreement with the full-BLAST baseline” or “higher relative identification quality.” The explanation that the ANN performs better because it captures the full sequence structure should also be presented as a possible interpretation rather than a demonstrated mechanism.
 
 4. The second occurrence of s_pos in the loss description should be s_neg​. The third column of Table 3 should apparently be labelled FMI rather than NMI, and “R64” should be written as R^64. Equation (5) should also clarify how organisms appearing only in the obtained results are handled.
 
