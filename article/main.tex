@@ -81,22 +81,20 @@ $^{2}$ \quad Warsaw University of Technology, Institute of Computer System, Nowo
 
 % Abstract (Do not insert blank lines, i.e. \\)
 \abstract{\textbf{Background:} The growing volume of DNA sequence data demands efficient
-  metagenomic idetification.
+  metagenomic identification.
   It provides the possibility to construct the tools with sustainability performance
   to monitor environmental conditions, risks related to organisms and pathogens.
 \textbf{Methods:} A Convolutional Neural Network (CNN) leveraging
 contrastive learning is used to select representative sequences,
 which improve computational efficiency.
 \textbf{Results:} We present Exquisitor, a CNN-based tool.
-Benchmarking against classical methods shows superior classification accuracy and
-competitive execution time, highlighting CNNs' scalability and
-precision for genetic taxonomy.
+Benchmarking against classical methods shows higher classification quality and competitive execution time within this setting.
 \textbf{Conclusion:} The presented research highlights the potential of CNNs for improving performance
 of metagenomic identification including taxonomic classification.
 }
 
 % Keywords
-\keyword{artificial neural networks; contrastive learning; DNA sequencing; metagenomic identification; sequence clustering, monitor enviromental conditions, sustainability}
+\keyword{artificial neural networks; contrastive learning; DNA sequencing; metagenomic identification; sequence clustering, monitor environmental conditions, sustainability}
 
 
 \begin{document}
@@ -112,7 +110,7 @@ of metagenomic identification including taxonomic classification.
 
     Other techniques include Centrifuge~\citep{Kim:2016}, which uses the Burrows-Wheeler transform~\citep{Burrows:1994} and Ferragina-Manzini Index~\citep{Ferragina:2000} for efficient sequence retrieval, and Kraken~\citep{Wood:2014}, which combines $k$-mers with indexed databases. Modern machine learning approaches include BERTax~\citep{Mock:2022}, treating DNA as a language via transformer models~\citep{Transformers} for database-free classification, and CGRclust~\citep{Alipour:2024}, which utilizes chaos game representation with convolutional neural networks.
 
-    Metagenomic identification currently relies on three main approaches: alignment, $k$-mers and marker genes. Alignment-based tools offer the highest accuracy but are computationally expensive. Algorithms based on $k$-mers provide high speed but lower quality by ignorning structural information. Marker gene solutions deliver good results but are limited to organisms with known reference markers.
+    Metagenomic identification currently relies on three main approaches: alignment, $k$-mers and marker genes. Alignment-based tools offer the highest accuracy but are computationally expensive. Algorithms based on $k$-mers provide high speed but lower quality by ignoring structural information. Marker gene solutions deliver good results but are limited to organisms with known reference markers.
 
     Recent studies in genomics use machine learning, especially artificial neural networks (ANNs), to represent sequences and support classification and annotation, using large context lengths ~\citep{nguyen2023hyenadna, yang2026explicit}.
     ANNs often outperform classical heuristics, offering faster and more accurate results.
@@ -131,6 +129,8 @@ of metagenomic identification including taxonomic classification.
                 \textbf{Preparation of DNA Sequences}
 
                 This step verifies DNA sequence correctness and aligns them to a required length for subsequent processing.
+                Shorter sequences than the target are padded with \texttt{A}; longer sequences are truncated symmetrically from both ends.
+                Ambiguous nucleotides are replaced with \texttt{A}.
             }
             \item {
                 \textbf{Dissimilarity Calculation}
@@ -150,7 +150,7 @@ of metagenomic identification including taxonomic classification.
             \item {
                 \textbf{Postprocessing}
 
-                This final step integrates cluster information with the database search results to produce the final identification.
+                This final step assigns the BLASTn result of each cluster representative to all members of that cluster, treating the entire cluster as a single taxon.
             }
         \end{enumerate}
 
@@ -212,7 +212,7 @@ of metagenomic identification including taxonomic classification.
                 Convolutional Neural Networks (CNNs) were chosen over Recurrent Neural Networks (RNNs) for faster training and inference. Contrastive learning allows the model to measure sequence similarity, which supports clustering.
 
                 \paragraph{Input}
-                The input to the model consists of DNA sequences of length $150$\footnote{The sequence length of 150 is a method parameter and can be adjusted depending on the application.}, which are encoded into a vector of dimensions $1 \times 600$ using one-hot encoding~\citep{HarrisDavid:2007}.
+                The model input consists of DNA sequences of length $150$, one-hot encoded over the four nucleotides (A, C, G, T) into a \(150 \times 4\) matrix and subsequently flattened into a \(1 \times 600\) vector.\footnote{The sequence length of 150 is a method parameter and can be adjusted depending on the application.}
 
                 \paragraph{Training Examples}
                 The training and validation examples consist of an anchor, a positive sequence similar to the anchor, and a negative sequence dissimilar to the anchor.
@@ -235,7 +235,7 @@ of metagenomic identification including taxonomic classification.
                             &\text{ and the anchor,} \footnote{The positive margin controls the minimum similarity between similar sequences, whereas the negative margin controls the maximum similarity between dissimilar sequences.} \\
                     s_{pos} &- \text{cosine similarity of the positive sequence} \\
                             &\text{to the anchor,}\\
-                    s_{pos} &- \text{cosine similarity of the negative sequence} \\
+                    s_{neg} &- \text{cosine similarity of the negative sequence} \\
                             &\text{to the anchor.}
                 \end{align*}
 
@@ -282,6 +282,17 @@ of metagenomic identification including taxonomic classification.
                 \item \textit{git} as the version control system, enabling change tracking and code history management.
             \end{itemize}
 
+            \subsubsection*{Tool Versions and Computational Environment}
+            Representative sequences were queried with BLASTn (version~\texttt{2.16.0}) against the most recent database (as of December 2024) using 4 threads. 
+            The main parameters were left at their default values.
+            The experiments were conducted on a machine with the following configuration:
+            \begin{itemize}
+                \item { CPU: Intel Core i7-6850k (4 vCPUs); }
+                \item { 40~GB RAM;}
+                \item { GPU: NVIDIA GeForce GTX 1080TI; }
+                \item { OS: Ubuntu 24.04. }
+            \end{itemize}
+
                 \section{Results}
 
                 This section presents the results of the experiments conducted to evaluate the proposed solution (Exquisitor), which aims to improve performance while maintaining the quality of metagenomic identification. The study compared the new approach with two classical methods using the same dataset. The evaluation focused on execution time and identification quality to assess the effectiveness of the proposed approach.
@@ -295,7 +306,9 @@ of metagenomic identification including taxonomic classification.
             Indices of sequences used in the ANN training and validation sets were excluded from the sampling. The sizes of the subsets were as follows: training set - 1,000,000 sequences, validation set - 10,000 sequences, and test set - 8,192 sequences.
 
         \subsection{Clustering Algorithm}
-            In the experiments, we used an external k-medoids clustering algorithm~\citep{Rust:kmedoids}. The medoids identified by this algorithm were used as cluster representatives and used in subsequent steps.
+            In the experiments, we used an external k-medoids clustering algorithm~\citep{Rust:kmedoids}. 
+            The number of clusters $k$ is supplied as a method parameter.
+            The medoids identified by this algorithm were used as cluster representatives and used in subsequent steps.
 
         \subsection{Base-line Algorithms}
 
@@ -447,6 +460,7 @@ of metagenomic identification including taxonomic classification.
                         O(X) &- \text{set of unique organisms, for which results} \\
                              &\text{were assigned in the set $X$}
                     \end{align*}
+                    Organisms appearing only in the obtained results are not considered in the calculation of the quality.
 
                     The weighted average quality, defined by equation~\eqref{Equation:WeightedAverageQuality}, was used to compare the quality of multiple metagenomic identification runs.
 
@@ -458,7 +472,7 @@ of metagenomic identification including taxonomic classification.
                     where:
                     \begin{align*}
                     C &- \text{set of metagenomic identification runs,} \\
-                    Q_c &- \text{quality of metagenomic identificationn $c$,} \\
+                    Q_c &- \text{quality of metagenomic identification $c$,} \\
                     n_c &- \text{number of input sequences for metagenomic}\\
                         &\text{ identification $c$,}\\
                     n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
@@ -529,7 +543,7 @@ of metagenomic identification including taxonomic classification.
 
                     \begin{tabular}{|c|c|c|c|}
                         \hline
-                        \textbf{Sample} & \textbf{AMI} & \textbf{NMI} & \textbf{NMI} \\ \hline
+                        \textbf{Sample} & \textbf{AMI} & \textbf{NMI} & \textbf{FMI} \\ \hline
                         Sample 1 (seen) & 0.288 & 0.286 & 0.424 \\ \hline
                         Sample 4 (unseen) & 0.219 & 0.243 & 0.379 \\ \hline
                     \end{tabular}
@@ -538,11 +552,56 @@ of metagenomic identification including taxonomic classification.
                 \paragraph{Conclusions}
                 Although the clustering performance on the unseen data is not optimal, it remains comparable to the results obtained for the training data. It suggests that the model's generalisation capabilities are present but constrained, and that the outcomes are not merely random.
 
+            \subsubsection{Generalisation and $k$ parameter}
+
+                \paragraph{Objective}
+                Evaluating whether the method generalises correctly to unseen data, and assessing the influence of the $k$ parameter on the generalisation quality.
+
+                \paragraph{Preparation}
+                On the sample from the previous experiment, the full pipeline was run with different values of the $k$ parameter. 
+                The resulting assignments were compared against the known taxonomic labels.
+
+                \paragraph{Results}
+                Accurracy, precision, recall and F1 scores for the different values of the $k$ parameter are presented in Table~\ref{Table:Experiment:GeneralisationAndKParameter}.
+                
+
+            \begin{table}[htbp]
+                \centering
+                \begin{tabular}{lcccc}
+                    \hline
+                    Metric & BLAST & NW & k-mer & ANN \\
+                    \hline
+                    \multicolumn{5}{l}{\textbf{k = 15}} \\
+                    \hline
+                    accuracy & 0.952 & 0.351 & 0.609 & 0.550 \\
+                    precision & 0.959 & 0.381 & 0.609 & 0.550 \\
+                    recall & 0.952 & 0.351 & 0.609 & 0.550 \\
+                    f1 & 0.955 & 0.365 & 0.609 & 0.550 \\
+                    \hline
+                    \multicolumn{5}{l}{\textbf{k = 30}} \\
+                    \hline
+                    accuracy & N/A & 0.449 & 0.607 & 0.554 \\
+                    precision & N/A & 0.470 & 0.607 & 0.554 \\
+                    recall & N/A & 0.449 & 0.607 & 0.554 \\
+                    f1 & N/A & 0.459 & 0.607 & 0.554 \\
+                    \hline
+                    \end{tabular}
+                \caption{Comparison of methods results.}
+                \label{Table:Experiment:GeneralisationAndKParameter}
+            \end{table}
+
+            \paragraph{Conclusions}
+            Generalisation quality is comparable to the results obtained for the training data. The ANN method approach does generalise, outperforming the NW method, but its capability remains limited and fails to match the performance of the $k$-mer method.
+            Both $k$-mer and ANN method with only 15 clusters are able to achieve accurracy above 55\%, indicating that a small number of clusters can still describe a substantial portion of the sample. 
+            Incresing the number of clusters yields only a modest improvement in the results, but in long term increases computational time.
+
+
     \section{Discussion}
         \subsection{Interpretation of Results}
-            Experimental results partially confirmed initial expectations, as all methods achieved satisfactory identification quality. The ANN-based approach performed best, yielding the highgest weighted average classification quality with execution time comparable to $k$-mer embeddings. Homever, small input samples led to lower quality, likely due to poor representative selection; thus the method is recommended for larger datasets. For the testsed data, the efficiency threshold was 128 sequences, where quality remained high and reduced processing time by 5\%. The ANN no only improved classification quality over the methods but also remained competitive with classifical approaches.
+            Experimental results partially confirmed initial expectations, as all methods achieved satisfactory identification quality. The ANN-based approach performed best, yielding the highest weighted average classification quality with execution time comparable to $k$-mer embeddings. However, small input samples led to lower quality, likely due to poor representative selection; thus the method is recommended for larger datasets. For the tested data, the efficiency threshold was 128 sequences, where quality remained high and reduced processing time by 5\%. The ANN no only improved classification quality over the methods but also remained competitive with classical approaches.
 
-            Our pipeline increases the speed of BLAST by using a single sequence that represents a cluster, and it uses BLAST internally. The presented method is not limited to metagenomic analysis; generally, it replaces BLAST in tasks when clusters of sequences are analysed. Therefore, genome assembly, identifying cell subtypes, and phylogenetic trees might benefit from the presented approach.
+            Our pipeline speeds up BLAST-based metagenomic identification by querying a single representative per cluster.
+            Within the evaluated setting---one main dataset and at most $4096$ sequences---these results support the approach for metagenomic identification, but presented method is not limited to metagenomic identification; generally, it replaces BLAST in tasks when clusters of sequences are analysed.
 
         \subsection{Limitations}
             \subsubsection{Experiments Duration}
@@ -576,7 +635,8 @@ of metagenomic identification including taxonomic classification.
 
     \section{Conclusions}
         \subsection{Summary of Findings}
-            The experiments demonstrated that the proposed method based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method. It highlights the potential of neural networks for improving performance without significant computational overhead.
+            The experiments demonstrated that the proposed method based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method.
+            It highlights the potential for neural networks to improve identification efficiency, subject to the dataset and scale limitations discusses above.
 
         \subsection{Future Research Directions}
             Future research could focus on utilising artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses.
@@ -615,7 +675,7 @@ of metagenomic identification including taxonomic classification.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \authorcontributions{Conceptualization, P.G. and R.N.; methodology, P.G.; software, P.G.; validation, P.G.; resources, R.N.; data curation, P.G.; writing, P.G and R.N.; supervision, R.N.; funding acquisition, R.N. All authors have read and agreed to the published version of the manuscript.}
 
-\funding{This work is supported by Statutory Resarch Grant of Institute of Computer Science, Warsaw University of Technology}
+\funding{This work is supported by Statutory Research Grant of Institute of Computer Science, Warsaw University of Technology}
 
 % \institutionalreview{In this section, please add the Institutional Review Board Statement and approval number for studies involving humans or animals. You might choose to exclude this statement if the study did not require ethical approval. Please note that the Editorial Office might ask you for further information. Please add ``The study was conducted in accordance with the Declaration of Helsinki, and approved by the Institutional Review Board (or Ethics Committee) of NAME OF INSTITUTE (protocol code XXX and date of approval).” for studies involving humans OR ``The animal study protocol was approved by the Institutional Review Board (or Ethics Committee) of NAME OF INSTITUTE (protocol code XXX and date of approval).” for studies involving animals OR ``Ethical review and approval were waived for this study due to REASON (please provide a detailed justification).” OR ``Not applicable.” for studies not involving humans or animals.}
 
