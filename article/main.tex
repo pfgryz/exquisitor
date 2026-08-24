@@ -381,6 +381,9 @@ of metagenomic identification including taxonomic classification.
                     \item {
                         Metagenomic identification is the only task running on the machine.
                     }
+                    \item {
+                        The number of clusters was set to $k = \sqrt{n}$, where $n$ is the number of input sequences.
+                    }
                 \end{enumerate}
 
                 \paragraph{Results}
@@ -435,6 +438,9 @@ of metagenomic identification including taxonomic classification.
                     }
                     \item {
                         In the case where it is not possible to compute the quality for a given metagenomic identification run, a quality value of $0$ is assumed. This value is not considered when calculating the weighted average quality.
+                    }
+                    \item {
+                        The number of clusters was set to $k = \sqrt{n}$, where $n$ is the number of input sequences.
                     }
                   \end{enumerate}
 
@@ -640,6 +646,7 @@ of metagenomic identification including taxonomic classification.
 
         \subsection{Future Research Directions}
             Future research could focus on utilising artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses.
+            Beyond metagenomic identification, the learned sequence representations and clustering approach could be explored in future work for related tasks such as genome assembly, cell-subtype identification, and phylogenetic-tree construction.
             Planned development efforts are focused on providing interfaces for the Exquisitor tool, enabling its integration with existing popular metagenomic pipelines.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
