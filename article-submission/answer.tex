@@ -177,7 +177,7 @@ Since the full-BLAST output is used as the reference, the reported metric measur
 \end{displayquote}
 
 \paragraph{Answer:}
-\todo{fill}
+The reviewer is right. We performed additional experiments to evaluate our pipeline's predictions against the taxonomic labels included in the dataset used, thereby providing the biological ground truth. The results are included in the new version of the manuscript in section 3 Results, lines 340 - 347, and table 4. We agree with the proposed terms; therefore, we replaced the statements 'superior classification accuracy' and similar ones (in the Abstract and in the Results).
 
 
 \paragraph{Issue 4:}
@@ -211,37 +211,6 @@ The manuscript’s precision, reproducibility, and logical consistency should be
 \paragraph{Answer:}
 We agree.
 Throughout the revised manuscript we improved precision, reproducibility, and logical consistency: we clarified the method description and evaluation claims, added implementation and parameter details needed for reproducibility, corrected notation and table labels, and moderated statements that were not fully supported by the experiments.
-
-\paragraph{Issue 3:}
-\begin{displayquote}
- Since the full-BLAST output is used as the reference, the reported metric measures agreement with the full-search baseline rather than classification accuracy against biological ground truth. Statements such as “superior classification accuracy” should be replaced with “higher agreement with the full-BLAST baseline” or “higher relative identification quality.” The explanation that the ANN performs better because it captures the full sequence structure should also be presented as a possible interpretation rather than a demonstrated mechanism.
-\end{displayquote}
-
-\paragraph{Answer:}
-The reviewer is right. We performed additional experiments to evaluate our pipeline's predictions against the taxonomic labels included in the dataset used, thereby providing the biological ground truth. The results are included in the new version of the manuscript in section 3 Results, lines 340 - 347, and table 4. We agree with the proposed terms; therefore, we replaced the statements 'superior classification accuracy' and similar ones (in the Abstract and in the Results).
-
-\paragraph{Issue 4:}
-\begin{displayquote}
-The second occurrence of s_pos in the loss description should be s_neg​. The third column of Table 3 should apparently be labelled FMI rather than NMI, and “R64” should be written as R^64. Equation (5) should also clarify how organisms appearing only in the obtained results are handled.
-\end{displayquote}
-
-\paragraph{Answer:}
-
-
-\paragraph{Issue 5:}
-\begin{displayquote}
-The manuscript suggests possible applications to genome assembly, cell-subtype identification, and phylogenetic-tree construction, although these tasks are not evaluated. These statements should be clearly presented as future research directions. Claims regarding general applicability and scalability should also be moderated, given that the evaluation uses one main dataset and at most 4,096 sequences.
-\end{displayquote}
-
-\paragraph{Answer:}
-
-\paragraph{Issue 6:}
-\begin{displayquote}
-  The manuscript’s precision, reproducibility, and logical consistency should be improved.
-\end{displayquote}
-
-\paragraph{Answer:}
-
 
 
 \paragraph{Other changes:}
