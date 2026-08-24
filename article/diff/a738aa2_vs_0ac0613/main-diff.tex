@@ -1,0 +1,820 @@
+\documentclass[biomedinformatics,article,submit,moreauthors]{Definitions/mdpi}
+%DIF LATEXDIFF DIFFERENCE FILE
+%DIF DEL /tmp/article-pdfdiff.njq8MY/old/article/main.tex   Fri Jul 17 10:25:24 2026
+%DIF ADD /tmp/article-pdfdiff.njq8MY/new/article/main.tex   Mon Aug 24 12:41:57 2026
+
+%=================================================================
+% MDPI internal commands - do not modify
+\firstpage{1}
+\makeatletter
+\setcounter{page}{\@firstpage}
+\makeatother
+\pubvolume{1}
+\issuenum{1}
+\articlenumber{0}
+\pubyear{2026}
+\copyrightyear{2026}
+%\externaleditor{Firstname Lastname} % More than 1 editor, please add `` and '' before the last editor name
+\datereceived{ }
+\daterevised{ } % Comment out if no revised date
+\dateaccepted{ }
+\datepublished{ }
+%\datecorrected{} % For corrected papers: "Corrected: XXX" date in the original paper.
+%\dateretracted{} % For retracted papers: "Retracted: XXX" date in the original paper.
+%\doinum{} % Used for some special journals, like molbank
+%\pdfoutput=1 % Uncommented for upload to arXiv.org
+%\CorrStatement{yes}  % For updates
+%\longauthorlist{yes} % For many authors that exceed the left citation part
+%\IsAssociation{yes} % For association journals
+
+% \usepackage{amsmath,amsfonts}
+% \usepackage{algorithmicx}
+% \usepackage{algorithm}
+% \usepackage{array}
+% \usepackage{textcomp}
+% \usepackage{stfloats}
+% \usepackage{url}
+% \usepackage{verbatim}
+% \usepackage{graphicx}
+% % \usepackage{cite}
+% \usepackage{mathrsfs}%
+% \usepackage{manyfoot}%
+% \usepackage{booktabs}%
+% \usepackage{algpseudocode}%
+% \usepackage{xcolor}
+% \usepackage{amssymb}
+% \usepackage{amsthm}
+% \usepackage{listings}
+% \usepackage{multirow}
+
+%=================================================================
+% Full title of the paper (Capitalized)
+\Title{Accelerating Metagenomic Identification of DNA Sequences Using Artificial Neural Networks}
+
+% Author Orchid ID: enter ID or remove command
+\newcommand{\orcidauthorA}{0009-0002-6357-3079} % Add \orcidA{} behind the author's name
+\newcommand{\orcidauthorB}{0000-0001-7248-6888} % Add \orcidB{} behind the author's name
+
+% Authors, for the paper (add full first names)
+\Author{Patryk Gryz $^{1}$\orcidA{} and Robert Nowak $^{2}$*\orcidB{}}
+
+%\longauthorlist{yes}
+
+% MDPI internal command: Authors, for metadata in PDF
+\AuthorNames{Patryk Gryz and Robert Nowak}
+
+% Affiliations / Addresses (Add [1] after \address if there is only one affiliation.)
+\address{%
+$^{1}$ \quad Warsaw University of Technology, Institute of Computer System, Nowowiejska 15/19, 00-665 Warsaw, Poland; patryk.gryz.stud@pw.edu.pl\\
+$^{2}$ \quad Warsaw University of Technology, Institute of Computer System, Nowowiejska 15/19, 00-665 Warsaw, Poland; robert.nowak@pw.edu.pl}
+
+% Contact information of the corresponding author
+\corres{Correspondence: robert.nowak@pw.edu.pl; Tel.: +48 502 659 456}
+
+% Current address and/or shared authorship
+%\firstnote{Current address: Affiliation.}
+% Current address should not be the same as any items in the Affiliation section.
+
+%\secondnote{These authors contributed equally to this work.}
+% The commands \thirdnote{} till \eighthnote{} are available for further notes.
+
+%\simplesumm{} % Simple summary
+
+%\conference{} % An extended version of a conference paper
+
+% Abstract (Do not insert blank lines, i.e. \\)
+\abstract{\textbf{Background:} The growing volume of DNA sequence data demands efficient
+%DIF 84c84
+%DIF <   metagenomic idetification.
+%DIF -------
+  metagenomic identification. %DIF > 
+%DIF -------
+  It provides the possibility to construct the tools with sustainability performance
+  to monitor environmental conditions, risks related to organisms and pathogens.
+\textbf{Methods:} A Convolutional Neural Network (CNN) leveraging
+contrastive learning is used to select representative sequences,
+which improve computational efficiency.
+\textbf{Results:} We present Exquisitor, a CNN-based tool.
+%DIF 91-93c91
+%DIF < Benchmarking against classical methods shows superior classification accuracy and
+%DIF < competitive execution time, highlighting CNNs' scalability and
+%DIF < precision for genetic taxonomy.
+%DIF -------
+Benchmarking against classical methods shows higher classification quality and competitive execution time within this setting. %DIF > 
+%DIF -------
+\textbf{Conclusion:} The presented research highlights the potential of CNNs for improving performance
+of metagenomic identification including taxonomic classification.
+}
+
+% Keywords
+%DIF < \keyword{artificial neural networks; contrastive learning; DNA sequencing; metagenomic identification; sequence clustering, monitor enviromental conditions, sustainability}
+%DIF -------
+\keyword{artificial neural networks; contrastive learning; DNA sequencing; metagenomic identification; sequence clustering, monitor environmental conditions, sustainability} %DIF > 
+%DIF PREAMBLE EXTENSION ADDED BY LATEXDIFF
+%DIF UNDERLINE PREAMBLE %DIF PREAMBLE
+\RequirePackage[normalem]{ulem} %DIF PREAMBLE
+\RequirePackage{color}\definecolor{RED}{rgb}{1,0,0}\definecolor{BLUE}{rgb}{0,0,1} %DIF PREAMBLE
+\providecommand{\DIFadd}[1]{{\protect\color{blue}\uwave{#1}}} %DIF PREAMBLE
+\providecommand{\DIFdel}[1]{{\protect\color{red}\sout{#1}}} %DIF PREAMBLE
+%DIF SAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddbegin}{} %DIF PREAMBLE
+\providecommand{\DIFaddend}{} %DIF PREAMBLE
+\providecommand{\DIFdelbegin}{} %DIF PREAMBLE
+\providecommand{\DIFdelend}{} %DIF PREAMBLE
+\providecommand{\DIFmodbegin}{} %DIF PREAMBLE
+\providecommand{\DIFmodend}{} %DIF PREAMBLE
+%DIF FLOATSAFE PREAMBLE %DIF PREAMBLE
+\providecommand{\DIFaddFL}[1]{\DIFadd{#1}} %DIF PREAMBLE
+\providecommand{\DIFdelFL}[1]{\DIFdel{#1}} %DIF PREAMBLE
+\providecommand{\DIFaddbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFaddendFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelbeginFL}{} %DIF PREAMBLE
+\providecommand{\DIFdelendFL}{} %DIF PREAMBLE
+%DIF COLORLISTINGS PREAMBLE %DIF PREAMBLE
+\RequirePackage{listings} %DIF PREAMBLE
+\RequirePackage{color} %DIF PREAMBLE
+\lstdefinelanguage{DIFcode}{ %DIF PREAMBLE
+%DIF DIFCODE_UNDERLINE %DIF PREAMBLE
+  moredelim=[il][\color{red}\sout]{\%DIF\ <\ }, %DIF PREAMBLE
+  moredelim=[il][\color{blue}\uwave]{\%DIF\ >\ } %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstdefinestyle{DIFverbatimstyle}{ %DIF PREAMBLE
+	language=DIFcode, %DIF PREAMBLE
+	basicstyle=\ttfamily, %DIF PREAMBLE
+	columns=fullflexible, %DIF PREAMBLE
+	keepspaces=true %DIF PREAMBLE
+} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim}{\lstset{style=DIFverbatimstyle}}{} %DIF PREAMBLE
+\lstnewenvironment{DIFverbatim*}{\lstset{style=DIFverbatimstyle,showspaces=true}}{} %DIF PREAMBLE
+\lstset{extendedchars=\true,inputencoding=utf8}
+
+%DIF END PREAMBLE EXTENSION ADDED BY LATEXDIFF
+
+\begin{document}
+
+\section{Introduction}
+    The use of information about genetic material found in the environment, combined with sequence databases, enables metagenomic identification -- the identification of organisms present in a given sample. With the development of next-generation sequencing methods~\citep{Reinartz:2002}, sequencing costs have decreased significantly, and the number of DNA sequences being analysed has increased~\citep{Muir:2016}. Traditional tools like BLAST often require unacceptable time and computational resources due to explosive database growth~\citep{10.1093/nar/gkr854}. Consequently, new methods are needed to enable efficient analysis using available resources.
+
+    This study aims to propose a fast, high-quality metagenomic identification method using an artificial neural network (ANN) to select representative genetic sequences. Instead of classifying every environmental sequence, our approach focuses on identifying a representative subset for identification, thereby reducing computational complexity while maintaining accuracy.
+
+    Historically, the Needleman-Wunsch algorithm~\citep{Needleman:1970} first enabled genetic sequence comparison. Later, Lipman and Wilbur~\citep{Wilbur:1983} introduced a more efficient approach based on $k$-tuples (a $k$-mer generalisation). This was further advanced by the BLAST algorithm~\citep{Altschul:1990}, which leveraged $k$-mers for efficient similarity searches in large databases.
+
+    Over the past 15 years, metagenomic identification has gained popularity alongside sequence database growth. Tools like MetaPhiAn~\citep{Segata:2012} and mOTUs2~\citep{Milanese:2019} leverage marker genes to compare species composition or identify markers unique to specific microbial strains.
+
+    Other techniques include Centrifuge~\citep{Kim:2016}, which uses the Burrows-Wheeler transform~\citep{Burrows:1994} and Ferragina-Manzini Index~\citep{Ferragina:2000} for efficient sequence retrieval, and Kraken~\citep{Wood:2014}, which combines $k$-mers with indexed databases. Modern machine learning approaches include BERTax~\citep{Mock:2022}, treating DNA as a language via transformer models~\citep{Transformers} for database-free classification, and CGRclust~\citep{Alipour:2024}, which utilizes chaos game representation with convolutional neural networks.
+
+    Metagenomic identification currently relies on three main approaches: alignment, $k$-mers and marker genes. Alignment-based tools offer the highest accuracy but are computationally expensive. Algorithms based on $k$-mers provide high speed but lower quality by \DIFdelbegin \DIFdel{ignorning }\DIFdelend \DIFaddbegin \DIFadd{ignoring }\DIFaddend structural information. Marker gene solutions deliver good results but are limited to organisms with known reference markers.
+
+    \DIFdelbegin \DIFdel{Although recent studies }\DIFdelend \DIFaddbegin \DIFadd{Recent studies in genomics }\DIFaddend use machine learning\DIFdelbegin \DIFdel{for metagenomic identification, research on }\DIFdelend \DIFaddbegin \DIFadd{, especially }\DIFaddend artificial neural networks (\DIFdelbegin \DIFdel{ANN)with contrastive learning for sequence clustering remains limited}\DIFdelend \DIFaddbegin \DIFadd{ANNs), to represent sequences and support classification and annotation, using large context lengths ~\mbox{%DIFAUXCMD
+\citep{nguyen2023hyenadna, yang2026explicit}}\hskip0pt%DIFAUXCMD
+}\DIFaddend .
+    ANNs often outperform classical heuristics, offering faster and more accurate results.
+    \DIFaddbegin \DIFadd{The use of an ANN with contrastive learning for sequence clustering remains limited in the literature.
+    }\DIFaddend This works leverages ANN  \DIFaddbegin \DIFadd{and contrastive learning }\DIFaddend capabilities to accelerate metagenomic identification while maintaining traditional quality levels, significantly streamlining the classification process.
+
+
+    The rest of the paper is organized as follows: Section 2 defines the problem, the proposed approach, and the Exquisitor tool. Section 3 describes the experimental setup, datasets, performance metrics, and results. Finally, Section 4 summarises the findings, discusses limitations, and suggests future research directions.
+
+    \section{Methods}
+
+        The core component of the proposed tool, Exquisitor, is a processing pipeline designed with flexibility in mind, allowing the integration of various DNA sequence clustering methods. The pipeline consists of a series of steps executed sequentially to perform metagenomic identification. A schematic representation of the pipeline is show in Fig.~\ref{Picture:Pipeline}, where input and output data are represented by circles, and a rectangle represents processing step. The pipeline is composed of the following five steps:
+
+        \begin{enumerate}
+            \item {
+                \textbf{Preparation of DNA Sequences}
+
+                This step verifies DNA sequence correctness and aligns them to a required length for subsequent processing.
+                \DIFaddbegin \DIFadd{Shorter sequences than the target are padded with }\texttt{\DIFadd{A}}\DIFadd{; longer sequences are truncated symmetrically from both ends.
+                Ambiguous nucleotides are replaced with }\texttt{\DIFadd{A}}\DIFadd{.
+            }\DIFaddend }
+            \item {
+                \textbf{Dissimilarity Calculation}
+
+                Dissimilarity between sequences is calculated using two classical methods or one custom approach, producing a dissimilarity matrix for clustering.
+            }
+            \item {
+                \textbf{Sequence Clustering}
+
+                Sequences are grouped into clusters, each with one representative and several members. This reduces the data volume for later stages by focusing on the most informative representatives.
+            }
+            \item {
+                \textbf{Database Search}
+
+                Representative sequences are queried against a reference database to identify similar sequences and infer their taxonomic origin.
+            }
+            \item {
+                \textbf{Postprocessing}
+
+                This final step \DIFdelbegin \DIFdel{integrates cluster information with the database search results to produce the final identification}\DIFdelend \DIFaddbegin \DIFadd{assigns the BLASTn result of each cluster representative to all members of that cluster, treating the entire cluster as a single taxon}\DIFaddend .
+            }
+        \end{enumerate}
+
+        \begin{figure}[H]
+            \begin{center}
+                \includegraphics[width=0.45\textwidth]{picture_pipeline.png}
+            \end{center}
+            \caption{
+                Overview of the pipeline: preparation of DNA sequences, dissimilarity calculation, sequence clustering, database search and postprocessing.
+            }\label{Picture:Pipeline}
+        \end{figure}
+
+    \subsection{Exquisitor: Method Description}
+
+    The proposed method  uses an artificial neural network to reduce the dimensionality of input DNA sequences to a feature vector in the form of $\mathbb{R}^{64}$.
+    The neural network employs contrastive learning, enabling representations to be learned while preserving dissimilarity between sequences.
+    The dissimilarity between sequence representations will be calculated using cosine dissimilarity, expressed by the formula in equation~\eqref{Equation:CosineDissimilarity}.
+
+            \begin{equation}
+                dsim(A, B) = 1 - sim(A, B)
+                \label{Equation:CosineDissimilarity}
+            \end{equation}
+
+            where:
+            \begin{align*}
+                sim(A, B) =& \cos{\theta} = \frac{A \cdot B}{\|A\| \|B\|} = \frac{
+                    \sum^{n}_{i = 1}A_i B_i
+                }{
+                    \sqrt{
+                        \sum^{n}_{i = 1}A_i^2
+                    }
+                    \cdot
+                    \sqrt{
+                        \sum^{n}_{i = 1}B_i^2
+                    }
+                } \\
+                A, B -& \text{compared vectors,} \\
+                \theta -& \text{angle between $A$ and $B$,} \\
+                A_j, B_j -& \text{$j$-th element of the vector $A$ and $B$, respectively.}
+            \end{align*}
+
+            \subsubsection{Artificial Neural Network}
+                \paragraph{Architecture}
+                The ANN model consists of two parts. The first part comprises two convolutional blocks with batch normalisation and is responsible for feature extraction from the sequence. The second part utilises fully connected layers with dropout and the GELU activation function and is connected to the first part of the model via a flattening layer.
+                The model output is the output of the final linear layer, which is a feature vector of dimension \( \mathbb{R}^{64} \).
+
+                Schematically, the architecture is presented in Fig.~\ref{Picture:NeuralModel}.
+
+                \begin{figure}[!htb]
+                    \begin{center}
+                        \includegraphics[width=0.45\textwidth]{picture_ann_network.png}
+                    \end{center}
+                    \caption{
+                        Diagram of ANN architecture. Two parts were depicted: the convolutional blocks (on the left) are responsible for feature extraction, and fully connected layers with dropout to generate the results.
+                    }\label{Picture:NeuralModel}
+                \end{figure}
+
+                \paragraph{Design Rationale}
+                Convolutional Neural Networks (CNNs) were chosen over Recurrent Neural Networks (RNNs) for faster training and inference. Contrastive learning allows the model to measure sequence similarity, which supports clustering.
+
+                \paragraph{Input}
+                The \DIFdelbegin \DIFdel{input to the model }\DIFdelend \DIFaddbegin \DIFadd{model input }\DIFaddend consists of DNA sequences of length $150$\DIFdelbegin \footnote{\DIFdel{The sequence length of 150 is a method parameter and can be adjusted depending on the application.}}%DIFAUXCMD
+\addtocounter{footnote}{-1}%DIFAUXCMD
+\DIFdel{, which are encoded into a vector of dimensions $1 \times 600$ using one-hot encoding~\mbox{%DIFAUXCMD
+\citep{HarrisDavid:2007}}\hskip0pt%DIFAUXCMD
+.}\DIFdelend \DIFaddbegin \DIFadd{, one-hot encoded over the four nucleotides (A, C, G, T) into a \(150 \times 4\) matrix and subsequently flattened into a \(1 \times 600\) vector.}\footnote{\DIFadd{The sequence length of 150 is a method parameter and can be adjusted depending on the application.}}
+\DIFaddend 
+
+                \paragraph{Training Examples}
+                The training and validation examples consist of an anchor, a positive sequence similar to the anchor, and a negative sequence dissimilar to the anchor.
+
+                \paragraph{Dataset}
+                The training and validation datasets were created based on the first sample of genetic sequences from the CAMI II Toy Human Microbiome Project dataset~\citep{Fritz:2019}. The sample contains simulated metagenomic data from the human skin microbiome. Examples were obtained by randomly selecting anchors from the dataset and modifying these anchors to create positive and negative sequences. The modification involved a point mutation of a given nucleotide to another one. In the case of positive sequences, the change affected between 0\% and 20\% of the anchor length, whereas for negative sequences, the change ranged from 20\% to 80\% of the anchor length.
+
+                \paragraph{Loss function}
+                The loss function used is defined as:
+
+                \begin{equation}
+                    \text{Contrastive loss} = [m_{pos} - s_{pos}]_{+} + [s_{neg} - m_{neg}]_{+}
+                \end{equation}
+
+                where:
+                \begin{align*}
+                    m_{pos} &- \text{similarity margin between the positive sequence} \\
+                            &\text{ and the anchor,}\\
+                    m_{neg} &- \text{similarity margin between the negative sequence} \\
+                            &\text{ and the anchor,} \footnote{The positive margin controls the minimum similarity between similar sequences, whereas the negative margin controls the maximum similarity between dissimilar sequences.} \\
+                    s_{pos} &- \text{cosine similarity of the positive sequence} \\
+                            &\text{to the anchor,}\\
+                    s\DIFdelbegin \DIFdel{_{pos} }\DIFdelend \DIFaddbegin \DIFadd{_{neg} }\DIFaddend &- \text{cosine similarity of the negative sequence} \\
+                            &\text{to the anchor.}
+                \end{align*}
+
+                The proposed loss function is similar to the triplet neural network framework~\citep{hoffer2018deepmetriclearningusing}, but it is adapted to use cosine dissimilarity.
+
+                \paragraph{Learning}
+                The model was trained on a dataset of $10^{6}$ training examples and $10^{4}$ validation examples. The optimiser used was \textit{AdamW}, and the training was performed for 100 epochs.
+                Both weight decay and the exponential learning rate schedule were employed
+                to mitigate the risk of overfitting.
+                The convergence criterion was defined as the absence of further improvement in the validation loss.
+
+                \paragraph{Quality}
+                As a measure of model quality, the contrastive loss of the model was computed on the validation set.
+
+                \paragraph{Parameters}
+                Experiments were conducted to determine the optimal training parameters for the artificial neural network model. The tested parameters included the learning rate coefficient \( \lambda \), weight decay \( w \), the coefficient \( \gamma \) used in the exponential learning rate decay, the dropout rate, and the effectiveness of using three perceptron layers. The parameter search was performed using grid search.
+
+                As a result of these experiments, the best parameters were selected:
+                \[
+                \lambda = 10^{-6}, \quad w = 10^{-4}, \quad \gamma = 0.99999
+                \]
+                a dropout rate of \( 0.5 \), a batch size of 256, and a confirmed positive impact of using three perceptron layers.
+
+                Additionally, the loss function was used with the following parameters:
+                \[
+                m_{pos} = 1.0, \quad m_{neg} = 0.25.
+                \]
+
+                \paragraph{Results of Learning}
+                As a result of training the neural network, the model achieved a validation set loss of $0.17$.
+
+        \subsection{Exquisitor: Implementation Details}
+            The solution consists of two components. The first is a library that contains components enabling the creation of pipelines for genetic material analysis in the form of metagenomic identification. The second component is a console application, which uses the library's components to create and configure processing pipelines. A web application was also created, allowing users to submit analysis tasks through a web browser.
+
+            The console application was implemented using the \textit{clap} library. In the library the $k$-medoid algorithm was provided by the \textit{kmedoids} library~\citep{Rust:kmedoids}, and the neural network was built using the \textit{burn} library with the \textit{wgpu} execution environment. Web application was implemented using the \textit{axum} library with \textit{tokio} async environment.
+
+            Additionally, the following tools were used in the work:
+            \begin{itemize}
+                \item \textit{cargo} as the package manager and build system in Rust;
+                \item \textit{rustup} for automatic management of Rust versions;
+                \item \textit{clippy} for static code analysis in Rust;
+                \item \textit{rustfmt} for automatic formatting of Rust source code;
+                \item \textit{cargo test} for conducting unit tests;
+                \item \textit{git} as the version control system, enabling change tracking and code history management.
+            \end{itemize}
+
+            \DIFaddbegin \subsubsection*{\DIFadd{Tool Versions and Computational Environment}}
+            \DIFadd{Representative sequences were queried with BLASTn (version~}\texttt{\DIFadd{2.16.0}}\DIFadd{) against the most recent database (as of December 2024) using 4 threads. 
+            The main parameters were left at their default values.
+            The experiments were conducted on a machine with the following configuration:
+            }\begin{itemize}
+                \item { \DIFadd{CPU: Intel Core i7-6850k (4 vCPUs); }}
+                \item { \DIFadd{40~GB RAM;}}
+                \item { \DIFadd{GPU: NVIDIA GeForce GTX 1080TI; }}
+                \item { \DIFadd{OS: Ubuntu 24.04. }}
+            \end{itemize}
+
+                \DIFaddend \section{Results}
+
+                This section presents the results of the experiments conducted to evaluate the proposed solution (Exquisitor), which aims to improve performance while maintaining the quality of metagenomic identification. The study compared the new approach with two classical methods using the same dataset. The evaluation focused on execution time and identification quality to assess the effectiveness of the proposed approach.
+
+        \subsection{Datasets}
+            \subsubsection{Dataset Description}
+                Experiments utilized the textit{CAMI II Toy Human Microbiome Project } dataset~\citep{Fritz:2019}, a dataset created for bioinformatics benchmark. Dataset was used also in ANN training. For testing, disjoint subsets were created with sizes $2^k$ for $k \in [0, 12]$, exclusively using sequences not seen during the training phase to ensure unbiased evaluation.
+
+            \subsubsection{Dataset Preparation}
+            The subsets were created by randomly sampling, without replacement, the indices of genetic sequences from the reference dataset that were to be included in each subset.
+            Indices of sequences used in the ANN training and validation sets were excluded from the sampling. The sizes of the subsets were as follows: training set - 1,000,000 sequences, validation set - 10,000 sequences, and test set - 8,192 sequences.
+
+        \subsection{Clustering Algorithm}
+            In the experiments, we used an external k-medoids clustering algorithm~\citep{Rust:kmedoids}. 
+            The \DIFaddbegin \DIFadd{number of clusters $k$ is supplied as a method parameter.
+            The }\DIFaddend medoids identified by this algorithm were used as cluster representatives and used in subsequent steps.
+
+        \subsection{Base-line Algorithms}
+
+        Two classical approaches were implemented and used to compare their results
+        with the results of the proposed neural network.
+
+            \subsubsection{Modified Needleman-Wunsch Algorithm}
+                The first classical approach is the Needleman-Wunsch algorithm. This algorithm allows for global alignment of genetic sequences. It uses a similarity matrix between sequences, which is constructed according to the rules given in equation~\eqref{Equation:NeedlemanWunsch}. A modification of the approach presented in equation~\eqref{Equation:NeedlemanWunschModified} is applied in the work.
+
+                \begin{equation}
+                    \begin{aligned}
+                        D_{i,0} &= i \cdot g, & \text{for } & i \in [1, n + 1] \\
+                        D_{0,j} &= j \cdot g, & \text{for } & j \in [2, m + 1] \\
+                        D_{i,j} &= \max
+                        \begin{cases}
+                            D_{i - 1, j} + g \\
+                            D_{i, j - 1} + g \\
+                            D_{i - 1, j - 1} + s(A_i, B_j)
+                        \end{cases}, & \text{for } & i \in (1, n + 1] \text{ and } j \in (1, m + 1]
+                    \end{aligned}
+                    \label{Equation:NeedlemanWunsch}
+                \end{equation}
+
+                where:
+                \begin{align*}
+                    A, B -& \text{compared sequences}, \\
+                    n, m -& \text{lengths of sequences } A \text{ and } B, \\
+                    D -& \text{similarity matrix of size } n + 1 \text{ x } m + 1, \\
+                    g \in \mathbb{R} -& \text{penalty for a gap}, \\
+                    s(A_i, B_j) \in \mathbb{R} -& \text{similarity between the } i\text{-th element} \\
+                                                & \text{ in sequence A and the } j\text{-th element} \\
+                                                & \text{in sequence B}.
+                \end{align*}
+
+                \begin{equation}
+                    \begin{aligned}
+                        D_{i,j} &= \min
+                        \begin{cases}
+                        D_{i - 1, j} + g \\
+                        D_{i, j - 1} + g \\
+                        D_{i - 1, j - 1} + s(A_{i - 1}, B_{j - 1})
+                        \end{cases},
+                        \\ & \text{for } i \in \left(1, n + 1\right] \text{ and } j \in \left(1, m + 1\right] \\
+                    \end{aligned}
+                    \label{Equation:NeedlemanWunschModified}
+                \end{equation}
+
+                In the solution, the following parameter values were adopted:
+                \begin{align*}
+                    g &= 2, \\
+                    s(a, b) &= \begin{cases}
+                        0, & \text{for } a = b, \\
+                        1, & \text{for } a \neq b.
+                    \end{cases}
+                \end{align*}
+
+            \subsubsection{$k$-mer Embeddings}
+                The second approach use $k$-mers as embeddings, which allows for the representation of DNA sequences as numerical vectors. Embedding is created by constructing a vector of size $4^k$, where each $k$-mer corresponds to a specific position in the vector. The number of occurrences of each $k$-mer in the sequence is then recorded at its corresponding position. These vectors will then be compared using Euclidean distance.
+
+        \subsection{Experiments}
+            \subsubsection{Execution Time of Metagenomic Identification with Exquisitor}
+                \paragraph{Objective}
+                Measuring the execution time of metagenomic identification using different genetic sequence clustering methods.
+
+                \paragraph{Assumptions}
+                \begin{enumerate}
+                    \item {
+                        Sequences clustering is deterministic with a fixed seed.
+                    }
+                    \item {
+                        Metagenomic identification is the only task running on the machine.
+                    }
+                \end{enumerate}
+
+                \paragraph{Results}
+                Experimental execution times were recorded for all methods, though the modified Needleman-Wunsch (NW) approach failed to complete for 4096 sequences due to time constraints. Fig.~\ref{Picture:Experiment:Duration} illustrates execution time as a function of input sequence count for: the modified Needleman-Wunsch algorithm (NW), $k$-mer embeddings ($k$-mer), artificial neural networks (ANN), and a no-pipeline baseline (NP). Detailed timing data are presented in Table~\ref{Table:Experiment:Duration}.
+
+
+                \begin{figure}[!htb]
+                    \begin{center}
+                        \includegraphics[width=0.45\textwidth]{picture_experiment_duration.png}
+                    \end{center}
+                    \caption{
+                        The comparison of the metagenomic identification execution time by the presented solution (NP) and benchmark methods: modified Needleman-Wunsch algorithm (NW), $k$-mer embeddings ($k$-mer), and a~method using an~artificial neural network (ANN).}\label{Picture:Experiment:Duration}
+                \end{figure}
+
+                \begin{table}\centering
+                    \caption{Metagenomic identification execution time comparison of presented solution (NP) and benchmark methods (NW, $k$-mer, ANN).}\label{Table:Experiment:Duration}
+                    \begin{tabular}{|c||c|c|c|c|}
+                        \hline
+                        \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{4}{|c|}{\textbf{Execution time [s]}} \\
+                                        & \textbf{NP} & \textbf{NW} & \textbf{$k$-mer} & \textbf{ANN} \\ \hline \hline
+                                        1 & 7107 & \textbf{6025} & 6087 & 6077\\ \hline
+                                        2 & 6129 & 5994 & \textbf{5988} & 6035\\ \hline
+                                        4 & 6108 & \textbf{5983} & 6024 & 6019\\ \hline
+                                        8 & 6196 & 5988 & \textbf{5925} & 6014\\ \hline
+                                        16 & 6290 & \textbf{5941} & 5946 & 6118\\ \hline
+                                        32 & 6279 & 6035 & \textbf{5962} & 6092\\ \hline
+                                        64 & 6316 & 6113 & \textbf{6107} & 6139\\ \hline
+                                        128 & 6560 & 6238 & \textbf{6206} & 6233\\ \hline
+                                        256 & 6753 & 6446 & \textbf{6295} & 6363\\ \hline
+                                        512 & 7091 & 6972 & \textbf{6326} & 6347\\ \hline
+                                        1024 & 8059 & 8743 & \textbf{6248} & 6269\\ \hline
+                                        2048 & 8517 & 16461 & 6472 & \textbf{6332}\\ \hline
+                                        4096 & 9433 & \textbf{timeout} & 7003 & 6550\\ \hline
+
+                    \end{tabular}
+                \end{table}
+
+                \paragraph{Conclusions}
+                The modified Needleman-Wunsch (NW) approach exhibited the fastest execution time increase due to its computationally intensive sequence comparisons. Despite reducing the number of classified sequences, its total runtime exceeded the no-pipeline baseline. In contrast, $k$-mer embeddings and ANN showed comparable, significantly faster execution times by using sequence representations for dissimilarity matrix construction. For 4096 sequences, the ANN benefited from GPU-accelerated embedding computations, further optimizing performance compared to traditional metagenomic identification.
+
+            \subsubsection{Quality of Metagenomic Identification with Exquisitor}
+                \paragraph{Objective}
+                Examining the quality of metagenomic identification using the implemented methods in comparison to the metagenomic identification of all sequences.
+
+                \paragraph{Assumptions}
+                \begin{enumerate}
+                    \item {
+                        Sequences clustering is deterministic with a fixed seed.
+                    }
+                    \item {
+                        \texttt{BLASTn} is deterministic and always returns the same results for a given sequence and specified parameters.
+                    }
+                    \item {
+                        In the case where it is not possible to compute the quality for a given metagenomic identification run, a quality value of $0$ is assumed. This value is not considered when calculating the weighted average quality.
+                    }
+                  \end{enumerate}
+
+
+                \paragraph{Exquisitor Performance Measures}
+                    Quality of metagenomic identification was measured using a modified Jaccard index, expressed by equation~\eqref{Equation:Quality}, as standard classification metrics relying on false positives/negatives are not well-defined when BLAST results serve as the reference. The measure was used to compare the quality of metagenomic identification performed using the implemented methods against metagenomic identification without using a~processing pipeline, i.e., using raw BLAST results.
+
+                    \begin{equation}
+                        \text{Q} = \frac{
+                            \sum_{r \in (O(R) \cap O(E))} R_{r}
+                        }{
+                            \sum_{r \in (O(R) \cup O(E))} R_{r}
+                        }
+                        \label{Equation:Quality}
+                    \end{equation}
+
+                    where:
+                    \begin{align*}
+                        R &- \text{set of reference results,} \\
+                        E &- \text{set of obtained results,} \\
+                        R_{r} &- \text{number of results in reference set} \\
+                              &\text{assigned to the organism $r$} \\
+                        O(X) &- \text{set of unique organisms, for which results} \\
+                             &\text{were assigned in the set $X$}
+                    \end{align*}
+                    \DIFaddbegin \DIFadd{Organisms appearing only in the obtained results are not considered in the calculation of the quality.
+}\DIFaddend 
+
+                    The weighted average quality, defined by equation~\eqref{Equation:WeightedAverageQuality}, was used to compare the quality of multiple metagenomic identification runs.
+
+                    \begin{equation}
+                        Q_{\text{avg}} = \sum_{c \in C} \frac{n_c}{n} Q_c
+                        \label{Equation:WeightedAverageQuality}
+                    \end{equation}
+
+                    where:
+                    \begin{align*}
+                    C &- \text{set of metagenomic identification runs,} \\
+                    Q_c &- \DIFdelbegin \DIFdel{\text{quality of metagenomic identificationn $c$,} }\DIFdelend \DIFaddbegin \DIFadd{\text{quality of metagenomic identification $c$,} }\DIFaddend \\
+                    n_c &- \text{number of input sequences for metagenomic}\\
+                        &\text{ identification $c$,}\\
+                    n   &- \text{number of input sequences $n = \sum_{c \in C} n_{c}.$}
+                    \end{align*}
+
+
+
+                \paragraph{Results}
+                Classification quality was calculated using equation~\eqref{Equation:Quality} relative to full metagenomic identification. Fig.~\ref{Picture:Experiment:Quality} and Table~\ref{Table:Experiment:Quality} present these results as a function of the input sequence count. The weighted average quality (Eq.~\eqref{Equation:WeightedAverageQuality}) was $0.899$ for the modified Needleman-Wunsch algorithm, $0.921$ for the $k$-mer embedding method, and $0.944$ for the artificial neural network approach.
+
+                \begin{figure}[!htb]
+                    \begin{center}
+                        \includegraphics[width=0.45\textwidth]{picture_experiment_quality.png}
+                    \end{center}
+                    \caption{
+                      Comparison of the metagenomic identification quality returned by the presented method with the benchmark methods.}\label{Picture:Experiment:Quality}
+                \end{figure}
+
+                \begin{table}\centering
+                    \caption{Comparison of the metagenomic identification quality returned by the presented method with the benchmark methods.}\label{Table:Experiment:Quality}
+
+                    \begin{tabular}{|c|l|l|l|}
+                        \hline
+                        \multirow{2}{*}{\textbf{Number of sequences}} & \multicolumn{3}{|c|}{\textbf{Method}} \\
+                        & \textbf{NW} & \textbf{$k$-mer} & \textbf{ANN} \\ \hline \hline
+                        1 & \textbf{1.0} & \textbf{1.0} & \textbf{1.0}\\ \hline
+                        2 & 0.27 & \textbf{0.73} & \textbf{0.73}\\ \hline
+                        4 & \textbf{0.8} & 0.2 & 0.2\\ \hline
+                        8 & \textbf{0.94} & 0.88 & 0.12\\ \hline
+                        16 & 0.82 & 0.82 & \textbf{0.94}\\ \hline
+                        32 & 0.88 & \textbf{0.92} & 0.87\\ \hline
+                        64 & 0.93 & \textbf{0.94} & 0.93\\ \hline
+                        128 & 0.89 & 0.87 & \textbf{0.91}\\ \hline
+                        256 & 0.89 & 0.89 & \textbf{0.93}\\ \hline
+                        512 & 0.73 & 0.76 & \textbf{0.94}\\ \hline
+                        1024 & \textbf{0.95} & 0.93 & \textbf{0.95}\\ \hline
+                        2048 & 0.92 & \textbf{0.95} & 0.92\\ \hline
+                        4096 & 0.0 & 0.93 & \textbf{0.96}\\ \hline
+                    \end{tabular}
+                \end{table}
+
+                \paragraph{Conclusions}
+                All implemented methods achieved high classification quality, exceeding $0.7$ when the number of groups significantly exceeded input sequences. The artificial neural network (ANN) approach yielded the highest weighted average quality, slightly outperforming both $k$-mer embedding and the modified Needleman-Wunsch algorithm. This superior performance stems from the model's ability to consider the full sequence structure, enabling more precise dissimilarity determination.
+
+            \subsubsection{Performance on an unseen dataset}
+
+                \paragraph{Objective}
+                Assessing the quality of clustering on unseen data from a different sample.
+
+                \paragraph{Preparation}
+                We obtained an additional sample from a different body site (CAMI II Toy Human Microbiome Project\footnote{Sample 4, airways}). Processing steps were applied both to the training samples and to this new sample:
+
+                \begin{enumerate}
+                    \item Sequences in each sample were mapped to taxonomic identifiers (tax\_id).
+                    \item From each sample, a subset of 10,000 sequences was randomly selected, ensuring that the dominant taxon did not exceed 50\% of the subset.
+                    \item Sequence embeddings were generated using the ANN model.
+                    \item For each sample, clustering was performed with the k-medoids algorithm, where $k$ was chosen according to the number of true taxa in the subset.
+                    \item Clusters corresponding to taxa were treated as the ground truth.
+                \end{enumerate}
+
+                The clustering performance was evaluated by computing Adjusted Mutual Information (AMI), Normalised Mutual Information (NMI), and the Fowlkes--Mallows Index (FMI) between the obtained clusters and the ground truth.
+
+                \paragraph{Results}
+                The evaluation metrics (AMI, NMI, FMI) for clustering performance are summarised in Table~\ref{Table:Experiment:ClusterQuality}.
+
+                \begin{table}\centering
+                    \caption{Comparison of clustering quality on seen and unseen data.}\label{Table:Experiment:ClusterQuality}
+
+                    \begin{tabular}{|c|c|c|c|}
+                        \hline
+                        \textbf{Sample} & \textbf{AMI} & \textbf{NMI} & \textbf{\DIFdelbeginFL \DIFdelFL{NMI}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{FMI}\DIFaddendFL } \\ \hline
+                        Sample 1 (seen) & 0.288 & 0.286 & 0.424 \\ \hline
+                        Sample 4 (unseen) & 0.219 & 0.243 & 0.379 \\ \hline
+                    \end{tabular}
+                \end{table}
+
+                \paragraph{Conclusions}
+                Although the clustering performance on the unseen data is not optimal, it remains comparable to the results obtained for the training data. It suggests that the model's generalisation capabilities are present but constrained, and that the outcomes are not merely random.
+
+            \DIFaddbegin \subsubsection{\DIFadd{Generalisation and $k$ parameter}}
+
+                \paragraph{\DIFadd{Objective}}
+                \DIFadd{Evaluating whether the method generalises correctly to unseen data, and assessing the influence of the $k$ parameter on the generalisation quality.
+}
+
+                \paragraph{\DIFadd{Preparation}}
+                \DIFadd{On the sample from the previous experiment, the full pipeline was run with different values of the $k$ parameter. 
+                The resulting assignments were compared against the known taxonomic labels.
+}
+
+                \paragraph{\DIFadd{Results}}
+                \DIFadd{Accurracy, precision, recall and F1 scores for the different values of the $k$ parameter are presented in Table~\ref{Table:Experiment:GeneralisationAndKParameter}.
+                }
+
+
+            \begin{table}[htbp]
+                \centering
+                \begin{tabular}{lcccc}
+                    \hline
+                    \DIFaddFL{Metric }& \DIFaddFL{BLAST }& \DIFaddFL{NW }& \DIFaddFL{k-mer }& \DIFaddFL{ANN }\\
+                    \hline
+                    \multicolumn{5}{l}{\textbf{\DIFaddFL{k = 15}}} \\
+                    \hline
+                    \DIFaddFL{accuracy }& \DIFaddFL{0.952 }& \DIFaddFL{0.351 }& \DIFaddFL{0.609 }& \DIFaddFL{0.550 }\\
+                    \DIFaddFL{precision }& \DIFaddFL{0.959 }& \DIFaddFL{0.381 }& \DIFaddFL{0.609 }& \DIFaddFL{0.550 }\\
+                    \DIFaddFL{recall }& \DIFaddFL{0.952 }& \DIFaddFL{0.351 }& \DIFaddFL{0.609 }& \DIFaddFL{0.550 }\\
+                    \DIFaddFL{f1 }& \DIFaddFL{0.955 }& \DIFaddFL{0.365 }& \DIFaddFL{0.609 }& \DIFaddFL{0.550 }\\
+                    \hline
+                    \multicolumn{5}{l}{\textbf{\DIFaddFL{k = 30}}} \\
+                    \hline
+                    \DIFaddFL{accuracy }& \DIFaddFL{N/A }& \DIFaddFL{0.449 }& \DIFaddFL{0.607 }& \DIFaddFL{0.554 }\\
+                    \DIFaddFL{precision }& \DIFaddFL{N/A }& \DIFaddFL{0.470 }& \DIFaddFL{0.607 }& \DIFaddFL{0.554 }\\
+                    \DIFaddFL{recall }& \DIFaddFL{N/A }& \DIFaddFL{0.449 }& \DIFaddFL{0.607 }& \DIFaddFL{0.554 }\\
+                    \DIFaddFL{f1 }& \DIFaddFL{N/A }& \DIFaddFL{0.459 }& \DIFaddFL{0.607 }& \DIFaddFL{0.554 }\\
+                    \hline
+                    \end{tabular}
+                \caption{\DIFaddFL{Comparison of methods results.}}
+                \label{Table:Experiment:GeneralisationAndKParameter}
+            \end{table}
+
+            \paragraph{\DIFadd{Conclusions}}
+            \DIFadd{Generalisation quality is comparable to the results obtained for the training data. The ANN method approach does generalise, outperforming the NW method, but its capability remains limited and fails to match the performance of the $k$-mer method.
+            Both $k$-mer and ANN method with only 15 clusters are able to achieve accurracy above 55\%, indicating that a small number of clusters can still describe a substantial portion of the sample. 
+            Incresing the number of clusters yields only a modest improvement in the results, but in long term increases computational time.
+}
+
+
+    \DIFaddend \section{Discussion}
+        \subsection{Interpretation of Results}
+            Experimental results partially confirmed initial expectations, as all methods achieved satisfactory identification quality. The ANN-based approach performed best, yielding the \DIFdelbegin \DIFdel{highgest }\DIFdelend \DIFaddbegin \DIFadd{highest }\DIFaddend weighted average classification quality with execution time comparable to $k$-mer embeddings. \DIFdelbegin \DIFdel{Homever}\DIFdelend \DIFaddbegin \DIFadd{However}\DIFaddend , small input samples led to lower quality, likely due to poor representative selection; thus the method is recommended for larger datasets. For the \DIFdelbegin \DIFdel{testsed }\DIFdelend \DIFaddbegin \DIFadd{tested }\DIFaddend data, the efficiency threshold was 128 sequences, where quality remained high and reduced processing time by 5\%. The ANN no only improved classification quality over the methods but also remained competitive with \DIFdelbegin \DIFdel{classifical }\DIFdelend \DIFaddbegin \DIFadd{classical }\DIFaddend approaches.
+
+            Our pipeline \DIFdelbegin \DIFdel{increases the speed of BLAST by using a single sequence that represents a cluster, and it uses BLAST internally.
+            The }\DIFdelend \DIFaddbegin \DIFadd{speeds up BLAST-based metagenomic identification by querying a single representative per cluster.
+            Within the evaluated setting---one main dataset and at most $4096$ sequences---these results support the approach for metagenomic identification, but }\DIFaddend presented method is not limited to metagenomic \DIFdelbegin \DIFdel{analysis}\DIFdelend \DIFaddbegin \DIFadd{identification}\DIFaddend ; generally, it replaces BLAST in tasks when clusters of sequences are analysed.
+\DIFdelbegin \DIFdel{Therefore, genome assembly, identifying cell subtypes, and phylogenetic trees might benefit from the presented approach.
+}\DIFdelend 
+
+        \subsection{Limitations}
+            \subsubsection{Experiments Duration}
+                The full metagenomic identification of DNA sequences for each method and each experimental subset took approximately 5 days, which led to the limitation of the number of experiments to a~single run and subset size to $4096$ sequences.
+
+            \subsubsection{Single Dataset}
+                Using a single human skin microbiome sample likely constrained the sequence space and influenced results, as both the ANN and experiments shared the same source. Furthermore, the lack of duplicate checking might have caused data leakage, potentially biasing the evaluation.
+
+            \subsubsection{Single Dissimilarity Matrix}
+                Using a single dissimilarity matrix for all sequences limits the number of input sequences, as the matrix build time scales quadratically with the number of sequences.
+
+            \subsubsection{Baseline Methods Limitations}
+                We used simplified baseline methods, which do not account for different gap penalties as implemented in algorithms such as Gotoh~\citep{Gotoh1982}, nor do they distinguish between different nucleotide substitutions, such as transitions and transversions.
+
+            \subsubsection{Model Limitations}
+                The model's generalization is restricted to human skin microbiome data; other sample types require further study. While the ANN benefits from GPU acceleration, CPU-only execution significantly increases runtime. Additionally, the approach is optimized for sequences of similar length, showing limited adaptability to variation. Finally, using CNNs instead of RNNs or transformers may limit flexibility, though it ensures faster training and inference.
+
+        \subsection{Possible Improvements}
+            \subsubsection{Architecture of Artificial Neural Network}
+                The current ANN architecture lacks flexibility, requiring sequences of similar lengths. Replacing the initial convolutional layers with Recurrent Neural Networks (RNNs) or transformers would enable processing of varying sequence lengths. In such a modification, these architectures would generate initial embeddings, which linear layers would then process to preserve dissimilarity properties.
+
+            \subsubsection{Batching Sequences}
+                Creating a single dissimilarity matrix for large samples is suboptimal due to its performance impact. Pre-clustering sequences into batches addresses this, maintaining short execution times at the cost of a potential quality reduction.
+
+            % \subsubsection{Automated Determination Of The Number of Groups}
+            %     Our approach takes the number of created groups as a parameter, which can influence the quality of the results.
+            %     For very similar sequences, the results are not improved when a large number of groups is set.
+            %     Conversely, a low number of groups can reduce quality for highly diverse sequences.
+            %     Automating the determination of the optimal number of groups could solve the issue and minimize
+            %     the need for fine-tuning.
+
+    \section{Conclusions}
+        \subsection{Summary of Findings}
+            The experiments demonstrated that the proposed method based on artificial neural networks outperforms traditional approaches in terms of quality, while maintaining execution times comparable to those of the classical $k$-mer method.
+            It highlights the potential \DIFdelbegin \DIFdel{of neural networks for improving performance without significant computational overhead}\DIFdelend \DIFaddbegin \DIFadd{for neural networks to improve identification efficiency, subject to the dataset and scale limitations discusses above}\DIFaddend .
+
+        \subsection{Future Research Directions}
+            Future research could focus on utilising artificial neural networks as an independent tool for metagenomic identification. Another promising direction is the application of artificial neural networks for dimensionality reduction of genetic sequences, which may improve efficiency and performance in various analyses.
+            Planned development efforts are focused on providing interfaces for the Exquisitor tool, enabling its integration with existing popular metagenomic pipelines.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{6pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% optional
+%\supplementary{The following supporting information can be downloaded at \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title.}
+
+% Only for journal Methods and Protocols:
+% If you wish to submit a video article, please do so with any other supplementary material.
+% \supplementary{The following supporting information can be downloaded at \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title. A supporting video article is available at doi: link.}
+
+% Only used for preprtints:
+% \supplementary{The following supporting information can be downloaded at the website of this paper posted on \href{https://www.preprints.org/}{Preprints.org}.}
+
+% Only for journal Hardware:
+% If you wish to submit a video article, please do so with any other supplementary material.
+% \supplementary{The following supporting information can be downloaded at \linksupplementary{s1}, Figure S1: title; Table S1: title; Video S1: title.\vspace{6pt}\\
+%\begin{tabularx}{\textwidth}{lll}
+%\toprule
+%\textbf{Name} & \textbf{Type} & \textbf{Description} \\
+%\midrule
+%S1 & Python script (.py) & Script of python source code used in XX \\
+%S2 & Text (.txt) & Script of modelling code used to make Figure X \\
+%S3 & Text (.txt) & Raw data from experiment X \\
+%S4 & Video (.mp4) & Video demonstrating the hardware in use \\
+%... & ... & ... \\
+%\bottomrule
+%\end{tabularx}
+%}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\authorcontributions{Conceptualization, P.G. and R.N.; methodology, P.G.; software, P.G.; validation, P.G.; resources, R.N.; data curation, P.G.; writing, P.G and R.N.; supervision, R.N.; funding acquisition, R.N. All authors have read and agreed to the published version of the manuscript.}
+
+\DIFdelbegin %DIFDELCMD < \funding{This work is supported by Statutory Resarch Grant of Institute of Computer Science, Warsaw University of Technology}
+%DIFDELCMD < %%%
+\DIFdelend \DIFaddbegin \funding{This work is supported by Statutory Research Grant of Institute of Computer Science, Warsaw University of Technology}
+\DIFaddend 
+
+% \institutionalreview{In this section, please add the Institutional Review Board Statement and approval number for studies involving humans or animals. You might choose to exclude this statement if the study did not require ethical approval. Please note that the Editorial Office might ask you for further information. Please add ``The study was conducted in accordance with the Declaration of Helsinki, and approved by the Institutional Review Board (or Ethics Committee) of NAME OF INSTITUTE (protocol code XXX and date of approval).” for studies involving humans OR ``The animal study protocol was approved by the Institutional Review Board (or Ethics Committee) of NAME OF INSTITUTE (protocol code XXX and date of approval).” for studies involving animals OR ``Ethical review and approval were waived for this study due to REASON (please provide a detailed justification).” OR ``Not applicable.” for studies not involving humans or animals.}
+
+% \informedconsent{Any research article describing a study involving humans should contain this statement. Please add ``Informed consent was obtained from all subjects involved in the study.'' OR ``Patient consent was waived due to REASON (please provide a detailed justification).'' OR ``Not applicable'' for studies not involving humans. You might also choose to exclude this statement if the study did not involve humans.
+
+% Written informed consent for publication must be obtained from participating patients who can be identified (including by the patients themselves). Please state ``Written informed consent has been obtained from the patient(s) to publish this paper.” if applicable.}
+
+\dataavailability{Project webpage with data \url{https://github.com/pfgryz/exquisitor}.}
+
+%\durcstatement{Current research is limited to the [please insert a specific academic field, e.g., XXX], which is beneficial [share benefits and/or primary use] and does not pose a threat to public health or national security. Authors acknowledge the dual-use potential of the research involving xxx and confirm that all necessary precautions have been taken to prevent potential misuse. As an ethical responsibility, authors strictly adhere to relevant national and international laws about DURC. Authors advocate for responsible deployment, ethical considerations, regulatory compliance, and transparent reporting to mitigate misuse risks and foster beneficial outcomes.}
+
+% Only for journal Nursing Reports
+%\publicinvolvement{Please describe how the public (patients, consumers, carers) were involved in the research. Consider reporting against the GRIPP2 (Guidance for Reporting Involvement of Patients and the Public) checklist. If the public were not involved in any aspect of the research add: ``No public involvement in any aspect of this research''.}
+%
+%% Only for journal Nursing Reports
+%\guidelinesstandards{Please add a statement indicating which reporting guideline was used when drafting the report. For example, ``This manuscript was drafted against the XXX (the full name of reporting guidelines and citation) for XXX (type of research) research''. A complete list of reporting guidelines can be accessed via the equator network: \url{https://www.equator-network.org/}.}
+%
+%% Only for journal Nursing Reports
+%\useofartificialintelligence{Please describe in detail any and all uses of artificial intelligence (AI) or AI-assisted tools used in the preparation of the manuscript. This may include, but is not limited to, language translation, language editing and grammar, or generating text. Alternatively, please state that “AI or AI-assisted tools were not used in drafting any aspect of this manuscript”.}
+
+\acknowledgments{During the preparation of this manuscript/study, the author(s) used Grammarly and Gemini for spelling error correction. The authors have reviewed and edited the output and take full responsibility for the content of this publication.}
+
+\conflictsofinterest{The authors declare no conflicts of interest.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\isPreprints{}{% This command is only used for ``preprints''.
+\begin{adjustwidth}{-\extralength}{0cm}
+%} % If the paper is ``preprints'', please uncomment this parenthesis.
+%\printendnotes[custom] % Un-comment to print a list of endnotes
+
+\reftitle{References}
+
+% References must be numbered in order of appearance in the text (including citations in tables and legends) and listed individually at the end of the manuscript. We recommend preparing the references with a bibliography software package, such as EndNote, ReferenceManager or Zotero, to avoid typing mistakes and duplicated references. Include the digital object identifier (DOI) for all references where available.
+% Please provide either the correct journal abbreviation (e.g. according to the “The list of Title Word Abbreviations” https://portal.issn.org/ltwa) or the full name of the journal.
+% Citations and references in the Supplementary Materials are permitted provided that they also appear in the reference list here.
+% In the text, reference numbers should be placed in square brackets [ ] and placed before the punctuation; for example, [1], [1–3] or [1,3]. For embedded citations in the text with pagination, use both parentheses and brackets to indicate the reference number and page numbers; for example, [5] (p. 10), or [6] (pp. 101–105).
+
+%=====================================
+% References, variant A: external bibliography
+% =====================================
+%\bibliographystyle{unsrt}
+\bibliography{references}
+
+% If authors have biography, please use the format below
+%\section*{Short Biography of Authors}
+%\bio
+%{\raisebox{-0.35cm}{\includegraphics[width=3.5cm,height=5.3cm,clip,keepaspectratio]{Definitions/author1.pdf}}}
+%{\textbf{Firstname Lastname} Biography of first author}
+%
+%\bio
+%{\raisebox{-0.35cm}{\includegraphics[width=3.5cm,height=5.3cm,clip,keepaspectratio]{Definitions/author2.jpg}}}
+%{\textbf{Firstname Lastname} Biography of second author}
+
+% For the MDPI journals use author-date citation, please follow the formatting guidelines on http://www.mdpi.com/authors/references
+% To cite two works by the same author: \citeauthor{ref-journal-1a} (\citeyear{ref-journal-1a}, \citeyear{ref-journal-1b}). This produces: Whittaker (1967, 1975)
+% To cite two works by the same author with specific pages: \citeauthor{ref-journal-3a} (\citeyear{ref-journal-3a}, p. 328; \citeyear{ref-journal-3b}, p.475). This produces: Wong (1999, p. 328; 2000, p. 475)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% for journal Sci
+%\reviewreports{\\
+%Reviewer 1 comments and authors’ response\\
+%Reviewer 2 comments and authors’ response\\
+%Reviewer 3 comments and authors’ response
+%}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\PublishersNote{}
+%\isPreprints{}{% This command is only used for ``preprints''.
+\end{adjustwidth}
+%} % If the paper is ``preprints'', please uncomment this parenthesis.
+\end{document}
