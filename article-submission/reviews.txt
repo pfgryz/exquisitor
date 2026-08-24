@@ -5,6 +5,7 @@ Major concerns:
 
 1. The current quality measure shows how closely the reduced pipeline matches the results from running BLAST on all sequences. This is useful, but it is not the same as taxonomic classification accuracy. Since the CAMI dataset has known taxonomic labels, the authors should compare the predictions with these labels at one or two taxonomic levels. If this analysis is not possible, claims such as “superior classification accuracy” should be changed to “better agreement with the full BLAST results.”
 
+
 - określenie metryk, porównanie etykiet, zestawić środowisko?
 
 2. The number of clusters determines how many representative sequences are sent to BLAST. However, the author does not clearly report the number of clusters, the number of BLAST searches, or the reduction ratio in each experiment. The authors should explain how the number of clusters would be selected for a real sample, where the true number of taxa is unknown. A small sensitivity analysis using two or three cluster settings would be sufficient. Runtime, quality, and the number of BLAST queries should be reported for each setting.
