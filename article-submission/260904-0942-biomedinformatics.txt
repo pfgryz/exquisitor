@@ -1,0 +1,39 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: BioMedInformatics Editorial Office <biomedinformatics@mdpi.com>
+Subject: [BioMedInformatics] Manuscript ID: biomedinformatics-4468253 - Manuscript Resubmitted
+To: Robert Nowak <robert.nowak@pw.edu.pl>, Robert Nowak <rbmnowak@gmail.com>
+Cc: Patryk Gryz <patryk.gryz.stud@pw.edu.pl>
+Date: Fri, 04 Sep 2026 09:42:34 +0200 (59 minutes, 59 seconds ago)
+Reply-To: Xiangsong Yang <xiangsong.yang@mdpi.com>, BioMedInformatics Editorial Office <biomedinformatics@mdpi.com>
+
+Dear Professor Nowak,
+
+Thank you very much for resubmitting the modified version of the following 
+manuscript:
+
+Manuscript ID: biomedinformatics-4468253
+Type of manuscript: Article
+Title: Accelerating Metagenomic Identification of DNA Sequences Using 
+Artificial Neural Networks
+Authors: Patryk Gryz, Robert Nowak *
+Received: 14 Jul 2026
+E-mails: patryk.gryz.stud@pw.edu.pl, robert.nowak@pw.edu.pl
+Applied Biomedical Data Science
+https://www.mdpi.com/journal/biomedinformatics/sections/applied_biomedical_data_science
+https://susy.mdpi.com/user/manuscripts/review_info/957a5a974f0e76c9dc01e857875dc489
+
+A member of the editorial office will be in touch with you soon regarding 
+progress of the manuscript.
+
+Kind regards,
+BioMedInformatics Editorial Office
+Postfach, CH-4020 Basel, Switzerland
+Office: Grosspeteranlage 5, CH-4052 Basel
+Tel. +41 61 683 77 34 (office)
+E-mail: biomedinformatics@mdpi.com
+https://www.mdpi.com/journal/biomedinformatics/
+
+*** This is an automatically generated email ***
+
+

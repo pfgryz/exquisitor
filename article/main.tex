@@ -422,7 +422,7 @@ of metagenomic identification including taxonomic classification.
                 \end{table}
 
                 \paragraph{Conclusions}
-                The modified Needleman-Wunsch (NW) approach exhibited the fastest execution time increase due to its computationally intensive sequence comparisons. Despite reducing the number of classified sequences, its total runtime exceeded the no-pipeline baseline. In contrast, $k$-mer embeddings and ANN showed comparable, significantly faster execution times by using sequence representations for dissimilarity matrix construction. For 4096 sequences, the ANN benefited from GPU-accelerated embedding computations, further optimizing performance compared to traditional metagenomic identification.
+                The modified Needleman-Wunsch (NW) approach exhibited the slowest execution time increase due to its computationally intensive sequence comparisons. Despite reducing the number of classified sequences, its total runtime exceeded the no-pipeline baseline. In contrast, $k$-mer embeddings and ANN showed comparable, significantly faster execution times by using sequence representations for dissimilarity matrix construction. For 4096 sequences, the ANN benefited from GPU-accelerated embedding computations, further optimizing performance compared to traditional metagenomic identification.
 
             \subsubsection{Quality of Metagenomic Identification with Exquisitor}
                 \paragraph{Objective}
@@ -604,7 +604,7 @@ of metagenomic identification including taxonomic classification.
 
     \section{Discussion}
         \subsection{Interpretation of Results}
-            Experimental results partially confirmed initial expectations, as all methods achieved satisfactory identification quality. The ANN-based approach performed best, yielding the highest weighted average classification quality with execution time comparable to $k$-mer embeddings. However, small input samples led to lower quality, likely due to poor representative selection; thus the method is recommended for larger datasets. For the tested data, the efficiency threshold was 128 sequences, where quality remained high and reduced processing time by 5\%. The ANN no only improved classification quality over the methods but also remained competitive with classical approaches.
+            Experimental results partially confirmed initial expectations, as all methods achieved satisfactory identification quality. The ANN-based approach performed best, yielding the highest weighted average classification quality with execution time comparable to $k$-mer embeddings. However, small input samples led to lower quality, likely due to poor representative selection; thus the method is recommended for larger datasets. For the tested data, the efficiency threshold was 128 sequences, where quality remained high and reduced processing time by 5\%. The ANN not only improved classification quality over the methods but also remained competitive with classical approaches.
 
             Our pipeline speeds up BLAST-based metagenomic identification by querying a single representative per cluster.
             Within the evaluated setting---one main dataset and at most $4096$ sequences---these results support the approach for metagenomic identification, but presented method is not limited to metagenomic identification; generally, it replaces BLAST in tasks when clusters of sequences are analysed.

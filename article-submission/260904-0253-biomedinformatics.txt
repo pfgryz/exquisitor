@@ -1,0 +1,82 @@
+X-Gnus-Coding-System: -*- coding: utf-8; -*-
+
+From: BioMedInformatics Editorial Office <biomedinformatics@mdpi.com>
+Subject: [BioMedInformatics] Manuscript ID: biomedinformatics-4468253 - Minor Revision-Due to 5 September
+To: Robert Nowak <robert.nowak@pw.edu.pl>, Robert Nowak <rbmnowak@gmail.com>
+Cc: Patryk Gryz <patryk.gryz.stud@pw.edu.pl>, BioMedInformatics Editorial Office <biomedinformatics@mdpi.com>
+Date: Fri, 04 Sep 2026 02:53:59 +0200 (6 hours, 36 minutes, 16 seconds ago)
+Reply-To: xiangsong.yang@mdpi.com
+
+
+Wiadomość pochodzi spoza organizacji. Jeśli nadawca jest nieznany, zalecamy ostrożność przy otwieraniu załączników lub linków.
+
+The message comes from outside the organization. If the sender is unknown, we recommend caution when opening attachments or links.
+
+
+
+Dear Professor Nowak,
+
+We would like to inform you that your manuscript has been reviewed by the
+Academic Editor and requires minor revisions:
+
+Manuscript ID: biomedinformatics-4468253
+Type of manuscript: Article
+Title: Accelerating Metagenomic Identification of DNA Sequences Using
+Artificial Neural Networks
+Authors: Patryk Gryz, Robert Nowak *
+Received: 14 Jul 2026
+E-mails: patryk.gryz.stud@pw.edu.pl, robert.nowak@pw.edu.pl
+Applied Biomedical Data Science
+https://www.mdpi.com/journal/biomedinformatics/sections/applied_biomedical_data_science
+https://susy.mdpi.com/user/manuscripts/review_info/957a5a974f0e76c9dc01e857875dc489
+
+Please find your manuscript and the Academic Editor's comments detailing the
+required changes at the following link:
+https://susy.mdpi.com/user/manuscripts/resubmit/957a5a974f0e76c9dc01e857875dc489
+
+Please revise the manuscript according to the Academic Editor's comments and
+upload the revised file within 1 days. Use the version of your manuscript
+found at the above link for your revisions, as the editorial office may have
+made formatting changes to your original submission. Any revisions should be
+clearly highlighted, for example using the "Track Changes" function in
+Microsoft Word, so that they are easily visible to the editors and reviewers.
+Please provide a short cover letter detailing any changes, for the benefit of
+the editors and reviewers.
+
+If the Academic Editor has suggested that your manuscript should undergo
+extensive English editing, please have the English in the manuscript
+thoroughly checked and edited for language and form. Alternatively, MDPI
+provides an English editing service checking grammar, spelling, punctuation
+and some improvement of style where necessary for an additional charge
+(extensive re-writing is not included), see details at
+https://www.mdpi.com/authors/english.
+
+Do not hesitate to contact us if you have any questions regarding the
+revision of your manuscript or if you need more time. We look forward to
+hearing from you soon.
+
+Kind regards,
+Mr. Xiangsong Yang
+Assistant Editor
+E-Mail: xiangsong.yang@mdpi.com
+MDPI (Dalian)
+
+Floor 11 and 13, Unit 1, No. 555 Huangpu Road, Dalian High-tech Industrial
+Park, 116085 Dalian, Liaoning Province, China
+
+Tel. +86 0411 8482 0879
+www.mdpi.com
+
+Data Protection Notes
+
+Disclaimer: The information and files contained in this message are
+confidential and intended solely for the use of the individual or entity to
+whom they are addressed. If you have received this message in error, please
+notify me and delete this message from your system. You may not copy this
+message in its entirety or in part, or disclose its contents to anyone.
+MDPI - Publisher of Open Access Journals
+MDPI is a publisher of peer-reviewed, open access journals since its
+establishment in 1996.
+
+
+
